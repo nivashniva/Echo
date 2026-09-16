@@ -40,7 +40,7 @@ pipepipe         = "f8982ca9e7"
 nanojson         = "c7a6c1c08d16b6d5ecded34758e6415e07be2166"
 tinypinyin = "2.0.3"
 protobuf = "4.33.5"
-protobufPlugin = "0.9.6"
+protobufPlugin = "0.10.0"
 smoothCorner = "v1.0.0"
 lottie = "6.6.2"
 work = "2.10.0"
@@ -98,68 +98,3 @@ shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "s
 palette = { module = "androidx.palette:palette-ktx", version.ref = "palette" }
 
 media3 = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
-media3-okhttp = { module = "androidx.media3:media3-datasource-okhttp", version.ref = "media3" }
-media3-session = { module = "androidx.media3:media3-session", version.ref = "media3" }
-media3-hls = { module = "androidx.media3:media3-exoplayer-hls", version.ref = "media3" }
-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3" }
-
-mediarouter = { module = "androidx.mediarouter:mediarouter", version.ref = "mediarouter" }
-cast-framework = { module = "com.google.android.gms:play-services-cast-framework", version.ref = "castFramework" }
-
-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
-
-apache-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "apacheLang3" }
-
-hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
-
-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
-ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
-ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
-ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-client-encoding = { module = "io.ktor:ktor-client-encoding", version.ref = "ktor" }
-ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-
-jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
-
-json = { module = "org.json:json", version.ref = "json" }
-
-brotli = { module = "org.brotli:dec", version.ref = "brotli" }
-
-desugaring = { module = "com.android.tools:desugar_jdk_libs_nio", version.ref = "desugaring" }
-
-junit = { module = "junit:junit", version.ref = "junit" }
-
-timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-
-newpipeextractor  = { module = "com.github.TeamNewPipe:NewPipeExtractor", version.ref = "newpipeextractor" }
-pipepipe-extractor = { module = "com.github.maxrave-dev:PipePipeExtractor", version.ref = "pipepipe" }
-
-kuromoji-ipadic = { module = "com.atilika.kuromoji:kuromoji-ipadic", version.ref = "kuromojiIpadic" }
-tinypinyin = { module = "com.github.promeG:tinypinyin", version.ref = "tinypinyin" }
-
-protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobuf" }
-protobuf-kotlin-lite = { module = "com.google.protobuf:protobuf-kotlin-lite", version.ref = "protobuf" }
-smoothCorner = { module = "com.github.racra:smooth-corner-rect-android-compose", version.ref = "smoothCorner" }
-lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottie" }
-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
-androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
-ffmpeg-kit-audio = { module = "com.arthenica:ffmpeg-kit-audio", version.ref = "ffmpegKit" }
-youtubedl-android-library = { group = "io.github.junkfood02.youtubedl-android", name = "library", version.ref = "youtubedlAndroid" }
-youtubedl-android-ffmpeg = { group = "io.github.junkfood02.youtubedl-android", name = "ffmpeg", version.ref = "youtubedlAndroid" }
-youtubedl-android-aria2c = { group = "io.github.junkfood02.youtubedl-android", name = "aria2c", version.ref = "youtubedlAndroid" }
-play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
-play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
-google-api-client-android = { module = "com.google.api-client:google-api-client-android", version.ref = "googleApiClient" }
-google-api-services-drive = { module = "com.google.apis:google-api-services-drive", version.ref = "googleDriveApi" }
-androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
-
-[plugins]
-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-protobufPlugin = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
-
