@@ -28,7 +28,6 @@ android {
     compileSdk = 36
     ndkVersion = "27.0.12077973"
 
-
     defaultConfig {
         applicationId = "echo.music.iad1tya"
         minSdk = 26
@@ -39,10 +38,9 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
-        // LastFM API keys from GitHub Secrets
-        val lastFmKey = "266d77b5790e413ada7e41ef100d017a"
-        val lastFmSecret = "41d3ae3b039ddac06c37fb30055bf93b"
-
+        // Build-time secrets: local.properties first, then environment variables.
+        val lastFmKey = localProperties.getProperty("LASTFM_API_KEY") ?: System.getenv("LASTFM_API_KEY") ?: ""
+        val lastFmSecret = localProperties.getProperty("LASTFM_SECRET") ?: System.getenv("LASTFM_SECRET") ?: ""
         buildConfigField("String", "LASTFM_API_KEY", "\"$lastFmKey\"")
         buildConfigField("String", "LASTFM_SECRET", "\"$lastFmSecret\"")
 
@@ -55,7 +53,6 @@ android {
         buildConfigField("String", "FLOW_NEURO_BASE_URL", project.findProperty("FLOW_NEURO_BASE_URL")?.toString()?.let { "\"$it\"" } ?: "\"https://api.flowneuroengine.com\"")
         buildConfigField("String", "FLOW_NEURO_API_KEY", project.findProperty("FLOW_NEURO_API_KEY")?.toString()?.let { "\"$it\"" } ?: "\"\"")
 
-//add nightly build label support
         val isNightly = project.hasProperty("nightly") && project.property("nightly") == "true"
         buildConfigField("Boolean", "IS_NIGHTLY", isNightly.toString())
 
@@ -69,17 +66,8 @@ android {
         manifestPlaceholders["discordRedirectScheme"] = discordRedirectScheme
     }
 
-
     flavorDimensions += listOf("abi", "variant")
     productFlavors {
-        // FOSS variant (default) - F-Droid compatible, no Google Play Services
-        create("foss") {
-            dimension = "variant"
-            isDefault = true
-            buildConfigField("Boolean", "CAST_AVAILABLE", "false")
-        }
-
-        // GMS variant - with Google Cast support (requires Google Play Services)
         create("gms") {
             dimension = "variant"
             buildConfigField("Boolean", "CAST_AVAILABLE", "true")
@@ -251,21 +239,16 @@ dependencies {
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
     implementation(project(":playback"))
 
-
-
-    // Firebase - GMS flavor only (excluded from F-Droid / FOSS builds)
     "gmsImplementation"(platform("com.google.firebase:firebase-bom:33.1.0"))
     "gmsImplementation"("com.google.firebase:firebase-analytics")
     "gmsImplementation"("com.google.firebase:firebase-crashlytics")
 
-    // Google Drive Sync - GMS flavor only
     "gmsImplementation"(libs.play.services.auth)
     "gmsImplementation"(libs.play.services.location)
     "gmsImplementation"(libs.google.api.client.android)
     "gmsImplementation"(libs.google.api.services.drive) {
         exclude(group = "org.apache.httpcomponents")
     }
-
 
     implementation(libs.haze)
     implementation(libs.guava)
@@ -297,12 +280,9 @@ dependencies {
     implementation(libs.androidx.browser)
 
     implementation(libs.appcompat)
-
     implementation(libs.coil)
     implementation(libs.coil.network.okhttp)
-
     implementation(libs.ucrop)
-
     implementation(libs.shimmer)
 
     implementation(libs.media3)
@@ -310,17 +290,13 @@ dependencies {
     implementation(libs.media3.hls)
     implementation(libs.media3.ui)
     implementation(libs.media3.okhttp)
-
-    // Google Cast - only included in GMS flavor (not available in F-Droid/FOSS builds)
     "gmsImplementation"(libs.mediarouter)
     "gmsImplementation"(libs.cast.framework)
 
     implementation(libs.room.runtime)
     implementation(libs.kuromoji.ipadic)
     implementation(libs.tinypinyin)
-
     implementation(libs.room.ktx)
-
     implementation(libs.apache.lang3)
 
     implementation(libs.hilt)
@@ -342,7 +318,6 @@ dependencies {
     implementation(project(":paxsenixlyrics"))
     implementation(project(":unison"))
 
-
     implementation(libs.ktor.client.core)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
@@ -350,10 +325,8 @@ dependencies {
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.json)
 
-    // Protobuf for message serialization (lite version for Android)
     implementation(libs.protobuf.javalite)
     implementation(libs.protobuf.kotlin.lite)
-
     coreLibraryDesugaring(libs.desugaring)
     implementation(libs.timber)
     implementation(libs.smoothCorner)
@@ -362,5 +335,4 @@ dependencies {
     implementation(libs.work.runtime.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.ffmpeg.kit.audio)
-
 }
