@@ -1,6 +1,8 @@
 {
   "features": [],
   "bug_fixes": [
+    "Audio quality selection now supports Auto, High, and Lossless when available while preserving legacy preference values.",
+    "Download quality selection now uses the same truthful quality tiers and no longer labels compressed YouTube audio as lossless.",
     "Download stream resolution now honors the selected audio quality and isolates cached stream URLs by quality.",
     "Welcome onboarding is now persisted as a first-launch experience instead of being shown again after every version change.",
     "First-tap playback now uses Media3 play/pause commands so an idle player prepares and starts without requiring a second tap.",
