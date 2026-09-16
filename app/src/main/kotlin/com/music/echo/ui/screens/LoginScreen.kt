@@ -123,8 +123,6 @@ fun LoginScreen(
                 }
 
                 if (saved != null && saved.cookie.isNotBlank()) {
-                    // A previously authenticated Echo/YouTube account can be switched
-                    // instantly without asking for the Google password again.
                     accountSettingsViewModel.saveTokenAndRestart(
                         context = context,
                         cookie = saved.cookie,
@@ -135,10 +133,6 @@ fun LoginScreen(
                         accountChannelHandle = saved.channelHandle
                     )
                 } else {
-                    // Credential Manager can identify/select the Google account, but the
-                    // current Echo YouTube integration authenticates via YouTube cookies.
-                    // Do not pretend an ID token is a YouTube cookie. Continue with the
-                    // existing web flow, keeping the Google WebView session intact.
                     showWebLogin = true
                 }
             }.onFailure { error ->
@@ -356,7 +350,7 @@ private fun YouTubeWebLogin(
     val currentHasCompletedLogin by rememberUpdatedState(hasCompletedLogin)
     val currentOnCookie by rememberUpdatedState(onCookie)
     val currentOnCompleted by rememberUpdatedState(onCompleted)
-    val currentOnSavedAccounts by rememberUpdatedState(onSavedAccounts)
+    val currentOnSavedAccounts by rememberUpdatedState(onSavedAccountsJson)
     val currentOnAccountName by rememberUpdatedState(onAccountName)
     val currentOnAccountEmail by rememberUpdatedState(onAccountEmail)
     val currentOnAccountChannelHandle by rememberUpdatedState(onAccountChannelHandle)
@@ -435,15 +429,12 @@ private fun YouTubeWebLogin(
                         newDataSyncId?.takeIf(String::isNotBlank)?.substringBefore("||")?.let(onDataSyncId)
                     }
                 }, "Android")
-                // Keep Google WebView cookies. Clearing them here was the reason users
-                // were repeatedly forced through Google authentication.
                 CookieManager.getInstance().setAcceptCookie(true)
                 loadUrl("https://accounts.google.com/ServiceLogin?continue=https%3A%2F%2Fmusic.youtube.com")
             }
         },
         onRelease = { webView ->
             webView.stopLoading()
-            webView.webViewClient = null
             webView.removeAllViews()
             webView.destroy()
             webViewState.value = null
