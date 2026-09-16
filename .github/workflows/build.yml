@@ -1,13 +1,20 @@
 name: Build Echo-Music
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
+    name: Build Debug APK
     runs-on: ubuntu-latest
 
     steps:
@@ -15,21 +22,58 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
           cache: gradle
 
+      - name: Show Java version
+        run: java -version
+
       - name: Make Gradle executable
         run: chmod +x ./gradlew
 
+      - name: Create Android debug keystore
+        shell: bash
+        run: |
+          mkdir -p "$HOME/.android"
+
+          keytool -genkeypair \
+            -v \
+            -keystore "$HOME/.android/keystore" \
+            -alias debug \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass android \
+            -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US"
+
+      - name: Verify debug keystore
+        run: |
+          test -f "$HOME/.android/keystore"
+          keytool -list \
+            -keystore "$HOME/.android/keystore" \
+            -storepass android
+
+      - name: Clean project
+        run: ./gradlew clean --stacktrace
+
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: ./gradlew assembleDebug --stacktrace --no-daemon
+
+      - name: Find generated APK
+        if: success()
+        run: |
+          echo "Generated APK files:"
+          find . -type f -path "*/build/outputs/apk/*.apk" -print
 
       - name: Upload APK
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: Echo-Music-debug
           path: "**/build/outputs/apk/**/*.apk"
           if-no-files-found: error
+          retention-days: 14
