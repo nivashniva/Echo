@@ -7,6 +7,7 @@
     "Welcome onboarding is now persisted as a first-launch experience instead of being shown again after every version change.",
     "First-tap playback now uses Media3 play/pause commands so an idle player prepares and starts without requiring a second tap.",
     "YouTube account handoff now opens YouTube Music directly so an existing authenticated web session can be reused without the generic Google ServiceLogin hop.",
+    "YouTube account handoff now verifies the returned session identity before completing login and keeps failed or mismatched sessions retryable.",
     "CI now validates the Universal GMS Kotlin compilation and Universal GMS debug APK build used by Echo releases."
   ],
   "contributors": []
