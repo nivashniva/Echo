@@ -22,22 +22,22 @@ import androidx.media3.exoplayer.scheduler.Requirements
 import com.music.innertube.YouTube
 import echo.music.iad1tya.constants.AudioQuality
 import echo.music.iad1tya.constants.AudioQualityKey
-import echo.music.iad1tya.constants.DownloadOnWifiOnlyKey
-import echo.music.iad1tya.constants.IpVersionKey
-import echo.music.iad1tya.utils.dataStore
+import echo.music.innertube.constants.DownloadOnWifiOnlyKey
+import echo.music.innertube.constants.IpVersionKey
+import echo.music.innertube.utils.dataStore
 import com.music.innertube.models.IpVersion
 import okhttp3.Dns
 import java.net.InetAddress
 import java.net.Inet4Address
 import java.net.Inet6Address
-import echo.music.iad1tya.db.MusicDatabase
-import echo.music.iad1tya.db.entities.FormatEntity
-import echo.music.iad1tya.db.entities.SongEntity
-import echo.music.iad1tya.di.DownloadCache
-import echo.music.iad1tya.di.PlayerCache
-import echo.music.iad1tya.ui.utils.resize
-import echo.music.iad1tya.utils.YTPlayerUtils
-import echo.music.iad1tya.utils.enumPreference
+import echo.music.innertube.db.MusicDatabase
+import echo.music.innertube.db.entities.FormatEntity
+import echo.music.innertube.db.entities.SongEntity
+import echo.music.innertube.di.DownloadCache
+import echo.music.innertube.di.PlayerCache
+import echo.music.innertube.ui.utils.resize
+import echo.music.innertube.utils.YTPlayerUtils
+import echo.music.innertube.utils.enumPreference
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -70,7 +70,8 @@ constructor(
     @PlayerCache val playerCache: SimpleCache,
 ) {
     private val connectivityManager = context.getSystemService<ConnectivityManager>()!!
-    private val downloadQuality by enumPreference(context, echo.music.iad1tya.constants.DownloadQualityKey, echo.music.iad1tya.constants.DownloadQuality.YOUTUBE)
+    private val downloadQuality by enumPreference(context, echo.music.innertube.constants.DownloadQualityKey, echo.music.innertube.constants.DownloadQuality.YOUTUBE)
+    private val audioQuality by enumPreference(context, AudioQualityKey, AudioQuality.OPUS)
     private val ipVersion by enumPreference(context, IpVersionKey, IpVersion.AUTO)
     private val songUrlCache = java.util.concurrent.ConcurrentHashMap<String, Pair<String, Long>>()
 
@@ -81,8 +82,6 @@ constructor(
     private val dataSourceFactory =
         ResolvingDataSource.Factory(
             ChunkingDataSourceFactory(
-                // Read already-streamed bytes from playerCache instead of re-downloading them:
-                // a song played before being downloaded would otherwise be fetched twice.
                 CacheDataSource.Factory()
                     .setCache(playerCache)
                     .setUpstreamDataSourceFactory(
@@ -114,15 +113,16 @@ constructor(
             )
         ) { dataSpec ->
             val mediaId = dataSpec.key ?: error("No media id")
+            val cacheKey = "${mediaId}_${downloadQuality.name}_${audioQuality.name}"
 
-            songUrlCache["${mediaId}_${downloadQuality.name}"]?.takeIf { it.second > System.currentTimeMillis() }?.let {
+            songUrlCache[cacheKey]?.takeIf { it.second > System.currentTimeMillis() }?.let {
                 return@Factory dataSpec.withUri(it.first.toUri())
             }
 
             val playbackData = runBlocking(Dispatchers.IO) {
                 YTPlayerUtils.playerResponseForPlayback(
                     videoId = mediaId,
-                    audioQuality = echo.music.iad1tya.constants.AudioQuality.OPUS,
+                    audioQuality = audioQuality,
                     connectivityManager = connectivityManager
                 )
             }.getOrThrow()
@@ -165,7 +165,6 @@ constructor(
 
                 upsert(updatedSong)
 
-                
                 updatedSong.thumbnailUrl?.let { url ->
                     val request = ImageRequest.Builder(context)
                         .data(url)
@@ -178,7 +177,7 @@ constructor(
 
             val streamUrl = playbackData.streamUrl
 
-            songUrlCache["${mediaId}_${downloadQuality.name}"] =
+            songUrlCache[cacheKey] =
                 streamUrl to (System.currentTimeMillis() + playbackData.streamExpiresInSeconds * 1000L)
             dataSpec.withUri(streamUrl.toUri())
         }
@@ -237,9 +236,6 @@ constructor(
         }
         downloads.value = result
 
-        // Wi-Fi-only downloads: DownloadManager pauses queued downloads whenever the
-        // active requirements aren't met, so flipping this pref mid-download stops it
-        // on mobile data without losing progress.
         scope.launch {
             context.dataStore.data
                 .map { it[DownloadOnWifiOnlyKey] ?: false }
