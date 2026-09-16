@@ -184,6 +184,7 @@ import echo.music.iad1tya.widget.MusicWidgetReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import echo.music.iad1tya.utils.isLocalMediaId
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -212,6 +213,7 @@ import timber.log.Timber
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.time.LocalDateTime
+import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
 import kotlin.time.Duration.Companion.seconds
@@ -2927,7 +2929,7 @@ class MusicService :
     private fun currentPresenceSong(): Song? {
         // Discord presence may invoke this callback from its own thread. Never block that
         // callback on Room; currentSong is already maintained by the service playback state.
-        return currentSong.value?.song
+        return currentSong.value
     }
 
     private fun ensurePresenceManager() {
