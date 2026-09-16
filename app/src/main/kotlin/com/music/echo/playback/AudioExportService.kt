@@ -8,20 +8,22 @@ import android.net.Uri
 import android.os.IBinder
 import androidx.core.content.getSystemService
 import androidx.documentfile.provider.DocumentFile
+import androidx.datastore.preferences.core.edit
 import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.ReturnCode
 import com.music.innertube.YouTube
 import echo.music.iad1tya.constants.AudioQuality
-import echo.music.iad1tya.constants.ExportingSongIdsKey
-import echo.music.iad1tya.constants.ExportedSongIdsKey
+import echo.music.innertube.constants.AudioQualityKey
 import echo.music.iad1tya.constants.ExportProgressKey
+import echo.music.iad1tya.constants.ExportedSongIdsKey
+import echo.music.iad1tya.constants.ExportingSongIdsKey
 import echo.music.iad1tya.utils.YTPlayerUtils
 import echo.music.iad1tya.utils.dataStore
-import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -38,19 +40,18 @@ class AudioExportService : Service() {
         val songArtist = intent.getStringExtra(EXTRA_SONG_ARTIST).orEmpty()
         val songAlbum = intent.getStringExtra(EXTRA_SONG_ALBUM).orEmpty()
         val artworkUrl = intent.getStringExtra(EXTRA_ARTWORK_URL).orEmpty()
-        val targetDirectoryUri = intent.getStringExtra(EXTRA_TARGET_DIRECTORY_URI) ?: return START_NOT_STICKY
+        val targetDirectoryUri = intent.getStringExtra(EXTRA_TARGET_DIRECTORY_URI)
+            ?: return START_NOT_STICKY
 
         serviceScope.launch {
-            exportSong(
-                songId = songId,
-                songTitle = songTitle,
-                songArtist = songArtist,
-                songAlbum = songAlbum,
-                artworkUrl = artworkUrl,
-                targetDirectoryUri = targetDirectoryUri,
-            )
+            exportSong(songId, songTitle, songArtist, songAlbum, artworkUrl, targetDirectoryUri)
         }
         return START_NOT_STICKY
+    }
+
+    private suspend fun selectedAudioQuality(): AudioQuality {
+        val stored = dataStore.data.first()[AudioQualityKey]
+        return AudioQuality.entries.firstOrNull { it.name == stored } ?: AudioQuality.AUTO
     }
 
     private suspend fun exportSong(
@@ -71,9 +72,10 @@ class AudioExportService : Service() {
         try {
             val connectivityManager = getSystemService<ConnectivityManager>()
                 ?: error("No connectivity manager")
+
             val playbackData = YTPlayerUtils.playerResponseForPlayback(
                 videoId = songId,
-                audioQuality = AudioQuality.OPUS,
+                audioQuality = selectedAudioQuality(),
                 connectivityManager = connectivityManager,
             ).getOrThrow()
 
@@ -81,6 +83,7 @@ class AudioExportService : Service() {
             downloadStream(playbackData, tempSourceFile) { percent ->
                 updateExportProgress(songId, percent)
             }
+
             val artworkDownloaded = downloadArtwork(artworkUrl, tempArtworkFile)
             convertToMp3(
                 sourceFile = tempSourceFile,
@@ -96,7 +99,6 @@ class AudioExportService : Service() {
         } catch (e: Exception) {
             Timber.e(e, "Export failed for songId=$songId")
         } finally {
-
             tempSourceFile.delete()
             tempArtworkFile.delete()
             tempMp3File.delete()
@@ -105,19 +107,20 @@ class AudioExportService : Service() {
             stopSelf()
         }
     }
+
     private suspend fun fetchSongYear(songId: String): Int? =
         YouTube.getMediaInfo(songId)
             .getOrNull()
             ?.uploadDate
-            ?.let { Regex("(19|20)\\d{2}").find(it)?.value?.toIntOrNull() }
+            ?.let { date -> date.filter { it.isDigit() }.take(4).toIntOrNull() }
 
-    private fun downloadStream(
-        playbackData: echo.music.iad1tya.utils.YTPlayerUtils.PlaybackData,
+    private suspend fun downloadStream(
+        playbackData: YTPlayerUtils.PlaybackData,
         destFile: File,
         onProgress: suspend (Int) -> Unit = {},
     ) {
         val totalLength = playbackData.format.contentLength ?: 10_000_000L
-        val rangedUrl = "${playbackData.streamUrl}&range=0-$totalLength"
+        val rangedUrl = playbackData.streamUrl + "&range=0-" + totalLength
         val request = Request.Builder().url(rangedUrl).build()
         var totalBytes = -1L
         var bytesWritten = 0L
@@ -128,22 +131,23 @@ class AudioExportService : Service() {
             val body = response.body ?: error("No response body")
             totalBytes = body.contentLength().takeIf { it > 0 } ?: totalLength
             val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+
             body.byteStream().use { input ->
                 destFile.outputStream().use { output ->
                     var read: Int
                     while (input.read(buffer).also { read = it } != -1) {
                         output.write(buffer, 0, read)
                         bytesWritten += read
-                        val percent = ((bytesWritten * 100) / totalBytes).toInt().coerceIn(0, 99)
+                        val percent = ((bytesWritten * 100L) / totalBytes).toInt().coerceIn(0, 99)
                         if (percent >= lastReportedPercent + 2) {
                             lastReportedPercent = percent
-                            kotlinx.coroutines.runBlocking { onProgress(percent) }
+                            onProgress(percent)
                         }
                     }
-                    output.flush()
                 }
             }
         }
+
         if (totalBytes > 0 && bytesWritten < totalBytes) {
             error("Incomplete export source: wrote $bytesWritten of $totalBytes bytes")
         }
@@ -155,10 +159,7 @@ class AudioExportService : Service() {
             httpClient.newCall(Request.Builder().url(artworkUrl).build()).execute().use { response ->
                 if (!response.isSuccessful) return@use
                 response.body?.byteStream()?.use { input ->
-                    destFile.outputStream().use { output ->
-                        input.copyTo(output)
-                        output.flush()
-                    }
+                    destFile.outputStream().use { output -> input.copyTo(output) }
                 }
             }
         }.isSuccess && destFile.length() > 0L
@@ -174,14 +175,15 @@ class AudioExportService : Service() {
         artworkFile: File?,
     ) {
         val command = buildFfmpegCommand(
-            inputPath = sourceFile.absolutePath,
-            outputPath = outputFile.absolutePath,
-            title = songTitle,
-            artist = songArtist,
-            album = songAlbum,
-            year = year,
-            coverPath = artworkFile?.absolutePath,
+            sourceFile.absolutePath,
+            outputFile.absolutePath,
+            songTitle,
+            songArtist,
+            songAlbum,
+            year,
+            artworkFile?.absolutePath,
         )
+
         val session = FFmpegKit.execute(command)
         val returnCode = session.returnCode
         if (returnCode == null || !ReturnCode.isSuccess(returnCode)) {
@@ -198,18 +200,24 @@ class AudioExportService : Service() {
         sourceFile: File,
     ) {
         val uri = Uri.parse(targetDirectoryUri)
+
         if (uri.scheme == "file") {
             val folder = File(uri.path ?: error("Invalid export directory"))
-            if (!folder.exists() && !folder.mkdirs()) error("Unable to create export directory")
-            sourceFile.copyTo(File(folder, "$safeTitle.mp3"), overwrite = true)
-        } else {
-            val destinationDir = DocumentFile.fromTreeUri(this, uri)
-                ?: error("Export directory unavailable")
-            val outputFile = destinationDir.createFile("audio/mpeg", "$safeTitle.mp3")
-                ?: error("Unable to create output file")
-            sourceFile.inputStream().use { input ->
-                contentResolver.openOutputStream(outputFile.uri, "w")!!.use { input.copyTo(it) }
+            if (!folder.exists() && !folder.mkdirs()) {
+                error("Unable to create export directory")
             }
+            sourceFile.copyTo(File(folder, safeTitle + ".mp3"), overwrite = true)
+            return
+        }
+
+        val destinationDir = DocumentFile.fromTreeUri(this, uri)
+            ?: error("Export directory unavailable")
+        val outputFile = destinationDir.createFile("audio/mpeg", safeTitle + ".mp3")
+            ?: error("Unable to create output file")
+
+        sourceFile.inputStream().use { input ->
+            contentResolver.openOutputStream(outputFile.uri, "w")?.use { input.copyTo(it) }
+                ?: error("Unable to open export output stream")
         }
     }
 
@@ -226,8 +234,10 @@ class AudioExportService : Service() {
                 .split(',')
                 .map { it.trim() }
                 .filter { it.isNotBlank() }
-            val updated = listOf(songId) + current.filterNot { it == songId }
-            preferences[ExportedSongIdsKey] = updated.take(1000).joinToString(",")
+            preferences[ExportedSongIdsKey] =
+                (listOf(songId) + current.filterNot { it == songId })
+                    .take(1000)
+                    .joinToString(",")
         }
     }
 
@@ -237,46 +247,53 @@ class AudioExportService : Service() {
                 .split(',')
                 .map { it.trim() }
                 .filter { it.isNotBlank() }
-            val updated = listOf(songId) + current.filterNot { it == songId }
-            preferences[ExportingSongIdsKey] = updated.take(1000).joinToString(",")
+            preferences[ExportingSongIdsKey] =
+                (listOf(songId) + current.filterNot { it == songId })
+                    .take(1000)
+                    .joinToString(",")
         }
     }
 
     private suspend fun removeExportingSongId(songId: String) {
         dataStore.edit { preferences ->
-            val current = preferences[ExportingSongIdsKey].orEmpty()
+            preferences[ExportingSongIdsKey] = preferences[ExportingSongIdsKey]
+                .orEmpty()
                 .split(',')
                 .map { it.trim() }
-                .filter { it.isNotBlank() }
-            preferences[ExportingSongIdsKey] = current.filterNot { it == songId }.joinToString(",")
+                .filter { it.isNotBlank() && it != songId }
+                .joinToString(",")
         }
     }
 
     private suspend fun updateExportProgress(songId: String, percent: Int) {
         dataStore.edit { preferences ->
-            val current = preferences[ExportProgressKey].orEmpty()
+            val progress = preferences[ExportProgressKey].orEmpty()
                 .split(',')
                 .filter { it.isNotBlank() }
-                .associate { 
-                    val parts = it.split(':')
+                .associate {
+                    val parts = it.split(':', limit = 2)
                     parts[0] to (parts.getOrNull(1)?.toIntOrNull() ?: 0)
-                }.toMutableMap()
-            current[songId] = percent
-            preferences[ExportProgressKey] = current.map { "${it.key}:${it.value}" }.joinToString(",")
+                }
+                .toMutableMap()
+            progress[songId] = percent
+            preferences[ExportProgressKey] =
+                progress.map { it.key + ":" + it.value }.joinToString(",")
         }
     }
 
     private suspend fun clearExportProgress(songId: String) {
         dataStore.edit { preferences ->
-            val current = preferences[ExportProgressKey].orEmpty()
+            val progress = preferences[ExportProgressKey].orEmpty()
                 .split(',')
                 .filter { it.isNotBlank() }
-                .associate { 
-                    val parts = it.split(':')
+                .associate {
+                    val parts = it.split(':', limit = 2)
                     parts[0] to (parts.getOrNull(1)?.toIntOrNull() ?: 0)
-                }.toMutableMap()
-            current.remove(songId)
-            preferences[ExportProgressKey] = current.map { "${it.key}:${it.value}" }.joinToString(",")
+                }
+                .toMutableMap()
+            progress.remove(songId)
+            preferences[ExportProgressKey] =
+                progress.map { it.key + ":" + it.value }.joinToString(",")
         }
     }
 
@@ -308,12 +325,15 @@ class AudioExportService : Service() {
             context.startService(intent)
         }
 
-        private fun sanitizeTitle(title: String): String =
-            title
-                .replace(Regex("[\\\\/:*?\"<>|]"), "_")
-                .replace(Regex("\\s+"), " ")
-                .trim()
-                .ifBlank { "song_${System.currentTimeMillis()}" }
+        private fun sanitizeTitle(title: String): String {
+            val invalid = setOf(':', '/', '*', '?', '"', '<', '>', '|', Char(92))
+            val cleaned = buildString {
+                title.forEach { char ->
+                    append(if (char in invalid) '_' else char)
+                }
+            }.trim()
+            return cleaned.ifBlank { "song_" + System.currentTimeMillis() }
+        }
 
         private fun buildFfmpegCommand(
             inputPath: String,
@@ -329,16 +349,29 @@ class AudioExportService : Service() {
             val titleMeta = title.ffmpegEscape()
             val artistMeta = artist.ffmpegEscape()
             val albumMeta = album.ffmpegEscape()
-            val yearMeta = year?.toString()?.ffmpegEscape()
-            val dateFlags = if (yearMeta != null) " -metadata date='$yearMeta' -metadata year='$yearMeta'" else ""
+            val yearFlags = year?.let {
+                " -metadata date='" + it + "' -metadata year='" + it + "'"
+            }.orEmpty()
+
             return if (coverPath != null) {
                 val escapedCover = coverPath.ffmpegEscape()
-                "-y -i '$escapedInput' -i '$escapedCover' -map 0:a -map 1:v -c:v mjpeg -disposition:v attached_pic -c:a libmp3lame -b:a 320k -id3v2_version 3 -metadata title='$titleMeta' -metadata artist='$artistMeta' -metadata album='$albumMeta'$dateFlags -metadata:s:v title='Album cover' -metadata:s:v comment='Cover (front)' '$escapedOutput'"
+                "-y -i '$escapedInput' -i '$escapedCover' -map 0:a -map 1:v " +
+                    "-c:v mjpeg -disposition:v attached_pic -c:a libmp3lame " +
+                    "-b:a 320k -id3v2_version 3 -metadata title='$titleMeta' " +
+                    "-metadata artist='$artistMeta' -metadata album='$albumMeta'" +
+                    yearFlags +
+                    " -metadata:s:v title='Album cover' -metadata:s:v comment='Cover (front)' '$escapedOutput'"
             } else {
-                "-y -i '$escapedInput' -c:a libmp3lame -b:a 320k -id3v2_version 3 -metadata title='$titleMeta' -metadata artist='$artistMeta' -metadata album='$albumMeta'$dateFlags '$escapedOutput'"
+                "-y -i '$escapedInput' -c:a libmp3lame -b:a 320k -id3v2_version 3 " +
+                    "-metadata title='$titleMeta' -metadata artist='$artistMeta' " +
+                    "-metadata album='$albumMeta'$yearFlags '$escapedOutput'"
             }
         }
 
-        private fun String.ffmpegEscape(): String = replace("'", "'\\''")
+        private fun String.ffmpegEscape(): String {
+            val quote = 39.toChar().toString()
+            val slash = 92.toChar().toString()
+            return replace(quote, quote + slash + quote + quote)
+        }
     }
 }
