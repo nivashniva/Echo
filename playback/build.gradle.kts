@@ -16,7 +16,6 @@ android {
     flavorDimensions += "variant"
     productFlavors {
         create("gms") { dimension = "variant" }
-        create("foss") { dimension = "variant" }
     }
 }
 kotlin { jvmToolchain(21) }
@@ -26,7 +25,6 @@ dependencies {
     api(libs.media3)
     api(libs.media3.session)
     api(libs.media3.hls)
-    
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
 }
