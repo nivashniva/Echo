@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -26,45 +26,6 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: gradle
-
-    - name: Repair Kotlin compile blockers
-      shell: bash
-      run: |
-        python3 - <<'PY'
-        from pathlib import Path
-
-        path = Path("app/src/main/kotlin/com/music/echo/playback/MusicService.kt")
-        text = path.read_text(encoding="utf-8")
-
-        if "import java.util.concurrent.ConcurrentHashMap" not in text:
-            marker = "import java.time.LocalDateTime\n"
-            if marker not in text:
-                raise SystemExit("Unable to locate Java import anchor")
-            text = text.replace(marker, marker + "import java.util.concurrent.ConcurrentHashMap\n", 1)
-
-        if "import kotlinx.coroutines.cancel\n" not in text:
-            marker = "import kotlinx.coroutines.CoroutineScope\n"
-            if marker not in text:
-                raise SystemExit("Unable to locate coroutine import anchor")
-            text = text.replace(marker, marker + "import kotlinx.coroutines.cancel\n", 1)
-
-        old = "return currentSong.value?.song"
-        new = "return currentSong.value"
-        if old in text:
-            text = text.replace(old, new, 1)
-
-        path.write_text(text, encoding="utf-8")
-        PY
-
-        if git diff --quiet -- app/src/main/kotlin/com/music/echo/playback/MusicService.kt; then
-          echo "No source repair was necessary."
-        else
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add app/src/main/kotlin/com/music/echo/playback/MusicService.kt
-          git commit -m "Fix MusicService Kotlin compile blockers [skip ci]"
-          git push origin HEAD:main
-        fi
 
     - name: Decode Keystore
       if: ${{ env.KEYSTORE_BASE64 != '' }}
