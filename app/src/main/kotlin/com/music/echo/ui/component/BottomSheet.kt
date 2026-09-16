@@ -1,5 +1,3 @@
-
-
 package echo.music.iad1tya.ui.component
 
 import androidx.activity.compose.BackHandler
@@ -47,6 +45,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.math.pow
 
+private fun easePlayerProgress(progress: Float): Float {
+    val clamped = progress.coerceIn(0f, 1f)
+    return clamped * clamped * (3f - 2f * clamped)
+}
 
 @Composable
 fun BottomSheet(
@@ -59,20 +61,21 @@ fun BottomSheet(
     content: @Composable BoxScope.() -> Unit,
 ) {
     val density = LocalDensity.current
-    
+    val progress = state.progress.coerceIn(0f, 1f)
+    val motionProgress = easePlayerProgress(progress)
+
     Box(
         modifier = modifier
             .graphicsLayer {
-                
-                alpha = (1.4f * (state.progress.coerceAtLeast(0.1f) - 0.1f).pow(0.5f)).coerceIn(0f, 1f)
+                alpha = (1.4f * (progress.coerceAtLeast(0.1f) - 0.1f).pow(0.5f)).coerceIn(0f, 1f)
             }
             .fillMaxSize(),
         content = background
     )
+
     Box(
         modifier = modifier
             .fillMaxSize()
-            
             .graphicsLayer {
                 val y = (state.expandedBound - state.value)
                     .toPx()
@@ -109,13 +112,17 @@ fun BottomSheet(
             BackHandler(onBack = state::collapseSoft)
         }
 
-        
-        if (!state.isCollapsed) {
+        if (!state.isCollapsed && !state.isDismissed) {
             BoxWithConstraints(
                 modifier = Modifier
                     .fillMaxSize()
                     .graphicsLayer {
-                        alpha = ((state.progress - 0.15f) * 4).coerceIn(0f, 1f)
+                        alpha = ((motionProgress - 0.02f) / 0.98f).coerceIn(0f, 1f)
+                        val reveal = (1f - motionProgress) * 22f
+                        translationY = with(density) { reveal.dp.toPx() }
+                        val scale = 0.985f + (motionProgress * 0.015f)
+                        scaleX = scale
+                        scaleY = scale
                     },
                 content = content
             )
@@ -123,15 +130,22 @@ fun BottomSheet(
 
         if (!state.isExpanded && (onDismiss == null || !state.isDismissed)) {
             Box(
-                modifier =
-                Modifier
+                modifier = Modifier
                     .graphicsLayer {
-                        alpha = 1f - (state.progress * 4).coerceAtMost(1f)
-                    }.clickable(
+                        val collapseScale = 1f - (motionProgress * 0.035f)
+                        scaleX = collapseScale
+                        scaleY = collapseScale
+                        translationY = with(density) {
+                            (-motionProgress * 10f).dp.toPx()
+                        }
+                        alpha = 1f - motionProgress
+                    }
+                    .clickable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
                         onClick = { if (isExpandable) state.expandSoft() },
-                    ).fillMaxWidth()
+                    )
+                    .fillMaxWidth()
                     .height(state.collapsedBound),
                 content = collapsedContent,
             )
@@ -168,7 +182,8 @@ class BottomSheetState(
     }
 
     val progress by derivedStateOf {
-        1f - (animatable.upperBound!! - animatable.value) / (animatable.upperBound!! - collapsedBound)
+        1f - (animatable.upperBound!! - animatable.value) /
+            (animatable.upperBound!! - collapsedBound)
     }
 
     fun collapse(animationSpec: AnimationSpec<Dp>) {
@@ -207,7 +222,7 @@ class BottomSheetState(
             animatable.animateTo(animatable.lowerBound!!)
         }
     }
-    
+
     suspend fun dismissAndWait() {
         onAnchorChanged(dismissedAnchor)
         animatable.animateTo(animatable.lowerBound!!)
@@ -290,7 +305,6 @@ class BottomSheetState(
                 return if (isTopReached) {
                     val velocity = -available.y
                     performFling(velocity, null)
-
                     available
                 } else {
                     Velocity.Zero
