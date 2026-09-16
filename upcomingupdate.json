@@ -12,7 +12,8 @@
     "The stale FOSS product flavor and obsolete FOSS source-set shims were removed so app and playback modules match the documented GMS-only architecture.",
     "Last.fm API credentials are no longer committed in Gradle and are now loaded from local.properties or environment variables.",
     "The repository audit now verifies Universal GMS compilation, APK assembly, and lint instead of invoking removed FOSS build tasks.",
-    "Setup and README build instructions now consistently document the GMS-only build and local/CI secret handling."
+    "Setup and README build instructions now consistently document the GMS-only build and local/CI secret handling.",
+    "The local.properties template now documents safe placeholders for optional development credentials without committing secrets."
   ],
   "contributors": []
 }
