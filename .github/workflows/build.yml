@@ -38,11 +38,10 @@ jobs:
         shell: bash
         run: |
           mkdir -p "$HOME/.android"
-
           keytool -genkeypair \
             -v \
-            -keystore "$HOME/.android/keystore" \
-            -alias debug \
+            -keystore "$HOME/.android/debug.keystore" \
+            -alias androiddebugkey \
             -keyalg RSA \
             -keysize 2048 \
             -validity 10000 \
@@ -52,10 +51,11 @@ jobs:
 
       - name: Verify debug keystore
         run: |
-          test -f "$HOME/.android/keystore"
+          test -f "$HOME/.android/debug.keystore"
           keytool -list \
-            -keystore "$HOME/.android/keystore" \
-            -storepass android
+            -keystore "$HOME/.android/debug.keystore" \
+            -storepass android \
+            -alias androiddebugkey
 
       - name: Clean project
         run: ./gradlew clean --stacktrace
