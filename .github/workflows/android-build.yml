@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build:
-    name: Build Signed APK
+    name: Build Universal GMS APK
     runs-on: ubuntu-latest
 
     steps:
@@ -27,6 +27,12 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
+    - name: Prepare Gradle
+      run: chmod +x gradlew
+
+    - name: Compile Universal GMS Kotlin
+      run: ./gradlew :app:compileUniversalGmsDebugKotlin --stacktrace --no-daemon
+
     - name: Decode Keystore
       if: ${{ env.KEYSTORE_BASE64 != '' }}
       env:
@@ -34,21 +40,17 @@ jobs:
       run: |
         echo "$KEYSTORE_BASE64" | base64 -d > keystore.jks
 
-    - name: Build Release APK
+    - name: Build Universal GMS Release APK
       if: ${{ env.KEYSTORE_BASE64 != '' }}
       env:
         KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-      run: |
-        chmod +x gradlew
-        ./gradlew assembleUniversalGmsRelease
+      run: ./gradlew assembleUniversalGmsRelease --stacktrace --no-daemon
 
-    - name: Build Debug APK (fork PR fallback without signing)
+    - name: Build Universal GMS Debug APK
       if: ${{ env.KEYSTORE_BASE64 == '' }}
-      env:
-        KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
       run: |
         mkdir -p "$HOME/.android"
         keytool -genkeypair \
@@ -59,11 +61,11 @@ jobs:
           -dname "CN=Android Debug,O=Android,C=US" \
           -keyalg RSA \
           -validity 10000
-        chmod +x gradlew
-        ./gradlew assembleUniversalFossDebug
+        ./gradlew assembleUniversalGmsDebug --stacktrace --no-daemon
 
     - name: Upload Universal APK
       uses: actions/upload-artifact@v4
       with:
-        name: Echo-Music-Universal-APK
+        name: Echo-Music-Universal-GMS-APK
         path: app/build/outputs/apk/**/*.apk
+        if-no-files-found: error
