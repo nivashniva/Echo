@@ -1,7 +1,8 @@
 {
   "features": [],
   "bug_fixes": [
-    "Download stream resolution now honors the selected audio quality and isolates cached stream URLs by quality."
+    "Download stream resolution now honors the selected audio quality and isolates cached stream URLs by quality.",
+    "Welcome onboarding is now persisted as a first-launch experience instead of being shown again after every version change."
   ],
   "contributors": []
 }
