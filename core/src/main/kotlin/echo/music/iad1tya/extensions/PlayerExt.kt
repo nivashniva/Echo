@@ -14,10 +14,16 @@ import echo.music.iad1tya.models.MediaMetadata
 import java.util.ArrayDeque
 
 fun Player.togglePlayPause() {
-    if (!playWhenReady && playbackState == Player.STATE_IDLE) {
+    if (playWhenReady) {
+        pause()
+        return
+    }
+
+    if (playbackState == Player.STATE_IDLE) {
         prepare()
     }
-    playWhenReady = !playWhenReady
+
+    play()
 }
 
 fun Player.toggleRepeatMode() {
