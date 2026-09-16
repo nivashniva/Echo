@@ -18,7 +18,8 @@
     "Setup and README build instructions now consistently document the GMS-only build and local/CI secret handling.",
     "The local.properties template now documents safe placeholders for optional development credentials without committing secrets.",
     "Ringtone creation now respects the selected audio quality and performs a real FFmpeg trim instead of copying the source unchanged.",
-    "Audio export now respects the selected audio quality and reports streaming progress without blocking a coroutine with runBlocking."
+    "Audio export now respects the selected audio quality and reports streaming progress without blocking a coroutine with runBlocking.",
+    "CodeQL now traces the supported Universal GMS build instead of the removed/default assembleDebug path, preventing security-analysis runs from entering unintended variants and timing out before analysis."
   ],
   "contributors": []
 }
