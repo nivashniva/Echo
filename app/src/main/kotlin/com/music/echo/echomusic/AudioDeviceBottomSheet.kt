@@ -135,6 +135,7 @@ import echo.music.iad1tya.LocalPlayerConnection
 import echo.music.iad1tya.constants.AudioQuality
 import echo.music.iad1tya.constants.AudioQualityKey
 import echo.music.iad1tya.utils.rememberEnumPreference
+import echo.music.iad1tya.utils.userVisibleLabel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -849,7 +850,7 @@ fun VolumeControlRow(
 fun AudioQualitySelector(context: Context) {
     val (audioQuality, onAudioQualityChange) = rememberEnumPreference(
         key = AudioQualityKey,
-        defaultValue = AudioQuality.OPUS
+        defaultValue = AudioQuality.AUTO
     )
 
     Column(
@@ -865,12 +866,11 @@ fun AudioQualitySelector(context: Context) {
         )
 
         val options = listOf(
-            "Opus"
+            AudioQuality.AUTO,
+            AudioQuality.HIGH,
+            AudioQuality.LOSSLESS_WHEN_AVAILABLE,
+            AudioQuality.OPUS
         )
-        val selectedIndex = when (audioQuality) {
-            AudioQuality.OPUS -> 0
-            else -> 0
-        }
 
         androidx.compose.foundation.layout.FlowRow(
             modifier = Modifier
@@ -880,14 +880,11 @@ fun AudioQualitySelector(context: Context) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            options.forEachIndexed { index, label ->
+            options.forEach { quality ->
                 ToggleButton(
-                    checked = selectedIndex == index,
+                    checked = audioQuality == quality,
                     onCheckedChange = {
-                        val newQuality = when (index) {
-                            0 -> AudioQuality.OPUS
-                            else -> AudioQuality.OPUS
-                        }
+                        val newQuality = quality
                         onAudioQualityChange(newQuality)
                         applyAudioQuality(context, newQuality)
                     },
@@ -897,7 +894,7 @@ fun AudioQualitySelector(context: Context) {
                         .semantics { role = Role.RadioButton }
                 ) {
                     Text(
-                        text = label,
+                        text = quality.userVisibleLabel(context),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -912,7 +909,7 @@ fun DownloadQualitySelector() {
     val context = LocalContext.current
     val (downloadQuality, onDownloadQualityChange) = rememberEnumPreference(
         key = echo.music.iad1tya.constants.DownloadQualityKey,
-        defaultValue = echo.music.iad1tya.constants.DownloadQuality.YOUTUBE
+        defaultValue = echo.music.iad1tya.constants.DownloadQuality.AUTO
     )
 
     Column(
@@ -928,12 +925,11 @@ fun DownloadQualitySelector() {
         )
 
         val options = listOf(
-            "Opus"
+            echo.music.iad1tya.constants.DownloadQuality.AUTO,
+            echo.music.iad1tya.constants.DownloadQuality.HIGH,
+            echo.music.iad1tya.constants.DownloadQuality.LOSSLESS_WHEN_AVAILABLE,
+            echo.music.iad1tya.constants.DownloadQuality.YOUTUBE
         )
-        val selectedIndex = when (downloadQuality) {
-            echo.music.iad1tya.constants.DownloadQuality.YOUTUBE -> 0
-            else -> 0
-        }
 
         androidx.compose.foundation.layout.FlowRow(
             modifier = Modifier
@@ -943,15 +939,11 @@ fun DownloadQualitySelector() {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            options.forEachIndexed { index, label ->
+            options.forEach { quality ->
                 ToggleButton(
-                    checked = selectedIndex == index,
+                    checked = downloadQuality == quality,
                     onCheckedChange = {
-                        val newQuality = when (index) {
-                            0 -> echo.music.iad1tya.constants.DownloadQuality.YOUTUBE
-                            else -> echo.music.iad1tya.constants.DownloadQuality.YOUTUBE
-                        }
-                        onDownloadQualityChange(newQuality)
+                        onDownloadQualityChange(quality)
                     },
                     modifier = Modifier
                         .weight(1f)
@@ -959,7 +951,7 @@ fun DownloadQualitySelector() {
                         .semantics { role = Role.RadioButton }
                 ) {
                     Text(
-                        text = label,
+                        text = quality.userVisibleLabel(context),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }

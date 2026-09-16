@@ -107,12 +107,25 @@ val AudioQualityKey = stringPreferencesKey("audioQuality")
 val IpVersionKey = stringPreferencesKey("ipVersion")
 
 enum class AudioQuality {
+    AUTO,
+    HIGH,
+    LOSSLESS_WHEN_AVAILABLE,
+    /**
+     * Legacy value kept for backward compatibility with old stored preferences and
+     * data-saver forcing.
+     */
     OPUS,
 }
 
 val DownloadQualityKey = stringPreferencesKey("downloadQuality")
 
 enum class DownloadQuality {
+    AUTO,
+    HIGH,
+    LOSSLESS_WHEN_AVAILABLE,
+    /**
+     * Legacy value kept for backward compatibility with old stored preferences.
+     */
     YOUTUBE,
 }
 

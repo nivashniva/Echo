@@ -81,6 +81,7 @@ import echo.music.iad1tya.ui.component.Material3SettingsItem
 import echo.music.iad1tya.ui.utils.backToMain
 import echo.music.iad1tya.utils.rememberEnumPreference
 import echo.music.iad1tya.utils.rememberPreference
+import echo.music.iad1tya.utils.userVisibleLabel
 import kotlin.math.roundToInt
 import android.content.Intent
 import android.net.Uri
@@ -95,7 +96,7 @@ highlightKey: String? = null) {
 
     val (audioQuality, onAudioQualityChange) = rememberEnumPreference(
         AudioQualityKey,
-        defaultValue = AudioQuality.OPUS
+        defaultValue = AudioQuality.AUTO
     )
 
     val (crossfadeEnabled, onCrossfadeEnabledChange) = rememberPreference(
@@ -260,7 +261,7 @@ highlightKey: String? = null) {
 
     val (downloadQuality, onDownloadQualityChange) = rememberEnumPreference(
         echo.music.iad1tya.constants.DownloadQualityKey,
-        defaultValue = echo.music.iad1tya.constants.DownloadQuality.YOUTUBE
+        defaultValue = echo.music.iad1tya.constants.DownloadQuality.AUTO
     )
 
     if (showAudioQualityDialog) {
@@ -272,16 +273,14 @@ highlightKey: String? = null) {
             },
             title = stringResource(R.string.audio_quality),
             current = audioQuality,
-            values = listOf(AudioQuality.OPUS),
-            valueText = {
-                when (it) {
-                    AudioQuality.OPUS -> "Opus"
-                    else -> ""
-                }
-            },
-            valueDescription = {
-                ""
-            }
+            values = listOf(
+                AudioQuality.AUTO,
+                AudioQuality.HIGH,
+                AudioQuality.LOSSLESS_WHEN_AVAILABLE,
+                AudioQuality.OPUS,
+            ),
+            valueText = { it.userVisibleLabel(context) },
+            valueDescription = { "" }
         )
     }
 
@@ -294,13 +293,13 @@ highlightKey: String? = null) {
             },
             title = stringResource(R.string.download_quality_title),
             current = downloadQuality,
-            values = listOf(echo.music.iad1tya.constants.DownloadQuality.YOUTUBE),
-            valueText = {
-                when (it) {
-                    echo.music.iad1tya.constants.DownloadQuality.YOUTUBE -> "YouTube Music (AAC/Default)"
-                    else -> ""
-                }
-            }
+            values = listOf(
+                echo.music.iad1tya.constants.DownloadQuality.AUTO,
+                echo.music.iad1tya.constants.DownloadQuality.HIGH,
+                echo.music.iad1tya.constants.DownloadQuality.LOSSLESS_WHEN_AVAILABLE,
+                echo.music.iad1tya.constants.DownloadQuality.YOUTUBE,
+            ),
+            valueText = { it.userVisibleLabel(context) }
         )
     }
 
@@ -447,14 +446,9 @@ highlightKey: String? = null) {
                     icon = painterResource(R.drawable.graphic_eq),
                     title = { Text(stringResource(R.string.audio_quality)) },
                     description = {
-                        Text(
-                            when (audioQuality) {
-                                AudioQuality.OPUS -> "Opus"
-                                else -> "Opus"
-                            }
-                        )
+                        Text(audioQuality.userVisibleLabel(context))
                     },
-                    onClick = null
+                    onClick = { showAudioQualityDialog = true }
                 ))
                 
                 add(Material3SettingsItem(
@@ -462,12 +456,7 @@ highlightKey: String? = null) {
                     icon = painterResource(R.drawable.download),
                     title = { Text(stringResource(R.string.download_quality_title)) },
                     description = {
-                        Text(
-                            when (downloadQuality) {
-                                echo.music.iad1tya.constants.DownloadQuality.YOUTUBE -> "YouTube Music (AAC/Default)"
-                                else -> "YouTube Music (AAC/Default)"
-                            }
-                        )
+                        Text(downloadQuality.userVisibleLabel(context))
                     },
                     onClick = { showDownloadQualityDialog = true }
                 ))

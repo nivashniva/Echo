@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +33,7 @@ import echo.music.iad1tya.ui.component.Material3SettingsGroup
 import echo.music.iad1tya.ui.component.Material3SettingsItem
 import echo.music.iad1tya.utils.rememberEnumPreference
 import echo.music.iad1tya.utils.rememberPreference
+import echo.music.iad1tya.utils.userVisibleLabel
 import echo.music.iad1tya.viewmodels.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,9 +44,10 @@ fun SettingDialoge(
     homeViewModel: HomeViewModel
 ) {
     val uriHandler = LocalUriHandler.current
+    val context = LocalContext.current
     val (audioQuality) = rememberEnumPreference(
         AudioQualityKey,
-        defaultValue = AudioQuality.OPUS
+        defaultValue = AudioQuality.AUTO
     )
     val (innerTubeCookie, _) = rememberPreference(InnerTubeCookieKey, "")
     val isLoggedIn = remember(innerTubeCookie) {
@@ -175,6 +178,15 @@ fun SettingDialoge(
                                 )
                             },
                             onClick = { onYtmSyncChange(!ytmSync) }
+                        ),
+                        Material3SettingsItem(
+                            title = { Text(stringResource(R.string.audio_quality_title)) },
+                            description = { Text(audioQuality.userVisibleLabel(context)) },
+                            icon = painterResource(R.drawable.graphic_eq),
+                            onClick = {
+                                onDismissRequest()
+                                onNavigate("settings/player")
+                            }
                         )
                     )
                 )

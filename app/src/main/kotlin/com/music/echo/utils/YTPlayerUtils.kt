@@ -802,20 +802,70 @@ object YTPlayerUtils {
         connectivityManager: ConnectivityManager,
     ): PlayerResponse.StreamingData.Format? {
         Timber.tag(logTag).d("Finding format with audioQuality: $audioQuality, network metered: ${connectivityManager.isActiveNetworkMetered}")
-
-        val format = playerResponse.streamingData?.adaptiveFormats
+        val audioFormats = playerResponse.streamingData?.adaptiveFormats
             ?.filter { it.isAudio && it.isOriginal }
-            ?.maxByOrNull {
-                it.bitrate * 1 + (if (it.mimeType.startsWith("audio/webm")) 10240 else 0)
+            .orEmpty()
+
+        val format = when (audioQuality) {
+            AudioQuality.LOSSLESS_WHEN_AVAILABLE -> {
+                audioFormats
+                    .filter(::isGenuinelyLosslessFormat)
+                    .maxByOrNull(::qualityScore)
+                    ?: audioFormats.maxByOrNull(::qualityScore)
             }
 
+            AudioQuality.HIGH,
+            AudioQuality.AUTO -> {
+                audioFormats.maxByOrNull(::qualityScore)
+            }
+
+            AudioQuality.OPUS -> {
+                audioFormats
+                    .filter { it.mimeType.startsWith("audio/webm") }
+                    .maxByOrNull(::qualityScore)
+                    ?: audioFormats.maxByOrNull(::qualityScore)
+            }
+        }
+
         if (format != null) {
-            Timber.tag(logTag).d("Selected format: ${format.mimeType}, bitrate: ${format.bitrate}")
+            Timber.tag(logTag).d(
+                "Selected format: ${format.mimeType}, bitrate: ${format.bitrate}, " +
+                    "lossless=${isGenuinelyLosslessFormat(format)}"
+            )
+            if (audioQuality == AudioQuality.LOSSLESS_WHEN_AVAILABLE && !isGenuinelyLosslessFormat(format)) {
+                Timber.tag(logTag).i("Requested lossless, but source has no genuine lossless stream. Falling back to best available compressed audio.")
+            }
         } else {
             Timber.tag(logTag).d("No suitable audio format found")
         }
 
         return format
+    }
+
+    private fun qualityScore(format: PlayerResponse.StreamingData.Format): Long {
+        val mimeBonus = when {
+            format.mimeType.startsWith("audio/webm") -> 10_240L
+            format.mimeType.startsWith("audio/mp4") -> 8_192L
+            else -> 0L
+        }
+        return format.bitrate.toLong() + mimeBonus
+    }
+
+    private fun isGenuinelyLosslessFormat(format: PlayerResponse.StreamingData.Format): Boolean {
+        val mimeLower = format.mimeType.lowercase()
+        val codecLower = format.mimeType.substringAfter("codecs=", "")
+            .removeSurrounding("\"")
+            .lowercase()
+        val audioQualityLower = format.audioQuality?.lowercase().orEmpty()
+
+        return "flac" in mimeLower ||
+            "wav" in mimeLower ||
+            "alac" in mimeLower ||
+            "pcm" in mimeLower ||
+            "flac" in codecLower ||
+            "alac" in codecLower ||
+            "pcm" in codecLower ||
+            "lossless" in audioQualityLower
     }
     /**
      * Checks if the stream url returns a successful status.

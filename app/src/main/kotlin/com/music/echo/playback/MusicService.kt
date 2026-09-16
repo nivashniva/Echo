@@ -693,7 +693,7 @@ class MusicService :
 
         audioManager.registerAudioDeviceCallback(audioDeviceCallback, null)
 
-        audioQuality = dataStore.get(AudioQualityKey).toEnum(echo.music.iad1tya.constants.AudioQuality.OPUS)
+        audioQuality = dataStore.get(AudioQualityKey).toEnum(echo.music.iad1tya.constants.AudioQuality.AUTO)
         ipVersion = dataStore.get(IpVersionKey).toEnum(IpVersion.AUTO)
         playerVolume = MutableStateFlow(restorePlayerVolume(dataStore.get(PlayerVolumeKey, 1f)))
 
@@ -764,7 +764,7 @@ class MusicService :
                     val qualityStr = (try { it[AudioQualityKey] } catch(e: Exception) { null })
                     val quality = qualityStr?.let { value ->
                         echo.music.iad1tya.constants.AudioQuality.entries.find { enumVal -> enumVal.name == value }
-                    } ?: echo.music.iad1tya.constants.AudioQuality.OPUS
+                    } ?: echo.music.iad1tya.constants.AudioQuality.AUTO
                     val dataSaver = it[echo.music.iad1tya.constants.DataSaverEnabledKey] ?: false
                     if (dataSaver) echo.music.iad1tya.constants.AudioQuality.OPUS else quality
                 }
