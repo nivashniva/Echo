@@ -15,6 +15,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -106,14 +107,14 @@ fun SettingDialoge(
                             } else null,
                             onClick = {
                                 onDismissRequest()
-                                if (isLoggedIn) onNavigate("settings/account") else onNavigate("login") 
+                                if (isLoggedIn) onNavigate("settings/account") else onNavigate("login")
                             }
                         )
                     )
                     add(
                         Material3SettingsItem(
-                            title = { Text(androidx.compose.ui.res.stringResource(R.string.ai_lyrics_translation)) },
-                            description = { Text(androidx.compose.ui.res.stringResource(R.string.setting_desc_ai)) },
+                            title = { Text(stringResource(R.string.ai_lyrics_translation)) },
+                            description = { Text(stringResource(R.string.setting_desc_ai)) },
                             customIcon = {
                                 Text(
                                     text = "Ai",
@@ -197,46 +198,14 @@ fun SettingDialoge(
                 compact = true,
                 items = listOf(
                     Material3SettingsItem(
-                        title = { Text(androidx.compose.ui.res.stringResource(R.string.settings)) },
-                        description = { Text(androidx.compose.ui.res.stringResource(R.string.setting_desc_settings_main)) },
+                        title = { Text(stringResource(R.string.settings)) },
+                        description = { Text(stringResource(R.string.setting_desc_settings_main)) },
                         icon = painterResource(R.drawable.settings),
-                        onClick = { 
+                        onClick = {
                             onDismissRequest()
-                            onNavigate("settings") 
+                            onNavigate("settings")
                         }
                     ),
                     Material3SettingsItem(
                         title = { Text("About") },
                         icon = painterResource(R.drawable.info),
-                        trailingContent = { Text(BuildConfig.VERSION_NAME, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) },
-                        onClick = { 
-                            onDismissRequest()
-                            onNavigate("settings/about") 
-                        }
-                    )
-                )
-            )
-
-            // Footer Links
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(top = 12.dp, bottom = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Privacy Policy",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = onSecondaryColor,
-                    modifier = Modifier.clickable { uriHandler.openUri("https://echomusic.fun/p/privacy-policy") }.padding(4.dp)
-                )
-                Text(text = " • ", color = onSecondaryColor, style = MaterialTheme.typography.bodySmall)
-                Text(
-                    text = "Terms of Service",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = onSecondaryColor,
-                    modifier = Modifier.clickable { uriHandler.openUri("https://echomusic.fun/p/toc") }.padding(4.dp)
-                )
-            }
-        }
-    }
-}
