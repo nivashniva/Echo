@@ -25,49 +25,99 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 
 /**
- * Echo-Music motion system. Motion is deliberately short and low-amplitude so it
- * matches the existing Material/glass UI instead of introducing a new visual style.
- * Visual-only state is animated in the draw phase where possible.
+ * Echo Music motion system.
+ *
+ * Motion is fast, coordinated and state-driven. Shared UI surfaces should animate
+ * from one source of truth instead of stacking independent enter/exit animations.
+ * Frame-critical work stays inside graphicsLayer/draw transforms.
  */
 object EchoMotion {
     const val Micro = 120
     const val Standard = 220
     const val Emphasis = 320
     const val Content = 240
+    const val PlayerMorph = 280
 
     val StandardEasing = FastOutSlowInEasing
-    val StandardTween = tween<Float>(Standard, easing = StandardEasing)
-    val ContentTween = tween<Float>(Content, easing = StandardEasing)
+
+    val StandardTween = tween<Float>(
+        durationMillis = Standard,
+        easing = StandardEasing,
+    )
+
+    val ContentTween = tween<Float>(
+        durationMillis = Content,
+        easing = StandardEasing,
+    )
+
+    val PlayerMorphTween = tween<Float>(
+        durationMillis = PlayerMorph,
+        easing = StandardEasing,
+    )
+
     val SoftSpring = spring<Float>(
         dampingRatio = 0.82f,
         stiffness = Spring.StiffnessMediumLow,
     )
 
+    val PlayerSpring = spring<Float>(
+        dampingRatio = Spring.DampingRatioNoBouncy,
+        stiffness = Spring.StiffnessMediumLow,
+    )
+
     val Enter: EnterTransition =
-        fadeIn(tween(Standard, easing = StandardEasing)) +
-            scaleIn(initialScale = 0.985f, animationSpec = tween(Standard, easing = StandardEasing))
+        fadeIn(
+            animationSpec = tween(Standard, easing = StandardEasing),
+        ) +
+            scaleIn(
+                initialScale = 0.985f,
+                animationSpec = tween(Standard, easing = StandardEasing),
+            )
 
     val Exit: ExitTransition =
-        fadeOut(tween(170, easing = StandardEasing)) +
-            scaleOut(targetScale = 0.99f, animationSpec = tween(170, easing = StandardEasing))
+        fadeOut(
+            animationSpec = tween(170, easing = StandardEasing),
+        ) +
+            scaleOut(
+                targetScale = 0.99f,
+                animationSpec = tween(170, easing = StandardEasing),
+            )
 
     val SheetEnter: EnterTransition =
-        fadeIn(tween(180, easing = StandardEasing)) +
+        fadeIn(
+            animationSpec = tween(180, easing = StandardEasing),
+        ) +
             slideInVertically(
                 initialOffsetY = { (it * 0.035f).toInt() },
                 animationSpec = tween(Standard, easing = StandardEasing),
             )
 
     val SheetExit: ExitTransition =
-        fadeOut(tween(160, easing = StandardEasing)) +
+        fadeOut(
+            animationSpec = tween(160, easing = StandardEasing),
+        ) +
             slideOutVertically(
                 targetOffsetY = { (it * 0.025f).toInt() },
                 animationSpec = tween(180, easing = StandardEasing),
             )
 
     fun contentTransform(): ContentTransform =
-        fadeIn(tween(Content, easing = StandardEasing))
-            .togetherWith(fadeOut(tween(150, easing = StandardEasing)))
+        fadeIn(
+            animationSpec = tween(Content, easing = StandardEasing),
+        ).togetherWith(
+            fadeOut(
+                animationSpec = tween(150, easing = StandardEasing),
+            ),
+        )
+
+    fun playerContentTransform(): ContentTransform =
+        fadeIn(
+            animationSpec = tween(PlayerMorph, easing = StandardEasing),
+        ).togetherWith(
+            fadeOut(
+                animationSpec = tween(160, easing = StandardEasing),
+            ),
+        )
 }
 
 @Composable
@@ -91,12 +141,19 @@ fun <S> EchoAnimatedContent(
     targetState: S,
     modifier: Modifier = Modifier,
     label: String = "EchoAnimatedContent",
+    playerTransition: Boolean = false,
     content: @Composable (S) -> Unit,
 ) {
     AnimatedContent(
         targetState = targetState,
         modifier = modifier,
-        transitionSpec = { EchoMotion.contentTransform() },
+        transitionSpec = {
+            if (playerTransition) {
+                EchoMotion.playerContentTransform()
+            } else {
+                EchoMotion.contentTransform()
+            }
+        },
         label = label,
     ) { state ->
         content(state)
@@ -104,8 +161,38 @@ fun <S> EchoAnimatedContent(
 }
 
 /**
- * Small tactile press treatment. It only changes scale in graphicsLayer, avoiding
- * layout/recomposition work while the finger is down.
+ * Premium title identity motion. The title remains readable throughout the transition.
+ */
+@Composable
+fun Modifier.echoTitleMotion(
+    visible: Boolean,
+    emphasis: Float = 1f,
+): Modifier {
+    val visibility = animateFloatAsState(
+        targetValue = if (visible) 1f else 0f,
+        animationSpec = tween(
+            durationMillis = EchoMotion.Standard,
+            easing = EchoMotion.StandardEasing,
+        ),
+        label = "echoTitleVisibility",
+    )
+    val scale = animateFloatAsState(
+        targetValue = if (visible) 1f else 0.965f,
+        animationSpec = EchoMotion.SoftSpring,
+        label = "echoTitleScale",
+    )
+
+    return graphicsLayer {
+        val progress = visibility.value
+        alpha = progress
+        translationX = (1f - progress) * -12f * emphasis
+        scaleX = scale.value
+        scaleY = scale.value
+    }
+}
+
+/**
+ * Lightweight press treatment. Uses graphicsLayer so it does not trigger layout work.
  */
 @Composable
 fun Modifier.echoPress(
