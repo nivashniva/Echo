@@ -12,7 +12,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -298,6 +297,7 @@ fun LoginScreen(
                 YouTubeWebLogin(
                     context = context,
                     coroutineScope = coroutineScope,
+                    expectedGoogleEmail = selectedGoogleAccount?.email,
                     visitorData = visitorData,
                     onVisitorData = { visitorData = it },
                     dataSyncId = dataSyncId,
@@ -328,6 +328,7 @@ fun LoginScreen(
 private fun YouTubeWebLogin(
     context: android.content.Context,
     coroutineScope: kotlinx.coroutines.CoroutineScope,
+    expectedGoogleEmail: String?,
     visitorData: String,
     onVisitorData: (String) -> Unit,
     dataSyncId: String,
@@ -348,6 +349,7 @@ private fun YouTubeWebLogin(
     val currentDataSyncId by rememberUpdatedState(dataSyncId)
     val currentSavedAccountsJson by rememberUpdatedState(savedAccountsJson)
     val currentHasCompletedLogin by rememberUpdatedState(hasCompletedLogin)
+    val currentExpectedGoogleEmail by rememberUpdatedState(expectedGoogleEmail)
     val currentOnCookie by rememberUpdatedState(onCookie)
     val currentOnCompleted by rememberUpdatedState(onCompleted)
     val currentOnSavedAccounts by rememberUpdatedState(onSavedAccountsJson)
@@ -370,7 +372,6 @@ private fun YouTubeWebLogin(
                             val cookie = CookieManager.getInstance().getCookie(url).orEmpty()
                             if (cookie.isBlank()) return
                             currentOnCookie(cookie)
-                            currentOnCompleted(true)
 
                             coroutineScope.launch {
                                 YouTube.cookie = cookie
@@ -378,13 +379,27 @@ private fun YouTubeWebLogin(
                                 YouTube.visitorData = currentVisitorData
 
                                 YouTube.accountInfo().onSuccess { info ->
+                                    val resolvedEmail = info.email.orEmpty()
+                                    val expectedEmail = currentExpectedGoogleEmail.orEmpty()
+                                    if (expectedEmail.isNotBlank() &&
+                                        resolvedEmail.isNotBlank() &&
+                                        !resolvedEmail.equals(expectedEmail, ignoreCase = true)
+                                    ) {
+                                        val mismatch = IllegalStateException(
+                                            "The active YouTube session ($resolvedEmail) does not match the selected Google account ($expectedEmail)."
+                                        )
+                                        currentOnCompleted(false)
+                                        currentOnError(mismatch)
+                                        return@onSuccess
+                                    }
+
                                     currentOnAccountName(info.name)
-                                    currentOnAccountEmail(info.email.orEmpty())
+                                    currentOnAccountEmail(resolvedEmail)
                                     currentOnAccountChannelHandle(info.channelHandle.orEmpty())
 
                                     val newAccount = AccountData(
                                         name = info.name,
-                                        email = info.email.orEmpty(),
+                                        email = resolvedEmail,
                                         channelHandle = info.channelHandle.orEmpty(),
                                         cookie = cookie,
                                         visitorData = currentVisitorData,
@@ -399,6 +414,8 @@ private fun YouTubeWebLogin(
                                     accounts.removeAll { it.email.equals(newAccount.email, true) || it.cookie == newAccount.cookie }
                                     accounts.add(newAccount)
                                     currentOnSavedAccounts(Json.encodeToString(accounts))
+                                    currentOnCompleted(true)
+                                    CookieManager.getInstance().flush()
 
                                     val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
                                     intent?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -430,8 +447,6 @@ private fun YouTubeWebLogin(
                     }
                 }, "Android")
                 CookieManager.getInstance().setAcceptCookie(true)
-                // Start at YouTube Music directly so an existing Google/WebView session can be reused
-                // instead of forcing the generic Google ServiceLogin page on every account handoff.
                 loadUrl("https://music.youtube.com/")
             }
         },
