@@ -8,7 +8,11 @@
     "First-tap playback now uses Media3 play/pause commands so an idle player prepares and starts without requiring a second tap.",
     "YouTube account handoff now opens YouTube Music directly so an existing authenticated web session can be reused without the generic Google ServiceLogin hop.",
     "YouTube account handoff now verifies the returned session identity before completing login and keeps failed or mismatched sessions retryable.",
-    "CI now validates Universal GMS Kotlin compilation and Universal GMS APK builds without the removed FOSS fallback."
+    "CI now validates Universal GMS Kotlin compilation and Universal GMS APK builds without the removed FOSS fallback.",
+    "The stale FOSS product flavor and obsolete FOSS source-set shims were removed so app and playback modules match the documented GMS-only architecture.",
+    "Last.fm API credentials are no longer committed in Gradle and are now loaded from local.properties or environment variables.",
+    "The repository audit now verifies Universal GMS compilation, APK assembly, and lint instead of invoking removed FOSS build tasks.",
+    "Setup and README build instructions now consistently document the GMS-only build and local/CI secret handling."
   ],
   "contributors": []
 }
