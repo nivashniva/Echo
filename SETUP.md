@@ -32,7 +32,20 @@ Edit `local.properties` and set your Android SDK path:
 sdk.dir=/path/to/your/android/sdk
 ```
 
-**Example paths:**
+You may also keep local development credentials here. Never commit them.
+
+```properties
+LASTFM_API_KEY=your_lastfm_api_key
+LASTFM_SECRET=your_lastfm_secret
+GH_CLIENT_ID=your_github_client_id
+GH_CLIENT_SECRET=your_github_client_secret
+FLOW_NEURO_BASE_URL=https://api.flowneuroengine.com
+FLOW_NEURO_API_KEY=your_flow_neuro_key
+```
+
+The build reads these secrets from `local.properties` first and environment variables second. CI should use environment variables or repository secrets only.
+
+**Example SDK paths:**
 
 - macOS: `/Users/username/Library/Android/sdk`
 - Linux: `/home/username/Android/sdk`
@@ -47,34 +60,23 @@ Firebase is used for analytics and crash reporting. If you want to use these fea
 3. Download the `google-services.json` file
 4. Place it in the `app/` directory
 
-**Note:** If you skip Firebase setup, the app will still build and run, but analytics and crash reporting will be disabled.
+**Note:** If you skip Firebase setup, the app can still use the normal GMS build configuration without Firebase services enabled.
 
 ### 4. Configure Release Signing (Optional)
 
-For release builds, you need to configure signing credentials. Set these as environment variables or in `gradle.properties`:
+For release builds, configure signing through environment variables. Do not commit passwords or keystores.
 
 ```bash
-# Environment variables
-export KEYSTORE_PATH=/path/to/your/keystore.jks
 export STORE_PASSWORD=your_store_password
 export KEY_ALIAS=your_key_alias
 export KEY_PASSWORD=your_key_password
-```
-
-Or add to `gradle.properties` (never commit this file):
-
-```properties
-KEYSTORE_PATH=/path/to/your/keystore.jks
-STORE_PASSWORD=your_store_password
-KEY_ALIAS=your_key_alias
-KEY_PASSWORD=your_key_password
 ```
 
 ### 5. Build the Project
 
 Open the project in Android Studio or build from the command line.
 
-Echo Music now ships a single **GMS** build variant (with Google Cast support). The previous FOSS (no Google Play Services) variant has been removed.
+Echo Music ships as a single **GMS** build variant with Google Cast and Firebase support. The obsolete FOSS variant has been removed.
 
 ```bash
 # Debug build
@@ -82,9 +84,13 @@ Echo Music now ships a single **GMS** build variant (with Google Cast support). 
 
 # Release build (requires signing configuration)
 ./gradlew assembleUniversalGmsRelease
+
+# CI-equivalent checks
+./gradlew :app:compileUniversalGmsDebugKotlin
+./gradlew lintUniversalGmsDebug
 ```
 
-*(On Windows, use `.\gradlew.bat` instead of `./gradlew`)*
+*(On Windows, use `.\\gradlew.bat` instead of `./gradlew`.)*
 
 ### 6. Configure AI Translation (Optional)
 
@@ -92,47 +98,42 @@ Echo Music supports AI-powered lyrics translation. You can configure this in **S
 
 #### Option A: Using OpenRouter (Default)
 
-This is the recommended setup for most users.
-
-1. Get an API Key from [OpenRouter](https://openrouter.ai/).
-2. In the app, go to **Settings -> AI Settings**.
+1. Get an API key from [OpenRouter](https://openrouter.ai/).
+2. In the app, open **Settings -> AI Settings**.
 3. Ensure **Provider** is set to **OpenRouter**.
-4. Enter your **API Key**.
+4. Enter your API key.
 
-#### Option B: Using Custom Provider
+#### Option B: Using a Custom Provider
 
-Use this for other services like OpenAI, Anthropic, or local LLMs.
-
-1. In the app, go to **Settings -> AI Settings**.
-2. Select your **Provider** (e.g., ChatGPT, Gemini, or Custom).
-3. If using **Custom**, enter your provider's **Base URL**.
-4. Enter your **API Key**.
+1. In the app, open **Settings -> AI Settings**.
+2. Select your provider.
+3. For a custom provider, enter its base URL.
+4. Enter the API key.
 
 ## Important Files
 
 ### Confidential Files (Never commit these)
 
-- `local.properties` - Contains your local SDK path
-- `app/google-services.json` - Contains Firebase credentials
-- `*.keystore` - Contains signing keys for release builds
-- `gradle.properties` - May contain signing credentials
+- `local.properties` - local SDK path and optional development secrets
+- `app/google-services.json` - Firebase configuration when used
+- `*.keystore` - release signing keys
+- `gradle.properties` - may contain local Gradle configuration
 
-These files are already listed in `.gitignore` and should never be committed to version control.
+These files should never contain credentials that are checked into source control.
 
 ### Template Files (Safe to commit)
 
-- `local.properties.template` - Template for local properties
-- `app/google-services.json` - Optional Firebase configuration
+- `local.properties.template` - template for local configuration
 
 ## Troubleshooting
 
 ### Build Fails with "SDK location not found"
 
-Make sure you've created `local.properties` with the correct SDK path.
+Make sure `local.properties` contains the correct SDK path.
 
 ### Firebase-related Build Errors
 
-If you're not using Firebase, you can still build the standard debug variant without `app/google-services.json` — Firebase features will simply be disabled:
+Verify that `app/google-services.json` is valid for the application ID and that the GMS build is being used:
 
 ```bash
 ./gradlew assembleUniversalGmsDebug
@@ -144,7 +145,7 @@ Try cleaning and rebuilding:
 
 ```bash
 ./gradlew clean
-./gradlew build
+./gradlew :app:compileUniversalGmsDebugKotlin
 ```
 
 ## Contributing
