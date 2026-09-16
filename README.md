@@ -173,30 +173,41 @@ Download the latest pre-compiled APK from the [Releases Page](https://github.com
    ```
 
 2. **Configure Android SDK**
-   Create a `local.properties` file:
+   Create a `local.properties` file and set your local SDK path. Do not commit this file.
 
-   ```bash
-   echo "sdk.dir=/path/to/your/android/sdk" > local.properties
+   ```properties
+   sdk.dir=/path/to/your/android/sdk
    ```
 
-   _(For detailed paths on Windows/macOS/Linux, refer to [SETUP.md](SETUP.md))_
+3. **Configure local development secrets when needed**
 
-3. **Firebase Configuration (Optional)**
-   Firebase is required for analytics and crash reporting. See the instructions in [SETUP.md](SETUP.md#3-configure-firebase-optional) for adding your `google-services.json`.
+   Last.fm and GitHub OAuth credentials are read from `local.properties` first and environment variables second. Do not hardcode or commit them.
 
-4. **Build the Application**
-   Echo Music has two build variants: **FOSS** (without Google Play Services / Cast) and **GMS** (with Cast support).
+   ```properties
+   LASTFM_API_KEY=your_lastfm_api_key
+   LASTFM_SECRET=your_lastfm_secret
+   GH_CLIENT_ID=your_github_client_id
+   GH_CLIENT_SECRET=your_github_client_secret
+   ```
 
-   - To build the **FOSS** Universal Debug variant:
-     ```bash
-     ./gradlew assembleUniversalFossDebug
-     ```
-   - To build the **GMS** Universal Debug variant:
-     ```bash
-     ./gradlew assembleUniversalGmsDebug
-     ```
+4. **Firebase Configuration (Optional)**
+   Firebase is used for analytics and crash reporting. See [SETUP.md](SETUP.md) for configuration.
 
-   _(For optimized ARM64 builds, release builds, or other options, refer to [SETUP.md](SETUP.md))_
+5. **Build the Application**
+   Echo Music ships as a single **GMS** build variant with Google Cast support. The obsolete FOSS variant has been removed.
+
+   ```bash
+   # Universal GMS debug APK
+   ./gradlew assembleUniversalGmsDebug
+
+   # Universal GMS release APK
+   ./gradlew assembleUniversalGmsRelease
+
+   # CI-equivalent Kotlin verification
+   ./gradlew :app:compileUniversalGmsDebugKotlin
+   ```
+
+   For additional setup and release signing details, see [SETUP.md](SETUP.md).
 
 </details>
 
@@ -270,7 +281,7 @@ Echo Music stands on the shoulders of several excellent open-source projects. Si
 
 ### 1. 100% Free, Open-Source & Strictly Non-Commercial
 
-Echo Music is a fully open-source project (FOSS) created purely for educational purposes and personal use. We do not sell this application, nor do we monetize it in any way. There are no advertisements, no premium features, no subscriptions, and no hidden fees within the app. This project has absolutely no commercial value or financial intent.
+Echo Music is a fully open-source project created purely for educational purposes and personal use. We do not sell this application, nor do we monetize it in any way. There are no advertisements, no premium features, no subscriptions, and no hidden fees within the app. This project has absolutely no commercial value or financial intent.
 
 ### 2. A Custom Browser with Content Filtering
 
