@@ -11,18 +11,28 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
 import androidx.core.content.getSystemService
+import com.arthenica.ffmpegkit.FFmpegKit
+import com.arthenica.ffmpegkit.ReturnCode
 import echo.music.iad1tya.constants.AudioQuality
+import echo.music.iad1tya.constants.AudioQualityKey
+import echo.music.iad1tya.utils.dataStore
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.io.File
 
 object RingtoneHelper {
 
+    private suspend fun selectedAudioQuality(context: Context): AudioQuality {
+        val stored = context.dataStore.data.first()[AudioQualityKey]
+        return AudioQuality.entries.firstOrNull { it.name == stored } ?: AudioQuality.AUTO
+    }
+
     suspend fun getStreamUrl(context: Context, songId: String): String? = withContext(Dispatchers.IO) {
         try {
-            val connectivityManager = context.getSystemService<ConnectivityManager>()!!
-            val audioQuality = AudioQuality.OPUS
+            val connectivityManager = context.getSystemService<ConnectivityManager>()
+                ?: return@withContext null
+            val audioQuality = selectedAudioQuality(context)
 
             val result = YTPlayerUtils.playerResponseForPlayback(
                 videoId = songId,
@@ -47,6 +57,13 @@ object RingtoneHelper {
         onComplete: (Boolean, String, Uri?) -> Unit
     ) = withContext(Dispatchers.IO) {
         try {
+            if (startMs < 0L || endMs <= startMs) {
+                withContext(Dispatchers.Main) {
+                    onComplete(false, "Invalid ringtone trim range", null)
+                }
+                return@withContext
+            }
+
             onProgress(0.05f, "Getting audio stream...")
 
             val streamUrl = getStreamUrl(context, songId)
@@ -60,7 +77,6 @@ object RingtoneHelper {
             onProgress(0.1f, "Fetching audio...")
 
             val tempFile = File(context.cacheDir, "temp_ringtone_source_$songId")
-
             val connection = java.net.URL(streamUrl).openConnection()
             connection.connect()
             val contentLength = connection.contentLength.toLong()
@@ -76,9 +92,13 @@ object RingtoneHelper {
                         totalBytesRead += bytesRead
 
                         if (contentLength > 0) {
-                            val progress = 0.1f + (totalBytesRead.toFloat() / contentLength) * 0.4f
+                            val progress = 0.1f +
+                                (totalBytesRead.toFloat() / contentLength) * 0.4f
                             withContext(Dispatchers.Main) {
-                                onProgress(progress, "Downloading... ${(progress * 100).toInt()}%")
+                                onProgress(
+                                    progress,
+                                    "Downloading... ${(progress * 100).toInt()}%"
+                                )
                             }
                         }
                     }
@@ -97,7 +117,7 @@ object RingtoneHelper {
             val trimmedFile = File(context.cacheDir, "trimmed_ringtone_$songId.m4a")
             if (trimmedFile.exists()) trimmedFile.delete()
 
-            val success = trimAudio(context, tempFile, trimmedFile, startMs, endMs)
+            val success = trimAudio(tempFile, trimmedFile, startMs, endMs)
 
             if (!success || !trimmedFile.exists() || trimmedFile.length() == 0L) {
                 withContext(Dispatchers.Main) {
@@ -108,14 +128,18 @@ object RingtoneHelper {
 
             onProgress(0.85f, "Saving ringtone...")
 
-            val fileName = "${title.replace(Regex("[^a-zA-Z0-9\\s]"), "")}_trimmed_$songId.m4a"
+            val fileName =
+                "${title.replace(Regex("[^a-zA-Z0-9\\s]"), "")}_trimmed_$songId.m4a"
 
             val ringtoneUri: Uri = try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     val contentValues = ContentValues().apply {
                         put(MediaStore.Audio.Media.DISPLAY_NAME, fileName)
                         put(MediaStore.Audio.Media.MIME_TYPE, "audio/mp4")
-                        put(MediaStore.Audio.Media.RELATIVE_PATH, Environment.DIRECTORY_RINGTONES)
+                        put(
+                            MediaStore.Audio.Media.RELATIVE_PATH,
+                            Environment.DIRECTORY_RINGTONES
+                        )
                         put(MediaStore.Audio.Media.IS_RINGTONE, true)
                         put(MediaStore.Audio.Media.IS_NOTIFICATION, true)
                         put(MediaStore.Audio.Media.IS_ALARM, true)
@@ -133,14 +157,16 @@ object RingtoneHelper {
                         trimmedFile.inputStream().use { inputStream ->
                             inputStream.copyTo(outputStream)
                         }
-                    }
+                    } ?: throw Exception("Failed to open ringtone output stream")
 
                     contentValues.clear()
                     contentValues.put(MediaStore.Audio.Media.IS_PENDING, 0)
                     context.contentResolver.update(uri, contentValues, null, null)
                     uri
                 } else {
-                    val ringtonesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_RINGTONES)
+                    val ringtonesDir = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_RINGTONES
+                    )
                     if (!ringtonesDir.exists()) ringtonesDir.mkdirs()
 
                     val file = File(ringtonesDir, fileName)
@@ -170,9 +196,12 @@ object RingtoneHelper {
 
             withContext(Dispatchers.Main) {
                 onProgress(1f, "Done!")
-                onComplete(true, "\"$title\" added to system ringtones. Please select it from settings.", ringtoneUri)
+                onComplete(
+                    true,
+                    "\"$title\" added to system ringtones. Please select it from settings.",
+                    ringtoneUri
+                )
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
             withContext(Dispatchers.Main) {
@@ -181,16 +210,29 @@ object RingtoneHelper {
         }
     }
 
-    private suspend fun trimAudio(
-        context: Context,
+    private fun trimAudio(
         inputFile: File,
         outputFile: File,
         startMs: Long,
-        endMs: Long
-    ): Boolean = withContext(Dispatchers.IO) {
-        try {
-            inputFile.copyTo(outputFile, overwrite = true)
-            true
+        endMs: Long,
+    ): Boolean {
+        return try {
+            val startSeconds = startMs / 1000.0
+            val durationSeconds = (endMs - startMs) / 1000.0
+            val inputPath = inputFile.absolutePath.ffmpegEscape()
+            val outputPath = outputFile.absolutePath.ffmpegEscape()
+
+            val command =
+                "-y -ss $startSeconds -i '$inputPath' -t $durationSeconds " +
+                    "-vn -c:a aac -b:a 192k -movflags +faststart '$outputPath'"
+
+            val session = FFmpegKit.execute(command)
+            val returnCode = session.returnCode
+
+            returnCode != null &&
+                ReturnCode.isSuccess(returnCode) &&
+                outputFile.exists() &&
+                outputFile.length() > 0L
         } catch (e: Exception) {
             e.printStackTrace()
             false
@@ -200,10 +242,19 @@ object RingtoneHelper {
     fun openRingtoneSettings(context: Context, ringtoneUri: Uri? = null) {
         try {
             val intent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
-                putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_RINGTONE)
-                putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Ringtone")
+                putExtra(
+                    RingtoneManager.EXTRA_RINGTONE_TYPE,
+                    RingtoneManager.TYPE_RINGTONE
+                )
+                putExtra(
+                    RingtoneManager.EXTRA_RINGTONE_TITLE,
+                    "Select Ringtone"
+                )
                 if (ringtoneUri != null) {
-                    putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, ringtoneUri)
+                    putExtra(
+                        RingtoneManager.EXTRA_RINGTONE_EXISTING_URI,
+                        ringtoneUri
+                    )
                 }
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
@@ -216,11 +267,11 @@ object RingtoneHelper {
         }
     }
 
-    fun hasSettingsPermission(context: Context): Boolean {
-        return true
-    }
+    fun hasSettingsPermission(context: Context): Boolean = true
 
     fun requestSettingsPermission(context: Context) {
-        // Do nothing, permission is no longer requested
+        // Do nothing, permission is no longer requested.
     }
+
+    private fun String.ffmpegEscape(): String = replace("'", "'\\''")
 }
