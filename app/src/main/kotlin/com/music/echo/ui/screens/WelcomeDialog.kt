@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import coil3.compose.AsyncImage
@@ -35,12 +36,36 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import echo.music.iad1tya.BuildConfig
 import echo.music.iad1tya.R
+import echo.music.iad1tya.constants.IsFirstRunKey
+import echo.music.iad1tya.utils.dataStore
+import echo.music.iad1tya.utils.get
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @Composable
 fun WelcomeDialog(
     onDismissRequest: () -> Unit
 ) {
+    val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
+    val scope = rememberCoroutineScope()
+    var firstRunResolved by remember { mutableStateOf(false) }
+    var shouldShow by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        val alreadyCompleted = context.dataStore.data.first()[IsFirstRunKey] ?: false
+        if (alreadyCompleted) {
+            onDismissRequest()
+        } else {
+            shouldShow = true
+            context.dataStore.updateData { preferences ->
+                preferences.toMutablePreferences().apply { this[IsFirstRunKey] = true }
+            }
+        }
+        firstRunResolved = true
+    }
+
+    if (!firstRunResolved || !shouldShow) return
 
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -63,7 +88,6 @@ fun WelcomeDialog(
                     .padding(vertical = 20.dp, horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                // Main Header
                 WelcomeAppCard()
 
                 WelcomeSectionCard(title = "Follow Developer") {
@@ -174,7 +198,6 @@ private fun WelcomeAppCard() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            val isDark = MaterialTheme.colorScheme.surface.luminance() < 0.5f
             AsyncImage(
                 model = R.mipmap.ic_launcher,
                 contentDescription = null,
