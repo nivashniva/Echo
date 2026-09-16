@@ -430,7 +430,9 @@ private fun YouTubeWebLogin(
                     }
                 }, "Android")
                 CookieManager.getInstance().setAcceptCookie(true)
-                loadUrl("https://accounts.google.com/ServiceLogin?continue=https%3A%2F%2Fmusic.youtube.com")
+                // Start at YouTube Music directly so an existing Google/WebView session can be reused
+                // instead of forcing the generic Google ServiceLogin page on every account handoff.
+                loadUrl("https://music.youtube.com/")
             }
         },
         onRelease = { webView ->
