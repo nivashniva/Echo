@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   build:
-    name: Build Debug APK
+    name: Build Universal GMS Debug APK
     runs-on: ubuntu-latest
 
     steps:
@@ -58,10 +58,13 @@ jobs:
             -alias androiddebugkey
 
       - name: Clean project
-        run: ./gradlew clean --stacktrace
+        run: ./gradlew clean --stacktrace --no-daemon
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace --no-daemon
+      - name: Compile Universal GMS Kotlin
+        run: ./gradlew :app:compileUniversalGmsDebugKotlin --stacktrace --no-daemon
+
+      - name: Build Universal GMS Debug APK
+        run: ./gradlew assembleUniversalGmsDebug --stacktrace --no-daemon
 
       - name: Find generated APK
         if: success()
@@ -73,7 +76,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: Echo-Music-debug
+          name: Echo-Music-universal-gms-debug
           path: "**/build/outputs/apk/**/*.apk"
           if-no-files-found: error
           retention-days: 14
