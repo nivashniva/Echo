@@ -1,5 +1,3 @@
-
-
 package echo.music.iad1tya.extensions
 
 import androidx.media3.common.C
@@ -19,6 +17,9 @@ fun Player.togglePlayPause() {
         return
     }
 
+    if (playbackState == Player.STATE_ENDED) {
+        seekToDefaultPosition()
+    }
     if (playbackState == Player.STATE_IDLE) {
         prepare()
     }
@@ -45,7 +46,7 @@ fun Player.getQueueWindows(): List<Timeline.Window> {
     if (currentMediaItemIndex == C.INDEX_UNSET || currentMediaItemIndex < 0 || currentMediaItemIndex >= timeline.windowCount) {
         return emptyList()
     }
-    
+
     val queue = ArrayDeque<Timeline.Window>()
     val queueSize = timeline.windowCount
 
@@ -84,7 +85,7 @@ fun Player.getCurrentQueueIndex(): Int {
     if (currentMediaItemIndex == C.INDEX_UNSET || currentMediaItemIndex < 0 || currentMediaItemIndex >= currentTimeline.windowCount) {
         return -1
     }
-    
+
     var index = 0
     while (currentMediaItemIndex != C.INDEX_UNSET) {
         currentMediaItemIndex = currentTimeline.getPreviousWindowIndex(
