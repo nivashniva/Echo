@@ -62,15 +62,24 @@ Echo uses a **fast, coordinated motion language** rather than independent decora
 * **App identity:** The top-level title remains exactly **"Echo Music"**. Its entrance animation may combine a small horizontal translation, alpha, and scale, but must remain readable and must never permanently hide the title.
 * **Loading:** Use existing shimmer/Lottie infrastructure for async content. Loading transitions should expose meaningful progress without blocking playback startup.
 
-### Player Motion Contract
+### Unified Player Morph Contract
 
-When a `BottomSheetPlayer` transitions between collapsed and expanded states:
+The mini-player and expanded player are not separate visual components. They are two render states of the same player surface.
 
-1. Artwork position/size changes continuously with the sheet progress.
-2. Text and controls follow the same progress rather than using unrelated enter/exit animations.
-3. Background/blur intensity may change with progress, but must remain bounded to avoid frame-time spikes.
-4. Reverse expansion must use the same geometry and state mapping so the collapse looks physically connected.
-5. Player gestures remain responsive during the transition. Animation must never become a prerequisite for playback or seeking.
+When `BottomSheetState.progress` changes from 0 to 1:
+
+1. The player surface moves continuously rather than appearing as a replacement.
+2. Collapsed content fades and scales out from the same progress that reveals expanded content.
+3. Expanded content starts slightly translated and underscaled, then settles to its final geometry.
+4. Artwork, controls, text, gradients, blur, and navigation chrome must remain driven by the same expansion state.
+5. Reverse collapse must use the same mapping so the surface visually travels back to its docked position.
+6. Direct gestures must remain interruptible at every frame. Motion never blocks playback, seeking, or queue interaction.
+
+Use low-amplitude easing for visual polish and spring-based motion for direct manipulation. Avoid independent nested animations that fight the sheet gesture.
+
+### Title Motion
+
+The app identity is always the exact text **"Echo Music"**. Use a small alpha + translation + scale entrance, normally within the existing 160–320ms motion envelope. The title must remain readable during route changes and must not animate continuously without a meaningful state change.
 
 ---
 
@@ -82,6 +91,8 @@ When a `BottomSheetPlayer` transitions between collapsed and expanded states:
 * Do not add continuous animations to static content without a clear interaction purpose.
 * Preserve premium effects on capable hardware while keeping the visual path adaptive on constrained devices.
 * Do not solve performance regressions by disabling existing product functionality.
+* For player morphing, animate alpha, translation, scale, and bounded effect intensity from the existing sheet progress instead of launching separate per-frame coroutines.
+* Do not perform network resolution, database I/O, bitmap decoding, or FFmpeg work from frame-critical UI animation lambdas.
 
 ---
 
@@ -93,7 +104,16 @@ When a `BottomSheetPlayer` transitions between collapsed and expanded states:
 
 ---
 
-## 7. Extending the Design System
+## 7. Audio Quality & Export UI
+
+* User-facing quality choices are truthful. `Lossless when available` means genuine lossless media only; compressed Opus/AAC streams are never mislabeled as lossless.
+* Legacy preference values may remain for compatibility, but new playback/download/export paths must resolve through the current selected quality.
+* Ringtone trimming and audio export are real media operations. UI progress must represent actual work and must not be implemented by copying a source file or blocking a coroutine with `runBlocking` merely to report progress.
+* Exported output may still use the app's existing MP3 export behavior, but source resolution must honor the selected quality before transcoding.
+
+---
+
+## 8. Extending the Design System
 
 Before adding a brand new UI component, always check `ui/component/` to see if an existing one already implements our conventions.
 
