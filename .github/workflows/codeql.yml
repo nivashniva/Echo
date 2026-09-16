@@ -29,11 +29,27 @@ jobs:
         submodules: recursive
 
     - name: Setup Java
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: '21'
         cache: 'gradle'
+
+    - name: Provision Android debug keystore
+      shell: bash
+      run: |
+        set -euo pipefail
+        mkdir -p "$HOME/.android"
+        if [[ ! -f "$HOME/.android/debug.keystore" ]]; then
+          keytool -genkeypair \
+            -keystore "$HOME/.android/debug.keystore" \
+            -storepass android \
+            -alias androiddebugkey \
+            -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US" \
+            -keyalg RSA \
+            -validity 10000
+        fi
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
@@ -44,7 +60,7 @@ jobs:
     - name: Build project
       run: |
         chmod +x gradlew
-        ./gradlew assembleDebug
+        ./gradlew assembleDebug --stacktrace --no-daemon
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
