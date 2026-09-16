@@ -69,7 +69,7 @@ the agent full context without re-scanning the whole codebase every session.
 ### UI rule: Nothing OS 5.0 Design (over Material You)
 
 All UI work — new screens, new components, and edits to existing ones —
-**must** follow the **Nothing OS 5.0 design** language (clean and minimal) rather than blindly
+must follow the **Nothing OS 5.0 design** language (clean and minimal) rather than blindly
 applying standard Material Design 3 guidelines or Material You.
 
 We maintain a dedicated **[DESIGN.md](DESIGN.md)** file which serves as the central
@@ -161,10 +161,7 @@ mostly-independent feature/integration:
 | `:artistvideo` | Artist video features |
 | `:unison` | Cross-cutting shared utility module (check source before editing) |
 
-When adding a new external integration (a new lyrics source, a new canvas
-provider, etc.), the existing pattern is: **new Gradle module**, register it
-in `settings.gradle.kts`, add it as an `implementation(project(":name"))` in
-`app/build.gradle.kts`, wire it up via Hilt in `di/`.
+When adding a new external integration (a new lyrics source, canvas provider, metadata source), the existing pattern is: **new Gradle module**, register it in `settings.gradle.kts`, add it as an `implementation(project(":name"))` in `app/build.gradle.kts`, wire it up via Hilt in `di/`.
 
 ## App module internal structure
 
@@ -190,7 +187,7 @@ lyrics/         Lyrics orchestration (aggregates the lyrics provider modules)
 models/         Shared data models
 playback/       Media3/ExoPlayer service, download manager, queueing, audio
 quicksettings/  Android quick settings tile
-recognition/    Music recognition (Echo Find) app-side logic
+recognition/    Music recognition ("Echo Find") app-side logic
 spotify/        Spotify API integration
 spotifyimport/  Import playlists/tracks from Spotify
 ui/
@@ -211,6 +208,9 @@ widget/         Home-screen widget
   - When designing components that require a translucent or frosted glass effect (like bottom navbars or mini-players), use the custom `Modifier.liquidGlass(config = ...)` rather than standard alpha background colors.
   - To achieve a **dense, clean blur** (without a muddy grey tint), use a high `blurRadius` (e.g., `64f`) and explicitly set the `surfaceTintColor` to `MaterialTheme.colorScheme.surface` or `Color.Black` (if pureBlack), while keeping the `surfaceOpacity` moderate (e.g., `0.5f`).
   - **Flat Integration:** In floating toolbars or navbars, integrate action buttons (like FABs or overflow menus) directly as flat `FloatingNavigationToolbarActionItem`s or `StandardFloatingActionButton`s with `elevation = 0.dp`. Do NOT use `VibrantFloatingActionButton` or elements with default drop shadows, as they render a detached, ugly shadow beneath the translucent glass.
+- **Motion language:** Use fast, coordinated transitions instead of independent decorative motion. Prefer roughly 160–320ms for screen/surface transitions and spring motion for direct player gestures. Avoid large bounce effects and do not allocate new objects inside frame-critical animation lambdas.
+- **Player continuity:** Treat the mini-player and expanded player as one stateful surface. Artwork, title, controls, progress, and background should follow the same expansion progress in both directions.
+- **App identity:** The title remains exactly `Echo Music`; title motion may use small translation/scale/alpha changes but must remain readable and visible.
 
 - Material 3 with **dynamic color**: on Android 12+, uses system dynamic
   color by default; otherwise generates a scheme from `DefaultThemeColor`
@@ -223,13 +223,8 @@ widget/         Home-screen widget
   A "floating tab bar" custom component exists at
   `ui/component/floatingtabbar/` — prefer reusing it over building new nav UI.
 - Icons: partly Material Symbols/Icons Extended
-  (`androidx.compose.material.material-icons-extended`), plus custom SVG
-  drawables generated via `scripts/compose_svg_drawable.py` and
-  `scripts/download_material_icons.py` — check those scripts before manually
-  adding new vector assets.
-- Shimmer loading placeholders (`ui/component/shimmer/`, `libs.shimmer`) are
-  the standard loading-state pattern — use them for new async-loading UI
-  instead of spinners.
+  (`androidx.compose.material-icons-extended`), plus custom SVG drawables generated via `scripts/compose_svg_drawable.py` and `scripts/download_material_icons.py` — check those scripts before manually adding new vector assets.
+- Shimmer loading placeholders (`ui/component/shimmer/`, `libs.shimmer`) are the standard loading-state pattern — use them for new async-loading UI instead of spinners.
 
 ## Commit message format (required)
 
@@ -248,24 +243,12 @@ Examples from this repo's own log:
 - `build(deps): upgrade safe non-compose dependencies`
 
 Rules:
-- **type**: `feat`, `fix`, `build`, `chore`, `refactor`, `docs`, `perf`,
-  `test`, or `ci` — pick the one that actually matches the change.
+- **type**: `feat`, `fix`, `build`, `chore`, `docs`, `perf`, `test`, or
+  `ci` — pick one that matches the change.
 - **scope**: the module or area touched, lowercase, e.g. `ui`, `db`,
-  `spotify`, `datastore`, `deps`, `playback`, `lyrics`, `di`. Keep it short
-  and specific — this is what makes the log scannable.
-- **summary**: imperative mood ("implement", "fix", "prevent" — not
-  "implemented" or "fixes"), no trailing period, concise enough to read as
-  a single line in `git log --oneline`.
-- **Body** (commit description / PR description): a short paragraph
-  explaining *what changed and why*, specific enough that someone reading
-  it later understands the change without opening the diff — e.g. naming
-  the exact components/files affected and the concrete before→after
-  behavior, the way the pill-shaped-inputs commit names `OutlinedTextField`,
-  `CircleShape (24.dp)`, and the `TextButton`→`Button` swap explicitly.
-  Avoid vague bodies like "UI improvements" or "bug fixes."
-
-When pushing a new feature or fix, generate both the title and body in this
-format, and don't omit the body for anything beyond a trivial one-line fix.
+  `spotify`, `datastore`, `deps`, `playback`, `lyrics`, `di`. Keep it short and specific.
+- **summary**: imperative mood, no trailing period, concise enough to read as a single line in `git log --oneline`.
+- **Body:** explain what changed and why, naming the exact components/files affected.
 
 ## Build variants
 
@@ -287,38 +270,31 @@ dimension is unchanged: `universal`, `arm64`, `armeabi`, `x86`, `x86_64`.
 Release builds are also GMS only — there is no separate FOSS release
 artifact anymore. `gmsImplementation`-scoped dependencies (Firebase, Cast,
 Play Services Auth, Google Drive API) are effectively always active now;
-new Google-Play-Services-dependent code no longer needs flavor gating, but
-keep using `gmsImplementation` in `build.gradle.kts` for consistency and in
-case a FOSS flavor is reintroduced later.
+new Google-Play-Services-dependent code no longer needs flavor gating, but keep using `gmsImplementation` in `build.gradle.kts` for consistency and in case a FOSS flavor is reintroduced later.
 min/target/compile SDK: `minSdk 26`, `targetSdk 36`, `compileSdk 36`.
 NDK `27.0.12077973`. JDK 21 (kotlin/java toolchain).
 
 ## Config & secrets
 
-- `local.properties` (from `local.properties.template`) — Android SDK path.
-  Never commit.
-- `app/google-services.json` — Firebase config, **optional**; app builds fine
-  without it (GMS-only feature).
-- Build-time secrets read from `local.properties` first, then env vars:
-  `LASTFM_API_KEY`, `LASTFM_SECRET`, `GH_CLIENT_ID`, `GH_CLIENT_SECRET`.
-  Also `FLOW_NEURO_BASE_URL` / `FLOW_NEURO_API_KEY` (defaults to
-  `https://api.flowneuroengine.com`) as Gradle properties.
-- AI lyrics translation is configured **in-app** (Settings → AI Settings),
-  not at build time — supports OpenRouter (default) or custom
-  OpenAI/Anthropic/Gemini-compatible providers.
-- Never commit: `local.properties`, `*.keystore`, real `google-services.json`,
-  any `gradle.properties` containing signing credentials.
+- `local.properties` (from `local.properties.template`) — Android SDK path. Never commit.
+- `app/google-services.json` — Firebase config, **optional**; app builds fine without it (GMS-only feature).
+- Build-time secrets read from `local.properties` first, then env vars: `LASTFM_API_KEY`, `LASTFM_SECRET`, `GH_CLIENT_ID`, `GH_CLIENT_SECRET`. Also `FLOW_NEURO_BASE_URL` / `FLOW_NEURO_API_KEY` (defaults to `https://api.flowneuroengine.com`) as Gradle properties.
+- AI lyrics translation is configured **in-app** (Settings → AI Settings), not at build time — supports OpenRouter (default) or custom OpenAI/Anthropic/Gemini-compatible providers.
+- Never commit: `local.properties`, `*.keystore`, real `google-services.json`, any `gradle.properties` containing signing credentials.
 
 ## Testing
 
-Test coverage is currently minimal — only a handful of unit tests exist under
-`app/src/test`, and no `androidTest` (instrumented) tests. When adding
-non-trivial logic (parsers, repository logic, playback queue logic), prefer
-adding a unit test alongside it rather than assuming existing coverage will
-catch regressions. CI (`.github/workflows/android-build.yml`) builds the app
-but there's no dedicated test-run gate to rely on — verify manually.
+Test coverage is currently minimal — only a handful of unit tests exist under `app/src/test`, and no `androidTest` (instrumented) tests. When adding non-trivial logic (parsers, repository logic, playback queue logic), prefer adding a unit test alongside it rather than assuming existing coverage will catch regressions. CI builds the app but there is no dedicated test-run gate to rely on — verify manually.
 
 ## CI
 
 - `.github/workflows/android-build.yml` — build check
 - `.github/workflows/codeql.yml` — static analysis / security scanning
+
+## Recent implementation guidance
+
+- **First launch:** onboarding completion is a dedicated persistent preference, independent of app version. Version changes belong to the separate What's New flow rather than the welcome dialog.
+- **Authentication:** a selected Android Google account is an identity hint, not a YouTube InnerTube credential. The app reuses the existing YouTube Music WebView session when possible and verifies the returned YouTube account before marking login complete. Expired or mismatched sessions remain retryable.
+- **Playback:** player controls must be state-aware. An idle player prepares before starting, and quality resolution must complete before a new media source is expected to play. Avoid arbitrary sleeps as a playback fix.
+- **Audio quality:** `AUTO`, `HIGH`, and `LOSSLESS_WHEN_AVAILABLE` are truthful quality intents. Compressed Opus/AAC streams must never be labeled lossless. Legacy enum values remain for stored-preference compatibility.
+- **Motion/performance:** keep transitions short and coordinated, preserve high-refresh responsiveness, and avoid bitmap decoding or object allocation inside frame-critical animation paths.
