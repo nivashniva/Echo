@@ -1,0 +1,7 @@
+{
+  "features": [],
+  "bug_fixes": [
+    "Download stream resolution now honors the selected audio quality and isolates cached stream URLs by quality."
+  ],
+  "contributors": []
+}
