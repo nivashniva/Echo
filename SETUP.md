@@ -14,8 +14,8 @@ This document provides instructions for setting up the Nivukx project for develo
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/iad1tya/Echo-Music.git
-cd Echo-Music
+git clone https://github.com/nivash01/Echo.git
+cd Echo
 ```
 
 ### 2. Configure Local Properties
