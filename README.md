@@ -104,7 +104,7 @@ Nivukx delivers a seamless, premium listening experience by leveraging YouTube M
 <br>
 
 - **Nivukx Find** — Identify songs playing around you using advanced audio recognition.
-- **Nivukx Brain** — An intelligent, on-device engine that analyzes your listening momentum and auto-injects perfectly aligned tracks into your queue. Read more in the [Nivukx Brain Documentation](ECHO_BRAIN_DOCS.md).
+- **Nivukx Brain** — An intelligent, on-device engine that analyzes your listening momentum and auto-injects perfectly aligned tracks into your queue. Read more in the [Nivukx Brain Documentation](docs/NIVUKX_REBRAND.md).
 - **Smart Recommendations** — Personalized suggestions based on your listening history.
 - **Comprehensive Browsing** — Explore Charts, Podcasts, Moods, and Genres.
 
