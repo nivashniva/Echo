@@ -159,7 +159,7 @@ Nivukx delivers a seamless, premium listening experience by leveraging YouTube M
 
 ### Android Installation
 
-Download the latest pre-compiled APK from the [Nivukx Releases Page](https://github.com/EchoMusicApp/Echo-Music/releases/latest).
+Download the latest pre-compiled APK from the [Nivukx Releases Page](https://github.com/nivash01/Echo/releases/latest).
 
 <details>
 <summary><b>Building from Source</b></summary>
@@ -168,8 +168,8 @@ Download the latest pre-compiled APK from the [Nivukx Releases Page](https://git
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/iad1tya/Echo-Music.git
-   cd Echo-Music
+   git clone https://github.com/nivash01/Echo.git
+   cd Echo
    ```
 
 2. **Configure Android SDK**
