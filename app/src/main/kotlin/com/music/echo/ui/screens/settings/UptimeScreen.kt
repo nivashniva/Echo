@@ -30,8 +30,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 
 data class ServiceStatus(
-    val name: String, 
-    val url: () -> String, 
+    val name: String,
+    val url: () -> String,
     val displayUrl: () -> String = url,
     var status: Status = Status.CHECKING,
     var latencyMs: Long? = null,
@@ -70,15 +70,15 @@ highlightKey: String? = null) {
             ServiceStatus("Paxsenix", { "https://lyrics.paxsenix.org" }),
             ServiceStatus("KuGou", { "https://lyrics.kugou.com" }),
             ServiceStatus(
-                "YouLyPlus", 
+                "YouLyPlus",
                 { "https://lyricsplus.prjktla.my.id" },
-                fallbackUrls = { 
+                fallbackUrls = {
                     listOf(
                         "https://lyricsplus.atomix.one",
                         "https://lyricsplus.binimum.org",
                         "https://lyricsplus.prjktla.workers.dev",
                         "https://lyricsplus-seven.vercel.app"
-                    ) 
+                    )
                 }
             ),
             ServiceStatus("SimpMusic", { "https://api-lyrics.simpmusic.org" })
@@ -88,7 +88,7 @@ highlightKey: String? = null) {
     val otherServices = remember {
         mutableStateListOf(
             ServiceStatus("Apple Music API", { "https://amp-api.music.apple.com" }),
-            ServiceStatus("Echo Find (Shazam)", { "https://amp.shazam.com" })
+            ServiceStatus("Nivukx Find (Shazam)", { "https://amp.shazam.com" })
         )
     }
 
@@ -97,7 +97,7 @@ highlightKey: String? = null) {
             listOf(musicServices, canvasServices, lyricsServices, otherServices).forEach { list ->
                 list.forEachIndexed { index, service ->
                     list[index] = service.copy(status = ServiceStatus.Status.CHECKING, latencyMs = null)
-                    
+
                     var latency: Long? = null
                     val isOnline = withContext(Dispatchers.IO) {
                         try {
@@ -261,7 +261,7 @@ fun ServiceStatusCard(service: ServiceStatus) {
                         ServiceStatus.Status.OFFLINE -> stringResource(R.string.status_offline)
                         ServiceStatus.Status.CHECKING -> stringResource(R.string.status_checking)
                     }
-                    
+
                     AnimatedContent(
                         targetState = service.status,
                         transitionSpec = {

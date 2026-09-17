@@ -150,7 +150,7 @@ def main() -> int:
     }
     (REPORT_DIR / "echo_audit.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
 
-    report = ["# Echo Music — Python Repository Audit", "", f"Commit: `{summary['commit']}`", "",
+    report = ["# Nivukx — Python Repository Audit", "", f"Commit: `{summary['commit']}`", "",
               f"Files scanned: **{len(files)}**", f"Source/config lines scanned: **{int(total_lines):,}**", "",
               "## Universal GMS verification", ""]
     for result in build_results:

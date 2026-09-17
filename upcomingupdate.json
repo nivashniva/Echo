@@ -1,7 +1,8 @@
 {
   "features": [
     "The player now uses a unified progress-driven morph for mini-player to full-player expansion and reverse collapse, with coordinated surface, scale, translation, and alpha motion.",
-    "Echo Motion now exposes a shared high-end motion contract for player morphs and app-identity title transitions without adding per-frame work."
+    "Echo Motion now exposes a shared high-end motion contract for player morphs and app-identity title transitions without adding per-frame work.",
+    "The application public brand has been changed from Echo Music to Nivukx while preserving existing runtime integration contracts and feature implementations."
   ],
   "bug_fixes": [
     "Audio quality selection now supports Auto, High, and Lossless when available while preserving legacy preference values.",
@@ -19,7 +20,8 @@
     "The local.properties template now documents safe placeholders for optional development credentials without committing secrets.",
     "Ringtone creation now respects the selected audio quality and performs a real FFmpeg trim instead of copying the source unchanged.",
     "Audio export now respects the selected audio quality and reports streaming progress without blocking a coroutine with runBlocking.",
-    "CodeQL now traces the supported Universal GMS build instead of the removed/default assembleDebug path, preventing security-analysis runs from entering unintended variants and timing out before analysis."
+    "CodeQL now traces the supported Universal GMS build instead of the removed/default assembleDebug path, preventing security-analysis runs from entering unintended variants and timing out before analysis.",
+    "The user-facing app display name now resolves to Nivukx through the canonical Android string resource."
   ],
   "contributors": []
 }

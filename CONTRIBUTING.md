@@ -1,6 +1,6 @@
-# Contributing to Echo Music
+# Contributing to Nivukx
 
-Thank you for your interest in contributing to Echo Music! This document provides comprehensive guidelines and information for contributors.
+Thank you for your interest in contributing to Nivukx! This document provides comprehensive guidelines and information for contributors.
 
 ## Table of Contents
 
@@ -107,7 +107,7 @@ If you want to test Firebase features:
 
 ## Handling Sensitive Information
 
-When contributing to Echo Music, it's crucial to handle sensitive information properly:
+When contributing to Nivukx, it's crucial to handle sensitive information properly:
 
 ### Files That Should Never Be Committed
 
@@ -238,7 +238,7 @@ When creating a Pull Request on GitHub, you **must** adhere to the following for
 2. **Detailed Description:** The PR body must clearly explain *what* changed and *why*. Vague descriptions like "fixed bug" or "UI improvements" are unacceptable.
 3. **Reference Issues:** Always link related issues using keywords (e.g., `Fixes #123` or `Closes #456`).
 4. **Screenshots/Videos:** **Mandatory** for any UI/UX changes.
-5. **Testing Instructions:** Provide clear, step-by-step instructions on how the reviewer can test your changes.
+5. **Testing Instructions:** Provide clear, step-by-step instructions for the reviewer.
 6. **Release Notes:** Be aware that your PR title and description may be used directly in `RELEASE_INFO.md`. Ensure it is grammatically correct and professional.
 
 If your PR does not meet these criteria, you will be asked to update it before review begins.
@@ -319,7 +319,7 @@ lyrics/         Lyrics orchestration
 models/         Shared data models
 playback/       Media3/ExoPlayer service, download manager, queueing, audio
 quicksettings/  Android quick settings tile
-recognition/    Music recognition (Echo Find) app-side logic
+recognition/    Music recognition (Nivukx Find) app-side logic
 spotify/        Spotify API integration
 spotifyimport/  Import playlists/tracks from Spotify
 ui/
@@ -448,7 +448,7 @@ If you have questions about contributing:
 2. Create a new discussion
 3. Contact maintainers directly
 
-Thank you for contributing to Echo Music!
+Thank you for contributing to Nivukx!
 
 ---
 <div align="center">
