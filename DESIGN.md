@@ -1,8 +1,8 @@
-# Echo Music Design Guidelines
+# Nivukx Design Guidelines
 
-Echo Music follows a **custom, modern aesthetic** that blends some Material Design principles with unique, iOS-inspired patterns.
+Nivukx follows a **custom, modern aesthetic** that blends some Material Design principles with unique, iOS-inspired patterns.
 
-This document is the definitive guide for designing and implementing UI in the Echo Music codebase. All new UI work and refactors must follow these custom principles rather than strictly adhering to Google's Material Design 3 spec.
+This document is the definitive guide for designing and implementing UI in the Nivukx codebase. All new UI work and refactors must follow these custom principles rather than strictly adhering to Google's Material Design 3 spec.
 
 ---
 
@@ -12,7 +12,7 @@ We use a dynamic color system, but apply it in a custom way to achieve a unique 
 
 ### Dynamic Color & Seed
 * **Dynamic First:** Colors must come from `MaterialTheme.colorScheme`, but are often modified (e.g., using alpha transparency) to create glass-like effects.
-* **Translucency:** A core part of the Echo Music look is translucent surfaces. For example, cards often use `surfaceVariant.copy(alpha = 0.3f)` rather than solid M3 container colors.
+* **Translucency:** A core part of the Nivukx look is translucent surfaces. For example, cards often use `surfaceVariant.copy(alpha = 0.3f)` rather than solid M3 container colors.
 
 ### Semantic Color Roles
 Use the correct semantic color roles as defined by our theme:
@@ -31,7 +31,7 @@ Do NOT strictly force Material 3 components if they break the app's custom aesth
 * **Rounded Shapes:** Elements heavily lean towards large corner radii (`RoundedCornerShape(24.dp)` or `CircleShape`).
 
 ### Cards & Surfaces
-* **Custom Cards:** Unlike standard M3 cards (which use solid `surfaceContainer` colors), Echo Music cards typically use:
+* **Custom Cards:** Unlike standard M3 cards (which use solid `surfaceContainer` colors), Nivukx cards typically use:
   * *Container:* `surfaceVariant.copy(alpha = 0.3f)`
   * *Shape:* `RoundedCornerShape(24.dp)` or `28.dp`
   * *Elevation:* 0.dp (flat, translucent look).
@@ -51,7 +51,7 @@ Always use `MaterialTheme.typography` but respect the app's established font wei
 
 ## 4. Motion & Player Transitions
 
-Echo uses a **fast, coordinated motion language** rather than independent decorative animations.
+Nivukx uses a **fast, coordinated motion language** rather than independent decorative animations.
 
 * **Timing:** Prefer short 160–320ms transitions for navigation, surfaces, and content changes. Use spring motion for direct manipulation such as dragging or player expansion.
 * **Easing:** Use the existing `EmphasizedEasing` or another short, smooth easing curve for non-interactive transitions. Avoid long, sluggish animations and large bounce effects.
@@ -59,7 +59,7 @@ Echo uses a **fast, coordinated motion language** rather than independent decora
 * **Player:** The mini-player and expanded player are one continuous interaction. Artwork, title, controls, progress, and background should transform together from the same player state instead of appearing as unrelated replacements.
 * **Artwork:** Keep album art stable during playback-state changes. Animate scale/position/alpha rather than destroying and recreating the image node when practical.
 * **High refresh rate:** Avoid per-frame allocations, bitmap conversion, or expensive blur/shader work inside animation lambdas. Keep animated state small and stable.
-* **App identity:** The top-level title remains exactly **"Echo Music"**. Its entrance animation may combine a small horizontal translation, alpha, and scale, but must remain readable and must never permanently hide the title.
+* **App identity:** The top-level title remains exactly **"Nivukx"**. Its entrance animation may combine a small horizontal translation, alpha, and scale, but must remain readable and must never permanently hide the title.
 * **Loading:** Use existing shimmer/Lottie infrastructure for async content. Loading transitions should expose meaningful progress without blocking playback startup.
 
 ### Unified Player Morph Contract
@@ -79,7 +79,7 @@ Use low-amplitude easing for visual polish and spring-based motion for direct ma
 
 ### Title Motion
 
-The app identity is always the exact text **"Echo Music"**. Use a small alpha + translation + scale entrance, normally within the existing 160–320ms motion envelope. The title must remain readable during route changes and must not animate continuously without a meaningful state change.
+The app identity is always the exact text **"Nivukx"**. Use a small alpha + translation + scale entrance, normally within the existing 160–320ms motion envelope. The title must remain readable during route changes and must not animate continuously without a meaningful state change.
 
 ---
 
