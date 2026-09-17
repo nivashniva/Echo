@@ -1,0 +1,63 @@
+name: Nivukx One-Time Branding
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Replace public branding strings
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          text_extensions = {
+              '.md', '.txt', '.kt', '.kts', '.java', '.xml', '.json', '.yml', '.yaml',
+              '.properties', '.gradle', '.py', '.sh', '.toml', '.html', '.js', '.ts', '.tsx'
+          }
+          replacements = {
+              'Echo Music': 'Nivukx',
+              'Echo Brain': 'Nivukx Brain',
+              'Echo Find': 'Nivukx Find',
+              'Echo Extractor': 'Nivukx Extractor',
+              'Listen on Echo Music': 'Listen on Nivukx',
+              'Go to Echo Music': 'Go to Nivukx',
+              'local Echo Music playlists': 'local Nivukx playlists',
+          }
+
+          for path in Path('.').rglob('*'):
+              if not path.is_file() or '.git' in path.parts or path.suffix.lower() not in text_extensions:
+                  continue
+              try:
+                  old = path.read_text(encoding='utf-8')
+              except (UnicodeDecodeError, OSError):
+                  continue
+              new = old
+              for source, target in replacements.items():
+                  new = new.replace(source, target)
+              if new != old:
+                  path.write_text(new, encoding='utf-8')
+          PY
+
+          rm -f .github/workflows/nivukx-once.yml
+          git config user.name "nivash01"
+          git config user.email "137782923+nivash01@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No public branding changes detected."
+            exit 0
+          fi
+          git commit -m "refactor(branding): normalize public Nivukx labels"
+          git push origin main
