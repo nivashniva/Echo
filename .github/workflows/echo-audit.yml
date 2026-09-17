@@ -13,7 +13,6 @@ permissions:
 jobs:
   audit:
     name: Python audit + build simulation
-    if: ${{ !startsWith(github.event.head_commit.message, 'chore(branding): normalize Nivukx public branding') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -27,7 +26,14 @@ jobs:
         shell: bash
         run: |
           python3 - <<'PY'
+          import json
           from pathlib import Path
+
+          event = json.loads(Path("$GITHUB_EVENT_PATH").read_text())
+          message = event.get("head_commit", {}).get("message", "")
+          if message.startswith("chore(branding): normalize Nivukx public branding"):
+              print("Normalization commit detected; no second normalization commit will be created.")
+              raise SystemExit(0)
 
           root = Path('.')
           skip_dirs = {'.git', '.gradle', '.idea', '.kotlin', '.cxx', 'build', 'captures', 'audit-report'}
