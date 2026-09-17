@@ -1,4 +1,4 @@
-# AGENT.md - Echo Music
+# AGENT.md - Nivukx
 
 Context file for AI agents (Antigravity, Claude Code, etc.) working in this repo.
 Keep this file up to date as the project evolves — it's the fastest way to give
@@ -73,7 +73,7 @@ must follow the **Nothing OS 5.0 design** language (clean and minimal) rather th
 applying standard Material Design 3 guidelines or Material You.
 
 We maintain a dedicated **[DESIGN.md](DESIGN.md)** file which serves as the central
-hub for all design decisions, component usage, and style choices in the Echo Music codebase.
+hub for all design decisions, component usage, and style choices in the Nivukx codebase.
 
 **Key Requirements:**
 - **Clean and Minimal:** Emphasize the Nothing OS 5.0 aesthetic. Focus on high-contrast, typography-driven layouts, monochrome or minimal color palettes, and distinct geometry.
@@ -104,9 +104,9 @@ If a new feature needs a UI pattern not covered in `DESIGN.md`, create a minimal
 
 ## What this app is
 
-Echo Music is a native **Android** music streaming client (Kotlin + Jetpack
+Nivukx is a native **Android** music streaming client (Kotlin + Jetpack
 Compose) that streams from YouTube Music's catalog ad-free, and layers on
-offline downloads, real-time synced lyrics, music recognition ("Echo Find"),
+offline downloads, real-time synced lyrics, music recognition ("Nivukx Find"),
 podcasts, local media playback, Spotify import, "Listen Together" (synced
 group listening), Discord Rich Presence, and more. It ships as a single
 **GMS** build variant (Google Cast + Firebase enabled) — the previous FOSS
@@ -156,7 +156,7 @@ mostly-independent feature/integration:
 | `:lyrics` | Lyrics orchestration — LyricsHelper, LyricsEntry, LyricsUtils, all provider impls, AI translation |
 | `:innertube` | YouTube Music InnerTube API client (the core music source) |
 | `:kugou`, `:lrclib`, `:betterlyrics`, `:youlyplus`, `:paxsenixlyrics`, `:simpmusic` | Individual lyrics source providers (each consumed by `:lyrics`) |
-| `:shazamkit` | Music recognition ("Echo Find") |
+| `:shazamkit` | Music recognition ("Nivukx Find") |
 | `:canvas`, `:echomusiccanvas`, `:applecanvas` | Canvas-style looping video backgrounds for tracks (different providers) |
 | `:artistvideo` | Artist video features |
 | `:unison` | Cross-cutting shared utility module (check source before editing) |
@@ -187,7 +187,7 @@ lyrics/         Lyrics orchestration (aggregates the lyrics provider modules)
 models/         Shared data models
 playback/       Media3/ExoPlayer service, download manager, queueing, audio
 quicksettings/  Android quick settings tile
-recognition/    Music recognition ("Echo Find") app-side logic
+recognition/    Music recognition ("Nivukx Find") app-side logic
 spotify/        Spotify API integration
 spotifyimport/  Import playlists/tracks from Spotify
 ui/
@@ -210,7 +210,7 @@ widget/         Home-screen widget
   - **Flat Integration:** In floating toolbars or navbars, integrate action buttons (like FABs or overflow menus) directly as flat `FloatingNavigationToolbarActionItem`s or `StandardFloatingActionButton`s with `elevation = 0.dp`. Do NOT use `VibrantFloatingActionButton` or elements with default drop shadows, as they render a detached, ugly shadow beneath the translucent glass.
 - **Motion language:** Use fast, coordinated transitions instead of independent decorative motion. Prefer roughly 160–320ms for screen/surface transitions and spring motion for direct player gestures. Avoid large bounce effects and do not allocate new objects inside frame-critical animation lambdas.
 - **Player continuity:** Treat the mini-player and expanded player as one stateful surface. Artwork, title, controls, progress, and background should follow the same expansion progress in both directions.
-- **App identity:** The title remains exactly `Echo Music`; title motion may use small translation/scale/alpha changes but must remain readable and visible.
+- **App identity:** The title remains exactly `Nivukx`; title motion may use small translation/scale/alpha changes but must remain readable and visible.
 
 - Material 3 with **dynamic color**: on Android 12+, uses system dynamic
   color by default; otherwise generates a scheme from `DefaultThemeColor`
