@@ -27,3 +27,7 @@ Human-facing occurrences of the legacy product name are replaced with **Nivukx**
 ## Rationale
 
 The brand name is intentionally independent from the internal implementation namespace so the application can be rebranded without destabilizing persisted data, Android component identity, integrations, or module boundaries.
+
+## Finalization
+
+The repository-wide textual normalization pass covers remaining human-facing legacy product references while preserving technical compatibility identifiers.
