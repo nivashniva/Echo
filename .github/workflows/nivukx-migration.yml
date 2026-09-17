@@ -1,0 +1,162 @@
+name: Nivukx Full Namespace Migration
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    if: github.actor != 'github-actions[bot]' && !contains(github.event.head_commit.message, 'chore: complete Nivukx namespace migration')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Migrate source namespace and identifiers
+        shell: python
+        run: |
+          import os
+          import subprocess
+
+          root = os.getcwd()
+          raw = subprocess.check_output(["git", "ls-files", "-z"])
+          paths = [p.decode("utf-8") for p in raw.split(b"\0") if p]
+
+          replacements = [
+              ("echo.music.iad1tya", "nivukx.music.nivukx"),
+              ("echo/music/iad1tya", "nivukx/music/nivukx"),
+              ("com.music.echo", "com.music.nivukx"),
+              ("EchoMusic", "NivukxMusic"),
+              ("echo_music", "nivukx"),
+              ("echomusic", "nivukx"),
+              ("IAD1TYA", "NIVUKX"),
+              ("iad1tya", "nivukx"),
+              ("ECHO", "NIVUKX"),
+              ("Echo Music", "Nivukx"),
+              ("Echo", "Nivukx"),
+          ]
+
+          protected = ["echomusic.fun"]
+          text_exts = {
+              ".kt", ".kts", ".java", ".proto", ".xml", ".gradle", ".properties",
+              ".json", ".yml", ".yaml", ".md", ".txt", ".pro", ".py", ".sh", ".toml",
+              ".cfg", ".conf", ".ini", ".html", ".css", ".js", ".ts", ".tsx", ".jsx",
+          }
+
+          changed = []
+          for rel in paths:
+              if rel == ".github/workflows/nivukx-migration.yml":
+                  continue
+              ext = os.path.splitext(rel)[1].lower()
+              if ext not in text_exts and os.path.basename(rel) not in {"gradlew", "gradlew.bat", "settings.gradle"}:
+                  continue
+              full = os.path.join(root, rel)
+              try:
+                  data = open(full, "rb").read()
+                  text = data.decode("utf-8")
+              except (UnicodeDecodeError, OSError):
+                  continue
+
+              original = text
+              sentinels = {}
+              for i, value in enumerate(protected):
+                  token = f"__NIVUKX_PROTECTED_{i}__"
+                  text = text.replace(value, token)
+                  sentinels[token] = value
+
+              for old, new in replacements:
+                  text = text.replace(old, new)
+
+              # Standalone lowercase echo is handled only outside shell command syntax.
+              # This catches code identifiers/labels while preserving `echo` shell commands.
+              lines = []
+              for line in text.splitlines(keepends=True):
+                  stripped = line.lstrip()
+                  if not stripped.startswith("echo ") and not stripped.startswith("echo\t"):
+                      line = line.replace("echo", "nivukx")
+                  lines.append(line)
+              text = "".join(lines)
+
+              for token, value in sentinels.items():
+                  text = text.replace(token, value)
+
+              if text != original:
+                  open(full, "w", encoding="utf-8", newline="").write(text)
+                  changed.append(rel)
+
+          # Rename tracked paths so package directories and branded source files match identifiers.
+          subprocess.run(["git", "add", "-A"], check=True)
+          tracked = subprocess.check_output(["git", "ls-files", "-z"]).decode("utf-8").split("\0")
+          tracked = [p for p in tracked if p]
+          rename_pairs = []
+          for old in tracked:
+              new = old
+              for a, b in [
+                  ("/echo/", "/nivukx/"),
+                  ("/iad1tya/", "/nivukx/"),
+                  ("/Echo/", "/Nivukx/"),
+                  ("/echo/", "/nivukx/"),
+              ]:
+                  new = new.replace(a, b)
+              if new != old and not os.path.exists(os.path.join(root, new)):
+                  rename_pairs.append((old, new))
+
+          # File basename replacements, excluding this workflow and preserving external infrastructure names.
+          for old in tracked:
+              base = os.path.basename(old)
+              directory = os.path.dirname(old)
+              newbase = base
+              for a, b in [("EchoMusic", "NivukxMusic"), ("Echo", "Nivukx"), ("echo", "nivukx"), ("iad1tya", "nivukx")]:
+                  newbase = newbase.replace(a, b)
+              new = os.path.join(directory, newbase) if directory else newbase
+              if new != old and not os.path.exists(os.path.join(root, new)):
+                  rename_pairs.append((old, new))
+
+          # Deduplicate and perform deepest paths first.
+          seen = set()
+          for old, new in sorted(rename_pairs, key=lambda x: len(x[0]), reverse=True):
+              if (old, new) in seen or not os.path.exists(os.path.join(root, old)):
+                  continue
+              seen.add((old, new))
+              os.makedirs(os.path.dirname(os.path.join(root, new)) or root, exist_ok=True)
+              subprocess.run(["git", "mv", old, new], check=True)
+
+          subprocess.run(["git", "add", "-A"], check=True)
+
+      - name: Verify legacy namespace is gone
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git grep -n -E 'echo\.music\.iad1tya|echo/music/iad1tya|com\.music\.echo|IAD1TYA|iad1tya' -- . ':(exclude).github/workflows/nivukx-migration.yml'; then
+            echo 'Legacy namespace identifiers remain.'
+            exit 1
+          fi
+          if git grep -n -E '\bEchoMusic\b|\bEcho Music\b|\bNivukxMusic\b' -- '*.kt' '*.java' '*.proto' '*.xml' '*.gradle*' '*.kts' >/dev/null 2>&1; then
+            echo 'Migration verification completed; branded identifiers are present where applicable.'
+          fi
+
+      - name: Compile without changing build configuration
+        run: ./gradlew :app:compileUniversalGmsDebugKotlin --stacktrace --no-daemon
+
+      - name: Commit migration
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'No migration changes to commit.'
+            exit 0
+          fi
+          git commit -m 'chore: complete Nivukx namespace migration'
+          git push origin HEAD:main
