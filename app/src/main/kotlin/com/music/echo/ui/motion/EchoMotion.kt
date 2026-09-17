@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 
 /**
- * Echo Music motion system.
+ * Nivukx motion system.
  *
  * Motion is fast, coordinated and state-driven. Shared UI surfaces should animate
  * from one source of truth instead of stacking independent enter/exit animations.
