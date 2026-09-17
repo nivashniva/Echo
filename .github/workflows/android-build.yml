@@ -11,12 +11,16 @@ permissions:
 
 jobs:
   branding-normalization:
-    if: github.ref == 'refs/heads/rename/nivukx'
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/rename/nivukx') ||
+      (github.event_name == 'pull_request' && github.head_ref == 'rename/nivukx')
     name: Normalize Nivukx public branding
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
+      with:
+        ref: ${{ github.head_ref || github.ref_name }}
 
     - name: Normalize public branding
       shell: bash
@@ -75,7 +79,7 @@ jobs:
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add -A
         git commit -m "refactor(branding): normalize remaining Echo references to Nivukx"
-        git push
+        git push origin HEAD:${{ github.head_ref || github.ref_name }}
 
   build:
     name: Build Universal GMS APK
