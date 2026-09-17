@@ -1,6 +1,6 @@
 # Setup Instructions
 
-This document provides instructions for setting up the Echo Music project for development.
+This document provides instructions for setting up the Nivukx project for development.
 
 ## Prerequisites
 
@@ -76,7 +76,7 @@ export KEY_PASSWORD=your_key_password
 
 Open the project in Android Studio or build from the command line.
 
-Echo Music ships as a single **GMS** build variant with Google Cast and Firebase support. The obsolete FOSS variant has been removed.
+Nivukx ships as a single **GMS** build variant with Google Cast and Firebase support. The obsolete FOSS variant has been removed.
 
 ```bash
 # Debug build
@@ -94,7 +94,7 @@ Echo Music ships as a single **GMS** build variant with Google Cast and Firebase
 
 ### 6. Configure AI Translation (Optional)
 
-Echo Music supports AI-powered lyrics translation. You can configure this in **Settings -> AI Settings**.
+Nivukx supports AI-powered lyrics translation. You can configure this in **Settings -> AI Settings**.
 
 #### Option A: Using OpenRouter (Default)
 
