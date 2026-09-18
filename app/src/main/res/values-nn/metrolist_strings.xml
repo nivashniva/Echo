@@ -97,7 +97,6 @@
     <string name="show_cached_playlist">Syn «Snarlagra»-spelelista</string>
     <string name="show_uploaded_playlist">Syn «Oppladde»-spelelista</string>
     <string name="google">Google</string>
-    <string name="discord">Discord</string>
     <string name="advanced_login">Logg inn med lykel</string>
     <string name="token_hidden">Trykk for å syna lykelen</string>
     <string name="token_shown">Trykk att for å kopiera eller brigda</string>
@@ -126,8 +125,6 @@
     <string name="proxy_username">Proxytenarbrukarnamn</string>
     <string name="proxy_password">Proxytenarpassord</string>
     <string name="enable_authentication">Slå på autentisering</string>
-    <string name="discord_use_details">Nøyt detaljar i staden for ein tilstand</string>
-    <string name="discord_use_details_description">Syn songtittel fremst i staden for artistnamn</string>
     <string name="audio_quality_max">Max (beta)</string>
     <string name="enable_similar_content">Slå på liknande innhald</string>
     <string name="similar_content_desc">Legg automatisk til fleire liknande songar når køen tek slutt</string>
