@@ -23,7 +23,7 @@ data class ListenTogetherServer(
 
 object ListenTogetherServers {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private const val SERVER_JSON_URL = "https://raw.githubusercontent.com/EchoMusicApp/Echo-Music/refs/heads/main/app/server.json"
+    private const val SERVER_JSON_URL = "https://raw.githubusercontent.com/nivash01/Echo/refs/heads/main/app/server.json"
 
     private val _servers = MutableStateFlow(
         listOf(
