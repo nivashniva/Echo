@@ -10,19 +10,13 @@ import com.nivukx.music.constants.InnerTubeCookieKey
 import com.nivukx.music.constants.YtmSyncKey
 import com.nivukx.music.utils.dataStore
 import com.nivukx.music.utils.get
-import kotlinx.coroutines.runBlocking
 
-fun Context.isSyncEnabled(): Boolean {
-    return runBlocking {
-        dataStore.get(YtmSyncKey, true) && isUserLoggedIn()
-    }
-}
+fun Context.isSyncEnabled(): Boolean =
+    dataStore.get(YtmSyncKey, true) && isUserLoggedIn()
 
 fun Context.isUserLoggedIn(): Boolean {
-    return runBlocking {
-        val cookie = dataStore[InnerTubeCookieKey] ?: ""
-        "SAPISID" in parseCookieString(cookie) && isInternetConnected()
-    }
+    val cookie = dataStore[InnerTubeCookieKey] ?: return false
+    return "SAPISID" in parseCookieString(cookie) && isInternetConnected()
 }
 
 fun Context.isInternetConnected(): Boolean {
