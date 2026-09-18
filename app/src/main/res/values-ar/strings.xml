@@ -230,7 +230,6 @@
     <string name="imported_playlist">قائمة تشغيل مستوردة</string>
     <string name="hide_explicit">إخفاء المحتوى الصريح</string>
     <string name="backup_create_failed">تعذر إنشاء النسخة الاحتياطية</string>
-    <string name="discord_integration">التكامل مع Discord</string>
     <string name="add_all_to_library">إضافة الكل إلى المكتبة</string>
     <string name="action_download">تنزيل</string>
     <string name="remove_all_from_library">إزالة الكل من المكتبة</string>
@@ -301,9 +300,7 @@
     <string name="restore_failed">فشلت استعادة النسخة الاحتياطية</string>
     <string name="options">الخيارات</string>
     <string name="preview">معاينة</string>
-    <string name="discord_information">يستخدم echomusic مكتبة KizzyRPC لتعيين حالة حسابك على Discord. يتضمن ذلك استخدام اتصال Discord Gateway، وهو ما قد يُعد انتهاكًا لشروط خدمة Discord. ومع ذلك، لا توجد حالات معروفة لتعليق حسابات المستخدمين لهذا السبب. استخدمه على مسؤوليتك الخاصة.\nسيستخرج chomusic رمز الوصول الخاص بك فقط، بينما تُخزن جميع البيانات الأخرى محليًا.</string>
     <string name="dismiss">تجاهل</string>
-    <string name="enable_discord_rpc">تفعيل Rich Presence</string>
     <string name="new_version_available">يتوفر إصدار جديد</string>
     <string name="login_failed">فشل تسجيل الدخول</string>
     <string name="about">حول</string>
