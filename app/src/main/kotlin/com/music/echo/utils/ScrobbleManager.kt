@@ -1,8 +1,8 @@
-package echo.music.iad1tya.utils
+package com.nivukx.music.utils
 
-import echo.music.iad1tya.models.MediaMetadata
-import echo.music.iad1tya.utils.lastfm.LastFM
-import echo.music.iad1tya.utils.isLocalMediaId
+import com.nivukx.music.models.MediaMetadata
+import com.nivukx.music.utils.lastfm.LastFM
+import com.nivukx.music.utils.isLocalMediaId
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
