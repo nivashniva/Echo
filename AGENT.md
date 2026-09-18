@@ -108,7 +108,6 @@ Nivukx is a native **Android** music streaming client (Kotlin + Jetpack
 Compose) that streams from YouTube Music's catalog ad-free, and layers on
 offline downloads, real-time synced lyrics, music recognition ("Nivukx Find"),
 podcasts, local media playback, Spotify import, "Listen Together" (synced
-group listening), Discord Rich Presence, and more. It ships as a single
 **GMS** build variant (Google Cast + Firebase enabled) — the previous FOSS
 (no-Google-services) flavor has been removed. See "Build variants" below.
 
@@ -177,7 +176,6 @@ db/
   entities/     Room entities (Song, Album, Artist, Playlist, Lyrics, etc.)
   daos/         Room DAOs
 di/             Hilt modules (AppModule, NetworkModule, Qualifiers, entry points)
-discord/        Discord Rich Presence integration
 nivukx/      Core app-level classes (Application class, core initializers)
 eq/             Equalizer
 extensions/     Kotlin extension functions
