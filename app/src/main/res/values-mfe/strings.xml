@@ -321,12 +321,9 @@
     <string name="backup_create_success">Sovgard finn kree avek sikse</string>
     <string name="backup_create_failed">Pa finn kapav kree sovgard</string>
     <string name="restore_failed">Restorasion sovgard finn fel</string>
-    <string name="discord_integration">Integrasion Discord</string>
-    <string name="discord_information">echomusic servi bibliotek KizzyRPC pou definir stati ou kont Discord. Sa inplik itilizasion koneksion Discord Gateway, ki kapav konsidere kouma enn violasion bann kondision itilizasion Discord. Selman, pena okenn ka kone kot kont itilizater finn sispann pou sa rezon-la. Servi li lor ou prop risk.\nchomusic pou zis extrer ou zeton, ek tou lezot kitsoz pou stoke lokalman.</string>
     <string name="dismiss">Fer disparet</string>
     <string name="options">Opsion</string>
     <string name="preview">Aperse</string>
-    <string name="enable_discord_rpc">Aktiv Rich Presence</string>
     <string name="about">Apropo</string>
     <string name="app_version">Version aplikasyon</string>
     <string name="new_version_available">Nouvo version disponib</string>
