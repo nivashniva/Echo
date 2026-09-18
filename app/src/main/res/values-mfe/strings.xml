@@ -348,7 +348,7 @@
     <string name="listen_together_smart_resync">Resinkronizasion intelizan rezo</string>
     <string name="listen_together_smart_resync_desc">Ratrap lot otomatikman apre enn koupir koneksion</string>
     <string name="spotify_import_title">Inporte depi Spotify</string>
-    <string name="spotify_import_desc">Konekte Spotify, swazir bann list lekout ek kopi zot dan bann list lekout lokal Echo Music.</string>
+    <string name="spotify_import_desc">Konekte Spotify, swazir bann list lekout ek kopi zot dan bann list lekout lokal Nivukx.</string>
     <string name="spotify_connect">Konekte Spotify</string>
     <string name="spotify_refresh">Rafresi bibliotek Spotify</string>
     <string name="spotify_select_sources">Seleksionn bann list lekout Spotify</string>
@@ -392,10 +392,10 @@
     <string name="recognition_notification_processing">Pe idantifie…</string>
     <string name="recognition_notification_no_match">Okenn korespondans pa finn trouve</string>
     <string name="recognition_notification_failed">Rekonesans finn fel</string>
-    <string name="listen_on_echo_music">Ekoute lor Echo Music</string>
+    <string name="listen_on_echo_music">Ekoute lor Nivukx</string>
     <string name="qs_tile_music_recognizer">Rekonet mizik</string>
-    <string name="echo_brain_beta">Echo Brain (Beta)</string>
-    <string name="echo_brain_enable">Aktiv Echo Brain</string>
+    <string name="echo_brain_beta">Nivukx Brain (Beta)</string>
+    <string name="echo_brain_enable">Aktiv Nivukx Brain</string>
     <string name="echo_brain_enable_desc">Azout rekomandasion IA otomatikman dapre ou bann labitid lekout</string>
     <string name="echo_brain_profile_statistics">Statistik profil</string>
     <string name="echo_brain_learning_level">Nivo aprantisaz</string>
@@ -422,9 +422,9 @@
     <string name="listenbrainz_scrobbling">Scrobbling ListenBrainz</string>
     <string name="listenbrainz_scrobbling_description">Avoy otomatikman ou bann morso ekoute lor ListenBrainz</string>
     <string name="set_listenbrainz_token">Definir zeton ListenBrainz</string>
-    <string name="youtube_decryption_settings">Echo Extractor</string>
+    <string name="youtube_decryption_settings">Nivukx Extractor</string>
     <string name="youtube_decryption_desc">Konfigir paramet extrakter</string>
-    <string name="youtube_decryption_support">Echo Extractor</string>
+    <string name="youtube_decryption_support">Nivukx Extractor</string>
     <string name="youtube_decryption_support_desc">Extrer otomatikman bann konfigirasion lekout YouTube. Bloke lor Aktif.</string>
     <string name="force_update_cipher">Fors mizazour konfigirasion</string>
     <string name="force_update_cipher_desc">Telecharz dernie kart ranplasman extrakter. Limite a 3 mizazour par zour.</string>
