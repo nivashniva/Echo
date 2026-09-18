@@ -112,7 +112,7 @@ group listening), Discord Rich Presence, and more. It ships as a single
 **GMS** build variant (Google Cast + Firebase enabled) — the previous FOSS
 (no-Google-services) flavor has been removed. See "Build variants" below.
 
-Package/namespace: `echo.music.iad1tya` (app module). Application ID matches.
+Package/namespace: `com.nivukx.music` (app module). Application ID matches.
 
 ## Tech stack
 
