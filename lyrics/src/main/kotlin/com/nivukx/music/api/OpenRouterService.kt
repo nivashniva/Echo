@@ -144,7 +144,7 @@ Output MUST be a JSON array with EXACTLY $lineCount strings."""
                     }
                     .addHeader("Content-Type", "application/json")
                     .addHeader("HTTP-Referer", "https://github.com/nivash01/Echo")
-                    .addHeader("X-Title", "echomusic")
+                    .addHeader("X-Title", "Nivukx")
                     .post(jsonBody.toString().toRequestBody(JSON))
                     .build()
 

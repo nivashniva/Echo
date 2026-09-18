@@ -57,8 +57,8 @@ class CustomDownloadManager {
 
                 // Never write directly to the APK path. A killed/interrupted download must not
                 // leave a corrupt APK that later code mistakes for a complete update.
-                val tempFile = File(downloadDir, "echomusic.apk.part")
-                val outputFile = File(downloadDir, "echomusic.apk")
+                val tempFile = File(downloadDir, "nivukx.apk.part")
+                val outputFile = File(downloadDir, "nivukx.apk")
                 val totalLength = connection.contentLengthLong
                 var totalRead = 0L
                 var lastProgressNs = 0L

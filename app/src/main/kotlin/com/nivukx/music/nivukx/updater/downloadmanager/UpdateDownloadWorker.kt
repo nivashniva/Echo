@@ -71,8 +71,8 @@ class UpdateDownloadWorker(private val context: Context, workerParams: WorkerPar
             }
 
             val isZip = apkUrl.contains("nightly.link") || apkUrl.endsWith(".zip", ignoreCase = true)
-            val downloadFile = File(downloadDir, if (isZip) "echo_temp.zip.part" else "echomusic.apk.part")
-            val completedDownload = File(downloadDir, if (isZip) "echo_temp.zip" else "echomusic.apk")
+            val downloadFile = File(downloadDir, if (isZip) "nivukx_temp.zip.part" else "nivukx.apk.part")
+            val completedDownload = File(downloadDir, if (isZip) "nivukx_temp.zip" else "nivukx.apk")
 
             // Never expose a partially downloaded APK as the installable artifact.
             downloadFile.delete()
@@ -126,8 +126,8 @@ class UpdateDownloadWorker(private val context: Context, workerParams: WorkerPar
             }
 
             val finalFile = if (isZip) {
-                val extractedPart = File(downloadDir, "echomusic.apk.part")
-                val targetApkFile = File(downloadDir, "echomusic.apk")
+                val extractedPart = File(downloadDir, "nivukx.apk.part")
+                val targetApkFile = File(downloadDir, "nivukx.apk")
                 extractedPart.delete()
                 targetApkFile.delete()
                 var extracted = false
