@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.utils
+package com.nivukx.music.ui.utils
 
 import java.text.DecimalFormat
 import kotlin.math.absoluteValue
