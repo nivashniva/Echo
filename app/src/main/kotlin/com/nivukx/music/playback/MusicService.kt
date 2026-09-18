@@ -193,14 +193,12 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -2938,10 +2936,8 @@ class MusicService :
             
             var shouldBypassCache = bypassCacheForQualityChange.contains(mediaId)
             
-            val dbFormat = runBlocking(Dispatchers.IO) { database.format(mediaId).firstOrNull() }
-            
             val cachedLength = androidx.media3.datasource.cache.ContentMetadata.getContentLength(downloadCache.getContentMetadata(mediaId))
-                .takeIf { it != androidx.media3.common.C.LENGTH_UNSET.toLong() } ?: dbFormat?.contentLength ?: -1L
+                .takeIf { it != androidx.media3.common.C.LENGTH_UNSET.toLong() } ?: -1L
             val isFullyDownloaded = cachedLength > 0 && downloadCache.isCached(mediaId, 0, cachedLength)
 
             val activeQualityInCache = songUrlCache.keys.find { it.startsWith("${mediaId}_") }?.substringAfter("_")?.let {
@@ -3026,7 +3022,7 @@ class MusicService :
                 
                 var targetCacheKey = mediaId
                 
-                if (dbFormat != null && shouldBypassCache) {
+                if (shouldBypassCache) {
                     Timber.tag(TAG).i("Bypassed cache. Using custom cache key to prevent intercept.")
                     targetCacheKey = "${mediaId}_diff"
                 }
@@ -4202,17 +4198,12 @@ class MusicService :
                 if (!mediaId.isLocalMediaId() && !songUrlCache.containsKey("${mediaId}_${audioQuality.name}") && !isFullyDownloaded) {
                     Timber.tag(TAG).d("Preloading stream for $mediaId")
                     kotlin.runCatching {
-                        val dbSong = database.song(mediaId).firstOrNull()
-                        val knownArtist = dbSong?.artists?.joinToString(separator = ", ") { artist -> artist.name }?.replace(" - Topic", "")
-                        
-                        val playbackData = com.nivukx.music.utils.YTPlayerUtils.playerResponseForPlayback(
-                            videoId = mediaId,
-                            audioQuality = audioQuality,
-                            connectivityManager = connectivityManager
-                        )
-
-                        playbackData.getOrNull()?.streamUrl?.let { streamUrl ->
-                            songUrlCache["${mediaId}_${audioQuality.name}"] = Pair(streamUrl, System.currentTimeMillis() + 1000 * 60 * 60)
+                        playbackUrlResolver.resolve(mediaId, audioQuality).getOrNull()?.let { playbackData ->
+                            songUrlCache["${mediaId}_${audioQuality.name}"] =
+                                Pair(
+                                    playbackData.streamUrl,
+                                    System.currentTimeMillis() + playbackData.streamExpiresInSeconds * 1000L,
+                                )
                             Timber.tag(TAG).d("Preloaded stream for $mediaId")
                         }
                     }
