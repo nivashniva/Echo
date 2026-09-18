@@ -570,6 +570,22 @@ class MusicService :
         
         playerInitialized.value = false
 
+        // Load playback contracts before advertising the player as initialized.
+        // This prevents the first media request from racing ahead with AUTO while
+        // a persisted LOSSLESS or other explicit quality is still being loaded.
+        val configuredAudioQuality =
+            dataStore.get(AudioQualityKey).toEnum(com.nivukx.music.constants.AudioQuality.AUTO)
+        val dataSaverEnabled = dataStore.get(com.nivukx.music.constants.DataSaverEnabledKey, false)
+        audioQuality = if (
+            dataSaverEnabled &&
+            configuredAudioQuality != com.nivukx.music.constants.AudioQuality.LOSSLESS_WHEN_AVAILABLE
+        ) {
+            com.nivukx.music.constants.AudioQuality.OPUS
+        } else {
+            configuredAudioQuality
+        }
+        ipVersion = dataStore.get(IpVersionKey).toEnum(IpVersion.AUTO)
+
         scrobbleManager = ScrobbleManager(scope)
 
         scope.launch {
@@ -637,8 +653,10 @@ class MusicService :
         player.addListener(this@MusicService)
         sleepTimer = SleepTimer(scope, player)
         player.addListener(sleepTimer)
+
+        // All persisted playback contracts are loaded before this flag becomes observable.
         playerInitialized.value = true
-        Timber.tag(TAG).d("Player successfully initialized")
+        Timber.tag(TAG).d("Player successfully initialized with quality=$audioQuality")
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         abandonAudioFocus()
@@ -684,8 +702,6 @@ class MusicService :
 
         audioManager.registerAudioDeviceCallback(audioDeviceCallback, null)
 
-        audioQuality = dataStore.get(AudioQualityKey).toEnum(com.nivukx.music.constants.AudioQuality.AUTO)
-        ipVersion = dataStore.get(IpVersionKey).toEnum(IpVersion.AUTO)
         playerVolume = MutableStateFlow(restorePlayerVolume(dataStore.get(PlayerVolumeKey, 1f)))
 
         
