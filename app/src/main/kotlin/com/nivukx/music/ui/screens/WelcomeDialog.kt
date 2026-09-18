@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.screens
+package com.nivukx.music.ui.screens
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
@@ -34,11 +34,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import echo.music.iad1tya.BuildConfig
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.IsFirstRunKey
-import echo.music.iad1tya.utils.dataStore
-import echo.music.iad1tya.utils.get
+import com.nivukx.music.BuildConfig
+import com.nivukx.music.R
+import com.nivukx.music.constants.IsFirstRunKey
+import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.get
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -208,7 +208,7 @@ private fun WelcomeAppCard() {
             )
             Spacer(Modifier.height(4.dp))
             Text(
-                text = "Echo Music",
+                text = "Nivukx",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
