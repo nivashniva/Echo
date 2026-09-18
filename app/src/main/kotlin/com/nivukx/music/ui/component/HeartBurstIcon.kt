@@ -1,6 +1,7 @@
 package com.nivukx.music.ui.component
 
 import androidx.compose.animation.core.*
+import com.nivukx.music.ui.motion.NivukxMotion
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -9,6 +10,7 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -37,16 +39,20 @@ fun HeartBurstIcon(
             burstAnim.snapTo(0f)
             burstAnim.animateTo(
                 targetValue = 1f,
-                animationSpec = tween(durationMillis = 500, easing = LinearOutSlowInEasing)
+                animationSpec = tween(
+                    durationMillis = 460,
+                    easing = NivukxMotion.PremiumEasing,
+                )
             )
         }
         wasLiked = isLiked
     }
 
-    val actualScale = if (burstAnim.isRunning) {
-        if (burstAnim.value < 0.3f) 1f + burstAnim.value else 1.3f - (burstAnim.value - 0.3f) * 0.4f
+    val eased = NivukxMotion.PremiumEasing.transform(burstAnim.value.coerceIn(0f, 1f))
+    val actualScale = if (burstAnim.value < 0.34f) {
+        1f + (0.34f * (eased / 0.34f))
     } else {
-        1f
+        1.34f - ((eased - 0.34f) / 0.66f).coerceIn(0f, 1f) * 0.34f
     }
 
     Box(contentAlignment = Alignment.Center, modifier = modifier) {
@@ -58,7 +64,16 @@ fun HeartBurstIcon(
             val particleCount = 6
             val heartPainter = painterResource(id = R.drawable.favorite)
             
-            Canvas(modifier = Modifier.size(iconSize * 2.5f)) {
+            Canvas(
+                modifier = Modifier
+                    .size(iconSize * 2.5f)
+                    .graphicsLayer {
+                        val particleProgress = eased
+                        scaleX = 0.78f + (0.32f * particleProgress)
+                        scaleY = 0.78f + (0.32f * particleProgress)
+                        rotationZ = particleProgress * 8f
+                    }
+            ) {
                 val center = Offset(size.width / 2, size.height / 2)
                 val maxRadius = size.width / 2.2f
                 
