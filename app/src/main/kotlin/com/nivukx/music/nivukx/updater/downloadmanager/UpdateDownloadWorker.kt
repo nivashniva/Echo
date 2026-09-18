@@ -64,7 +64,7 @@ class UpdateDownloadWorker(private val context: Context, workerParams: WorkerPar
             val fileLength = connection.contentLengthLong
             val externalDownloads = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
                 ?: return@withContext Result.failure(workDataOf("error" to "External download storage unavailable"))
-            val downloadDir = File(externalDownloads, "echo_updates")
+            val downloadDir = File(externalDownloads, "nivukx_updates")
             if (!downloadDir.exists() && !downloadDir.mkdirs()) {
                 connection.disconnect()
                 return@withContext Result.failure(workDataOf("error" to "Unable to create update directory"))
