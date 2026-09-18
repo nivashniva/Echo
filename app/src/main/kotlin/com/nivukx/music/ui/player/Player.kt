@@ -3088,11 +3088,18 @@ private fun BackgroundVideoView(
     val context = LocalContext.current
     var isVideoReady by remember(videoUrl) { mutableStateOf(false) }
 
-    val trackSelector = remember {
+    val maxVideoDimension = remember {
+        maxOf(
+            context.resources.displayMetrics.widthPixels,
+            context.resources.displayMetrics.heightPixels,
+        ).coerceIn(1080, 4096)
+    }
+
+    val trackSelector = remember(maxVideoDimension) {
         DefaultTrackSelector(context).apply {
             parameters = buildUponParameters()
-                .setMaxVideoSize(4096, 4096)
-                .setForceHighestSupportedBitrate(true)
+                .setMaxVideoSize(maxVideoDimension, maxVideoDimension)
+                .setForceHighestSupportedBitrate(false)
                 .build()
         }
     }
