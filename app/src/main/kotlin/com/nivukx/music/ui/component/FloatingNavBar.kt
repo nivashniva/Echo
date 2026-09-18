@@ -5,7 +5,7 @@
 
 @file:OptIn(ExperimentalSharedTransitionApi::class)
 
-package echo.music.iad1tya.ui.component
+package com.nivukx.music.ui.component
 
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -24,11 +24,11 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import echo.music.iad1tya.ui.player.FloatingMiniPlayer
-import echo.music.iad1tya.ui.screens.Screens
-import echo.music.iad1tya.ui.component.floatingtabbar.FloatingTabBar
-import echo.music.iad1tya.ui.component.floatingtabbar.FloatingTabBarDefaults
-import echo.music.iad1tya.ui.component.floatingtabbar.FloatingTabBarScrollConnection
+import com.nivukx.music.ui.player.FloatingMiniPlayer
+import com.nivukx.music.ui.screens.Screens
+import com.nivukx.music.ui.component.floatingtabbar.FloatingTabBar
+import com.nivukx.music.ui.component.floatingtabbar.FloatingTabBarDefaults
+import com.nivukx.music.ui.component.floatingtabbar.FloatingTabBarScrollConnection
 
 /**
  * The iOS 26 style floating navigation bar, an alternative to [AppNavigationBar].
@@ -167,7 +167,7 @@ fun AppFloatingNavBar(
                     },
                     icon = {
                         Icon(
-                            painter = painterResource(echo.music.iad1tya.R.drawable.mic),
+                            painter = painterResource(com.nivukx.music.R.drawable.mic),
                             contentDescription = musicRecognitionContentDescription,
                             tint = unselectedContentColor,
                         )
