@@ -92,10 +92,7 @@ object AiPlaylistGenerator {
             append("Desired playlist length: $numberOfSongs")
         }
 
-        val jsonOutput = if (aiProvider == "Puter") {
-            onLog("Puter provider is not available. Select OpenRouter or configure a supported AI provider.")
-            return@withContext null
-        } else {
+        val jsonOutput = run {
             val apiKey = context.dataStore.get(OpenRouterApiKey, "")
             val baseUrl = context.dataStore.get(OpenRouterBaseUrlKey, "https://openrouter.ai/api/v1/chat/completions")
             val model = context.dataStore.get(OpenRouterModelKey, "google/gemini-2.5-flash-lite")
