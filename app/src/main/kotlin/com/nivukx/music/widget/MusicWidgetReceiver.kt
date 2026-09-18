@@ -80,10 +80,10 @@ class MusicWidgetReceiver : AppWidgetProvider() {
     }
 
     companion object {
-        const val ACTION_PLAY_PAUSE = "com.nivukx.echo.widget.PLAY_PAUSE"
-        const val ACTION_LIKE = "com.nivukx.echo.widget.LIKE"
-        const val ACTION_NEXT = "com.nivukx.echo.widget.NEXT"
-        const val ACTION_PREVIOUS = "com.nivukx.echo.widget.PREVIOUS"
-        const val ACTION_UPDATE_WIDGET = "com.nivukx.echo.widget.UPDATE_WIDGET"
+        const val ACTION_PLAY_PAUSE = "com.nivukx.music.widget.PLAY_PAUSE"
+        const val ACTION_LIKE = "com.nivukx.music.widget.LIKE"
+        const val ACTION_NEXT = "com.nivukx.music.widget.NEXT"
+        const val ACTION_PREVIOUS = "com.nivukx.music.widget.PREVIOUS"
+        const val ACTION_UPDATE_WIDGET = "com.nivukx.music.widget.UPDATE_WIDGET"
     }
 }
