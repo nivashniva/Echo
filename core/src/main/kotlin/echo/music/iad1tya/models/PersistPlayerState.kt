@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.models
+package com.nivukx.music.models
 
 import java.io.Serializable
 
