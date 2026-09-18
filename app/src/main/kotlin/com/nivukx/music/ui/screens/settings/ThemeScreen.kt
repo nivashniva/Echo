@@ -1,6 +1,7 @@
 @file:OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 
 package com.nivukx.music.ui.screens.settings
+import com.nivukx.music.ui.motion.nivukxHighEndReveal
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
@@ -139,6 +140,7 @@ highlightKey: String? = null) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
+                .nivukxHighEndReveal()
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(
