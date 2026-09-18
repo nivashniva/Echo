@@ -72,7 +72,7 @@ export KEY_ALIAS=your_key_alias
 export KEY_PASSWORD=your_key_password
 ```
 
-### 5. Build the Project
+### 5. Local Build & Verification
 
 Open the project in Android Studio or build from the command line.
 
@@ -124,6 +124,7 @@ These files should never contain credentials that are checked into source contro
 ### Template Files (Safe to commit)
 
 - `local.properties.template` - template for local configuration
+- `app/google-services.json.template` - safe Firebase template for the Nivukx release/debug package IDs
 
 ## Troubleshooting
 
@@ -133,7 +134,7 @@ Make sure `local.properties` contains the correct SDK path.
 
 ### Firebase-related Build Errors
 
-Verify that `app/google-services.json` is valid for the application ID and that the GMS build is being used:
+Verify that `app/google-services.json` was generated from the Nivukx Firebase project and contains registrations for `com.nivukx.music` and `com.nivukx.music.debug`:
 
 ```bash
 ./gradlew assembleUniversalGmsDebug
