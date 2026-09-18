@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.menu
+package com.nivukx.music.ui.menu
 
 import android.content.Context
 import android.content.Intent
@@ -14,12 +14,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.exoplayer.offline.Download
-import echo.music.iad1tya.LocalListenTogetherManager
-import echo.music.iad1tya.R
-import echo.music.iad1tya.db.entities.Playlist
-import echo.music.iad1tya.db.entities.PlaylistSong
-import echo.music.iad1tya.ui.component.Material3MenuGroup
-import echo.music.iad1tya.ui.component.Material3MenuItemData
+import com.nivukx.music.LocalListenTogetherManager
+import com.nivukx.music.R
+import com.nivukx.music.db.entities.Playlist
+import com.nivukx.music.db.entities.PlaylistSong
+import com.nivukx.music.ui.component.Material3MenuGroup
+import com.nivukx.music.ui.component.Material3MenuItemData
 
 
 @Composable
