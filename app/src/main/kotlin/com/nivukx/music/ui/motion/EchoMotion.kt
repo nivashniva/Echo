@@ -31,7 +31,7 @@ import androidx.compose.ui.graphics.graphicsLayer
  * from one source of truth instead of stacking independent enter/exit animations.
  * Frame-critical work stays inside graphicsLayer/draw transforms.
  */
-object EchoMotion {
+object NivukxMotion {
     const val Micro = 120
     const val Standard = 220
     const val Emphasis = 320
@@ -129,8 +129,8 @@ fun EchoAnimatedVisibility(
     AnimatedVisibility(
         visible = visible,
         modifier = modifier,
-        enter = EchoMotion.Enter,
-        exit = EchoMotion.Exit,
+        enter = NivukxMotion.Enter,
+        exit = NivukxMotion.Exit,
     ) {
         content()
     }
@@ -149,9 +149,9 @@ fun <S> EchoAnimatedContent(
         modifier = modifier,
         transitionSpec = {
             if (playerTransition) {
-                EchoMotion.playerContentTransform()
+                NivukxMotion.playerContentTransform()
             } else {
-                EchoMotion.contentTransform()
+                NivukxMotion.contentTransform()
             }
         },
         label = label,
@@ -171,14 +171,14 @@ fun Modifier.echoTitleMotion(
     val visibility = animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
         animationSpec = tween(
-            durationMillis = EchoMotion.Standard,
-            easing = EchoMotion.StandardEasing,
+            durationMillis = NivukxMotion.Standard,
+            easing = NivukxMotion.StandardEasing,
         ),
         label = "echoTitleVisibility",
     )
     val scale = animateFloatAsState(
         targetValue = if (visible) 1f else 0.965f,
-        animationSpec = EchoMotion.SoftSpring,
+        animationSpec = NivukxMotion.SoftSpring,
         label = "echoTitleScale",
     )
 
@@ -202,7 +202,7 @@ fun Modifier.echoPress(
     val pressed by interactionSource.collectIsPressedAsState()
     val scale by animateFloatAsState(
         targetValue = if (pressed) pressedScale else 1f,
-        animationSpec = EchoMotion.SoftSpring,
+        animationSpec = NivukxMotion.SoftSpring,
         label = "echoPressScale",
     )
     return graphicsLayer {
