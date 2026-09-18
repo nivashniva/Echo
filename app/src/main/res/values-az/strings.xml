@@ -312,12 +312,9 @@
     <string name="backup_create_success">Yedək uğurla yaradıldı</string>
     <string name="backup_create_failed">Yedək yaratmaq mümkün olmadı</string>
     <string name="restore_failed">Bərpa etmək mümkün olmadı</string>
-    <string name="discord_integration">Discord inteqrasiyası</string>
-    <string name="discord_information">Discord məlumatı</string>
     <string name="dismiss">Bağla</string>
     <string name="options">Seçimlər</string>
     <string name="preview">Önizləmə</string>
-    <string name="enable_discord_rpc">Discord Rich Presence-i aktiv et</string>
     <string name="about">Haqqında</string>
     <string name="app_version">Tətbiq versiyası</string>
     <string name="new_version_available">Yeni versiya mövcuddur</string>
