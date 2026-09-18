@@ -53,7 +53,7 @@ We are committed to providing a welcoming and inspiring community for all. We pl
 ### Prerequisites
 
 - Android Studio Hedgehog or later
-- JDK 17 or later
+- JDK 21 or later
 - Android SDK 26 or later
 - Git
 - Basic knowledge of Kotlin and Android development
@@ -65,12 +65,12 @@ We are committed to providing a welcoming and inspiring community for all. We pl
 1. Fork the repository on GitHub
 2. Clone your fork locally:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/Echo-Music.git
-   cd Echo-Music
+   git clone https://github.com/YOUR_USERNAME/Echo.git Nivukx
+   cd Nivukx
    ```
 3. Add the upstream repository:
    ```bash
-   git remote add upstream https://github.com/iad1tya/Echo-Music.git
+   git remote add upstream https://github.com/nivash01/Echo.git
    ```
 
 ## Development Setup
@@ -95,8 +95,8 @@ If you want to test Firebase features:
 
 1. Create a Firebase project
 2. Add Android apps with package names:
-   - `iad1tya.echo.music` (release)
-   - `iad1tya.echo.music.debug` (debug)
+   - `com.nivukx.music` (release)
+   - `com.nivukx.music.debug` (debug)
 3. Copy the template and configure it with your Firebase credentials:
    ```bash
    cp app/google-services.json.template app/google-services.json
@@ -138,7 +138,7 @@ When contributing to Nivukx, it's crucial to handle sensitive information proper
 ### 3. Build the Project
 
 ```bash
-./gradlew assembleDebug
+./gradlew assembleUniversalGmsDebug
 ```
 
 ### 4. Security Considerations
@@ -207,7 +207,7 @@ git checkout -b fix/issue-number-description
 ./gradlew lint
 
 # Build the project
-./gradlew assembleDebug
+./gradlew assembleUniversalGmsDebug
 ```
 
 ### 4. Commit Your Changes
@@ -296,7 +296,7 @@ We provide issue templates for:
 
 ### Code Organization
 
-Path: `app/src/main/kotlin/com/music/echo/`
+Path: `app/src/main/kotlin/com/nivukx/music/`
 
 > **Note:** We are currently in Phase 1 of modularizing the application. The `lyrics` and `playback` code, along with shared `constants` and `models`, are actively being migrated out of `:app` into dedicated `:lyrics`, `:playback`, and `:core` Gradle modules. The structure below represents the legacy monolithic structure until migration is complete.
 
@@ -340,7 +340,7 @@ widget/         Home-screen widget
 - **Functions**: camelCase (`playMusic()`)
 - **Variables**: camelCase (`currentSong`)
 - **Constants**: UPPER_SNAKE_CASE (`MAX_VOLUME`)
-- **Packages**: lowercase (`com.maxrave.echo.ui`)
+- **Packages**: lowercase (`com.nivukx.music.ui`)
 
 ## Testing
 
@@ -364,7 +364,7 @@ widget/         Home-screen widget
 ./gradlew test
 
 # Run specific test class
-./gradlew test --tests "iad1tya.echo.MusicPlayerTest"
+./gradlew test --tests "com.nivukx.music.MusicPlayerTest"
 
 # Run tests with coverage
 ./gradlew testDebugUnitTestCoverage
@@ -428,7 +428,7 @@ We follow [Semantic Versioning](https://semver.org/):
 
 If you have questions about contributing:
 
-1. Check the [GitHub Discussions](https://github.com/iad1tya/Echo-Music/discussions)
+1. Check the [GitHub Discussions](https://github.com/nivash01/Echo/discussions)
 2. Create a new discussion
 3. Contact maintainers directly through GitHub
 
@@ -444,7 +444,7 @@ Contributors will be recognized in:
 
 If you have questions about contributing:
 
-1. Check the [GitHub Discussions](https://github.com/iad1tya/Echo-Music/discussions)
+1. Check the [GitHub Discussions](https://github.com/nivash01/Echo/discussions)
 2. Create a new discussion
 3. Contact maintainers directly
 
