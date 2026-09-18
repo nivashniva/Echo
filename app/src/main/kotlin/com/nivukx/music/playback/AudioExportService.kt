@@ -11,7 +11,7 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.datastore.preferences.core.edit
 import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.ReturnCode
-import com.nivukx.innertube.YouTube
+import com.music.innertube.YouTube
 import com.nivukx.music.constants.AudioQuality
 import com.nivukx.music.constants.AudioQualityKey
 import com.nivukx.music.constants.ExportProgressKey

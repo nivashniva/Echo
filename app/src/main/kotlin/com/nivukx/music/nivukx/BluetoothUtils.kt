@@ -1,4 +1,4 @@
-package com.nivukx.music.echomusic
+package com.nivukx.music.nivukx
 
 import android.content.Context
 import android.media.AudioDeviceInfo

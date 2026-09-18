@@ -1,4 +1,4 @@
-package com.nivukx.music.echomusic.commitscreen
+package com.nivukx.music.nivukx.commitscreen
 
 import android.content.Intent
 import android.net.Uri

@@ -1,4 +1,4 @@
-package com.nivukx.music.echomusic.changelog
+package com.nivukx.music.nivukx.changelog
 
 
 
@@ -83,7 +83,7 @@ import coil3.compose.AsyncImage
 import com.nivukx.music.BuildConfig
 import com.nivukx.music.LocalPlayerAwareWindowInsets
 import com.nivukx.music.R
-import com.nivukx.music.echomusic.updater.extractUrls
+import com.nivukx.music.nivukx.updater.extractUrls
 import com.nivukx.music.ui.component.parseMarkdown
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

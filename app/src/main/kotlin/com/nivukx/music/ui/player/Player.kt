@@ -185,10 +185,10 @@ import com.nivukx.music.extensions.toggleRepeatMode
 import com.nivukx.music.listentogether.RoomRole
 import com.nivukx.music.models.MediaMetadata
 import com.nivukx.music.playback.ExoDownloadService
-import com.nivukx.music.echomusic.getConnectedBluetoothDeviceName
-import com.nivukx.music.echomusic.isBuds
-import com.nivukx.music.echomusic.isSpeaker
-import com.nivukx.music.echomusic.AudioDeviceBottomSheet
+import com.nivukx.music.nivukx.getConnectedBluetoothDeviceName
+import com.nivukx.music.nivukx.isBuds
+import com.nivukx.music.nivukx.isSpeaker
+import com.nivukx.music.nivukx.AudioDeviceBottomSheet
 import com.nivukx.music.ui.component.BottomSheet
 import com.nivukx.music.ui.component.BottomSheetState
 import com.nivukx.music.ui.component.CastButton

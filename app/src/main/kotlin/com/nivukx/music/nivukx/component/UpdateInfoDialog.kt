@@ -1,6 +1,6 @@
 
 
-package com.nivukx.music.echomusic.component
+package com.nivukx.music.nivukx.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -46,8 +46,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.nivukx.innertube.YouTube
-import com.nivukx.innertube.models.MediaInfo
+import com.music.innertube.YouTube
+import com.music.innertube.models.MediaInfo
 import com.nivukx.music.LocalDatabase
 import com.nivukx.music.LocalPlayerConnection
 import com.nivukx.music.R

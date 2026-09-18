@@ -57,8 +57,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.nivukx.innertube.models.SongItem
-import com.nivukx.innertube.models.WatchEndpoint
+import com.music.innertube.models.SongItem
+import com.music.innertube.models.WatchEndpoint
 import com.nivukx.music.LocalPlayerAwareWindowInsets
 import com.nivukx.music.LocalPlayerConnection
 import com.nivukx.music.R

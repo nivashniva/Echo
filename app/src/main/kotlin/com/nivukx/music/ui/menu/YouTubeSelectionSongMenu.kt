@@ -33,8 +33,8 @@ import androidx.core.net.toUri
 import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
-import com.nivukx.innertube.YouTube
-import com.nivukx.innertube.models.SongItem
+import com.music.innertube.YouTube
+import com.music.innertube.models.SongItem
 import com.nivukx.music.LocalDatabase
 import com.nivukx.music.LocalDownloadUtil
 import com.nivukx.music.LocalPlayerConnection

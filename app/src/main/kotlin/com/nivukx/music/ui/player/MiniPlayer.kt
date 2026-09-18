@@ -131,12 +131,12 @@ import com.nivukx.music.ui.component.liquidGlass
 import com.nivukx.music.ui.theme.PlayerColorExtractor
 import com.nivukx.music.utils.rememberEnumPreference
 import com.nivukx.music.utils.rememberPreference
-import com.nivukx.music.echomusic.AudioDeviceBottomSheet
+import com.nivukx.music.nivukx.AudioDeviceBottomSheet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
-import com.nivukx.music.echomusic.isBluetoothHeadphoneConnected
+import com.nivukx.music.nivukx.isBluetoothHeadphoneConnected
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Headphones
 import androidx.compose.material.icons.filled.Speaker

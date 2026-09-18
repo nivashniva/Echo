@@ -1,4 +1,4 @@
-package com.nivukx.music.echomusic.component
+package com.nivukx.music.nivukx.component
 
 import android.content.Intent
 import androidx.compose.foundation.layout.*
@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.nivukx.music.R
-import com.nivukx.music.echomusic.updater.ChangelogSection
+import com.nivukx.music.nivukx.updater.ChangelogSection
 import com.nivukx.music.ui.utils.parseMarkdownToSections
 import com.nivukx.music.ui.utils.parseSimpleMarkdown
 import racra.compose.smooth_corner_rect_library.AbsoluteSmoothCornerShape

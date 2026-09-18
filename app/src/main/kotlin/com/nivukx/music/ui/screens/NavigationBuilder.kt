@@ -56,11 +56,11 @@ import com.nivukx.music.ui.screens.settings.integrations.ListenTogetherSettings
 import com.nivukx.music.ui.screens.recognition.RecognitionScreen
 import com.nivukx.music.ui.screens.recognition.RecognitionHistoryScreen
 import com.nivukx.music.ui.screens.settings.UpdateSettings
-import com.nivukx.music.echomusic.updater.UpdateScreen
+import com.nivukx.music.nivukx.updater.UpdateScreen
 import com.nivukx.music.utils.rememberEnumPreference
 import com.nivukx.music.utils.rememberPreference
-import com.nivukx.music.echomusic.changelog.ChangelogScreen
-import com.nivukx.music.echomusic.commitscreen.CommitScreen
+import com.nivukx.music.nivukx.changelog.ChangelogScreen
+import com.nivukx.music.nivukx.commitscreen.CommitScreen
 import com.nivukx.music.ui.screens.equalizer.axion.AxionEqScreen
 import com.nivukx.music.ui.screens.ambient.AmbientModeScreen
 

@@ -5,7 +5,7 @@ package com.nivukx.music.viewmodels
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nivukx.innertube.YouTube
+import com.music.innertube.YouTube
 import com.nivukx.music.constants.HideVideoSongsKey
 import com.nivukx.music.constants.statToPeriod
 import com.nivukx.music.db.MusicDatabase

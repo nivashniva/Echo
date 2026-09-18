@@ -2,7 +2,8 @@
   "features": [
     "The player now uses a unified progress-driven morph for mini-player to full-player expansion and reverse collapse, with coordinated surface, scale, translation, and alpha motion.",
     "Echo Motion now exposes a shared high-end motion contract for player morphs and app-identity title transitions without adding per-frame work.",
-    "The application public brand has been changed from Echo Music to Nivukx while preserving existing runtime integration contracts and feature implementations."
+    "The application public brand has been changed from Nivukx to Nivukx while preserving existing runtime integration contracts and feature implementations.",
+    "Complete Nivukx identity hardening: package/import namespaces, widgets, native JNI bindings, localized branding, deep links, and repository documentation."
   ],
   "bug_fixes": [
     "Audio quality selection now supports Auto, High, and Lossless when available while preserving legacy preference values.",

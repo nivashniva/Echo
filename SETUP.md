@@ -14,8 +14,8 @@ This document provides instructions for setting up the Nivukx project for develo
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/nivash01/Echo.git
-cd Echo
+git clone https://github.com/nivash01/Echo.git Nivukx
+cd Nivukx
 ```
 
 ### 2. Configure Local Properties

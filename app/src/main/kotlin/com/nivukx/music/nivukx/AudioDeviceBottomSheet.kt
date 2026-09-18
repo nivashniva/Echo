@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 
-package com.nivukx.music.echomusic
+package com.nivukx.music.nivukx
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -41,7 +41,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.runtime.key
-import com.nivukx.music.echomusic.shapes.RoundedStarShape
+import com.nivukx.music.nivukx.shapes.RoundedStarShape
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

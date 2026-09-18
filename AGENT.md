@@ -178,7 +178,7 @@ db/
   daos/         Room DAOs
 di/             Hilt modules (AppModule, NetworkModule, Qualifiers, entry points)
 discord/        Discord Rich Presence integration
-echomusic/      Core app-level classes (Application class, core initializers)
+nivukx/      Core app-level classes (Application class, core initializers)
 eq/             Equalizer
 extensions/     Kotlin extension functions
 listentogether/ "Listen Together" synced group listening feature

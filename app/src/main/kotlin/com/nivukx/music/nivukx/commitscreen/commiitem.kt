@@ -1,4 +1,4 @@
-package com.nivukx.music.echomusic.commitscreen
+package com.nivukx.music.nivukx.commitscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

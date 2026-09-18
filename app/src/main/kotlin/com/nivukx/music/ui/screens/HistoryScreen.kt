@@ -57,7 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachReversed
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.nivukx.innertube.utils.parseCookieString
+import com.music.innertube.utils.parseCookieString
 import com.nivukx.music.LocalDatabase
 import com.nivukx.music.LocalPlayerAwareWindowInsets
 import com.nivukx.music.LocalPlayerConnection

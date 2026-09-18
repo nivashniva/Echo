@@ -27,7 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.nivukx.innertube.models.ArtistItem
+import com.music.innertube.models.ArtistItem
 import com.nivukx.music.LocalDatabase
 import com.nivukx.music.LocalListenTogetherManager
 import com.nivukx.music.LocalPlayerConnection

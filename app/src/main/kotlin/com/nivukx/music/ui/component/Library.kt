@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
-import com.nivukx.innertube.models.PlaylistItem
-import com.nivukx.innertube.models.WatchEndpoint
+import com.music.innertube.models.PlaylistItem
+import com.music.innertube.models.WatchEndpoint
 import com.nivukx.music.R
 import com.nivukx.music.db.entities.Album
 import com.nivukx.music.db.entities.Artist

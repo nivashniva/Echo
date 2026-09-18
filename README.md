@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/Echo-new.png" alt="Nivukx Logo" width="120"/>
+  <img src="assets/Nivukx-new.png" alt="Nivukx Logo" width="120"/>
 
   <h1>Nivukx</h1>
 
@@ -169,7 +169,7 @@ Download the latest pre-compiled APK from the [Nivukx Releases Page](https://git
 
    ```bash
    git clone https://github.com/nivash01/Echo.git
-   cd Echo
+   cd Nivukx
    ```
 
 2. **Configure Android SDK**
@@ -299,7 +299,7 @@ We do not host, upload, distribute, or store any audio, video, or copyrighted me
 
 The software is provided "AS IS", without warranty of any kind. The developers of Nivukx do not encourage or condone piracy. Users are solely responsible for ensuring their usage of this app complies with their local copyright laws and the Terms of Service of the platforms they access.
 
-Because we do not host any media files, we cannot process DMCA takedown requests for audio or video content. However, if you represent a copyright holder or have legal concerns regarding the open-source code itself, please contact us via email at: [hello@github.com/nivash01/Echo](mailto:hello@github.com/nivash01/Echo)
+Because we do not host any media files, we cannot process DMCA takedown requests for audio or video content. However, if you represent a copyright holder or have legal concerns regarding the open-source code itself, please contact us via email at: [GitHub repository](https://github.com/nivash01/Echo)
 
 ---
 

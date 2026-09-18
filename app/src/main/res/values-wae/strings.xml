@@ -322,7 +322,7 @@
     <string name="backup_create_failed">Sicherig het nit chenne erstellt wärde</string>
     <string name="restore_failed">Sicherig het nit chenne widerhergstellt wärde</string>
     <string name="discord_integration">Discord-Integration</string>
-    <string name="discord_information">echomusic brucht d KizzyRPC-Bibliothek, um dr Status va dim Discord-Konto festzlege. Derbi wird d Discord-Gateway-Verbindig brucht, was als Verstoss gege d Nutzigsbedingige va Discord chönnti gälte. Es sind aber kei Fäll bekannt, bi dene Benutzerkonte deswegen gsperrt worde sind. D Nutzig erfolgt uf eiges Risiko.\nchomusic liest nur din Token us, alles andera wird lokal gspeicheret.</string>
+    <string name="discord_information">Nivukx brucht d KizzyRPC-Bibliothek, um dr Status va dim Discord-Konto festzlege. Derbi wird d Discord-Gateway-Verbindig brucht, was als Verstoss gege d Nutzigsbedingige va Discord chönnti gälte. Es sind aber kei Fäll bekannt, bi dene Benutzerkonte deswegen gsperrt worde sind. D Nutzig erfolgt uf eiges Risiko.\nchomusic liest nur din Token us, alles andera wird lokal gspeicheret.</string>
     <string name="dismiss">Schliesse</string>
     <string name="options">Optione</string>
     <string name="preview">Vorschau</string>
@@ -348,7 +348,7 @@
     <string name="listen_together_smart_resync">Intelligenti Netzwerk-Nöisynchronisierig</string>
     <string name="listen_together_smart_resync_desc">Nach eme Verbindigsabbruch automatisch zum Host ufschliesse</string>
     <string name="spotify_import_title">Us Spotify importiere</string>
-    <string name="spotify_import_desc">Spotify verbinde, Abspiellischte uswähle und als lokali Echo-Music-Abspiellischte spiegle.</string>
+    <string name="spotify_import_desc">Spotify verbinde, Abspiellischte uswähle und als lokali Nivukx-Abspiellischte spiegle.</string>
     <string name="spotify_connect">Spotify verbinde</string>
     <string name="spotify_refresh">Spotify-Bibliothek aktualisiere</string>
     <string name="spotify_select_sources">Spotify-Abspiellischte uswähle</string>

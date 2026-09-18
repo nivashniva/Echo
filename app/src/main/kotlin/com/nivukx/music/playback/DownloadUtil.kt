@@ -17,13 +17,13 @@ import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadManager
 import androidx.media3.exoplayer.offline.DownloadNotificationHelper
 import androidx.media3.exoplayer.scheduler.Requirements
-import com.nivukx.innertube.YouTube
+import com.music.innertube.YouTube
 import com.nivukx.music.constants.AudioQuality
 import com.nivukx.music.constants.AudioQualityKey
 import com.nivukx.music.constants.DownloadOnWifiOnlyKey
 import com.nivukx.music.constants.IpVersionKey
 import com.nivukx.music.utils.dataStore
-import com.nivukx.innertube.models.IpVersion
+import com.music.innertube.models.IpVersion
 import okhttp3.Dns
 import java.net.InetAddress
 import java.net.Inet4Address

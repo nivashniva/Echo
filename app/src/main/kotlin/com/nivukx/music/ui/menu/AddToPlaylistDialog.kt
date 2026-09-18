@@ -39,8 +39,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.withContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.nivukx.innertube.YouTube
-import com.nivukx.innertube.utils.parseCookieString
+import com.music.innertube.YouTube
+import com.music.innertube.utils.parseCookieString
 import com.nivukx.music.LocalDatabase
 import com.nivukx.music.R
 import com.nivukx.music.constants.AddToPlaylistSortDescendingKey

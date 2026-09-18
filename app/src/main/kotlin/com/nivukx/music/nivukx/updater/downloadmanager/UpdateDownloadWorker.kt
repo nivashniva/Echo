@@ -1,4 +1,4 @@
-package com.nivukx.music.echomusic.updater.downloadmanager
+package com.nivukx.music.nivukx.updater.downloadmanager
 
 import android.content.Context
 import android.os.Environment
