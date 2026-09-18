@@ -1,4 +1,4 @@
-package com.nivukx.music.echomusic.updater.downloadmanager
+package com.nivukx.music.nivukx.updater.downloadmanager
 
 import android.app.Notification
 import android.content.Context
@@ -13,7 +13,7 @@ import androidx.media3.session.MediaSession
 import com.google.common.collect.ImmutableList
 
 @OptIn(UnstableApi::class)
-class EchoNotificationProvider(
+class NivukxNotificationProvider(
     context: Context,
     notificationIdProvider: DefaultMediaNotificationProvider.NotificationIdProvider,
     channelId: String,
@@ -27,7 +27,7 @@ class EchoNotificationProvider(
         channelNameResourceId
     )
 
-    fun setSmallIcon(iconResId: Int): EchoNotificationProvider {
+    fun setSmallIcon(iconResId: Int): NivukxNotificationProvider {
         defaultProvider.setSmallIcon(iconResId)
         return this
     }
