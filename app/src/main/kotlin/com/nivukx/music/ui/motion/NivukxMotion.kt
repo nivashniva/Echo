@@ -214,6 +214,21 @@ object NivukxMotion {
                     )
             )
 
+    fun artworkBackgroundTransform(): ContentTransform =
+        (
+            fadeIn(
+                animationSpec = tween(620, easing = PremiumEasing),
+            ) +
+                scaleIn(
+                    initialScale = 1.025f,
+                    animationSpec = tween(620, easing = PremiumEasing),
+                )
+            ).togetherWith(
+                fadeOut(
+                    animationSpec = tween(420, easing = ExitEasing),
+                )
+            )
+
     fun playerContentTransform(): ContentTransform =
         (
             fadeIn(
