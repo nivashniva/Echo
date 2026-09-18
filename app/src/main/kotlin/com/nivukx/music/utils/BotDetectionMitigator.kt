@@ -1,12 +1,12 @@
 
 
-package echo.music.iad1tya.utils
+package com.nivukx.music.utils
 
 import androidx.datastore.preferences.core.edit
 import com.music.innertube.YouTube
-import echo.music.iad1tya.constants.VisitorDataKey
-import echo.music.iad1tya.utils.PlaybackLogManager
-import echo.music.iad1tya.utils.PlaybackLogLevel
+import com.nivukx.music.constants.VisitorDataKey
+import com.nivukx.music.utils.PlaybackLogManager
+import com.nivukx.music.utils.PlaybackLogLevel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
