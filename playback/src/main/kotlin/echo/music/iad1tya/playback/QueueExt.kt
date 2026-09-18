@@ -1,17 +1,17 @@
 
 
-package echo.music.iad1tya.playback
+package com.nivukx.music.playback
 
-import echo.music.iad1tya.models.MediaMetadata
-import echo.music.iad1tya.models.PersistQueue
-import echo.music.iad1tya.models.QueueData
-import echo.music.iad1tya.models.QueueType
-import echo.music.iad1tya.playback.queues.ListQueue
-import echo.music.iad1tya.playback.queues.LocalAlbumRadio
-import echo.music.iad1tya.playback.queues.Queue
-import echo.music.iad1tya.playback.queues.YouTubeAlbumRadio
-import echo.music.iad1tya.playback.queues.YouTubeQueue
-import echo.music.iad1tya.extensions.toMediaItem
+import com.nivukx.music.models.MediaMetadata
+import com.nivukx.music.models.PersistQueue
+import com.nivukx.music.models.QueueData
+import com.nivukx.music.models.QueueType
+import com.nivukx.music.playback.queues.ListQueue
+import com.nivukx.music.playback.queues.LocalAlbumRadio
+import com.nivukx.music.playback.queues.Queue
+import com.nivukx.music.playback.queues.YouTubeAlbumRadio
+import com.nivukx.music.playback.queues.YouTubeQueue
+import com.nivukx.music.extensions.toMediaItem
 
 fun Queue.toPersistQueue(
     title: String?,
