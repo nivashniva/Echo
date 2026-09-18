@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1060844171061",
+    "project_id": "nivukx-musicx",
+    "storage_bucket": "nivukx-musicx.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060844171061:android:aa80b70cb7e35523b5a67c",
+        "android_client_info": {
+          "package_name": "com.nivukx.music"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeTspKR7jVsA9dBMtGLP55CIwNsW4tioY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060844171061:android:2ffdf45a4ea2960fb5a67c",
+        "android_client_info": {
+          "package_name": "com.nivukx.music.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeTspKR7jVsA9dBMtGLP55CIwNsW4tioY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
