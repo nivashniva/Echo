@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.component
+package com.nivukx.music.ui.component
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import echo.music.iad1tya.R
+import com.nivukx.music.R
 import kotlin.math.cos
 import kotlin.math.sin
 
