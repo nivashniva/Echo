@@ -1,4 +1,4 @@
-name: Build Echo-Music
+name: Build Nivukx
 
 on:
   push:
@@ -76,7 +76,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: Echo-Music-universal-gms-debug
+          name: Nivukx-universal-gms-debug
           path: "**/build/outputs/apk/**/*.apk"
           if-no-files-found: error
           retention-days: 14
