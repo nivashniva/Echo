@@ -332,7 +332,7 @@
     <string name="listen_together_smart_resync">Sinkronisasi Ulang Jaringan Cerdas</string>
     <string name="listen_together_smart_resync_desc">Secara otomatis mengejar ketertinggalan dari host setelah putus sambungan</string>
     <string name="spotify_import_title">Impor dari Spotify</string>
-    <string name="spotify_import_desc">Hubungkan Spotify, pilih daftar putar, dan cerminkan ke dalam daftar putar Echo Music lokal.</string>
+    <string name="spotify_import_desc">Hubungkan Spotify, pilih daftar putar, dan cerminkan ke dalam daftar putar Nivukx lokal.</string>
     <string name="spotify_connect">Hubungkan Spotify</string>
     <string name="spotify_refresh">Segarkan pustaka Spotify</string>
     <string name="spotify_select_sources">Pilih daftar putar Spotify</string>
@@ -392,10 +392,10 @@
     <string name="recognition_notification_processing">Mengidentifikasi…</string>
     <string name="recognition_notification_no_match">Tidak ditemukan kecocokan</string>
     <string name="recognition_notification_failed">Pengenalan gagal</string>
-    <string name="listen_on_echo_music">Dengarkan di Echo Music</string>
+    <string name="listen_on_echo_music">Dengarkan di Nivukx</string>
     <string name="qs_tile_music_recognizer">Kenali musik</string>
-    <string name="echo_brain_beta">Echo Brain (Beta)</string>
-    <string name="echo_brain_enable">Aktifkan Echo Brain</string>
+    <string name="echo_brain_beta">Nivukx Brain (Beta)</string>
+    <string name="echo_brain_enable">Aktifkan Nivukx Brain</string>
     <string name="echo_brain_enable_desc">Secara otomatis menyisipkan rekomendasi AI berdasarkan kebiasaan mendengarkan Anda</string>
     <string name="echo_brain_profile_statistics">Statistik Profil</string>
     <string name="echo_brain_learning_level">Tingkat Pembelajaran</string>
@@ -422,9 +422,9 @@
     <string name="listenbrainz_scrobbling">Scrobbling ListenBrainz</string>
     <string name="listenbrainz_scrobbling_description">Secara otomatis mengirim lagu yang telah Anda dengarkan ke ListenBrainz</string>
     <string name="set_listenbrainz_token">Atur Token ListenBrainz</string>
-    <string name="youtube_decryption_settings">Echo Extractor</string>
+    <string name="youtube_decryption_settings">Nivukx Extractor</string>
     <string name="youtube_decryption_desc">Konfigurasikan setelan ekstraktor</string>
-    <string name="youtube_decryption_support">Echo Extractor</string>
+    <string name="youtube_decryption_support">Nivukx Extractor</string>
     <string name="youtube_decryption_support_desc">Secara otomatis mengekstrak konfigurasi pemutaran YouTube. Dikunci pada status Aktif.</string>
     <string name="force_update_cipher">Paksa Pembaruan Konfigurasi</string>
     <string name="force_update_cipher_desc">Unduh pemetaan penggantian ekstraktor terbaru. Dibatasi hingga 3 pembaruan per hari.</string>
