@@ -2395,21 +2395,9 @@ class MusicService :
         super.onPlaybackParametersChanged(playbackParameters)
         if (playbackParameters.speed != lastPlaybackSpeed) {
             lastPlaybackSpeed = playbackParameters.speed
-            discordUpdateJob?.cancel()
-
-            
-            discordUpdateJob = scope.launch {
-                delay(1000)
-                if (player.playWhenReady && player.playbackState == Player.STATE_READY) {
-                    currentSong.value?.let { song ->
-                        ensurePresenceManager()
-                    }
-                }
-            }
         }
     }
 
-    
     private fun getHttpResponseCode(error: PlaybackException): Int? {
         var cause: Throwable? = error.cause
         while (cause != null) {
@@ -3309,7 +3297,6 @@ class MusicService :
         songUrlCache.clear()
 
         player.release()
-        discordUpdateJob?.cancel()
         crossfadeJob?.cancel()
         retryJob?.cancel()
         silenceSkipJob?.cancel()
