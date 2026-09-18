@@ -1,8 +1,8 @@
-package echo.music.iad1tya.echomusic.updater.downloadmanager
+package com.nivukx.music.echomusic.updater.downloadmanager
 
 import android.content.Context
 import android.os.Environment
-import echo.music.iad1tya.R
+import com.nivukx.music.R
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
