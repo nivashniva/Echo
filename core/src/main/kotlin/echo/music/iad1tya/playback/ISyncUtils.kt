@@ -1,6 +1,6 @@
-package echo.music.iad1tya.playback
+package com.nivukx.music.playback
 
-import echo.music.iad1tya.db.entities.SongEntity
+import com.nivukx.music.db.entities.SongEntity
 
 interface ISyncUtils {
     fun likeSong(song: SongEntity)
