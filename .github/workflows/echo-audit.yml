@@ -49,7 +49,7 @@ jobs:
           fi
 
       - name: Run Python repository audit
-        run: python3 scripts/echo_audit.py
+        run: python3 scripts/nivukx_audit.py
 
       - name: Upload audit report
         if: always()
