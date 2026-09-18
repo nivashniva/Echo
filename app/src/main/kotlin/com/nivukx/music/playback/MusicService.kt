@@ -2966,9 +2966,9 @@ class MusicService :
 
 
             if (!shouldBypassCache) {
-                if (isFullyDownloaded && !strictLossless) {
+                if (isFullyDownloaded) {
                     scope.launch(Dispatchers.IO) { recoverSong(mediaId, isOfflinePlayback = true) }
-                    return@Factory dataSpec
+                    return@Factory dataSpec.buildUpon().setKey(cacheKey).build()
                 }
 
                 if (downloadCache.isCached(
@@ -2981,13 +2981,19 @@ class MusicService :
                         scope.launch(Dispatchers.IO) { recoverSong(mediaId, isOfflinePlayback = true) }
                         return@Factory dataSpec.withUri(it.first.toUri())
                     }
-                    // Fall through to fetch real URL since it's only partially downloaded
+                    if (strictLossless) {
+                        return@Factory dataSpec.buildUpon().setKey(cacheKey).build()
+                    }
+                    // Fall through to fetch a fresh URL for legacy non-lossless cache behavior.
                 }
 
                 if (playerCache.isCached(cacheKey, dataSpec.position, CHUNK_LENGTH)) {
                     songUrlCache["${mediaId}_${lockedQuality.name}"]?.takeIf { it.second > System.currentTimeMillis() }?.let {
                         scope.launch(Dispatchers.IO) { recoverSong(mediaId, isOfflinePlayback = true) }
                         return@Factory dataSpec.withUri(it.first.toUri())
+                    }
+                    if (strictLossless) {
+                        return@Factory dataSpec.buildUpon().setKey(cacheKey).build()
                     }
                     Timber.tag(TAG).w("Ghost cache entry for $mediaId, re-fetching")
                     playerCache.removeResource(cacheKey)
@@ -3026,7 +3032,7 @@ class MusicService :
                     }
 
                     else -> throw PlaybackException(
-                        getString(R.string.error_unknown),
+                        throwable.message?.takeIf { it.isNotBlank() } ?: getString(R.string.error_unknown),
                         throwable,
                         PlaybackException.ERROR_CODE_REMOTE_ERROR
                     )
