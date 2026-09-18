@@ -178,12 +178,12 @@ import com.nivukx.music.constants.MiniPlayerBottomSpacing
 import com.nivukx.music.constants.MiniPlayerHeight
 import com.nivukx.music.constants.NavigationBarAnimationSpec
 import com.nivukx.music.constants.NavigationBarHeight
-import com.nivukx.music.echomusic.updater.checkForUpdate
-import com.nivukx.music.echomusic.updater.getAutoUpdateCheckSetting
-import com.nivukx.music.echomusic.updater.isNewerVersion
-import com.nivukx.music.echomusic.updater.saveUpdateAvailableState
-import com.nivukx.music.echomusic.updater.getUpdateNotificationsSetting
-import com.nivukx.music.echomusic.UpdateNotificationHelper
+import com.nivukx.music.nivukx.updater.checkForUpdate
+import com.nivukx.music.nivukx.updater.getAutoUpdateCheckSetting
+import com.nivukx.music.nivukx.updater.isNewerVersion
+import com.nivukx.music.nivukx.updater.saveUpdateAvailableState
+import com.nivukx.music.nivukx.updater.getUpdateNotificationsSetting
+import com.nivukx.music.nivukx.UpdateNotificationHelper
 import android.util.Log
 import androidx.compose.ui.platform.LocalContext
 import com.nivukx.music.constants.PauseListenHistoryKey
@@ -469,22 +469,22 @@ class MainActivity : ComponentActivity() {
         val context = LocalContext.current
         var showUpdateDialog by remember { androidx.compose.runtime.mutableStateOf(false) }
         var availableUpdateVersion by remember { androidx.compose.runtime.mutableStateOf("") }
-        var availableUpdateChangelog by remember { androidx.compose.runtime.mutableStateOf<List<com.nivukx.music.echomusic.updater.ChangelogSection>>(emptyList()) }
+        var availableUpdateChangelog by remember { androidx.compose.runtime.mutableStateOf<List<com.nivukx.music.nivukx.updater.ChangelogSection>>(emptyList()) }
         var availableUpdateDescription by remember { androidx.compose.runtime.mutableStateOf<String?>(null) }
-        var whatsNewInfo by remember { androidx.compose.runtime.mutableStateOf<com.nivukx.music.echomusic.updater.WhatsNewInfo?>(null) }
+        var whatsNewInfo by remember { androidx.compose.runtime.mutableStateOf<com.nivukx.music.nivukx.updater.WhatsNewInfo?>(null) }
 
         LaunchedEffect(Unit) {
             val currentVersion = BuildConfig.VERSION_NAME
-            val lastSeenVersion = com.nivukx.music.echomusic.updater.getLastSeenChangelogVersion(context)
+            val lastSeenVersion = com.nivukx.music.nivukx.updater.getLastSeenChangelogVersion(context)
             if (lastSeenVersion.isEmpty()) {
                 // Fresh install, not an update — nothing "new" to show, so mark this
                 // version seen right away rather than waiting on a dialog dismissal.
-                com.nivukx.music.echomusic.updater.saveLastSeenChangelogVersion(context, currentVersion)
+                com.nivukx.music.nivukx.updater.saveLastSeenChangelogVersion(context, currentVersion)
             } else if (lastSeenVersion != currentVersion) {
                 // Only mark the version seen once its changelog is actually shown (see
                 // onDismiss below) — if the fetch fails here, retry on the next launch
                 // instead of losing that version's release notes forever.
-                whatsNewInfo = com.nivukx.music.echomusic.updater.fetchChangelogForVersion(currentVersion)
+                whatsNewInfo = com.nivukx.music.nivukx.updater.fetchChangelogForVersion(currentVersion)
             }
         }
 
@@ -621,7 +621,7 @@ class MainActivity : ComponentActivity() {
 
 
         if (showUpdateDialog) {
-            com.nivukx.music.echomusic.component.UpdateAvailableDialog(
+            com.nivukx.music.nivukx.component.UpdateAvailableDialog(
                 version = availableUpdateVersion,
                 changelog = availableUpdateChangelog,
                 description = availableUpdateDescription,
@@ -629,11 +629,11 @@ class MainActivity : ComponentActivity() {
             )
         } else {
             whatsNewInfo?.let { info ->
-                com.nivukx.music.echomusic.updater.WhatsNewDialog(
+                com.nivukx.music.nivukx.updater.WhatsNewDialog(
                     version = BuildConfig.VERSION_NAME,
                     info = info,
                     onDismiss = {
-                        com.nivukx.music.echomusic.updater.saveLastSeenChangelogVersion(
+                        com.nivukx.music.nivukx.updater.saveLastSeenChangelogVersion(
                             context,
                             BuildConfig.VERSION_NAME,
                         )
