@@ -80,14 +80,6 @@ android {
         val isNightly = project.hasProperty("nightly") && project.property("nightly") == "true"
         buildConfigField("Boolean", "IS_NIGHTLY", isNightly.toString())
 
-        val discordApplicationId = "1518210534070292541"
-        val discordApplicationIdLong = 1518210534070292541L
-        val discordRedirectScheme = "discord-$discordApplicationId"
-
-        buildConfigField("String", "DISCORD_APPLICATION_ID", "\"$discordApplicationId\"")
-        buildConfigField("long", "DISCORD_APPLICATION_ID_LONG", "${discordApplicationIdLong}L")
-        buildConfigField("String", "DISCORD_REDIRECT_SCHEME", "\"$discordRedirectScheme\"")
-        manifestPlaceholders["discordRedirectScheme"] = discordRedirectScheme
     }
 
     flavorDimensions += listOf("abi", "variant")
