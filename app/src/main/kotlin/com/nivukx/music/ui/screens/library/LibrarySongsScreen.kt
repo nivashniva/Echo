@@ -1,6 +1,7 @@
 
 
 package com.nivukx.music.ui.screens.library
+import com.nivukx.music.ui.motion.nivukxHighEndReveal
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.Spring
@@ -153,6 +154,7 @@ fun LibrarySongsScreen(
             modifier = Modifier.fillMaxSize(),
         ) {
             LazyColumn(
+                modifier = Modifier.nivukxHighEndReveal(),
                 state = lazyListState,
                 contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues(),
             ) {
