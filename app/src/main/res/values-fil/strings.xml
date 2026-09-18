@@ -355,7 +355,7 @@
     <string name="listen_together_smart_resync">Smart Network Resync</string>
     <string name="listen_together_smart_resync_desc">Awtomatikong humabol sa host pagkatapos ng pagkawala ng koneksyon</string>
     <string name="spotify_import_title">Mag-import Mula sa Spotify</string>
-    <string name="spotify_import_desc">Ikonekta ang Spotify, pumili ng mga playlist, at i-mirror ang mga ito sa mga lokal na Echo Music playlist.</string>
+    <string name="spotify_import_desc">Ikonekta ang Spotify, pumili ng mga playlist, at i-mirror ang mga ito sa mga lokal na Nivukx playlist.</string>
     <string name="spotify_connect">Ikonekta ang Spotify</string>
     <string name="spotify_refresh">I-refresh ang Spotify library</string>
     <string name="spotify_select_sources">Pumili ng mga Spotify playlist</string>
@@ -415,10 +415,10 @@
     <string name="recognition_notification_processing">Kinikilala…</string>
     <string name="recognition_notification_no_match">Walang nakitang katugma</string>
     <string name="recognition_notification_failed">Nabigo ang pagkilala</string>
-    <string name="listen_on_echo_music">Pakinggan sa Echo Music</string>
+    <string name="listen_on_echo_music">Pakinggan sa Nivukx</string>
     <string name="qs_tile_music_recognizer">Kilalanin ang musika</string>
-    <string name="echo_brain_beta">Echo Brain (Beta)</string>
-    <string name="echo_brain_enable">Paganahin ang Echo Brain</string>
+    <string name="echo_brain_beta">Nivukx Brain (Beta)</string>
+    <string name="echo_brain_enable">Paganahin ang Nivukx Brain</string>
     <string name="echo_brain_enable_desc">Awtomatikong magdagdag ng mga rekomendasyon ng AI batay sa iyong mga nakagawian sa pakikinig</string>
     <string name="echo_brain_profile_statistics">Mga Estadistika ng Profile</string>
     <string name="echo_brain_learning_level">Antas ng Pagkatuto</string>
@@ -445,9 +445,9 @@
     <string name="listenbrainz_scrobbling">Pag-scrobble sa ListenBrainz</string>
     <string name="listenbrainz_scrobbling_description">Awtomatikong isumite sa ListenBrainz ang mga track na pinakinggan mo</string>
     <string name="set_listenbrainz_token">Itakda ang ListenBrainz Token</string>
-    <string name="youtube_decryption_settings">Echo Extractor</string>
+    <string name="youtube_decryption_settings">Nivukx Extractor</string>
     <string name="youtube_decryption_desc">I-configure ang mga setting ng extractor</string>
-    <string name="youtube_decryption_support">Echo Extractor</string>
+    <string name="youtube_decryption_support">Nivukx Extractor</string>
     <string name="youtube_decryption_support_desc">Awtomatikong kinukuha ang mga configuration ng pag-playback sa YouTube. Naka-lock sa Aktibo.</string>
     <string name="force_update_cipher">Sapilitang I-update ang mga Configuration</string>
     <string name="force_update_cipher_desc">I-download ang pinakabagong override mapping ng extractor. Limitado sa 3 update bawat araw.</string>
