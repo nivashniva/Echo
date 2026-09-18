@@ -1,6 +1,6 @@
 
 
-package com.nivukx.music.echomusic.updater
+package com.nivukx.music.nivukx.updater
 
 
 import android.content.Context
@@ -66,8 +66,8 @@ import com.nivukx.music.R
 import coil3.compose.AsyncImage
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import com.nivukx.music.echomusic.updater.downloadmanager.UpdateDownloadWorker
-import com.nivukx.music.echomusic.updater.downloadmanager.DownloadNotificationManager
+import com.nivukx.music.nivukx.updater.downloadmanager.UpdateDownloadWorker
+import com.nivukx.music.nivukx.updater.downloadmanager.DownloadNotificationManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -340,7 +340,7 @@ fun UpdateScreen(navController: NavHostController) {
                                                 ContextCompat.startActivity(context, installIntent, null)
                                             }
                                         } else {
-                                            val urlToDownload = currentStatus.apkUrl ?: "https://github.com/nivash01/Echo/releases/download/${currentStatus.version}/echomusic.apk"
+                                            val urlToDownload = currentStatus.apkUrl ?: "https://github.com/nivash01/Echo/releases/download/${currentStatus.version}/nivukx.apk"
                                             
                                             val constraints = Constraints.Builder()
                                                 .setRequiredNetworkType(NetworkType.CONNECTED)
