@@ -1,15 +1,15 @@
 
 
-package echo.music.iad1tya
-import echo.music.iad1tya.R
-import echo.music.iad1tya.BuildConfig
-import echo.music.iad1tya.ui.screens.settings.RingtoneViewModel
-import echo.music.iad1tya.ui.component.RingtoneTrimmerDialog
-import echo.music.iad1tya.ui.component.RingtoneProgressDialog
-import echo.music.iad1tya.ui.component.AppFloatingNavBar
-import echo.music.iad1tya.ui.component.liquidGlass
-import echo.music.iad1tya.ui.component.floatingtabbar.rememberFloatingTabBarScrollConnection
-import echo.music.iad1tya.constants.UseFloatingNavBarKey
+package com.nivukx.music
+import com.nivukx.music.R
+import com.nivukx.music.BuildConfig
+import com.nivukx.music.ui.screens.settings.RingtoneViewModel
+import com.nivukx.music.ui.component.RingtoneTrimmerDialog
+import com.nivukx.music.ui.component.RingtoneProgressDialog
+import com.nivukx.music.ui.component.AppFloatingNavBar
+import com.nivukx.music.ui.component.liquidGlass
+import com.nivukx.music.ui.component.floatingtabbar.rememberFloatingTabBarScrollConnection
+import com.nivukx.music.constants.UseFloatingNavBarKey
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.CompositionLocalProvider
@@ -162,73 +162,73 @@ import coil3.toBitmap
 import com.music.innertube.YouTube
 import com.music.innertube.models.SongItem
 import com.music.innertube.models.WatchEndpoint
-import echo.music.iad1tya.constants.AppBarHeight
-import echo.music.iad1tya.constants.AiRecommendationsKey
-import echo.music.iad1tya.constants.AppLanguageKey
-import echo.music.iad1tya.constants.DarkModeKey
-import echo.music.iad1tya.constants.DefaultOpenTabKey
-import echo.music.iad1tya.constants.DisableScreenshotKey
-import echo.music.iad1tya.constants.DynamicThemeKey
-import echo.music.iad1tya.constants.EnableHighRefreshRateKey
-import echo.music.iad1tya.constants.FloatingToolbarBottomPadding
-import echo.music.iad1tya.constants.FloatingToolbarHorizontalPadding
-import echo.music.iad1tya.constants.ListenTogetherInTopBarKey
-import echo.music.iad1tya.constants.ListenTogetherUsernameKey
-import echo.music.iad1tya.constants.MiniPlayerBottomSpacing
-import echo.music.iad1tya.constants.MiniPlayerHeight
-import echo.music.iad1tya.constants.NavigationBarAnimationSpec
-import echo.music.iad1tya.constants.NavigationBarHeight
-import echo.music.iad1tya.echomusic.updater.checkForUpdate
-import echo.music.iad1tya.echomusic.updater.getAutoUpdateCheckSetting
-import echo.music.iad1tya.echomusic.updater.isNewerVersion
-import echo.music.iad1tya.echomusic.updater.saveUpdateAvailableState
-import echo.music.iad1tya.echomusic.updater.getUpdateNotificationsSetting
-import echo.music.iad1tya.echomusic.UpdateNotificationHelper
+import com.nivukx.music.constants.AppBarHeight
+import com.nivukx.music.constants.AiRecommendationsKey
+import com.nivukx.music.constants.AppLanguageKey
+import com.nivukx.music.constants.DarkModeKey
+import com.nivukx.music.constants.DefaultOpenTabKey
+import com.nivukx.music.constants.DisableScreenshotKey
+import com.nivukx.music.constants.DynamicThemeKey
+import com.nivukx.music.constants.EnableHighRefreshRateKey
+import com.nivukx.music.constants.FloatingToolbarBottomPadding
+import com.nivukx.music.constants.FloatingToolbarHorizontalPadding
+import com.nivukx.music.constants.ListenTogetherInTopBarKey
+import com.nivukx.music.constants.ListenTogetherUsernameKey
+import com.nivukx.music.constants.MiniPlayerBottomSpacing
+import com.nivukx.music.constants.MiniPlayerHeight
+import com.nivukx.music.constants.NavigationBarAnimationSpec
+import com.nivukx.music.constants.NavigationBarHeight
+import com.nivukx.music.echomusic.updater.checkForUpdate
+import com.nivukx.music.echomusic.updater.getAutoUpdateCheckSetting
+import com.nivukx.music.echomusic.updater.isNewerVersion
+import com.nivukx.music.echomusic.updater.saveUpdateAvailableState
+import com.nivukx.music.echomusic.updater.getUpdateNotificationsSetting
+import com.nivukx.music.echomusic.UpdateNotificationHelper
 import android.util.Log
 import androidx.compose.ui.platform.LocalContext
-import echo.music.iad1tya.constants.PauseListenHistoryKey
-import echo.music.iad1tya.constants.PauseSearchHistoryKey
-import echo.music.iad1tya.constants.PureBlackKey
-import echo.music.iad1tya.constants.SYSTEM_DEFAULT
-import echo.music.iad1tya.constants.SelectedThemeColorKey
-import echo.music.iad1tya.constants.StopMusicOnTaskClearKey
-import echo.music.iad1tya.constants.UseNewMiniPlayerDesignKey
-import echo.music.iad1tya.constants.*
-import echo.music.iad1tya.ui.component.shimmer.getShimmerTheme
-import echo.music.iad1tya.db.MusicDatabase
-import echo.music.iad1tya.db.entities.SearchHistory
-import echo.music.iad1tya.extensions.toEnum
-import echo.music.iad1tya.models.toMediaMetadata
-import echo.music.iad1tya.playback.DownloadUtil
-import echo.music.iad1tya.playback.MusicService
-import echo.music.iad1tya.playback.MusicService.MusicBinder
-import echo.music.iad1tya.playback.PlayerConnection
-import echo.music.iad1tya.playback.queues.YouTubeQueue
-import echo.music.iad1tya.ui.component.*
-import echo.music.iad1tya.ui.component.backdrop.backdrops.rememberLayerBackdrop
-import echo.music.iad1tya.ui.component.backdrop.backdrops.layerBackdrop
-import echo.music.iad1tya.ui.menu.YouTubeSongMenu
-import echo.music.iad1tya.ui.player.BottomSheetPlayer
-import echo.music.iad1tya.ui.screens.Screens
-import echo.music.iad1tya.ui.screens.SettingDialoge
-import echo.music.iad1tya.ui.screens.WelcomeDialog
-import echo.music.iad1tya.ui.screens.navigationBuilder
-import echo.music.iad1tya.ui.screens.settings.DarkMode
-import echo.music.iad1tya.ui.screens.settings.NavigationTab
-import echo.music.iad1tya.ui.theme.ColorSaver
-import echo.music.iad1tya.ui.theme.DefaultThemeColor
-import echo.music.iad1tya.ui.theme.echomusicTheme
-import echo.music.iad1tya.ui.theme.extractThemeColor
-import echo.music.iad1tya.ui.utils.appBarScrollBehavior
-import echo.music.iad1tya.ui.utils.resetHeightOffset
-import echo.music.iad1tya.utils.SyncUtils
-import echo.music.iad1tya.utils.dataStore
-import echo.music.iad1tya.utils.get
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.utils.reportException
-import echo.music.iad1tya.utils.setAppLocale
-import echo.music.iad1tya.viewmodels.HomeViewModel
+import com.nivukx.music.constants.PauseListenHistoryKey
+import com.nivukx.music.constants.PauseSearchHistoryKey
+import com.nivukx.music.constants.PureBlackKey
+import com.nivukx.music.constants.SYSTEM_DEFAULT
+import com.nivukx.music.constants.SelectedThemeColorKey
+import com.nivukx.music.constants.StopMusicOnTaskClearKey
+import com.nivukx.music.constants.UseNewMiniPlayerDesignKey
+import com.nivukx.music.constants.*
+import com.nivukx.music.ui.component.shimmer.getShimmerTheme
+import com.nivukx.music.db.MusicDatabase
+import com.nivukx.music.db.entities.SearchHistory
+import com.nivukx.music.extensions.toEnum
+import com.nivukx.music.models.toMediaMetadata
+import com.nivukx.music.playback.DownloadUtil
+import com.nivukx.music.playback.MusicService
+import com.nivukx.music.playback.MusicService.MusicBinder
+import com.nivukx.music.playback.PlayerConnection
+import com.nivukx.music.playback.queues.YouTubeQueue
+import com.nivukx.music.ui.component.*
+import com.nivukx.music.ui.component.backdrop.backdrops.rememberLayerBackdrop
+import com.nivukx.music.ui.component.backdrop.backdrops.layerBackdrop
+import com.nivukx.music.ui.menu.YouTubeSongMenu
+import com.nivukx.music.ui.player.BottomSheetPlayer
+import com.nivukx.music.ui.screens.Screens
+import com.nivukx.music.ui.screens.SettingDialoge
+import com.nivukx.music.ui.screens.WelcomeDialog
+import com.nivukx.music.ui.screens.navigationBuilder
+import com.nivukx.music.ui.screens.settings.DarkMode
+import com.nivukx.music.ui.screens.settings.NavigationTab
+import com.nivukx.music.ui.theme.ColorSaver
+import com.nivukx.music.ui.theme.DefaultThemeColor
+import com.nivukx.music.ui.theme.echomusicTheme
+import com.nivukx.music.ui.theme.extractThemeColor
+import com.nivukx.music.ui.utils.appBarScrollBehavior
+import com.nivukx.music.ui.utils.resetHeightOffset
+import com.nivukx.music.utils.SyncUtils
+import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.get
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.utils.reportException
+import com.nivukx.music.utils.setAppLocale
+import com.nivukx.music.viewmodels.HomeViewModel
 import com.valentinilk.shimmer.LocalShimmerTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -250,9 +250,9 @@ val EmphasizedEasing = CubicBezierEasing(0.2f, 0.0f, 0.0f, 1.0f)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     companion object {
-        const val ACTION_SEARCH = "echo.music.iad1tya.action.SEARCH"
-        const val ACTION_LIBRARY = "echo.music.iad1tya.action.LIBRARY"
-        const val ACTION_RECOGNITION = "echo.music.iad1tya.action.RECOGNITION"
+        const val ACTION_SEARCH = "com.nivukx.music.action.SEARCH"
+        const val ACTION_LIBRARY = "com.nivukx.music.action.LIBRARY"
+        const val ACTION_RECOGNITION = "com.nivukx.music.action.RECOGNITION"
         const val EXTRA_AUTO_START_RECOGNITION = "auto_start_recognition"
     }
 
@@ -266,7 +266,7 @@ class MainActivity : ComponentActivity() {
     lateinit var syncUtils: SyncUtils
 
     @Inject
-    lateinit var listenTogetherManager: echo.music.iad1tya.listentogether.ListenTogetherManager
+    lateinit var listenTogetherManager: com.nivukx.music.listentogether.ListenTogetherManager
     private lateinit var navController: NavHostController
     private var pendingIntent: Intent? = null
 
@@ -400,9 +400,9 @@ class MainActivity : ComponentActivity() {
         if (java.io.File(filesDir, "clear_export_state").exists()) {
             lifecycleScope.launch {
                 dataStore.edit { preferences ->
-                    preferences.remove(echo.music.iad1tya.constants.ExportingSongIdsKey)
-                    preferences.remove(echo.music.iad1tya.constants.ExportedSongIdsKey)
-                    preferences.remove(echo.music.iad1tya.constants.ExportProgressKey)
+                    preferences.remove(com.nivukx.music.constants.ExportingSongIdsKey)
+                    preferences.remove(com.nivukx.music.constants.ExportedSongIdsKey)
+                    preferences.remove(com.nivukx.music.constants.ExportProgressKey)
                 }
                 java.io.File(filesDir, "clear_export_state").delete()
             }
@@ -431,7 +431,7 @@ class MainActivity : ComponentActivity() {
                 .collectLatest { enabled ->
                     val workManager = androidx.work.WorkManager.getInstance(this@MainActivity)
                     if (enabled) {
-                        val request = androidx.work.PeriodicWorkRequestBuilder<echo.music.iad1tya.ai.AiRecommendationWorker>(1, java.util.concurrent.TimeUnit.DAYS)
+                        val request = androidx.work.PeriodicWorkRequestBuilder<com.nivukx.music.ai.AiRecommendationWorker>(1, java.util.concurrent.TimeUnit.DAYS)
                             .setConstraints(androidx.work.Constraints.Builder().setRequiredNetworkType(androidx.work.NetworkType.CONNECTED).build())
                             .build()
                         workManager.enqueueUniquePeriodicWork(
@@ -469,22 +469,22 @@ class MainActivity : ComponentActivity() {
         val context = LocalContext.current
         var showUpdateDialog by remember { androidx.compose.runtime.mutableStateOf(false) }
         var availableUpdateVersion by remember { androidx.compose.runtime.mutableStateOf("") }
-        var availableUpdateChangelog by remember { androidx.compose.runtime.mutableStateOf<List<echo.music.iad1tya.echomusic.updater.ChangelogSection>>(emptyList()) }
+        var availableUpdateChangelog by remember { androidx.compose.runtime.mutableStateOf<List<com.nivukx.music.echomusic.updater.ChangelogSection>>(emptyList()) }
         var availableUpdateDescription by remember { androidx.compose.runtime.mutableStateOf<String?>(null) }
-        var whatsNewInfo by remember { androidx.compose.runtime.mutableStateOf<echo.music.iad1tya.echomusic.updater.WhatsNewInfo?>(null) }
+        var whatsNewInfo by remember { androidx.compose.runtime.mutableStateOf<com.nivukx.music.echomusic.updater.WhatsNewInfo?>(null) }
 
         LaunchedEffect(Unit) {
             val currentVersion = BuildConfig.VERSION_NAME
-            val lastSeenVersion = echo.music.iad1tya.echomusic.updater.getLastSeenChangelogVersion(context)
+            val lastSeenVersion = com.nivukx.music.echomusic.updater.getLastSeenChangelogVersion(context)
             if (lastSeenVersion.isEmpty()) {
                 // Fresh install, not an update — nothing "new" to show, so mark this
                 // version seen right away rather than waiting on a dialog dismissal.
-                echo.music.iad1tya.echomusic.updater.saveLastSeenChangelogVersion(context, currentVersion)
+                com.nivukx.music.echomusic.updater.saveLastSeenChangelogVersion(context, currentVersion)
             } else if (lastSeenVersion != currentVersion) {
                 // Only mark the version seen once its changelog is actually shown (see
                 // onDismiss below) — if the fetch fails here, retry on the next launch
                 // instead of losing that version's release notes forever.
-                whatsNewInfo = echo.music.iad1tya.echomusic.updater.fetchChangelogForVersion(currentVersion)
+                whatsNewInfo = com.nivukx.music.echomusic.updater.fetchChangelogForVersion(currentVersion)
             }
         }
 
@@ -609,7 +609,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        val (enableHaptics) = rememberPreference(echo.music.iad1tya.constants.EnableHapticsKey, defaultValue = false)
+        val (enableHaptics) = rememberPreference(com.nivukx.music.constants.EnableHapticsKey, defaultValue = false)
         val view = LocalView.current
         var lastScrollHapticTime by remember { mutableStateOf(0L) }
 
@@ -621,7 +621,7 @@ class MainActivity : ComponentActivity() {
 
 
         if (showUpdateDialog) {
-            echo.music.iad1tya.echomusic.component.UpdateAvailableDialog(
+            com.nivukx.music.echomusic.component.UpdateAvailableDialog(
                 version = availableUpdateVersion,
                 changelog = availableUpdateChangelog,
                 description = availableUpdateDescription,
@@ -629,11 +629,11 @@ class MainActivity : ComponentActivity() {
             )
         } else {
             whatsNewInfo?.let { info ->
-                echo.music.iad1tya.echomusic.updater.WhatsNewDialog(
+                com.nivukx.music.echomusic.updater.WhatsNewDialog(
                     version = BuildConfig.VERSION_NAME,
                     info = info,
                     onDismiss = {
-                        echo.music.iad1tya.echomusic.updater.saveLastSeenChangelogVersion(
+                        com.nivukx.music.echomusic.updater.saveLastSeenChangelogVersion(
                             context,
                             BuildConfig.VERSION_NAME,
                         )
@@ -928,7 +928,7 @@ class MainActivity : ComponentActivity() {
                 val snackbarHostState = remember { SnackbarHostState() }
                 var showSettingDialoge by remember { mutableStateOf(false) }
 
-                val (lastOpenedVersionCode, setLastOpenedVersionCode) = rememberPreference(echo.music.iad1tya.constants.LastOpenedVersionCodeKey, -1)
+                val (lastOpenedVersionCode, setLastOpenedVersionCode) = rememberPreference(com.nivukx.music.constants.LastOpenedVersionCodeKey, -1)
                 var showWelcomeDialog by remember { mutableStateOf(false) }
 
                 LaunchedEffect(lastOpenedVersionCode) {
@@ -1666,5 +1666,5 @@ val LocalPlayerConnection = staticCompositionLocalOf<PlayerConnection?> { error(
 val LocalPlayerAwareWindowInsets = compositionLocalOf<WindowInsets> { error("No WindowInsets provided") }
 val LocalDownloadUtil = staticCompositionLocalOf<DownloadUtil> { error("No DownloadUtil provided") }
 val LocalSyncUtils = staticCompositionLocalOf<SyncUtils> { error("No SyncUtils provided") }
-val LocalListenTogetherManager = staticCompositionLocalOf<echo.music.iad1tya.listentogether.ListenTogetherManager?> { null }
+val LocalListenTogetherManager = staticCompositionLocalOf<com.nivukx.music.listentogether.ListenTogetherManager?> { null }
 val LocalIsPlayerExpanded = compositionLocalOf { false }
