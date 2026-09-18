@@ -69,8 +69,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.TopAppBar
@@ -118,6 +118,8 @@ import com.nivukx.music.utils.rememberPreference
 import com.nivukx.music.viewmodels.LocalSongsScanState
 import com.nivukx.music.viewmodels.LocalSongsViewModel
 import java.text.Collator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.util.Locale
 import kotlin.math.roundToInt
@@ -208,8 +210,15 @@ fun LocalSongScreen(
     }
     val bottomContentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues().calculateBottomPadding() + 20.dp
 
-    val visibleSongs by remember(songs, query, sortType, sortDescending, collator) {
-        derivedStateOf {
+    val visibleSongs by produceState(
+        initialValue = songs,
+        songs,
+        query,
+        sortType,
+        sortDescending,
+        collator,
+    ) {
+        value = withContext(Dispatchers.Default) {
             val normalizedQuery = query.trim()
             val supportedSongs = songs.filter { song ->
                 SupportedLocalAudio.isSupportedMimeType(song.format?.mimeType)
@@ -228,14 +237,12 @@ fun LocalSongScreen(
                 LocalSongSortType.MODIFIED -> filteredSongs.sortedBy { song ->
                     song.song.dateModified ?: LocalDateTime.MIN
                 }
-
                 LocalSongSortType.NAME -> filteredSongs.sortedWith(compareBy(collator) { song -> song.song.title })
                 LocalSongSortType.ARTIST -> filteredSongs.sortedWith(
                     compareBy(collator) { song ->
                         song.artists.joinToString(separator = "") { artist -> artist.name }
                     },
                 )
-
                 LocalSongSortType.ALBUM -> filteredSongs.sortedWith(
                     compareBy(collator) { song -> song.song.albumName.orEmpty() },
                 )
