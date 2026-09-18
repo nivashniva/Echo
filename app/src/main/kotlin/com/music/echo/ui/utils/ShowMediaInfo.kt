@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.utils
+package com.nivukx.music.ui.utils
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -46,16 +46,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.music.innertube.YouTube
-import com.music.innertube.models.MediaInfo
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.db.entities.FormatEntity
-import echo.music.iad1tya.db.entities.Song
-import echo.music.iad1tya.ui.component.LocalBottomSheetPageState
-import echo.music.iad1tya.ui.component.shimmer.ShimmerHost
-import echo.music.iad1tya.ui.component.shimmer.TextPlaceholder
+import com.nivukx.innertube.YouTube
+import com.nivukx.innertube.models.MediaInfo
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.db.entities.FormatEntity
+import com.nivukx.music.db.entities.Song
+import com.nivukx.music.ui.component.LocalBottomSheetPageState
+import com.nivukx.music.ui.component.shimmer.ShimmerHost
+import com.nivukx.music.ui.component.shimmer.TextPlaceholder
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
