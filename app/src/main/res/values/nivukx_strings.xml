@@ -191,7 +191,6 @@
     <string name="skip_silence_instant_desc">Jump ahead during silent moments instead of speeding up playback</string>
 
     <string name="google">Google</string>
-    <string name="discord">Discord</string>
     <string name="advanced_login">Login with token</string>
     <string name="token_hidden">Tap to show token</string>
     <string name="token_shown">Tap again to copy or edit</string>
@@ -226,8 +225,6 @@
     <string name="proxy_username">Proxy username</string>
     <string name="proxy_password">Proxy password</string>
     <string name="enable_authentication">Enable authentication</string>
-    <string name="discord_use_details">Use details instead of state</string>
-    <string name="discord_use_details_description">Show song title prominently instead of artist names</string>
 
     <string name="audio_quality_max">Max (beta)</string>
     <string name="enable_similar_content">Enable similar content</string>
@@ -837,36 +834,9 @@
     <string name="csv_import_failed">Failed to import CSV file</string>
     <string name="csv_preview_failed">Failed to preview CSV file</string>
 
-    <!-- Discord Integration Redesign -->
-    <string name="discord_integration_settings">Discord Integration</string>
-    <string name="discord_status">Status</string>
-    <string name="discord_status_online">Online</string>
-    <string name="discord_status_idle">Idle</string>
-    <string name="discord_status_dnd">Do Not Disturb</string>
-    <string name="discord_buttons">Buttons</string>
-    <string name="discord_button_1">Button 1</string>
-    <string name="discord_button_2">Button 2</string>
     <string name="button_text">Button text</string>
     <string name="button_visible">Visible</string>
     <string name="login_successful">Login successful!</string>
-    <string name="discord_information_warning">This feature uses the KizzyRPC library to connect to Discord\'s Gateway and set your Rich Presence status. While no known account suspensions have occurred from similar usage, this method is not officially supported by Discord and may be considered a Terms of Service violation. Your token is extracted locally and never sent to third-party servers. Proceed at your own discretion.</string>
-    <string name="discord_activity_type">Activity type</string>
-    <string name="discord_activity_playing">Playing</string>
-    <string name="discord_activity_listening">Listening</string>
-    <string name="discord_activity_watching">Watching</string>
-    <string name="discord_activity_competing">Competing</string>
-    <string name="discord_customization">Customization</string>
-    <string name="discord_button_text_variables">Variables: {song_name}, {artist_name}, {album_name}</string>
-    <string name="discord_rpc_preview">Rich Presence Preview</string>
-    <string name="discord_presence">Presence</string>
-    <string name="discord_connect_description">Sign in with Discord to share what you\'re listening to</string>
-    <string name="discord_playing_nivukx">Playing Nivukx</string>
-    <string name="discord_watching_nivukx">Watching Nivukx</string>
-    <string name="discord_competing_nivukx">Competing in Nivukx</string>
-    <string name="discord_activity_name">Activity name</string>
-    <string name="discord_activity_name_description">Custom name for the activity (leave empty for default)</string>
-    <string name="discord_advanced_mode">Advanced mode</string>
-    <string name="discord_advanced_mode_description">Show additional customization options for Rich Presence</string>
     <string name="speed_dial">Speed dial</string>
     <string name="pin_to_speed_dial">Pin to Speed dial</string>
     <string name="unpin_from_speed_dial">Unpin from Speed dial</string>
