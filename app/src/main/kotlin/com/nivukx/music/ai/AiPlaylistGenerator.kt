@@ -170,10 +170,15 @@ object AiPlaylistGenerator {
 
                         onLog("Searching [${index + 1}/$totalSongs]: $title - $artist")
                         val searchQuery = "$title $artist"
-                        YouTube.search(
+                        val candidates = YouTube.search(
                             searchQuery,
                             YouTube.SearchFilter.FILTER_SONG,
-                        ).getOrNull()?.items?.firstOrNull() as? SongItem
+                        ).getOrNull()?.items.orEmpty()
+
+                        AiSongMatcher.bestMatch(
+                            AiSongMatcher.Request(title = title, artist = artist),
+                            candidates,
+                        )
                     }
                 }
             }.awaitAll().filterNotNull()
