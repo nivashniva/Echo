@@ -327,12 +327,9 @@
     <string name="backup_create_success">پشتیبان با موفقیت ایجاد شد</string>
     <string name="backup_create_failed">ایجاد فایل پشتیبان ناموفق بود</string>
     <string name="restore_failed">بازگردانی فایل پشتیبان ناموفق بود</string>
-    <string name="discord_integration">اتصال به دیسکورد</string>
-    <string name="discord_information">برنامه echomusic از کتابخانه KizzyRPC برای تنظیم وضعیت حساب دیسکورد شما استفاده می‌کند. این کار از طریق اتصال دیسکورد گیت‌وی انجام می‌شود که ممکن است نقض قوانین خدمات (TOS) دیسکورد تلقی شود. با این حال، تاکنون هیچ موردی از مسدود شدن حساب کاربران به این دلیل گزارش نشده است. مسئولیت استفاده بر عهده خودتان است.\n\nبرنامه echomusic فقط توکن شما را استخراج می‌کند و اطلاعات دیگر کاملاً به صورت محلی ذخیره می‌شوند.</string>
     <string name="dismiss">بستن</string>
     <string name="options">گزینه‌ها</string>
     <string name="preview">پیش‌نمایش</string>
-    <string name="enable_discord_rpc">فعال‌سازی وضعیت حضور (Rich Presence)</string>
     <string name="about">درباره برنامه</string>
     <string name="app_version">نسخه برنامه</string>
     <string name="new_version_available">نسخه جدید در دسترس است</string>
