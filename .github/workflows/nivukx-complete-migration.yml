@@ -1,0 +1,330 @@
+
+name: Complete Nivukx Identity Migration
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    if: ${{ !contains(github.event.head_commit.message, '[skip-nivukx-identity]') }}
+    runs-on: ubuntu-latest
+    name: Full identity migration, validation, and commit
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: "21"
+          distribution: temurin
+          cache: gradle
+
+      - name: Complete Nivukx identity migration
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import json
+          import re
+          import shutil
+          import subprocess
+
+          ROOT = Path.cwd()
+
+          TEXT_EXTENSIONS = {
+              ".kt", ".kts", ".java", ".xml", ".json", ".md", ".yml", ".yaml",
+              ".properties", ".proto", ".toml", ".txt", ".gradle", ".pro",
+              ".cpp", ".cc", ".c", ".h", ".hpp", ".cmake", ".mk", ".sym"
+          }
+
+          THIRD_PARTY_PACKAGE_RESTORE = {
+              "com.nivukx.innertube": "com.music.innertube",
+              "com.nivukx.kugou": "com.music.kugou",
+              "com.nivukx.lrclib": "com.music.lrclib",
+              "com.nivukx.paxsenix": "com.music.paxsenix",
+              "com.nivukx.shazamkit": "com.music.shazamkit",
+              "com.nivukx.simpmusic": "com.music.simpmusic",
+              "com.nivukx.youlyplus": "com.music.youlyplus",
+          }
+
+          CONTENT_REPLACEMENTS = [
+              ("echo.music.iad1tya", "com.nivukx.music"),
+              ("iad1tya.echo.music", "com.nivukx.music"),
+              ("com.music.echo", "com.nivukx.music"),
+              ("EchoMusicApp/Echo-Music", "nivash01/Echo"),
+              ("iad1tya/Echo-Music", "nivash01/Echo"),
+              ("github.com/Echo-Music", "github.com/nivash01/Echo"),
+              ("Echo-Music-Universal-GMS-APK", "Nivukx-Universal-GMS-APK"),
+              ("Echo-Music-universal-gms-debug", "Nivukx-universal-gms-debug"),
+              ("Build Echo-Music", "Build Nivukx"),
+              ("Echo Music", "Nivukx"),
+              ("EchoMusic", "Nivukx"),
+              ("Go to Echo Music", "Go to Nivukx"),
+              ("echomusicLyricsLine", "nivukxLyricsLine"),
+              ("echomusicCanvasProvider", "nivukxCanvasProvider"),
+              ("echomusicCanvasManifest", "nivukxCanvasManifest"),
+              ("echomusicCanvasItem", "nivukxCanvasItem"),
+              ("EchoNotificationProvider", "NivukxNotificationProvider"),
+              ("EchoMusicWidgetManager", "NivukxMusicWidgetManager"),
+          ]
+
+          RESOURCE_RENAMES = {
+              "echo_music_icon.xml": "nivukx_music_icon.xml",
+              "echo_music_library_circle.xml": "nivukx_music_library_circle.xml",
+              "echoequlizer.xml": "nivukx_equalizer.xml",
+              "echomusicnotification.png": "nivukxmusicnotification.png",
+              "ic_echo_brain.xml": "ic_nivukx_brain.xml",
+              "ic_qs_echo_logo.png": "ic_qs_nivukx_logo.png",
+              "license_echo.xml": "license_nivukx.xml",
+              "support_echo.xml": "support_nivukx.xml",
+              "Echo-new.png": "Nivukx-new.png",
+              "echo_strings.xml": "nivukx_strings.xml",
+          }
+
+          def rename_file(old: Path, new: Path):
+              if old == new or not old.exists():
+                  return
+              new.parent.mkdir(parents=True, exist_ok=True)
+              if new.exists():
+                  if old.read_bytes() == new.read_bytes():
+                      old.unlink()
+                      return
+                  raise RuntimeError(f"Rename collision with different contents: {old} -> {new}")
+              old.rename(new)
+
+          # Normalize legacy package path trees.
+          for path in sorted(
+              [p for p in ROOT.rglob("*") if p.is_file() and ".git" not in p.parts],
+              key=lambda p: len(p.parts),
+              reverse=True,
+          ):
+              rel = path.relative_to(ROOT).as_posix()
+              new_rel = rel.replace("/com/music/echo/", "/com/nivukx/music/")
+              new_rel = new_rel.replace("/echo/music/iad1tya/", "/com/nivukx/music/")
+              if new_rel != rel:
+                  rename_file(path, ROOT / new_rel)
+
+          # Rename branding-bearing source/resource files.
+          for path in sorted(
+              [p for p in ROOT.rglob("*") if p.is_file() and ".git" not in p.parts],
+              key=lambda p: len(p.parts),
+              reverse=True,
+          ):
+              name = path.name
+              if name in RESOURCE_RENAMES:
+                  rename_file(path, path.with_name(RESOURCE_RENAMES[name]))
+                  continue
+              new_name = name.replace("EchoMusic", "NivukxMusic")
+              new_name = new_name.replace("echo_music", "nivukx_music")
+              new_name = new_name.replace("echomusicupdater", "nivukxupdater")
+              if new_name != name:
+                  rename_file(path, path.with_name(new_name))
+
+          # Consolidate Room history under the canonical Nivukx schema namespace.
+          schema_root = ROOT / "core" / "schemas"
+          canonical_source = schema_root / "echo.music.iad1tya.db.InternalDatabase"
+          canonical_target = schema_root / "com.nivukx.music.db.InternalDatabase"
+          if canonical_source.exists():
+              canonical_target.mkdir(parents=True, exist_ok=True)
+              for child in canonical_source.iterdir():
+                  target = canonical_target / child.name
+                  if target.exists():
+                      if target.read_bytes() != child.read_bytes():
+                          raise RuntimeError(f"Conflicting Room schema version: {child.name}")
+                      child.unlink()
+                  else:
+                      child.rename(target)
+              canonical_source.rmdir()
+
+          for legacy_dir_name in (
+              "com.music.echo.db.InternalDatabase",
+              "iad1tya.echo.music.db.InternalDatabase",
+          ):
+              legacy_dir = schema_root / legacy_dir_name
+              if legacy_dir.exists():
+                  shutil.rmtree(legacy_dir)
+
+          # Remove stale Firebase configuration tied to the old application identity.
+          stale_google_services = ROOT / "app" / "google-services.json"
+          if stale_google_services.exists():
+              stale_google_services.unlink()
+
+          REFERENCE_REPLACEMENTS = {
+              "R.drawable.echo_music_icon": "R.drawable.nivukx_music_icon",
+              "R.drawable.echo_music_library_circle": "R.drawable.nivukx_music_library_circle",
+              "R.drawable.echoequlizer": "R.drawable.nivukx_equalizer",
+              "@drawable/echo_music_icon": "@drawable/nivukx_music_icon",
+              "@drawable/echo_music_library_circle": "@drawable/nivukx_music_library_circle",
+              "@drawable/echoequlizer": "@drawable/nivukx_equalizer",
+              "R.drawable.ic_echo_brain": "R.drawable.ic_nivukx_brain",
+              "@drawable/ic_echo_brain": "@drawable/ic_nivukx_brain",
+              "R.drawable.ic_qs_echo_logo": "R.drawable.ic_qs_nivukx_logo",
+              "@drawable/ic_qs_echo_logo": "@drawable/ic_qs_nivukx_logo",
+              "R.drawable.license_echo": "R.drawable.license_nivukx",
+              "R.drawable.support_echo": "R.drawable.support_nivukx",
+              "assets/Echo-new.png": "assets/Nivukx-new.png",
+              "assets/Echo.png": "assets/Nivukx.png",
+          }
+
+          for path in ROOT.rglob("*"):
+              if not path.is_file() or ".git" in path.parts or path.suffix.lower() not in TEXT_EXTENSIONS:
+                  continue
+              try:
+                  original = path.read_text(encoding="utf-8")
+              except (UnicodeDecodeError, OSError):
+                  continue
+
+              updated = original
+              for old, new in CONTENT_REPLACEMENTS:
+                  updated = updated.replace(old, new)
+              for old, new in THIRD_PARTY_PACKAGE_RESTORE.items():
+                  updated = updated.replace(old, new)
+              for old, new in REFERENCE_REPLACEMENTS.items():
+                  updated = updated.replace(old, new)
+
+              if updated != original:
+                  path.write_text(updated, encoding="utf-8")
+
+          # Make local setup instructions Nivukx-branded while preserving the real GitHub slug.
+          for path in [
+              ROOT / "README.md",
+              ROOT / "SETUP.md",
+              ROOT / "CONTRIBUTING.md",
+              ROOT / "AGENT.md",
+              ROOT / "PRIVACY_POLICY.md",
+              ROOT / "RELEASE_INFO.md",
+              ROOT / "SECURITY.md",
+          ]:
+              if not path.exists():
+                  continue
+              text = path.read_text(encoding="utf-8")
+              text = text.replace(
+                  "git clone https://github.com/nivash01/Echo.git\ncd Echo",
+                  "git clone https://github.com/nivash01/Echo.git Nivukx\ncd Nivukx",
+              )
+              text = text.replace("cd Echo", "cd Nivukx")
+              text = text.replace("Echo-Music", "Nivukx")
+              text = text.replace("Echo Music", "Nivukx")
+              text = text.replace("echomusiccanvas", "nivukxcanvas")
+              path.write_text(text, encoding="utf-8")
+
+          # Normalize CI display/artifact names.
+          for path in (ROOT / ".github" / "workflows").glob("*.yml"):
+              text = path.read_text(encoding="utf-8")
+              text = text.replace("Build Echo-Music", "Build Nivukx")
+              text = text.replace("Echo-Music-Universal-GMS-APK", "Nivukx-Universal-GMS-APK")
+              text = text.replace("Echo-Music-universal-gms-debug", "Nivukx-universal-gms-debug")
+              path.write_text(text, encoding="utf-8")
+
+          # Track the identity migration in upcoming updates.
+          upcoming = ROOT / "upcomingupdate.json"
+          if upcoming.exists():
+              payload = json.loads(upcoming.read_text(encoding="utf-8"))
+              note = "Complete Nivukx identity migration across packages, resources, schemas, manifests, and build metadata."
+              features = payload.setdefault("features", [])
+              if note not in features:
+                  features.append(note)
+              upcoming.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+          # Validate repository identity before any commit.
+          forbidden = [
+              re.compile(r"echo\.music\.iad1tya"),
+              re.compile(r"com\.music\.echo"),
+              re.compile(r"iad1tya\.echo\.music"),
+              re.compile(r"github\.com/EchoMusicApp/Echo-Music"),
+              re.compile(r"github\.com/iad1tya/Echo-Music"),
+              re.compile(r"\bEcho-Music\b"),
+              re.compile(r"\bEcho Music\b"),
+              re.compile(r"R\.drawable\.echoequlizer"),
+              re.compile(r"R\.drawable\.ic_echo_brain"),
+              re.compile(r"R\.drawable\.ic_qs_echo_logo"),
+          ]
+
+          violations = []
+          for path in ROOT.rglob("*"):
+              if not path.is_file() or ".git" in path.parts or path.suffix.lower() not in TEXT_EXTENSIONS:
+                  continue
+              try:
+                  content = path.read_text(encoding="utf-8", errors="replace")
+              except OSError:
+                  continue
+              for pattern in forbidden:
+                  if pattern.search(content):
+                      violations.append(f"{path}: {pattern.pattern}")
+
+          for path in ROOT.rglob("*"):
+              if not path.exists() or ".git" in path.parts:
+                  continue
+              rel = path.relative_to(ROOT).as_posix()
+              if (
+                  "com/music/echo" in rel
+                  or "echo/music/iad1tya" in rel
+                  or "core/schemas/com.music.echo.db.InternalDatabase" in rel
+                  or "core/schemas/iad1tya.echo.music.db.InternalDatabase" in rel
+                  or "core/schemas/echo.music.iad1tya.db.InternalDatabase" in rel
+              ):
+                  violations.append(f"path: {rel}")
+
+          app_gradle = (ROOT / "app/build.gradle.kts").read_text(encoding="utf-8")
+          settings = (ROOT / "settings.gradle.kts").read_text(encoding="utf-8")
+          if 'namespace = "com.nivukx.music"' not in app_gradle:
+              violations.append("app/build.gradle.kts: missing Nivukx namespace")
+          if 'applicationId = nivukxApplicationId' not in app_gradle or 'val nivukxApplicationId = "com.nivukx.music"' not in app_gradle:
+              violations.append("app/build.gradle.kts: missing Nivukx application ID")
+          if 'rootProject.name = "Nivukx"' not in settings:
+              violations.append("settings.gradle.kts: root project is not Nivukx")
+          if '":nivukxcanvas"' not in settings:
+              violations.append("settings.gradle.kts: nivukxcanvas missing")
+          if (ROOT / "app/google-services.json").exists():
+              violations.append("app/google-services.json: stale identity-bound config remains")
+
+          canonical_schema = ROOT / "core/schemas/com.nivukx.music.db.InternalDatabase"
+          versions = sorted(int(p.stem) for p in canonical_schema.glob("*.json") if p.stem.isdigit()) if canonical_schema.exists() else []
+          if not canonical_schema.exists() or max(versions, default=0) < 46:
+              violations.append(f"Room schema: canonical Nivukx namespace/version missing: {versions[-5:]}")
+
+          if violations:
+              print("IDENTITY MIGRATION VALIDATION FAILED")
+              for item in violations[:200]:
+                  print(item)
+              raise SystemExit(1)
+
+          print("Identity validation passed.")
+          PY
+
+      - name: Compile Universal GMS Kotlin
+        run: |
+          chmod +x ./gradlew
+          ./gradlew :app:compileUniversalGmsDebugKotlin --stacktrace --no-daemon
+
+      - name: Build Universal GMS debug APK
+        run: ./gradlew assembleUniversalGmsDebug --stacktrace --no-daemon
+
+      - name: Remove one-shot migration workflow
+        run: git rm .github/workflows/nivukx-complete-migration.yml
+
+      - name: Final diff validation
+        run: |
+          git diff --check
+          git status --short
+          git diff --stat
+
+      - name: Commit final migration to main
+        run: |
+          git add -A
+          git commit -m "refactor(identity): complete full Nivukx migration [skip-nivukx-identity]"
+          git push origin main
