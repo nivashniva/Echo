@@ -135,18 +135,6 @@ object AiPlaylistModifier {
         val additionsArray = parsedJson.optJSONArray("additions")
 
         val totalToRemove = removeIdsArray?.length() ?: 0
-        if (totalToRemove > 0) {
-            onLog("Removing $totalToRemove songs...")
-            for (i in 0 until totalToRemove) {
-                val idToRemove = removeIdsArray?.optInt(i, -1) ?: -1
-                if (idToRemove != -1) {
-                    val mapEntry = currentSongs.find { it.map.id == idToRemove }?.map
-                    if (mapEntry != null) {
-                        database.delete(mapEntry)
-                    }
-                }
-            }
-        }
 
         val totalToAdd = additionsArray?.length() ?: 0
         if (totalToAdd > 0) {
@@ -170,28 +158,46 @@ object AiPlaylistModifier {
 
             if (resolvedSongs.isNotEmpty()) {
                 onLog("Adding ${resolvedSongs.size} songs to playlist...")
-                
-                // Get the current max position to append new songs
-                val maxPosition = currentSongs.maxOfOrNull { it.map.position } ?: -1
 
-                resolvedSongs.forEachIndexed { index, songItem ->
-                    val songEntity = SongEntity(
-                        id = songItem.id,
-                        title = songItem.title,
-                        duration = songItem.duration ?: 0,
-                        thumbnailUrl = songItem.thumbnail
-                    )
-                    database.upsert(songEntity)
-                    database.insert(
-                        PlaylistSongMap(
-                            playlistId = playlistId,
-                            songId = songItem.id,
-                            position = maxPosition + 1 + index
+                database.transaction {
+                    val maxPosition = currentSongs.maxOfOrNull { it.map.position } ?: -1
+
+                    for (i in 0 until totalToRemove) {
+                        val idToRemove = removeIdsArray?.optInt(i, -1) ?: -1
+                        if (idToRemove != -1) {
+                            currentSongs.find { it.map.id == idToRemove }?.map?.let(::delete)
+                        }
+                    }
+
+                    resolvedSongs.forEachIndexed { index, songItem ->
+                        val songEntity = SongEntity(
+                            id = songItem.id,
+                            title = songItem.title,
+                            duration = songItem.duration ?: 0,
+                            thumbnailUrl = songItem.thumbnail
                         )
-                    )
+                        upsert(songEntity)
+                        insert(
+                            PlaylistSongMap(
+                                playlistId = playlistId,
+                                songId = songItem.id,
+                                position = maxPosition + 1 + index
+                            )
+                        )
+                    }
                 }
             } else {
                 onLog("Failed to find any of the suggested additions.")
+                if (totalToRemove > 0) {
+                    database.transaction {
+                        for (i in 0 until totalToRemove) {
+                            val idToRemove = removeIdsArray?.optInt(i, -1) ?: -1
+                            if (idToRemove != -1) {
+                                currentSongs.find { it.map.id == idToRemove }?.map?.let(::delete)
+                            }
+                        }
+                    }
+                }
             }
         }
 
