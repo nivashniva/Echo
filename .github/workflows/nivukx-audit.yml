@@ -25,22 +25,6 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Provision Android debug keystore
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p "$HOME/.android"
-          if [[ ! -f "$HOME/.android/debug.keystore" ]]; then
-            keytool -genkeypair \
-              -keystore "$HOME/.android/debug.keystore" \
-              -storepass android \
-              -alias androiddebugkey \
-              -keypass android \
-              -dname "CN=Android Debug,O=Android,C=US" \
-              -keyalg RSA \
-              -validity 10000
-          fi
-
       - name: Run Python repository audit
         run: python3 scripts/nivukx_audit.py
 
