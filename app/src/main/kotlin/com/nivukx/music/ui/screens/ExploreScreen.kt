@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens
+package com.nivukx.music.ui.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -58,25 +58,25 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.music.innertube.models.SongItem
 import com.music.innertube.models.WatchEndpoint
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.ListItemHeight
-import echo.music.iad1tya.models.toMediaMetadata
-import echo.music.iad1tya.playback.queues.YouTubeQueue
-import echo.music.iad1tya.ui.component.LocalMenuState
-import echo.music.iad1tya.ui.component.NavigationTitle
-import echo.music.iad1tya.ui.component.YouTubeGridItem
-import echo.music.iad1tya.ui.component.YouTubeListItem
-import echo.music.iad1tya.ui.component.shimmer.GridItemPlaceHolder
-import echo.music.iad1tya.ui.component.shimmer.ShimmerHost
-import echo.music.iad1tya.ui.component.shimmer.TextPlaceholder
-import echo.music.iad1tya.ui.menu.YouTubeAlbumMenu
-import echo.music.iad1tya.ui.menu.YouTubeSongMenu
-import echo.music.iad1tya.ui.utils.SnapLayoutInfoProvider
-import echo.music.iad1tya.utils.listItemShape
-import echo.music.iad1tya.viewmodels.ChartsViewModel
-import echo.music.iad1tya.viewmodels.ExploreViewModel
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.ListItemHeight
+import com.nivukx.music.models.toMediaMetadata
+import com.nivukx.music.playback.queues.YouTubeQueue
+import com.nivukx.music.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.NavigationTitle
+import com.nivukx.music.ui.component.YouTubeGridItem
+import com.nivukx.music.ui.component.YouTubeListItem
+import com.nivukx.music.ui.component.shimmer.GridItemPlaceHolder
+import com.nivukx.music.ui.component.shimmer.ShimmerHost
+import com.nivukx.music.ui.component.shimmer.TextPlaceholder
+import com.nivukx.music.ui.menu.YouTubeAlbumMenu
+import com.nivukx.music.ui.menu.YouTubeSongMenu
+import com.nivukx.music.ui.utils.SnapLayoutInfoProvider
+import com.nivukx.music.utils.listItemShape
+import com.nivukx.music.viewmodels.ChartsViewModel
+import com.nivukx.music.viewmodels.ExploreViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable

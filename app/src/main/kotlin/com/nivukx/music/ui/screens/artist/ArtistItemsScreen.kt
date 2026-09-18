@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.artist
+package com.nivukx.music.ui.screens.artist
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -38,29 +38,29 @@ import com.music.innertube.models.ArtistItem
 import com.music.innertube.models.PlaylistItem
 import com.music.innertube.models.SongItem
 import com.music.innertube.models.WatchEndpoint
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.GridItemSize
-import echo.music.iad1tya.constants.GridItemsSizeKey
-import echo.music.iad1tya.constants.GridThumbnailHeight
-import echo.music.iad1tya.models.toMediaMetadata
-import echo.music.iad1tya.playback.queues.YouTubeQueue
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.LocalMenuState
-import echo.music.iad1tya.ui.component.YouTubeGridItem
-import echo.music.iad1tya.ui.component.YouTubeListItem
-import echo.music.iad1tya.ui.component.shimmer.GridItemPlaceHolder
-import echo.music.iad1tya.ui.component.shimmer.ListItemPlaceHolder
-import echo.music.iad1tya.ui.component.shimmer.ShimmerHost
-import echo.music.iad1tya.ui.menu.YouTubeAlbumMenu
-import echo.music.iad1tya.ui.menu.YouTubeArtistMenu
-import echo.music.iad1tya.ui.menu.YouTubePlaylistMenu
-import echo.music.iad1tya.ui.menu.YouTubeSongMenu
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.utils.listItemShape
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.viewmodels.ArtistItemsViewModel
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.GridItemSize
+import com.nivukx.music.constants.GridItemsSizeKey
+import com.nivukx.music.constants.GridThumbnailHeight
+import com.nivukx.music.models.toMediaMetadata
+import com.nivukx.music.playback.queues.YouTubeQueue
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.YouTubeGridItem
+import com.nivukx.music.ui.component.YouTubeListItem
+import com.nivukx.music.ui.component.shimmer.GridItemPlaceHolder
+import com.nivukx.music.ui.component.shimmer.ListItemPlaceHolder
+import com.nivukx.music.ui.component.shimmer.ShimmerHost
+import com.nivukx.music.ui.menu.YouTubeAlbumMenu
+import com.nivukx.music.ui.menu.YouTubeArtistMenu
+import com.nivukx.music.ui.menu.YouTubePlaylistMenu
+import com.nivukx.music.ui.menu.YouTubeSongMenu
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.utils.listItemShape
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.viewmodels.ArtistItemsViewModel
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable

@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.component
+package com.nivukx.music.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedContent
@@ -30,8 +30,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.ThumbnailCornerRadius
+import com.nivukx.music.R
+import com.nivukx.music.constants.ThumbnailCornerRadius
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random

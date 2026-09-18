@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.component
+package com.nivukx.music.ui.component
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,8 +12,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import echo.music.iad1tya.R
-import echo.music.iad1tya.ai.AiRecommendationHelper
+import com.nivukx.music.R
+import com.nivukx.music.ai.AiRecommendationHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

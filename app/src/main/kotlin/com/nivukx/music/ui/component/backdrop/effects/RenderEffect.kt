@@ -7,15 +7,15 @@
  * scale for cheaper effect rendering. KMP expect/actual declarations were
  * merged into this single Android source set. Package renamed accordingly.
  */
-package echo.music.iad1tya.ui.component.backdrop.effects
+package com.nivukx.music.ui.component.backdrop.effects
 
 import androidx.compose.ui.graphics.RenderEffect
-import echo.music.iad1tya.ui.component.backdrop.BackdropEffectScope
-import echo.music.iad1tya.ui.component.backdrop.RuntimeShader
-import echo.music.iad1tya.ui.component.backdrop.internal.RuntimeShaderEffect
-import echo.music.iad1tya.ui.component.backdrop.internal.chain
-import echo.music.iad1tya.ui.component.backdrop.isRenderEffectSupported
-import echo.music.iad1tya.ui.component.backdrop.isRuntimeShaderSupported
+import com.nivukx.music.ui.component.backdrop.BackdropEffectScope
+import com.nivukx.music.ui.component.backdrop.RuntimeShader
+import com.nivukx.music.ui.component.backdrop.internal.RuntimeShaderEffect
+import com.nivukx.music.ui.component.backdrop.internal.chain
+import com.nivukx.music.ui.component.backdrop.isRenderEffectSupported
+import com.nivukx.music.ui.component.backdrop.isRuntimeShaderSupported
 import org.intellij.lang.annotations.Language
 import kotlin.contracts.ExperimentalContracts
 

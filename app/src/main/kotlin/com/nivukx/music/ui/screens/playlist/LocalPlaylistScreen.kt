@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.playlist
+package com.nivukx.music.ui.screens.playlist
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -185,8 +185,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.Alignment
-import echo.music.iad1tya.ui.component.LocalSongPickerDialog
-import echo.music.iad1tya.constants.MiniPlayerHeight
+import com.nivukx.music.ui.component.LocalSongPickerDialog
+import com.nivukx.music.constants.MiniPlayerHeight
 import androidx.compose.foundation.background
 
 import androidx.compose.runtime.LaunchedEffect
@@ -347,142 +347,142 @@ import androidx.compose.foundation.background
 import com.music.innertube.utils.completed
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.LocalDatabase
+import com.nivukx.music.LocalDatabase
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.LocalDownloadUtil
+import com.nivukx.music.LocalDownloadUtil
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerAwareWindowInsets
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.LocalPlayerConnection
+import com.nivukx.music.LocalPlayerConnection
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.LocalSyncUtils
+import com.nivukx.music.LocalSyncUtils
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.R
+import com.nivukx.music.R
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.constants.DarkModeKey
+import com.nivukx.music.constants.DarkModeKey
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.constants.PlaylistEditLockKey
+import com.nivukx.music.constants.PlaylistEditLockKey
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.constants.PlaylistSongSortDescendingKey
+import com.nivukx.music.constants.PlaylistSongSortDescendingKey
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.constants.PlaylistSongSortType
+import com.nivukx.music.constants.PlaylistSongSortType
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.constants.PlaylistSongSortTypeKey
+import com.nivukx.music.constants.PlaylistSongSortTypeKey
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.constants.SwipeToRemoveSongKey
+import com.nivukx.music.constants.SwipeToRemoveSongKey
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.db.entities.Playlist
+import com.nivukx.music.db.entities.Playlist
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.db.entities.PlaylistSong
+import com.nivukx.music.db.entities.PlaylistSong
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.db.entities.PlaylistSongMap
+import com.nivukx.music.db.entities.PlaylistSongMap
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.extensions.move
+import com.nivukx.music.extensions.move
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.extensions.toMediaItem
+import com.nivukx.music.extensions.toMediaItem
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.models.toMediaMetadata
+import com.nivukx.music.models.toMediaMetadata
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.playback.ExoDownloadService
+import com.nivukx.music.playback.ExoDownloadService
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.playback.queues.ListQueue
+import com.nivukx.music.playback.queues.ListQueue
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.playback.queues.YouTubeQueue
+import com.nivukx.music.playback.queues.YouTubeQueue
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.component.ActionPromptDialog
+import com.nivukx.music.ui.component.ActionPromptDialog
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.component.DefaultDialog
+import com.nivukx.music.ui.component.DefaultDialog
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.component.DraggableScrollbar
+import com.nivukx.music.ui.component.DraggableScrollbar
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.component.EmptyPlaceholder
+import com.nivukx.music.ui.component.EmptyPlaceholder
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.component.IconButton
+import com.nivukx.music.ui.component.IconButton
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.LocalMenuState
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.component.OverlayEditButton
+import com.nivukx.music.ui.component.OverlayEditButton
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.component.SongListItem
+import com.nivukx.music.ui.component.SongListItem
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.component.YouTubeListItem
+import com.nivukx.music.ui.component.YouTubeListItem
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.component.SortHeader
+import com.nivukx.music.ui.component.SortHeader
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.component.TextFieldDialog
+import com.nivukx.music.ui.component.TextFieldDialog
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.menu.CustomThumbnailMenu
+import com.nivukx.music.ui.menu.CustomThumbnailMenu
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.component.ExpandableText
+import com.nivukx.music.ui.component.ExpandableText
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.menu.LocalPlaylistMenu
+import com.nivukx.music.ui.menu.LocalPlaylistMenu
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.menu.SelectionSongMenu
+import com.nivukx.music.ui.menu.SelectionSongMenu
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.menu.SongMenu
+import com.nivukx.music.ui.menu.SongMenu
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.screens.settings.DarkMode
+import com.nivukx.music.ui.screens.settings.DarkMode
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.ui.utils.backToMain
+import com.nivukx.music.ui.utils.backToMain
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.utils.listItemShape
+import com.nivukx.music.utils.listItemShape
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.utils.makeTimeString
+import com.nivukx.music.utils.makeTimeString
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberEnumPreference
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.utils.rememberPreference
 import androidx.compose.foundation.background
 
 import android.widget.Toast
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.utils.reportException
+import com.nivukx.music.utils.reportException
 import androidx.compose.foundation.background
 
-import echo.music.iad1tya.viewmodels.LocalPlaylistViewModel
+import com.nivukx.music.viewmodels.LocalPlaylistViewModel
 import androidx.compose.foundation.background
 
 import com.yalantis.ucrop.UCrop

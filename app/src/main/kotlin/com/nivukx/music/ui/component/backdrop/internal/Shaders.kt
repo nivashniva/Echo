@@ -23,7 +23,7 @@
    limitations under the License.
  */
 
-package echo.music.iad1tya.ui.component.backdrop.internal
+package com.nivukx.music.ui.component.backdrop.internal
 
 import org.intellij.lang.annotations.Language
 

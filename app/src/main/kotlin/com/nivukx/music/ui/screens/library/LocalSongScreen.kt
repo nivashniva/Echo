@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.library
+package com.nivukx.music.ui.screens.library
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -75,7 +75,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.mutableStateListOf
-import echo.music.iad1tya.ui.menu.SelectionSongMenu
+import com.nivukx.music.ui.menu.SelectionSongMenu
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -96,27 +96,27 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.CONTENT_TYPE_HEADER
-import echo.music.iad1tya.constants.CONTENT_TYPE_SONG
-import echo.music.iad1tya.constants.LocalSongsExcludedFoldersKey
-import echo.music.iad1tya.constants.LocalSongsMinDurationSecondsKey
-import echo.music.iad1tya.constants.LocalSongsSortDescendingKey
-import echo.music.iad1tya.constants.LocalSongsSortTypeKey
-import echo.music.iad1tya.extensions.toMediaItem
-import echo.music.iad1tya.extensions.togglePlayPause
-import echo.music.iad1tya.localmedia.LocalSongScanConfig
-import echo.music.iad1tya.localmedia.SupportedLocalAudio
-import echo.music.iad1tya.playback.queues.ListQueue
-import echo.music.iad1tya.ui.component.LocalMenuState
-import echo.music.iad1tya.ui.component.SongListItem
-import echo.music.iad1tya.ui.component.SortHeader
-import echo.music.iad1tya.ui.menu.SongMenu
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.viewmodels.LocalSongsScanState
-import echo.music.iad1tya.viewmodels.LocalSongsViewModel
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.CONTENT_TYPE_HEADER
+import com.nivukx.music.constants.CONTENT_TYPE_SONG
+import com.nivukx.music.constants.LocalSongsExcludedFoldersKey
+import com.nivukx.music.constants.LocalSongsMinDurationSecondsKey
+import com.nivukx.music.constants.LocalSongsSortDescendingKey
+import com.nivukx.music.constants.LocalSongsSortTypeKey
+import com.nivukx.music.extensions.toMediaItem
+import com.nivukx.music.extensions.togglePlayPause
+import com.nivukx.music.localmedia.LocalSongScanConfig
+import com.nivukx.music.localmedia.SupportedLocalAudio
+import com.nivukx.music.playback.queues.ListQueue
+import com.nivukx.music.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.SongListItem
+import com.nivukx.music.ui.component.SortHeader
+import com.nivukx.music.ui.menu.SongMenu
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.viewmodels.LocalSongsScanState
+import com.nivukx.music.viewmodels.LocalSongsViewModel
 import java.text.Collator
 import java.time.LocalDateTime
 import java.util.Locale
@@ -475,7 +475,7 @@ fun LocalSongScreen(
                         song = song,
                         showInLibraryIcon = false,
                         showDownloadIcon = false,
-                        shape = echo.music.iad1tya.utils.listItemShape(index, visibleSongs.size),
+                        shape = com.nivukx.music.utils.listItemShape(index, visibleSongs.size),
                         isActive = song.id == mediaMetadata?.id,
                         isPlaying = isPlaying,
                         trailingContent = {

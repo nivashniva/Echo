@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.library
+package com.nivukx.music.ui.screens.library
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.Spring
@@ -56,31 +56,31 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.CONTENT_TYPE_HEADER
-import echo.music.iad1tya.constants.CONTENT_TYPE_SONG
-import echo.music.iad1tya.constants.HideExplicitKey
-import echo.music.iad1tya.constants.SongFilter
-import echo.music.iad1tya.constants.SongFilterKey
-import echo.music.iad1tya.constants.SongSortDescendingKey
-import echo.music.iad1tya.constants.SongSortType
-import echo.music.iad1tya.constants.SongSortTypeKey
-import echo.music.iad1tya.constants.YtmSyncKey
-import echo.music.iad1tya.extensions.toMediaItem
-import echo.music.iad1tya.playback.queues.ListQueue
-import echo.music.iad1tya.ui.component.ChipsRow
-import echo.music.iad1tya.ui.component.HideOnScrollFAB
-import echo.music.iad1tya.ui.component.LocalMenuState
-import echo.music.iad1tya.ui.component.SongListItem
-import echo.music.iad1tya.ui.component.SortHeader
-import echo.music.iad1tya.ui.menu.SelectionSongMenu
-import echo.music.iad1tya.ui.menu.SongMenu
-import echo.music.iad1tya.utils.listItemShape
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.viewmodels.LibrarySongsViewModel
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.CONTENT_TYPE_HEADER
+import com.nivukx.music.constants.CONTENT_TYPE_SONG
+import com.nivukx.music.constants.HideExplicitKey
+import com.nivukx.music.constants.SongFilter
+import com.nivukx.music.constants.SongFilterKey
+import com.nivukx.music.constants.SongSortDescendingKey
+import com.nivukx.music.constants.SongSortType
+import com.nivukx.music.constants.SongSortTypeKey
+import com.nivukx.music.constants.YtmSyncKey
+import com.nivukx.music.extensions.toMediaItem
+import com.nivukx.music.playback.queues.ListQueue
+import com.nivukx.music.ui.component.ChipsRow
+import com.nivukx.music.ui.component.HideOnScrollFAB
+import com.nivukx.music.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.SongListItem
+import com.nivukx.music.ui.component.SortHeader
+import com.nivukx.music.ui.menu.SelectionSongMenu
+import com.nivukx.music.ui.menu.SongMenu
+import com.nivukx.music.utils.listItemShape
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.viewmodels.LibrarySongsViewModel
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable

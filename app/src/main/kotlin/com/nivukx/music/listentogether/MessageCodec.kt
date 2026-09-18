@@ -1,9 +1,9 @@
 
 
-package echo.music.iad1tya.listentogether
+package com.nivukx.music.listentogether
 
 import com.google.protobuf.MessageLite
-import echo.music.iad1tya.listentogether.proto.Listentogether
+import com.nivukx.music.listentogether.proto.Listentogether
 import kotlinx.serialization.json.Json
 import timber.log.Timber
 import java.io.ByteArrayInputStream

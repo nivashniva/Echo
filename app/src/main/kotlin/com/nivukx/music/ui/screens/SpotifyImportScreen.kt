@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package echo.music.iad1tya.ui.screens
+package com.nivukx.music.ui.screens
 
 import android.webkit.CookieManager
 import android.webkit.WebResourceRequest
@@ -33,20 +33,20 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.R
-import echo.music.iad1tya.spotifyimport.SpotifyImportViewModel
-import echo.music.iad1tya.spotifyimport.SpotifyImportUiState
-import echo.music.iad1tya.spotifyimport.SpotifyImportProgressUi
-import echo.music.iad1tya.spotifyimport.SpotifyImportSummaryUi
-import echo.music.iad1tya.spotifyimport.SpotifyImportSourceUi
-import echo.music.iad1tya.spotifyimport.SpotifyImportSourceType
-import echo.music.iad1tya.ui.component.DefaultDialog
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.Material3SettingsGroup
-import echo.music.iad1tya.ui.component.Material3SettingsItem
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.spotify.SpotifyAuth
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.R
+import com.nivukx.music.spotifyimport.SpotifyImportViewModel
+import com.nivukx.music.spotifyimport.SpotifyImportUiState
+import com.nivukx.music.spotifyimport.SpotifyImportProgressUi
+import com.nivukx.music.spotifyimport.SpotifyImportSummaryUi
+import com.nivukx.music.spotifyimport.SpotifyImportSourceUi
+import com.nivukx.music.spotifyimport.SpotifyImportSourceType
+import com.nivukx.music.ui.component.DefaultDialog
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.Material3SettingsGroup
+import com.nivukx.music.ui.component.Material3SettingsItem
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.spotify.SpotifyAuth
 import android.net.Uri
 
 @Composable
@@ -415,7 +415,7 @@ private fun SpotifyLoginSheet(
                         mainWebView = this
                         cookieManager.removeAllCookies(null)
                         cookieManager.flush()
-                        loadUrl(echo.music.iad1tya.spotify.SpotifyAuth.LOGIN_URL)
+                        loadUrl(com.nivukx.music.spotify.SpotifyAuth.LOGIN_URL)
                     }
                     container.addView(
                         spotifyWebView,

@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.component.shimmer
+package com.nivukx.music.ui.component.shimmer
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -17,9 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-import echo.music.iad1tya.constants.ListItemHeight
-import echo.music.iad1tya.constants.ListThumbnailSize
-import echo.music.iad1tya.constants.ThumbnailCornerRadius
+import com.nivukx.music.constants.ListItemHeight
+import com.nivukx.music.constants.ListThumbnailSize
+import com.nivukx.music.constants.ThumbnailCornerRadius
 
 @Composable
 fun ListItemPlaceHolder(

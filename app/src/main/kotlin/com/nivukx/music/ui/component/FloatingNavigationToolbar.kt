@@ -2,7 +2,7 @@
 
 @file:OptIn(ExperimentalMaterial3ExpressiveApi::class)
 
-package echo.music.iad1tya.ui.component
+package com.nivukx.music.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -81,12 +81,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import echo.music.iad1tya.R
-import echo.music.iad1tya.ui.screens.Screens
-import echo.music.iad1tya.ui.component.LocalGlassEffectConfig
-import echo.music.iad1tya.ui.component.isGlassSupported
-import echo.music.iad1tya.ui.component.liquidGlass
-import echo.music.iad1tya.ui.component.GlassComponent
+import com.nivukx.music.R
+import com.nivukx.music.ui.screens.Screens
+import com.nivukx.music.ui.component.LocalGlassEffectConfig
+import com.nivukx.music.ui.component.isGlassSupported
+import com.nivukx.music.ui.component.liquidGlass
+import com.nivukx.music.ui.component.GlassComponent
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

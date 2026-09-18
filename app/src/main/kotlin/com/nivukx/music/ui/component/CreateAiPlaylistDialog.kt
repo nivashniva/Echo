@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.component
+package com.nivukx.music.ui.component
 
 import android.Manifest
 import android.app.Activity
@@ -27,9 +27,9 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import echo.music.iad1tya.R
-import echo.music.iad1tya.ai.weather.WeatherUiState
-import echo.music.iad1tya.viewmodels.CreateAiPlaylistViewModel
+import com.nivukx.music.R
+import com.nivukx.music.ai.weather.WeatherUiState
+import com.nivukx.music.viewmodels.CreateAiPlaylistViewModel
 
 @Composable
 fun CreateAiPlaylistDialog(

@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.artist
+package com.nivukx.music.ui.screens.artist
 
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.foundation.shape.CircleShape
@@ -279,142 +279,142 @@ import androidx.compose.foundation.shape.CircleShape
 import com.music.innertube.models.WatchEndpoint
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.LocalDatabase
+import com.nivukx.music.LocalDatabase
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.LocalListenTogetherManager
+import com.nivukx.music.LocalListenTogetherManager
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerAwareWindowInsets
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.LocalPlayerConnection
+import com.nivukx.music.LocalPlayerConnection
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.R
+import com.nivukx.music.R
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.constants.AppBarHeight
+import com.nivukx.music.constants.AppBarHeight
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.constants.HideExplicitKey
+import com.nivukx.music.constants.HideExplicitKey
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.constants.ShowArtistDescriptionKey
+import com.nivukx.music.constants.ShowArtistDescriptionKey
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.constants.ShowArtistSubscriberCountKey
+import com.nivukx.music.constants.ShowArtistSubscriberCountKey
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.constants.ShowMonthlyListenersKey
+import com.nivukx.music.constants.ShowMonthlyListenersKey
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.db.entities.ArtistEntity
+import com.nivukx.music.db.entities.ArtistEntity
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.extensions.toMediaItem
+import com.nivukx.music.extensions.toMediaItem
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.models.toMediaMetadata
+import com.nivukx.music.models.toMediaMetadata
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.playback.queues.ListQueue
+import com.nivukx.music.playback.queues.ListQueue
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.playback.queues.YouTubeQueue
+import com.nivukx.music.playback.queues.YouTubeQueue
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.AlbumGridItem
+import com.nivukx.music.ui.component.AlbumGridItem
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.ExpandableText
+import com.nivukx.music.ui.component.ExpandableText
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.HideOnScrollFAB
+import com.nivukx.music.ui.component.HideOnScrollFAB
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.IconButton
+import com.nivukx.music.ui.component.IconButton
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.LinkSegment
+import com.nivukx.music.ui.component.LinkSegment
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.LocalMenuState
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.NavigationTitle
+import com.nivukx.music.ui.component.NavigationTitle
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.SongListItem
+import com.nivukx.music.ui.component.SongListItem
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.YouTubeGridItem
+import com.nivukx.music.ui.component.YouTubeGridItem
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.YouTubeListItem
+import com.nivukx.music.ui.component.YouTubeListItem
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.shimmer.ButtonPlaceholder
+import com.nivukx.music.ui.component.shimmer.ButtonPlaceholder
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.shimmer.ListItemPlaceHolder
+import com.nivukx.music.ui.component.shimmer.ListItemPlaceHolder
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.shimmer.ShimmerHost
+import com.nivukx.music.ui.component.shimmer.ShimmerHost
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.component.shimmer.TextPlaceholder
+import com.nivukx.music.ui.component.shimmer.TextPlaceholder
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.menu.AlbumMenu
+import com.nivukx.music.ui.menu.AlbumMenu
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.menu.SongMenu
+import com.nivukx.music.ui.menu.SongMenu
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.menu.YouTubeAlbumMenu
+import com.nivukx.music.ui.menu.YouTubeAlbumMenu
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.menu.YouTubeArtistMenu
+import com.nivukx.music.ui.menu.YouTubeArtistMenu
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.menu.YouTubePlaylistMenu
+import com.nivukx.music.ui.menu.YouTubePlaylistMenu
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.menu.YouTubeSongMenu
+import com.nivukx.music.ui.menu.YouTubeSongMenu
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.utils.backToMain
+import com.nivukx.music.ui.utils.backToMain
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.utils.fadingEdge
+import com.nivukx.music.ui.utils.fadingEdge
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.utils.isScrollingUp
+import com.nivukx.music.ui.utils.isScrollingUp
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.ui.utils.resize
+import com.nivukx.music.ui.utils.resize
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.utils.listItemShape
+import com.nivukx.music.utils.listItemShape
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.utils.rememberPreference
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.viewmodels.ArtistViewModel
+import com.nivukx.music.viewmodels.ArtistViewModel
 import androidx.compose.foundation.shape.CircleShape
 
 import com.valentinilk.shimmer.shimmer
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.artistvideo.ArtistVideo
+import com.nivukx.music.artistvideo.ArtistVideo
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.constants.ShowArtistVideoKey
+import com.nivukx.music.constants.ShowArtistVideoKey
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.constants.ShowArtistBackgroundVideoKey
+import com.nivukx.music.constants.ShowArtistBackgroundVideoKey
 import androidx.compose.foundation.shape.CircleShape
 
 import androidx.compose.ui.graphics.Brush
@@ -435,7 +435,7 @@ import androidx.compose.foundation.shape.CircleShape
 import kotlinx.coroutines.withContext
 import androidx.compose.foundation.shape.CircleShape
 
-import echo.music.iad1tya.canvas.AppleMusicArtistBackgroundProvider
+import com.nivukx.music.canvas.AppleMusicArtistBackgroundProvider
 import androidx.compose.foundation.shape.CircleShape
 
 
@@ -466,7 +466,7 @@ fun ArtistScreen(
     val showArtistDescription by rememberPreference(key = ShowArtistDescriptionKey, defaultValue = true)
     val showArtistSubscriberCount by rememberPreference(key = ShowArtistSubscriberCountKey, defaultValue = true)
     val showMonthlyListeners by rememberPreference(key = ShowMonthlyListenersKey, defaultValue = true)
-    val dataSaverEnabled by rememberPreference(key = echo.music.iad1tya.constants.DataSaverEnabledKey, defaultValue = false)
+    val dataSaverEnabled by rememberPreference(key = com.nivukx.music.constants.DataSaverEnabledKey, defaultValue = false)
     val showArtistVideoPref by rememberPreference(key = ShowArtistVideoKey, defaultValue = true)
     val showArtistVideo = if (dataSaverEnabled) false else showArtistVideoPref
     val showArtistBackgroundVideoPref by rememberPreference(key = ShowArtistBackgroundVideoKey, defaultValue = true)

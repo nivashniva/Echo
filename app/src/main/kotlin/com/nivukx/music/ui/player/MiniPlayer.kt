@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.player
+package com.nivukx.music.ui.player
 
 import android.content.res.Configuration
 import android.os.Build
@@ -101,42 +101,42 @@ import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.toBitmap
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.LocalListenTogetherManager
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.ui.component.HeartBurstIcon
-import echo.music.iad1tya.ui.motion.EchoAnimatedContent
-import echo.music.iad1tya.constants.CropAlbumArtKey
-import echo.music.iad1tya.constants.DarkModeKey
-import echo.music.iad1tya.constants.MiniPlayerBackgroundStyleKey
-import echo.music.iad1tya.constants.MiniPlayerHeight
-import echo.music.iad1tya.constants.PlayerBackgroundStyle
-import echo.music.iad1tya.constants.UseFloatingNavBarKey
-import echo.music.iad1tya.constants.PureBlackMiniPlayerKey
-import echo.music.iad1tya.constants.SwipeSensitivityKey
-import echo.music.iad1tya.constants.SwipeThumbnailKey
-import echo.music.iad1tya.constants.ThumbnailCornerRadius
-import echo.music.iad1tya.constants.UseNewMiniPlayerDesignKey
-import echo.music.iad1tya.db.entities.ArtistEntity
-import echo.music.iad1tya.listentogether.ListenTogetherManager
-import echo.music.iad1tya.models.MediaMetadata
-import echo.music.iad1tya.playback.CastConnectionHandler
-import echo.music.iad1tya.playback.PlayerConnection
-import echo.music.iad1tya.ui.screens.settings.DarkMode
-import echo.music.iad1tya.ui.component.GlassComponent
-import echo.music.iad1tya.ui.component.LocalGlassEffectConfig
-import echo.music.iad1tya.ui.component.isGlassSupported
-import echo.music.iad1tya.ui.component.liquidGlass
-import echo.music.iad1tya.ui.theme.PlayerColorExtractor
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.echomusic.AudioDeviceBottomSheet
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.LocalListenTogetherManager
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.ui.component.HeartBurstIcon
+import com.nivukx.music.ui.motion.EchoAnimatedContent
+import com.nivukx.music.constants.CropAlbumArtKey
+import com.nivukx.music.constants.DarkModeKey
+import com.nivukx.music.constants.MiniPlayerBackgroundStyleKey
+import com.nivukx.music.constants.MiniPlayerHeight
+import com.nivukx.music.constants.PlayerBackgroundStyle
+import com.nivukx.music.constants.UseFloatingNavBarKey
+import com.nivukx.music.constants.PureBlackMiniPlayerKey
+import com.nivukx.music.constants.SwipeSensitivityKey
+import com.nivukx.music.constants.SwipeThumbnailKey
+import com.nivukx.music.constants.ThumbnailCornerRadius
+import com.nivukx.music.constants.UseNewMiniPlayerDesignKey
+import com.nivukx.music.db.entities.ArtistEntity
+import com.nivukx.music.listentogether.ListenTogetherManager
+import com.nivukx.music.models.MediaMetadata
+import com.nivukx.music.playback.CastConnectionHandler
+import com.nivukx.music.playback.PlayerConnection
+import com.nivukx.music.ui.screens.settings.DarkMode
+import com.nivukx.music.ui.component.GlassComponent
+import com.nivukx.music.ui.component.LocalGlassEffectConfig
+import com.nivukx.music.ui.component.isGlassSupported
+import com.nivukx.music.ui.component.liquidGlass
+import com.nivukx.music.ui.theme.PlayerColorExtractor
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.echomusic.AudioDeviceBottomSheet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
-import echo.music.iad1tya.echomusic.isBluetoothHeadphoneConnected
+import com.nivukx.music.echomusic.isBluetoothHeadphoneConnected
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Headphones
 import androidx.compose.material.icons.filled.Speaker
@@ -149,7 +149,7 @@ import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
-import echo.music.iad1tya.ui.component.Icon as MIcon
+import com.nivukx.music.ui.component.Icon as MIcon
 
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path

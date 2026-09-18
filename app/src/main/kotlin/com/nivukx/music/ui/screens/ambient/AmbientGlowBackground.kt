@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.screens.ambient
+package com.nivukx.music.ui.screens.ambient
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.LinearEasing
@@ -30,7 +30,7 @@ import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.toBitmap
-import echo.music.iad1tya.models.MediaMetadata
+import com.nivukx.music.models.MediaMetadata
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

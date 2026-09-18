@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.component
+package com.nivukx.music.ui.component
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import echo.music.iad1tya.R
+import com.nivukx.music.R
 
 data class LinkSegment(
     val text: String,

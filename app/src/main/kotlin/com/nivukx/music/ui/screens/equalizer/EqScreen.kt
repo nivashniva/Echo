@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.screens.equalizer
+package com.nivukx.music.ui.screens.equalizer
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -49,9 +49,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.eq.data.SavedEQProfile
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.eq.data.SavedEQProfile
 import timber.log.Timber
 
 

@@ -1,7 +1,7 @@
 
 
-package echo.music.iad1tya.ui.menu
-import echo.music.iad1tya.models.toSongEntity
+package com.nivukx.music.ui.menu
+import com.nivukx.music.models.toSongEntity
 
 
 import androidx.compose.foundation.Image
@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import echo.music.iad1tya.utils.listItemShape
+import com.nivukx.music.utils.listItemShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,26 +46,26 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.music.innertube.YouTube
 import com.music.innertube.models.SongItem
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.AddToPlaylistSortDescendingKey
-import echo.music.iad1tya.constants.AddToPlaylistSortTypeKey
-import echo.music.iad1tya.constants.ListThumbnailSize
-import echo.music.iad1tya.constants.PlaylistSortType
-import echo.music.iad1tya.db.entities.Playlist
-import echo.music.iad1tya.db.entities.Song
-import echo.music.iad1tya.models.ItemsPage
-import echo.music.iad1tya.models.toMediaMetadata
-import echo.music.iad1tya.ui.component.CreatePlaylistDialog
-import echo.music.iad1tya.ui.component.DefaultDialog
-import echo.music.iad1tya.ui.component.ListDialog
-import echo.music.iad1tya.ui.component.ListItem
-import echo.music.iad1tya.ui.component.PlaylistListItem
-import echo.music.iad1tya.ui.component.SortHeader
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.utils.reportException
-import echo.music.iad1tya.viewmodels.PlaylistsViewModel
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.R
+import com.nivukx.music.constants.AddToPlaylistSortDescendingKey
+import com.nivukx.music.constants.AddToPlaylistSortTypeKey
+import com.nivukx.music.constants.ListThumbnailSize
+import com.nivukx.music.constants.PlaylistSortType
+import com.nivukx.music.db.entities.Playlist
+import com.nivukx.music.db.entities.Song
+import com.nivukx.music.models.ItemsPage
+import com.nivukx.music.models.toMediaMetadata
+import com.nivukx.music.ui.component.CreatePlaylistDialog
+import com.nivukx.music.ui.component.DefaultDialog
+import com.nivukx.music.ui.component.ListDialog
+import com.nivukx.music.ui.component.ListItem
+import com.nivukx.music.ui.component.PlaylistListItem
+import com.nivukx.music.ui.component.SortHeader
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.utils.reportException
+import com.nivukx.music.viewmodels.PlaylistsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

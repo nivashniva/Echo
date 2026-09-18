@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.menu
+package com.nivukx.music.ui.menu
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -56,38 +56,38 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.music.innertube.YouTube
 import com.music.innertube.models.SongItem
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.LocalDownloadUtil
-import echo.music.iad1tya.LocalListenTogetherManager
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.LocalSyncUtils
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.EnableExportAsMp3Key
-import echo.music.iad1tya.constants.ExportDirectoryUriKey
-import echo.music.iad1tya.constants.ExportedSongIdsKey
-import echo.music.iad1tya.constants.ExportingSongIdsKey
-import echo.music.iad1tya.constants.ListItemHeight
-import echo.music.iad1tya.constants.ListThumbnailSize
-import echo.music.iad1tya.constants.ThumbnailCornerRadius
-import echo.music.iad1tya.db.entities.SpeedDialItem
-import echo.music.iad1tya.db.entities.SongEntity
-import echo.music.iad1tya.extensions.toMediaItem
-import echo.music.iad1tya.models.MediaMetadata
-import echo.music.iad1tya.models.toSongEntity
-import echo.music.iad1tya.models.toMediaMetadata
-import echo.music.iad1tya.playback.ExoDownloadService
-import echo.music.iad1tya.playback.queues.YouTubeQueue
-import echo.music.iad1tya.ui.component.ListDialog
-import echo.music.iad1tya.ui.component.LocalBottomSheetPageState
-import echo.music.iad1tya.ui.component.Material3MenuGroup
-import echo.music.iad1tya.ui.component.Material3MenuItemData
-import echo.music.iad1tya.ui.component.NewAction
-import echo.music.iad1tya.ui.component.NewActionGrid
-import echo.music.iad1tya.ui.utils.ShowMediaInfo
-import echo.music.iad1tya.ui.utils.resize
-import echo.music.iad1tya.utils.joinByBullet
-import echo.music.iad1tya.utils.makeTimeString
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.LocalDownloadUtil
+import com.nivukx.music.LocalListenTogetherManager
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.LocalSyncUtils
+import com.nivukx.music.R
+import com.nivukx.music.constants.EnableExportAsMp3Key
+import com.nivukx.music.constants.ExportDirectoryUriKey
+import com.nivukx.music.constants.ExportedSongIdsKey
+import com.nivukx.music.constants.ExportingSongIdsKey
+import com.nivukx.music.constants.ListItemHeight
+import com.nivukx.music.constants.ListThumbnailSize
+import com.nivukx.music.constants.ThumbnailCornerRadius
+import com.nivukx.music.db.entities.SpeedDialItem
+import com.nivukx.music.db.entities.SongEntity
+import com.nivukx.music.extensions.toMediaItem
+import com.nivukx.music.models.MediaMetadata
+import com.nivukx.music.models.toSongEntity
+import com.nivukx.music.models.toMediaMetadata
+import com.nivukx.music.playback.ExoDownloadService
+import com.nivukx.music.playback.queues.YouTubeQueue
+import com.nivukx.music.ui.component.ListDialog
+import com.nivukx.music.ui.component.LocalBottomSheetPageState
+import com.nivukx.music.ui.component.Material3MenuGroup
+import com.nivukx.music.ui.component.Material3MenuItemData
+import com.nivukx.music.ui.component.NewAction
+import com.nivukx.music.ui.component.NewActionGrid
+import com.nivukx.music.ui.utils.ShowMediaInfo
+import com.nivukx.music.ui.utils.resize
+import com.nivukx.music.utils.joinByBullet
+import com.nivukx.music.utils.makeTimeString
+import com.nivukx.music.utils.rememberPreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -109,7 +109,7 @@ fun YouTubeSongMenu(
     val coroutineScope = rememberCoroutineScope()
     val syncUtils = LocalSyncUtils.current
     val listenTogetherManager = LocalListenTogetherManager.current
-    val ringtoneViewModel = echo.music.iad1tya.LocalRingtoneViewModel.current
+    val ringtoneViewModel = com.nivukx.music.LocalRingtoneViewModel.current
     val isPinned by database.speedDialDao.isPinned(song.id).collectAsState(initial = false)
     val artists = remember {
         song.artists.mapNotNull {
@@ -344,7 +344,7 @@ fun YouTubeSongMenu(
                             },
                             onClick = {
                                 val durationMs = if (song.duration != null && song.duration!! > 0) song.duration!! * 1000L else 180000L
-                                val trackInfo = echo.music.iad1tya.listentogether.TrackInfo(
+                                val trackInfo = com.nivukx.music.listentogether.TrackInfo(
                                     id = song.id,
                                     title = song.title,
                                     artist = artists.joinToString(", ") { it.name },
@@ -608,7 +608,7 @@ fun YouTubeSongMenu(
                                         onDismiss()
                                     } else {
                                         onDismiss()
-                                        echo.music.iad1tya.playback.AudioExportService.start(
+                                        com.nivukx.music.playback.AudioExportService.start(
                                             context = context,
                                             songId = song.id,
                                             songTitle = song.title,

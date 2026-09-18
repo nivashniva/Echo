@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.screens.ambient
+package com.nivukx.music.ui.screens.ambient
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
@@ -40,9 +40,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.extensions.togglePlayPause
-import echo.music.iad1tya.ui.player.InlineLyricsView
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.extensions.togglePlayPause
+import com.nivukx.music.ui.player.InlineLyricsView
 import kotlin.math.abs
 
 @Composable

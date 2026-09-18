@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.screens
+package com.nivukx.music.ui.screens
 
 import android.content.Context
 import android.content.MutableContextWrapper

@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.component
+package com.nivukx.music.ui.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,10 +12,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.R
-import echo.music.iad1tya.db.entities.Playlist
-import echo.music.iad1tya.db.entities.Song
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.R
+import com.nivukx.music.db.entities.Playlist
+import com.nivukx.music.db.entities.Song
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

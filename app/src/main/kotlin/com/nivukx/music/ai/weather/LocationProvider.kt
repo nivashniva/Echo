@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ai.weather
+package com.nivukx.music.ai.weather
 
 import android.annotation.SuppressLint
 import android.content.Context

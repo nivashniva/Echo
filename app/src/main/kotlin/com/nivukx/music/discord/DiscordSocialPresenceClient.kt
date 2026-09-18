@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.discord
+package com.nivukx.music.discord
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex

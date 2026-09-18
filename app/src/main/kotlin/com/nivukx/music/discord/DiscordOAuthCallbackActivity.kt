@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.discord
+package com.nivukx.music.discord
 
 import android.app.Activity
 import android.content.Intent

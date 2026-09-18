@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens
+package com.nivukx.music.ui.screens
 
 import android.content.Context
 import android.widget.Toast
@@ -40,7 +40,7 @@ import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import echo.music.iad1tya.ui.component.DefaultDialog
+import com.nivukx.music.ui.component.DefaultDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -83,24 +83,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import echo.music.iad1tya.LocalListenTogetherManager
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.AppBarHeight
-import echo.music.iad1tya.constants.ListenTogetherInTopBarKey
-import echo.music.iad1tya.constants.ListenTogetherUsernameKey
-import echo.music.iad1tya.listentogether.ConnectionState
-import echo.music.iad1tya.listentogether.JoinRequestPayload
-import echo.music.iad1tya.listentogether.ListenTogetherEvent
-import echo.music.iad1tya.listentogether.SuggestionReceivedPayload
-import echo.music.iad1tya.listentogether.UserInfo
-import echo.music.iad1tya.ui.component.ListDialog
-import echo.music.iad1tya.ui.component.Material3SettingsGroup
-import echo.music.iad1tya.ui.component.Material3SettingsItem
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.LocalListenTogetherManager
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.R
+import com.nivukx.music.constants.AppBarHeight
+import com.nivukx.music.constants.ListenTogetherInTopBarKey
+import com.nivukx.music.constants.ListenTogetherUsernameKey
+import com.nivukx.music.listentogether.ConnectionState
+import com.nivukx.music.listentogether.JoinRequestPayload
+import com.nivukx.music.listentogether.ListenTogetherEvent
+import com.nivukx.music.listentogether.SuggestionReceivedPayload
+import com.nivukx.music.listentogether.UserInfo
+import com.nivukx.music.ui.component.ListDialog
+import com.nivukx.music.ui.component.Material3SettingsGroup
+import com.nivukx.music.ui.component.Material3SettingsItem
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.utils.rememberPreference
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)

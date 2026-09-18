@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens
+package com.nivukx.music.ui.screens
 
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import androidx.compose.foundation.background
@@ -33,14 +33,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.R
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.NavigationTitle
-import echo.music.iad1tya.ui.component.shimmer.ListItemPlaceHolder
-import echo.music.iad1tya.ui.component.shimmer.ShimmerHost
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.viewmodels.MoodAndGenresViewModel
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.R
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.NavigationTitle
+import com.nivukx.music.ui.component.shimmer.ListItemPlaceHolder
+import com.nivukx.music.ui.component.shimmer.ShimmerHost
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.viewmodels.MoodAndGenresViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

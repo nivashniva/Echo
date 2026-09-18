@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.menu
+package com.nivukx.music.ui.menu
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -56,26 +56,26 @@ import androidx.media3.exoplayer.offline.DownloadService
 import androidx.navigation.NavController
 import com.music.innertube.YouTube
 import com.music.innertube.models.AlbumItem
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.LocalDownloadUtil
-import echo.music.iad1tya.LocalListenTogetherManager
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.ListItemHeight
-import echo.music.iad1tya.constants.ListThumbnailSize
-import echo.music.iad1tya.db.entities.SpeedDialItem
-import echo.music.iad1tya.db.entities.Song
-import echo.music.iad1tya.extensions.toMediaItem
-import echo.music.iad1tya.playback.ExoDownloadService
-import echo.music.iad1tya.playback.queues.YouTubeAlbumRadio
-import echo.music.iad1tya.ui.component.ListDialog
-import echo.music.iad1tya.ui.component.Material3MenuGroup
-import echo.music.iad1tya.ui.component.Material3MenuItemData
-import echo.music.iad1tya.ui.component.NewAction
-import echo.music.iad1tya.ui.component.NewActionGrid
-import echo.music.iad1tya.ui.component.SongListItem
-import echo.music.iad1tya.ui.component.YouTubeListItem
-import echo.music.iad1tya.utils.reportException
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.LocalDownloadUtil
+import com.nivukx.music.LocalListenTogetherManager
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.ListItemHeight
+import com.nivukx.music.constants.ListThumbnailSize
+import com.nivukx.music.db.entities.SpeedDialItem
+import com.nivukx.music.db.entities.Song
+import com.nivukx.music.extensions.toMediaItem
+import com.nivukx.music.playback.ExoDownloadService
+import com.nivukx.music.playback.queues.YouTubeAlbumRadio
+import com.nivukx.music.ui.component.ListDialog
+import com.nivukx.music.ui.component.Material3MenuGroup
+import com.nivukx.music.ui.component.Material3MenuItemData
+import com.nivukx.music.ui.component.NewAction
+import com.nivukx.music.ui.component.NewActionGrid
+import com.nivukx.music.ui.component.SongListItem
+import com.nivukx.music.ui.component.YouTubeListItem
+import com.nivukx.music.utils.reportException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

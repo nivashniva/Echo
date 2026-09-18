@@ -1,7 +1,7 @@
 
 
 
-package echo.music.iad1tya.localmedia
+package com.nivukx.music.localmedia
 
 import java.util.Locale
 

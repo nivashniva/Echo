@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ai.weather
+package com.nivukx.music.ai.weather
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

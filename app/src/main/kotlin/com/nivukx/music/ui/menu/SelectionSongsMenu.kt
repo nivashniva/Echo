@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.menu
+package com.nivukx.music.ui.menu
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
@@ -41,24 +41,24 @@ import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
 import com.music.innertube.YouTube
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.LocalDownloadUtil
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.LocalSyncUtils
-import echo.music.iad1tya.R
-import echo.music.iad1tya.db.entities.PlaylistSongMap
-import echo.music.iad1tya.db.entities.Song
-import echo.music.iad1tya.extensions.toMediaItem
-import echo.music.iad1tya.models.MediaMetadata
-import echo.music.iad1tya.models.toSongEntity
-import echo.music.iad1tya.models.toMediaMetadata
-import echo.music.iad1tya.playback.ExoDownloadService
-import echo.music.iad1tya.playback.queues.ListQueue
-import echo.music.iad1tya.ui.component.DefaultDialog
-import echo.music.iad1tya.ui.component.Material3MenuGroup
-import echo.music.iad1tya.ui.component.Material3MenuItemData
-import echo.music.iad1tya.ui.component.NewAction
-import echo.music.iad1tya.ui.component.NewActionGrid
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.LocalDownloadUtil
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.LocalSyncUtils
+import com.nivukx.music.R
+import com.nivukx.music.db.entities.PlaylistSongMap
+import com.nivukx.music.db.entities.Song
+import com.nivukx.music.extensions.toMediaItem
+import com.nivukx.music.models.MediaMetadata
+import com.nivukx.music.models.toSongEntity
+import com.nivukx.music.models.toMediaMetadata
+import com.nivukx.music.playback.ExoDownloadService
+import com.nivukx.music.playback.queues.ListQueue
+import com.nivukx.music.ui.component.DefaultDialog
+import com.nivukx.music.ui.component.Material3MenuGroup
+import com.nivukx.music.ui.component.Material3MenuItemData
+import com.nivukx.music.ui.component.NewAction
+import com.nivukx.music.ui.component.NewActionGrid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -77,7 +77,7 @@ fun SelectionSongMenu(
     val coroutineScope = rememberCoroutineScope()
     val playerConnection = LocalPlayerConnection.current ?: return
     val syncUtils = LocalSyncUtils.current
-    val listenTogetherManager = echo.music.iad1tya.LocalListenTogetherManager.current
+    val listenTogetherManager = com.nivukx.music.LocalListenTogetherManager.current
     val isGuest = listenTogetherManager?.isGuestPlaybackRestricted == true
 
     val allInLibrary by remember {
@@ -532,7 +532,7 @@ fun SelectionMediaMetadataMenu(
     val downloadUtil = LocalDownloadUtil.current
     val coroutineScope = rememberCoroutineScope()
     val playerConnection = LocalPlayerConnection.current ?: return
-    val listenTogetherManager = echo.music.iad1tya.LocalListenTogetherManager.current
+    val listenTogetherManager = com.nivukx.music.LocalListenTogetherManager.current
     val isGuest = listenTogetherManager?.isGuestPlaybackRestricted == true
 
     val allLiked by remember(songSelection) {

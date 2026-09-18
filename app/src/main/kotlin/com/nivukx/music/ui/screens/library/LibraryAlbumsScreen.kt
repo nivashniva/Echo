@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.library
+package com.nivukx.music.ui.screens.library
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -49,32 +49,32 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.AlbumFilter
-import echo.music.iad1tya.constants.AlbumFilterKey
-import echo.music.iad1tya.constants.AlbumSortDescendingKey
-import echo.music.iad1tya.constants.AlbumSortType
-import echo.music.iad1tya.constants.AlbumSortTypeKey
-import echo.music.iad1tya.constants.AlbumViewTypeKey
-import echo.music.iad1tya.constants.CONTENT_TYPE_ALBUM
-import echo.music.iad1tya.constants.CONTENT_TYPE_HEADER
-import echo.music.iad1tya.constants.GridItemSize
-import echo.music.iad1tya.constants.GridItemsSizeKey
-import echo.music.iad1tya.constants.GridThumbnailHeight
-import echo.music.iad1tya.constants.HideExplicitKey
-import echo.music.iad1tya.constants.LibraryViewType
-import echo.music.iad1tya.constants.YtmSyncKey
-import echo.music.iad1tya.ui.component.ChipsRow
-import echo.music.iad1tya.ui.component.EmptyPlaceholder
-import echo.music.iad1tya.ui.component.LibraryAlbumGridItem
-import echo.music.iad1tya.ui.component.LibraryAlbumListItem
-import echo.music.iad1tya.ui.component.LocalMenuState
-import echo.music.iad1tya.ui.component.SortHeader
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.viewmodels.LibraryAlbumsViewModel
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.AlbumFilter
+import com.nivukx.music.constants.AlbumFilterKey
+import com.nivukx.music.constants.AlbumSortDescendingKey
+import com.nivukx.music.constants.AlbumSortType
+import com.nivukx.music.constants.AlbumSortTypeKey
+import com.nivukx.music.constants.AlbumViewTypeKey
+import com.nivukx.music.constants.CONTENT_TYPE_ALBUM
+import com.nivukx.music.constants.CONTENT_TYPE_HEADER
+import com.nivukx.music.constants.GridItemSize
+import com.nivukx.music.constants.GridItemsSizeKey
+import com.nivukx.music.constants.GridThumbnailHeight
+import com.nivukx.music.constants.HideExplicitKey
+import com.nivukx.music.constants.LibraryViewType
+import com.nivukx.music.constants.YtmSyncKey
+import com.nivukx.music.ui.component.ChipsRow
+import com.nivukx.music.ui.component.EmptyPlaceholder
+import com.nivukx.music.ui.component.LibraryAlbumGridItem
+import com.nivukx.music.ui.component.LibraryAlbumListItem
+import com.nivukx.music.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.SortHeader
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.viewmodels.LibraryAlbumsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

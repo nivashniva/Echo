@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.artist
+package com.nivukx.music.ui.screens.artist
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
@@ -34,27 +34,27 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.ArtistSongSortDescendingKey
-import echo.music.iad1tya.constants.ArtistSongSortType
-import echo.music.iad1tya.constants.ArtistSongSortTypeKey
-import echo.music.iad1tya.constants.CONTENT_TYPE_HEADER
-import echo.music.iad1tya.constants.HideExplicitKey
-import echo.music.iad1tya.extensions.toMediaItem
-import echo.music.iad1tya.playback.queues.ListQueue
-import echo.music.iad1tya.ui.component.HideOnScrollFAB
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.LocalMenuState
-import echo.music.iad1tya.ui.component.SongListItem
-import echo.music.iad1tya.ui.component.SortHeader
-import echo.music.iad1tya.ui.menu.SongMenu
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.utils.listItemShape
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.viewmodels.ArtistSongsViewModel
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.ArtistSongSortDescendingKey
+import com.nivukx.music.constants.ArtistSongSortType
+import com.nivukx.music.constants.ArtistSongSortTypeKey
+import com.nivukx.music.constants.CONTENT_TYPE_HEADER
+import com.nivukx.music.constants.HideExplicitKey
+import com.nivukx.music.extensions.toMediaItem
+import com.nivukx.music.playback.queues.ListQueue
+import com.nivukx.music.ui.component.HideOnScrollFAB
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.SongListItem
+import com.nivukx.music.ui.component.SortHeader
+import com.nivukx.music.ui.menu.SongMenu
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.utils.listItemShape
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.viewmodels.ArtistSongsViewModel
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable

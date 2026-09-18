@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.screens
+package com.nivukx.music.ui.screens
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -57,21 +57,21 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.music.innertube.YouTube
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.AccountChannelHandleKey
-import echo.music.iad1tya.constants.AccountEmailKey
-import echo.music.iad1tya.constants.AccountNameKey
-import echo.music.iad1tya.constants.DataSyncIdKey
-import echo.music.iad1tya.constants.InnerTubeCookieKey
-import echo.music.iad1tya.constants.SavedAccountsKey
-import echo.music.iad1tya.constants.VisitorDataKey
-import echo.music.iad1tya.models.AccountData
-import echo.music.iad1tya.ui.component.IconButton as EchoIconButton
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.utils.reportException
-import echo.music.iad1tya.viewmodels.AccountSettingsViewModel
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.R
+import com.nivukx.music.constants.AccountChannelHandleKey
+import com.nivukx.music.constants.AccountEmailKey
+import com.nivukx.music.constants.AccountNameKey
+import com.nivukx.music.constants.DataSyncIdKey
+import com.nivukx.music.constants.InnerTubeCookieKey
+import com.nivukx.music.constants.SavedAccountsKey
+import com.nivukx.music.constants.VisitorDataKey
+import com.nivukx.music.models.AccountData
+import com.nivukx.music.ui.component.IconButton as EchoIconButton
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.utils.reportException
+import com.nivukx.music.viewmodels.AccountSettingsViewModel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString

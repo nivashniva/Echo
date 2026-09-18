@@ -1,4 +1,4 @@
-package echo.music.iad1tya.quicksettings
+package com.nivukx.music.quicksettings
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -6,8 +6,8 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import echo.music.iad1tya.R
-import echo.music.iad1tya.recognition.RecognitionLaunchActivity
+import com.nivukx.music.R
+import com.nivukx.music.recognition.RecognitionLaunchActivity
 
 class MusicRecognizerTileService : TileService() {
     override fun onStartListening() {
