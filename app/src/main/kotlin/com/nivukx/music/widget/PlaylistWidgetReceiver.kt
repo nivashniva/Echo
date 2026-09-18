@@ -10,6 +10,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import com.nivukx.music.MainActivity
+import androidx.core.content.ContextCompat
 import com.nivukx.music.playback.MusicService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -53,7 +54,7 @@ class PlaylistWidgetReceiver : AppWidgetProvider() {
                     putExtra(EXTRA_TARGET_TITLE, intent.getStringExtra(EXTRA_TARGET_TITLE))
                 }
                 try {
-                    context.startService(serviceIntent)
+                    ContextCompat.startForegroundService(context, serviceIntent)
                 } catch (e: Exception) {
                     Timber.tag(TAG).w(e, "Failed to start playlist widget target")
                     openTargetInApp(context, intent)
