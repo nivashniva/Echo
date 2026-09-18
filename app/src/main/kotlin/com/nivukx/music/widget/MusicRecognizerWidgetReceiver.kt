@@ -12,6 +12,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import kotlin.math.max
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -154,9 +155,10 @@ class MusicRecognizerWidgetReceiver : AppWidgetProvider() {
         val coverArtPath = prefs.getString(PREF_COVER_ART_PATH, "") ?: ""
         val pulseFrame = prefs.getInt(PREF_PULSE_FRAME, 0)
 
-        // Load album art bitmap from the cached file (synchronous, already on disk)
+        // Decode only a bounded widget-sized bitmap to prevent a large cover-art file
+        // from allocating a full-resolution bitmap inside the AppWidget callback.
         val albumArtBitmap = if (state == STATE_SUCCESS && coverArtPath.isNotEmpty()) {
-            try { BitmapFactory.decodeFile(coverArtPath) } catch (_: Exception) { null }
+            decodeWidgetArtwork(coverArtPath)
         } else null
 
         widgetIds.forEach { widgetId ->
@@ -174,6 +176,28 @@ class MusicRecognizerWidgetReceiver : AppWidgetProvider() {
     }
 
     // ─── Layout builders ──────────────────────────────────────────────────────
+
+    private fun decodeWidgetArtwork(path: String): android.graphics.Bitmap? {
+        return runCatching {
+            val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            BitmapFactory.decodeFile(path, bounds)
+            if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return null
+
+            val target = 512
+            var sample = 1
+            while (max(bounds.outWidth, bounds.outHeight) / sample > target) {
+                sample *= 2
+            }
+
+            BitmapFactory.decodeFile(
+                path,
+                BitmapFactory.Options().apply {
+                    inSampleSize = sample.coerceAtLeast(1)
+                    inPreferredConfig = android.graphics.Bitmap.Config.ARGB_8888
+                },
+            )
+        }.getOrNull()
+    }
 
     private fun createWideViews(
         context: Context,
