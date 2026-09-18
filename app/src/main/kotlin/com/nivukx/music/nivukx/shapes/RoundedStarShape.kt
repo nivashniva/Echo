@@ -1,4 +1,4 @@
-package echo.music.iad1tya.echomusic.shapes
+package com.nivukx.music.echomusic.shapes
 
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
