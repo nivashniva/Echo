@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-"""Repository-wide static audit plus Universal GMS Gradle verification."""
+"""Repository-wide static audit. This script never builds the Android application."""
 from __future__ import annotations
 
 import json
 import os
 import re
-import subprocess
-import time
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -52,21 +50,6 @@ def source_files():
         if path.suffix in SOURCE_EXTS or path.name in {"AndroidManifest.xml", "gradlew"}:
             yield path
 
-
-def run(command: list[str], timeout: int = 2400) -> dict:
-    started = time.time()
-    try:
-        proc = subprocess.run(command, cwd=ROOT, text=True, stdout=subprocess.PIPE,
-                              stderr=subprocess.STDOUT, timeout=timeout)
-        return {"command": " ".join(command), "exit_code": proc.returncode,
-                "duration_s": round(time.time() - started, 2), "output": proc.stdout[-150000:]}
-    except subprocess.TimeoutExpired as exc:
-        output = exc.stdout or ""
-        if isinstance(output, bytes):
-            output = output.decode(errors="replace")
-        return {"command": " ".join(command), "exit_code": 124,
-                "duration_s": round(time.time() - started, 2),
-                "output": output[-150000:] + "\nTIMEOUT"}
 
 
 def main() -> int:
@@ -145,14 +128,15 @@ def main() -> int:
         "features": {name: {"detected": bool(paths), "files": len(paths), "sample": sorted(paths)[:15]} for name, paths in feature_hits.items()},
         "finding_counts": dict(finding_counts),
         "findings": findings,
-        "builds": [{k: v for k, v in result.items() if k != "output"} for result in build_results],
-        "compiler_error_candidates": compiler_errors,
+        "builds": [],
+        "compiler_error_candidates": [],
+        "workflow_app_build_findings": workflow_build_hits,
     }
     (REPORT_DIR / "nivukx_audit.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
 
     report = ["# Nivukx — Python Repository Audit", "", f"Commit: `{summary['commit']}`", "",
               f"Files scanned: **{len(files)}**", f"Source/config lines scanned: **{int(total_lines):,}**", "",
-              "## Universal GMS verification", ""]
+              "## Static verification only", ""]
     for result in build_results:
         status = "PASS" if result["exit_code"] == 0 else f"FAIL ({result['exit_code']})"
         report.append(f"- **{status}** `{result['command']}` — {result['duration_s']}s")
@@ -164,7 +148,7 @@ def main() -> int:
         location = item["file"] + (f":{item['line']}" if "line" in item else "")
         report.append(f"- **{item['severity']} — {item['type']}** `{location}` — {item['detail']}")
     report += ["", "## Method limitation", "",
-               "This audit is repository-wide static analysis plus real Universal GMS Gradle compile/build/lint execution. It cannot prove runtime behavior requiring an Android emulator/device, authenticated accounts, live services, DRM, Bluetooth/Cast hardware, sensors, or human UI interaction."]
+               "This audit is repository-wide static analysis only. It deliberately does not execute Gradle, compile, lint, APK, or AAB build commands. It cannot prove runtime behavior requiring an Android emulator/device, authenticated accounts, live services, DRM, Bluetooth/Cast hardware, sensors, or human UI interaction."]
     (REPORT_DIR / "nivukx_audit.md").write_text("\n".join(report) + "\n", encoding="utf-8")
     print("\n".join(report))
     return 0
