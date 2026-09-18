@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.screens
+package com.nivukx.music.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -21,21 +21,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.music.innertube.utils.parseCookieString
-import echo.music.iad1tya.BuildConfig
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.AccountEmailKey
-import echo.music.iad1tya.constants.InnerTubeCookieKey
-import echo.music.iad1tya.constants.UseLoginForBrowse
-import echo.music.iad1tya.constants.YtmSyncKey
-import echo.music.iad1tya.constants.AudioQualityKey
-import echo.music.iad1tya.constants.AudioQuality
-import echo.music.iad1tya.ui.component.Material3SettingsGroup
-import echo.music.iad1tya.ui.component.Material3SettingsItem
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.utils.userVisibleLabel
-import echo.music.iad1tya.viewmodels.HomeViewModel
+import com.nivukx.innertube.utils.parseCookieString
+import com.nivukx.music.BuildConfig
+import com.nivukx.music.R
+import com.nivukx.music.constants.AccountEmailKey
+import com.nivukx.music.constants.InnerTubeCookieKey
+import com.nivukx.music.constants.UseLoginForBrowse
+import com.nivukx.music.constants.YtmSyncKey
+import com.nivukx.music.constants.AudioQualityKey
+import com.nivukx.music.constants.AudioQuality
+import com.nivukx.music.ui.component.Material3SettingsGroup
+import com.nivukx.music.ui.component.Material3SettingsItem
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.utils.userVisibleLabel
+import com.nivukx.music.viewmodels.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -144,7 +144,7 @@ fun SettingDialoge(
                                 Switch(
                                     checked = useLoginForBrowse,
                                     onCheckedChange = {
-                                        com.music.innertube.YouTube.useLoginForBrowse = it
+                                        com.nivukx.innertube.YouTube.useLoginForBrowse = it
                                         onUseLoginForBrowseChange(it)
                                     },
                                     modifier = Modifier.scale(0.8f),
@@ -158,7 +158,7 @@ fun SettingDialoge(
                             },
                             onClick = {
                                 val newVal = !useLoginForBrowse
-                                com.music.innertube.YouTube.useLoginForBrowse = newVal
+                                com.nivukx.innertube.YouTube.useLoginForBrowse = newVal
                                 onUseLoginForBrowseChange(newVal)
                             }
                         ),
