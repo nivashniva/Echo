@@ -1,6 +1,6 @@
-package echo.music.iad1tya.data
+package com.nivukx.music.data
 
-import echo.music.iad1tya.models.SponsorBlockSegment
+import com.nivukx.music.models.SponsorBlockSegment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
