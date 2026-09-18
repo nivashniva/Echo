@@ -1,12 +1,12 @@
 
 
-package echo.music.iad1tya.db.entities
+package com.nivukx.music.db.entities
 
 import androidx.compose.runtime.Immutable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.music.innertube.YouTube
+import com.nivukx.innertube.YouTube
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
