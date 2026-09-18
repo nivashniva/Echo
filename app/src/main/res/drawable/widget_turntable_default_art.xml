@@ -25,6 +25,6 @@
     <item
         android:width="140dp"
         android:height="140dp"
-        android:drawable="@drawable/ic_launcher_nobg"
+        android:drawable="@drawable/app_logo"
         android:gravity="center" />
 </layer-list>
