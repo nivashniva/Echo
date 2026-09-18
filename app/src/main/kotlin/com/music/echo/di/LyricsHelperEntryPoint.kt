@@ -1,8 +1,8 @@
 
 
-package echo.music.iad1tya.di
+package com.nivukx.music.di
 
-import echo.music.iad1tya.lyrics.LyricsHelper
+import com.nivukx.music.lyrics.LyricsHelper
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
