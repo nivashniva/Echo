@@ -3,7 +3,7 @@
  * Licensed under GPL-3.0 | See git history for contributors
  */
 
-package echo.music.iad1tya.widget
+package com.nivukx.music.widget
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -11,7 +11,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import echo.music.iad1tya.playback.MusicService
+import com.nivukx.music.playback.MusicService
 
 class MusicWidgetReceiver : AppWidgetProvider() {
 
@@ -80,10 +80,10 @@ class MusicWidgetReceiver : AppWidgetProvider() {
     }
 
     companion object {
-        const val ACTION_PLAY_PAUSE = "com.music.echo.widget.PLAY_PAUSE"
-        const val ACTION_LIKE = "com.music.echo.widget.LIKE"
-        const val ACTION_NEXT = "com.music.echo.widget.NEXT"
-        const val ACTION_PREVIOUS = "com.music.echo.widget.PREVIOUS"
-        const val ACTION_UPDATE_WIDGET = "com.music.echo.widget.UPDATE_WIDGET"
+        const val ACTION_PLAY_PAUSE = "com.nivukx.echo.widget.PLAY_PAUSE"
+        const val ACTION_LIKE = "com.nivukx.echo.widget.LIKE"
+        const val ACTION_NEXT = "com.nivukx.echo.widget.NEXT"
+        const val ACTION_PREVIOUS = "com.nivukx.echo.widget.PREVIOUS"
+        const val ACTION_UPDATE_WIDGET = "com.nivukx.echo.widget.UPDATE_WIDGET"
     }
 }
