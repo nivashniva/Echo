@@ -227,6 +227,9 @@ class MusicService :
     lateinit var database: MusicDatabase
 
     @Inject
+    lateinit var playbackUrlResolver: PlaybackUrlResolver
+
+    @Inject
     lateinit var lyricsHelper: com.nivukx.music.lyrics.LyricsHelper
 
     @Inject
@@ -786,6 +789,20 @@ class MusicService :
 
                     // Re-trigger prefetch to fetch the next songs in the new quality
                     preloadUpcomingItems()
+        mediaItem?.mediaId
+            ?.takeIf { !it.isLocalMediaId() }
+            ?.let { currentId ->
+                if (::audioQuality.isInitialized) {
+                    playbackUrlResolver.prefetch(currentId, audioQuality)
+                    if (player.currentMediaItemIndex + 1 < player.mediaItemCount) {
+                        player.getMediaItemAt(player.currentMediaItemIndex + 1)
+                            .mediaId
+                            .takeIf { it.isNotBlank() && !it.isLocalMediaId() }
+                            ?.let { playbackUrlResolver.prefetch(it, audioQuality) }
+                    }
+                }
+            }
+
                 }
         }
 
@@ -2982,18 +2999,10 @@ class MusicService :
             }
 
             Timber.tag("MusicService").i("FETCHING STREAM: $mediaId | quality=$lockedQuality")
-            val playbackData = runBlocking(Dispatchers.IO) {
-                val dbSong = database.song(mediaId).firstOrNull()
-                val knownArtist = dbSong?.artists?.joinToString { it.name }?.replace(" - Topic", "")
-                val knownTitle = dbSong?.song?.title
-                val knownDuration = dbSong?.song?.duration?.let { if (it > 0) it * 1000L else null }
-
-                YTPlayerUtils.playerResponseForPlayback(
-                    videoId = mediaId,
-                    audioQuality = lockedQuality,
-                    connectivityManager = connectivityManager
-                )
-            }.getOrElse { throwable ->
+            val playbackData = playbackUrlResolver.resolveBlocking(
+                videoId = mediaId,
+                audioQuality = lockedQuality,
+            ).getOrElse { throwable ->
                 when (throwable) {
                     is PlaybackException -> throw throwable
 
