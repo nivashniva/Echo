@@ -321,12 +321,9 @@
     <string name="disable_screenshot_desc">এই বিকল্পটি চালু থাকলে স্ক্রিনশট এবং সাম্প্রতিক অ্যাপের তালিকায় অ্যাপের প্রিভিউ বন্ধ থাকবে।</string>
     <string name="enable_lrclib">LrcLib গানের কথা প্রদানকারী চালু করুন</string>
     <string name="hide_explicit">স্পষ্ট কনটেন্ট লুকান</string>
-    <string name="discord_integration">Discord ইন্টিগ্রেশন</string>
-    <string name="discord_information">echomusic আপনার Discord অ্যাকাউন্টের স্ট্যাটাস সেট করতে KizzyRPC লাইব্রেরি ব্যবহার করে। এতে Discord Gateway সংযোগ ব্যবহার করা হয়, যা Discord-এর পরিষেবার শর্তাবলির লঙ্ঘন হিসেবে বিবেচিত হতে পারে। তবে এই কারণে ব্যবহারকারীর অ্যাকাউন্ট স্থগিত হওয়ার কোনো পরিচিত ঘটনা নেই। নিজ দায়িত্বে ব্যবহার করুন।\nchomusic শুধু আপনার টোকেন সংগ্রহ করবে এবং অন্য সবকিছু স্থানীয়ভাবে সংরক্ষণ করা হবে।</string>
     <string name="dismiss">বন্ধ করুন</string>
     <string name="options">বিকল্প</string>
     <string name="preview">প্রিভিউ</string>
-    <string name="enable_discord_rpc">Rich Presence চালু করুন</string>
     <!-- About -->
     <string name="new_version_available">নতুন সংস্করণ উপলভ্য</string>
     <string name="translation_models">অনুবাদ মডেল</string>
