@@ -129,8 +129,8 @@ class PlaylistWidgetReceiver : AppWidgetProvider() {
 
     companion object {
         private const val TAG = "PlaylistWidgetReceiver"
-        const val ACTION_PLAY_TARGET = "com.nivukx.echo.widget.playlists.PLAY_TARGET"
-        const val ACTION_UPDATE_WIDGET = "com.nivukx.echo.widget.playlists.UPDATE_WIDGET"
+        const val ACTION_PLAY_TARGET = "com.nivukx.music.widget.playlists.PLAY_TARGET"
+        const val ACTION_UPDATE_WIDGET = "com.nivukx.music.widget.playlists.UPDATE_WIDGET"
 
         const val EXTRA_TARGET_TYPE = "playlist_widget_target_type"
         const val EXTRA_TARGET_ID = "playlist_widget_target_id"
