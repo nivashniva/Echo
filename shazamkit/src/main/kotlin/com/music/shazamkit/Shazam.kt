@@ -19,10 +19,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
+import java.security.MessageDigest
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -55,6 +57,7 @@ object Shazam {
     private var lastRequestTime = 0L
     
     private val requestMutex = Mutex()
+    private val rateLimitMutex = Mutex()
     
     private val requestQueue = ConcurrentLinkedQueue<PendingRequest>()
     
@@ -179,10 +182,22 @@ object Shazam {
      */
     private suspend fun processQueue() {
         while (true) {
-            val request = requestQueue.poll() ?: break
+            val request = requestMutex.withLock {
+                requestQueue.poll()
+            }
+
+            if (request == null) {
+                requestMutex.withLock {
+                    if (requestQueue.isEmpty()) {
+                        isProcessingQueue = false
+                        return
+                    }
+                }
+                continue
+            }
 
             while (activeRequests.get() >= MAX_CONCURRENT_REQUESTS) {
-                delay(100)
+                delay(25)
             }
 
             activeRequests.incrementAndGet()
@@ -200,8 +215,6 @@ object Shazam {
 
             enforceRateLimit()
         }
-
-        isProcessingQueue = false
     }
 
     /**
@@ -302,15 +315,17 @@ object Shazam {
      * Enforce minimum time between requests
      */
     private suspend fun enforceRateLimit() {
-        val currentTime = System.currentTimeMillis()
-        val timeSinceLastRequest = currentTime - lastRequestTime
+        rateLimitMutex.withLock {
+            val currentTime = System.currentTimeMillis()
+            val timeSinceLastRequest = currentTime - lastRequestTime
 
-        if (timeSinceLastRequest < MIN_REQUEST_INTERVAL_MS) {
-            val delayTime = MIN_REQUEST_INTERVAL_MS - timeSinceLastRequest
-            delay(delayTime)
+            if (timeSinceLastRequest < MIN_REQUEST_INTERVAL_MS) {
+                val delayTime = MIN_REQUEST_INTERVAL_MS - timeSinceLastRequest
+                delay(delayTime)
+            }
+
+            lastRequestTime = System.currentTimeMillis()
         }
-
-        lastRequestTime = System.currentTimeMillis()
     }
 
     /**
@@ -324,7 +339,8 @@ object Shazam {
      * Generate cache key
      */
     private fun generateCacheKey(signature: String): String {
-        return signature.hashCode().toString()
+        val digest = MessageDigest.getInstance("SHA-256").digest(signature.toByteArray(Charsets.UTF_8))
+        return digest.joinToString(separator = "") { "%02x".format(it) }
     }
 
     /**
@@ -430,20 +446,12 @@ object Shazam {
         val signature: String,
         val sampleDurationMs: Long
     ) {
-        private val mutex = Mutex()
-        private var result: Result<RecognitionResult>? = null
-        private var isCompleted = false
+        private val result = CompletableDeferred<Result<RecognitionResult>>()
 
-        suspend fun awaitResult(): Result<RecognitionResult> {
-            while (!isCompleted) {
-                delay(50)
-            }
-            return result ?: Result.failure(Exception("Result not received"))
-        }
+        suspend fun awaitResult(): Result<RecognitionResult> = result.await()
 
         fun completeWith(result: Result<RecognitionResult>) {
-            this.result = result
-            this.isCompleted = true
+            this.result.complete(result)
         }
     }
 
