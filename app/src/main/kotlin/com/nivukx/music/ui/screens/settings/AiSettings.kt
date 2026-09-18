@@ -83,7 +83,6 @@ highlightKey: String? = null) {
         "Nvidia" to "https://integrate.api.nvidia.com/v1/chat/completions",
         "OrcaRouter" to "https://api.orcarouter.ai/v1/chat/completions",
         "Groq" to "https://api.groq.com/openai/v1/chat/completions",
-        "Puter" to "https://api.puter.com/puterai/openai/v1/chat/completions",
         "DeepL" to "https://api.deepl.com/v2/translate",
         "Custom" to ""
     )
@@ -99,7 +98,6 @@ highlightKey: String? = null) {
         "Nvidia" to stringResource(R.string.ai_provider_nvidia_help),
         "OrcaRouter" to stringResource(R.string.ai_provider_orcarouter_help),
         "Groq" to stringResource(R.string.ai_provider_groq_help),
-        "Puter" to stringResource(R.string.ai_provider_puter_help),
         "DeepL" to stringResource(R.string.ai_provider_deepl_help),
         "Custom" to ""
     )
@@ -171,11 +169,6 @@ highlightKey: String? = null) {
             "moonshotai/kimi-k2-instruct",
             "qwen/qwen3-32b",
             "gemma2-9b-it"
-        ),
-        "Puter" to listOf(
-            "gpt-4o-mini",
-            "claude-3-5-sonnet-latest",
-            "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo"
         ),
         "DeepL" to listOf(),
         "Custom" to listOf()
