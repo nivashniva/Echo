@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 
-package echo.music.iad1tya.echomusic
+package com.nivukx.music.echomusic
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -41,7 +41,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.runtime.key
-import echo.music.iad1tya.echomusic.shapes.RoundedStarShape
+import com.nivukx.music.echomusic.shapes.RoundedStarShape
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -130,12 +130,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import echo.music.iad1tya.R
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.constants.AudioQuality
-import echo.music.iad1tya.constants.AudioQualityKey
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.userVisibleLabel
+import com.nivukx.music.R
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.constants.AudioQuality
+import com.nivukx.music.constants.AudioQualityKey
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.userVisibleLabel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -908,8 +908,8 @@ fun AudioQualitySelector(context: Context) {
 fun DownloadQualitySelector() {
     val context = LocalContext.current
     val (downloadQuality, onDownloadQualityChange) = rememberEnumPreference(
-        key = echo.music.iad1tya.constants.DownloadQualityKey,
-        defaultValue = echo.music.iad1tya.constants.DownloadQuality.AUTO
+        key = com.nivukx.music.constants.DownloadQualityKey,
+        defaultValue = com.nivukx.music.constants.DownloadQuality.AUTO
     )
 
     Column(
@@ -925,10 +925,10 @@ fun DownloadQualitySelector() {
         )
 
         val options = listOf(
-            echo.music.iad1tya.constants.DownloadQuality.AUTO,
-            echo.music.iad1tya.constants.DownloadQuality.HIGH,
-            echo.music.iad1tya.constants.DownloadQuality.LOSSLESS_WHEN_AVAILABLE,
-            echo.music.iad1tya.constants.DownloadQuality.YOUTUBE
+            com.nivukx.music.constants.DownloadQuality.AUTO,
+            com.nivukx.music.constants.DownloadQuality.HIGH,
+            com.nivukx.music.constants.DownloadQuality.LOSSLESS_WHEN_AVAILABLE,
+            com.nivukx.music.constants.DownloadQuality.YOUTUBE
         )
 
         androidx.compose.foundation.layout.FlowRow(
