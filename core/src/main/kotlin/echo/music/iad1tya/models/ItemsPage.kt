@@ -1,8 +1,8 @@
 
 
-package echo.music.iad1tya.models
+package com.nivukx.music.models
 
-import com.music.innertube.models.YTItem
+import com.nivukx.innertube.models.YTItem
 
 data class ItemsPage(
     val items: List<YTItem>,
