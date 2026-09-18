@@ -12,17 +12,27 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 /**
  * Nivukx motion system.
@@ -37,8 +47,13 @@ object NivukxMotion {
     const val Emphasis = 320
     const val Content = 240
     const val PlayerMorph = 280
+    const val PremiumScreen = 300
+    const val Navigation = 300
+    const val MicroSettle = 180
 
     val StandardEasing = FastOutSlowInEasing
+    val PremiumEasing = CubicBezierEasing(0.18f, 1f, 0.32f, 1f)
+    val ExitEasing = CubicBezierEasing(0.4f, 0f, 1f, 1f)
 
     val StandardTween = tween<Float>(
         durationMillis = Standard,
@@ -65,10 +80,63 @@ object NivukxMotion {
         stiffness = Spring.StiffnessMediumLow,
     )
 
+    val HighEndSpring = spring<Float>(
+        dampingRatio = 0.88f,
+        stiffness = 480f,
+    )
+
+    val NavigationEnterForward: EnterTransition =
+        fadeIn(tween(Navigation, easing = PremiumEasing)) +
+            slideInHorizontally(
+                initialOffsetX = { it / 12 },
+                animationSpec = tween(Navigation, easing = PremiumEasing),
+            ) +
+            scaleIn(
+                initialScale = 0.985f,
+                animationSpec = tween(Navigation, easing = PremiumEasing),
+            )
+
+    val NavigationExitForward: ExitTransition =
+        fadeOut(tween(210, easing = ExitEasing)) +
+            slideOutHorizontally(
+                targetOffsetX = { -it / 18 },
+                animationSpec = tween(210, easing = ExitEasing),
+            ) +
+            scaleOut(
+                targetScale = 0.992f,
+                animationSpec = tween(210, easing = ExitEasing),
+            )
+
+    val NavigationEnterBackward: EnterTransition =
+        fadeIn(tween(Navigation, easing = PremiumEasing)) +
+            slideInHorizontally(
+                initialOffsetX = { -it / 12 },
+                animationSpec = tween(Navigation, easing = PremiumEasing),
+            ) +
+            scaleIn(
+                initialScale = 0.985f,
+                animationSpec = tween(Navigation, easing = PremiumEasing),
+            )
+
+    val NavigationExitBackward: ExitTransition =
+        fadeOut(tween(210, easing = ExitEasing)) +
+            slideOutHorizontally(
+                targetOffsetX = { it / 18 },
+                animationSpec = tween(210, easing = ExitEasing),
+            ) +
+            scaleOut(
+                targetScale = 0.992f,
+                animationSpec = tween(210, easing = ExitEasing),
+            )
+
     val Enter: EnterTransition =
         fadeIn(
             animationSpec = tween(Standard, easing = StandardEasing),
         ) +
+            slideInVertically(
+                initialOffsetY = { (it * 0.018f).toInt() },
+                animationSpec = tween(Standard, easing = StandardEasing),
+            ) +
             scaleIn(
                 initialScale = 0.985f,
                 animationSpec = tween(Standard, easing = StandardEasing),
@@ -102,22 +170,50 @@ object NivukxMotion {
             )
 
     fun contentTransform(): ContentTransform =
-        fadeIn(
-            animationSpec = tween(Content, easing = StandardEasing),
-        ).togetherWith(
-            fadeOut(
-                animationSpec = tween(150, easing = StandardEasing),
-            ),
-        )
+        (
+            fadeIn(
+                animationSpec = tween(Content, easing = PremiumEasing),
+            ) +
+                slideInVertically(
+                    initialOffsetY = { (it * 0.014f).toInt() },
+                    animationSpec = tween(Content, easing = PremiumEasing),
+                ) +
+                scaleIn(
+                    initialScale = 0.992f,
+                    animationSpec = tween(Content, easing = PremiumEasing),
+                )
+            ).togetherWith(
+                fadeOut(
+                    animationSpec = tween(150, easing = ExitEasing),
+                ) +
+                    slideOutVertically(
+                        targetOffsetY = { -(it * 0.008f).toInt() },
+                        animationSpec = tween(150, easing = ExitEasing),
+                    )
+            )
 
     fun playerContentTransform(): ContentTransform =
-        fadeIn(
-            animationSpec = tween(PlayerMorph, easing = StandardEasing),
-        ).togetherWith(
-            fadeOut(
-                animationSpec = tween(160, easing = StandardEasing),
-            ),
-        )
+        (
+            fadeIn(
+                animationSpec = tween(PlayerMorph, easing = PremiumEasing),
+            ) +
+                slideInVertically(
+                    initialOffsetY = { (it * 0.012f).toInt() },
+                    animationSpec = tween(PlayerMorph, easing = PremiumEasing),
+                ) +
+                scaleIn(
+                    initialScale = 0.99f,
+                    animationSpec = tween(PlayerMorph, easing = PremiumEasing),
+                )
+            ).togetherWith(
+                fadeOut(
+                    animationSpec = tween(160, easing = ExitEasing),
+                ) +
+                    slideOutVertically(
+                        targetOffsetY = { -(it * 0.006f).toInt() },
+                        animationSpec = tween(160, easing = ExitEasing),
+                    )
+            )
 }
 
 @Composable
