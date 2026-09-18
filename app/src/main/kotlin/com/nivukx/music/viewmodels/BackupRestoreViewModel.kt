@@ -31,7 +31,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewModelScope
 import timber.log.Timber
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -319,22 +318,32 @@ class BackupRestoreViewModel @Inject constructor(
     }
 
     private fun parseCsvLine(line: String): List<String> {
-        val result = mutableListOf<String>()
-        var current = StringBuilder()
+        val result = ArrayList<String>()
+        val current = StringBuilder()
         var inQuotes = false
+        var index = 0
 
-        for (char in line) {
-            when {
-                char == '"' -> inQuotes = !inQuotes
-                char == ',' && !inQuotes -> {
-                    result.add(current.toString())
-                    current = StringBuilder()
+        while (index < line.length) {
+            when (val char = line[index]) {
+                '"' -> {
+                    if (inQuotes && index + 1 < line.length && line[index + 1] == '"') {
+                        current.append('"')
+                        index++
+                    } else {
+                        inQuotes = !inQuotes
+                    }
+                }
+                ',' -> if (inQuotes) current.append(char) else {
+                    result += current.toString().trim()
+                    current.clear()
                 }
                 else -> current.append(char)
             }
+            index++
         }
-        result.add(current.toString())
-        return result.map { it.trim().trim('"') }
+
+        result += current.toString().trim()
+        return result
     }
 
     suspend fun loadM3UOnline(
