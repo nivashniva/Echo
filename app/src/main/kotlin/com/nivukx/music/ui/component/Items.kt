@@ -164,6 +164,7 @@ inline fun ListItem(
                 }
             )
             .then(modifier)
+            .nivukxItemReveal()
             .height(ListItemHeight)
     ) {
         Box(
