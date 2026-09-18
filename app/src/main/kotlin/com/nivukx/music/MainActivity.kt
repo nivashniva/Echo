@@ -1361,9 +1361,9 @@ class MainActivity : ComponentActivity() {
                                         }
 
                                         if (currentRouteIndex == -1 || currentRouteIndex > previousRouteIndex)
-                                            slideInHorizontally(animationSpec = tween(280, easing = EmphasizedEasing)) { it / 8 } + fadeIn(tween(280, easing = EmphasizedEasing))
+                                            NivukxMotion.NavigationEnterForward
                                         else
-                                            slideInHorizontally(animationSpec = tween(280, easing = EmphasizedEasing)) { -it / 8 } + fadeIn(tween(280, easing = EmphasizedEasing))
+                                            NivukxMotion.NavigationEnterBackward
                                     },
                                     
                                     exitTransition = {
@@ -1375,9 +1375,9 @@ class MainActivity : ComponentActivity() {
                                         }
 
                                         if (targetRouteIndex == -1 || targetRouteIndex > currentRouteIndex)
-                                            slideOutHorizontally(animationSpec = tween(280, easing = EmphasizedEasing)) { -it / 8 } + fadeOut(tween(280, easing = EmphasizedEasing))
+                                            NivukxMotion.NavigationExitForward
                                         else
-                                            slideOutHorizontally(animationSpec = tween(280, easing = EmphasizedEasing)) { it / 8 } + fadeOut(tween(280, easing = EmphasizedEasing))
+                                            NivukxMotion.NavigationExitBackward
                                     },
                                     
                                     popEnterTransition = {
@@ -1389,9 +1389,9 @@ class MainActivity : ComponentActivity() {
                                         }
 
                                         if (previousRouteIndex != -1 && previousRouteIndex < currentRouteIndex)
-                                            slideInHorizontally(animationSpec = tween(280, easing = EmphasizedEasing)) { it / 8 } + fadeIn(tween(280, easing = EmphasizedEasing))
+                                            NivukxMotion.NavigationEnterForward
                                         else
-                                            slideInHorizontally(animationSpec = tween(280, easing = EmphasizedEasing)) { -it / 8 } + fadeIn(tween(280, easing = EmphasizedEasing))
+                                            NivukxMotion.NavigationEnterBackward
                                     },
                                     
                                     popExitTransition = {
@@ -1403,9 +1403,9 @@ class MainActivity : ComponentActivity() {
                                         }
 
                                         if (currentRouteIndex != -1 && currentRouteIndex < targetRouteIndex)
-                                            slideOutHorizontally(animationSpec = tween(280, easing = EmphasizedEasing)) { -it / 8 } + fadeOut(tween(280, easing = EmphasizedEasing))
+                                            NivukxMotion.NavigationExitForward
                                         else
-                                            slideOutHorizontally(animationSpec = tween(280, easing = EmphasizedEasing)) { it / 8 } + fadeOut(tween(280, easing = EmphasizedEasing))
+                                            NivukxMotion.NavigationExitBackward
                                     },
                                     modifier = Modifier
                                         .layerBackdrop(appBackdrop)
