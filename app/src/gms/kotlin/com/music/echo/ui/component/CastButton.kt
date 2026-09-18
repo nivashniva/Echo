@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.component
+package com.nivukx.music.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,11 +28,11 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.EnableGoogleCastKey
-import echo.music.iad1tya.playback.CastConnectionHandler
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.EnableGoogleCastKey
+import com.nivukx.music.playback.CastConnectionHandler
+import com.nivukx.music.utils.rememberPreference
 
 /**
  * Cast button that shows a custom [CastDevicePickerSheet] bottom sheet.
@@ -69,7 +69,7 @@ fun CastButton(
     val castHandler = playerConnection?.service?.castConnectionHandler
     val isCasting by castHandler?.isCasting?.collectAsStateWithLifecycle() ?: remember { mutableStateOf(false) }
     val castDeviceName by castHandler?.castDeviceName?.collectAsStateWithLifecycle() ?: remember { mutableStateOf(null) }
-    val deviceKind by castHandler?.deviceType?.collectAsStateWithLifecycle() ?: remember { mutableStateOf(echo.music.iad1tya.playback.CastDeviceKind.UNKNOWN) }
+    val deviceKind by castHandler?.deviceType?.collectAsStateWithLifecycle() ?: remember { mutableStateOf(com.nivukx.music.playback.CastDeviceKind.UNKNOWN) }
     val deviceType = CastDeviceType.fromKind(deviceKind)
 
     val showPicker: () -> Unit = {
