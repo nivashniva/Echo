@@ -1,7 +1,7 @@
-package echo.music.iad1tya.utils.potoken
+package com.nivukx.music.utils.potoken
 
 import android.webkit.CookieManager
-import echo.music.iad1tya.utils.cipher.CipherDeobfuscator
+import com.nivukx.music.utils.cipher.CipherDeobfuscator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch

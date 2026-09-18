@@ -1,13 +1,13 @@
-package echo.music.iad1tya.viewmodels
+package com.nivukx.music.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import echo.music.iad1tya.ai.AiPlaylistGenerator
-import echo.music.iad1tya.ai.weather.LocationProvider
-import echo.music.iad1tya.ai.weather.WeatherRepository
-import echo.music.iad1tya.ai.weather.WeatherUiState
+import com.nivukx.music.ai.AiPlaylistGenerator
+import com.nivukx.music.ai.weather.LocationProvider
+import com.nivukx.music.ai.weather.WeatherRepository
+import com.nivukx.music.ai.weather.WeatherUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -99,7 +99,7 @@ class CreateAiPlaylistViewModel @Inject constructor() : ViewModel() {
 
             // Fallback to IP Location if GPS location unavailable or permission denied
             if (lat == null || lon == null) {
-                val ipResult = echo.music.iad1tya.ai.weather.IpLocationRepository.fetchIpLocation()
+                val ipResult = com.nivukx.music.ai.weather.IpLocationRepository.fetchIpLocation()
                 ipResult.onSuccess { ipLoc ->
                     lat = ipLoc.latitude
                     lon = ipLoc.longitude

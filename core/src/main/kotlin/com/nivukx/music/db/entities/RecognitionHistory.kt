@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.db.entities
+package com.nivukx.music.db.entities
 
 import androidx.room.Entity
 import androidx.room.Index

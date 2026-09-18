@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.search.suggestions
+package com.nivukx.music.ui.screens.search.suggestions
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -36,10 +36,10 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import coil3.compose.SubcomposeAsyncImage
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.SuggestionRegionKey
-import echo.music.iad1tya.constants.SuggestionRegionSlugToName
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.R
+import com.nivukx.music.constants.SuggestionRegionKey
+import com.nivukx.music.constants.SuggestionRegionSlugToName
+import com.nivukx.music.utils.rememberPreference
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -71,7 +71,7 @@ fun SuggestionsTabContent(
     val isLoading by viewModel.isLoading.collectAsState()
     val isManualLoading by viewModel.isManualLoading.collectAsState()
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
-    val playerConnection = echo.music.iad1tya.LocalPlayerConnection.current
+    val playerConnection = com.nivukx.music.LocalPlayerConnection.current
     val context = LocalContext.current
     val (regionCode, _) = rememberPreference(
         key = SuggestionRegionKey,

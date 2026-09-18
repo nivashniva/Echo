@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.screens.recognition
+package com.nivukx.music.ui.screens.recognition
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -77,27 +77,27 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.R
-import echo.music.iad1tya.db.entities.RecognitionHistory
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.utils.backToMain
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.R
+import com.nivukx.music.db.entities.RecognitionHistory
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.utils.backToMain
 import com.music.shazamkit.models.RecognitionResult
 import com.music.shazamkit.models.RecognitionStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerAwareWindowInsets
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.systemBars
-import echo.music.iad1tya.LocalPlayerConnection
+import com.nivukx.music.LocalPlayerConnection
 import com.music.innertube.YouTube
 import com.music.innertube.models.SongItem
-import echo.music.iad1tya.models.toMediaMetadata
-import echo.music.iad1tya.playback.queues.YouTubeQueue
+import com.nivukx.music.models.toMediaMetadata
+import com.nivukx.music.playback.queues.YouTubeQueue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -109,16 +109,16 @@ fun RecognitionScreen(
     val coroutineScope = rememberCoroutineScope()
     
     LaunchedEffect(Unit) {
-        echo.music.iad1tya.recognition.MusicRecognitionService.reset()
+        com.nivukx.music.recognition.MusicRecognitionService.reset()
     }
     
     DisposableEffect(Unit) {
         onDispose {
-            echo.music.iad1tya.recognition.MusicRecognitionService.reset()
+            com.nivukx.music.recognition.MusicRecognitionService.reset()
         }
     }
     
-    val recognitionStatus by echo.music.iad1tya.recognition.MusicRecognitionService.recognitionStatus.collectAsState()
+    val recognitionStatus by com.nivukx.music.recognition.MusicRecognitionService.recognitionStatus.collectAsState()
     
     var hasPermission by remember {
         mutableStateOf(
@@ -133,7 +133,7 @@ fun RecognitionScreen(
         hasPermission = isGranted
         if (isGranted) {
             coroutineScope.launch {
-                echo.music.iad1tya.recognition.MusicRecognitionService.recognize(context)
+                com.nivukx.music.recognition.MusicRecognitionService.recognize(context)
             }
         }
     }
@@ -141,7 +141,7 @@ fun RecognitionScreen(
     fun startRecognition() {
         if (hasPermission) {
             coroutineScope.launch {
-                echo.music.iad1tya.recognition.MusicRecognitionService.recognize(context)
+                com.nivukx.music.recognition.MusicRecognitionService.recognize(context)
             }
         } else {
             permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
@@ -149,7 +149,7 @@ fun RecognitionScreen(
     }
     
     fun resetToReady() {
-        echo.music.iad1tya.recognition.MusicRecognitionService.reset()
+        com.nivukx.music.recognition.MusicRecognitionService.reset()
     }
 
     fun saveToHistory(result: RecognitionResult) {
@@ -263,7 +263,7 @@ fun RecognitionScreen(
                                 }
                                 is RecognitionStatus.Listening -> {
                                     ListeningState(
-                                        onCancel = { echo.music.iad1tya.recognition.MusicRecognitionService.reset() }
+                                        onCancel = { com.nivukx.music.recognition.MusicRecognitionService.reset() }
                                     )
                                 }
                                 is RecognitionStatus.Processing -> {

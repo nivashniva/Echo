@@ -1,10 +1,10 @@
-package echo.music.iad1tya.eq.audio
+package com.nivukx.music.eq.audio
 
 import androidx.media3.common.C
 import androidx.media3.common.audio.AudioProcessor
 import androidx.media3.common.util.UnstableApi
-import echo.music.iad1tya.eq.data.ParametricEQ
-import echo.music.iad1tya.eq.data.ParametricEQBand
+import com.nivukx.music.eq.data.ParametricEQ
+import com.nivukx.music.eq.data.ParametricEQBand
 import timber.log.Timber
 import java.nio.ByteBuffer
 import java.nio.ByteOrder

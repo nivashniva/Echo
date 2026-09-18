@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.viewmodels
+package com.nivukx.music.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
@@ -10,12 +10,12 @@ import com.music.innertube.YouTube
 import com.music.innertube.models.BrowseEndpoint
 import com.music.innertube.models.filterExplicit
 import com.music.innertube.models.filterVideoSongs
-import echo.music.iad1tya.constants.HideExplicitKey
-import echo.music.iad1tya.constants.HideVideoSongsKey
-import echo.music.iad1tya.models.ItemsPage
-import echo.music.iad1tya.utils.dataStore
-import echo.music.iad1tya.utils.get
-import echo.music.iad1tya.utils.reportException
+import com.nivukx.music.constants.HideExplicitKey
+import com.nivukx.music.constants.HideVideoSongsKey
+import com.nivukx.music.models.ItemsPage
+import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.get
+import com.nivukx.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow

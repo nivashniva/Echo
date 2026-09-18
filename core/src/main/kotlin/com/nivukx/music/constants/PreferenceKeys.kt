@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.constants
+package com.nivukx.music.constants
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.floatPreferencesKey

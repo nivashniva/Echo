@@ -3,13 +3,13 @@
  * Licensed under GPL-3.0 | See git history for contributors
  */
 
-package echo.music.iad1tya.utils
+package com.nivukx.music.utils
 
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.util.Log
-import echo.music.iad1tya.utils.PlaybackLogManager
-import echo.music.iad1tya.utils.PlaybackLogLevel
+import com.nivukx.music.utils.PlaybackLogManager
+import com.nivukx.music.utils.PlaybackLogLevel
 import androidx.media3.common.PlaybackException
 import com.music.innertube.NewPipeExtractor
 import com.music.innertube.YouTube
@@ -23,17 +23,17 @@ import com.music.innertube.models.YouTubeClient.Companion.VISIONOS
 import com.music.innertube.models.YouTubeClient.Companion.WEB_CREATOR
 import com.music.innertube.models.YouTubeClient.Companion.WEB_REMIX
 import com.music.innertube.models.response.PlayerResponse
-import echo.music.iad1tya.utils.reportException
+import com.nivukx.music.utils.reportException
 
-import echo.music.iad1tya.constants.AudioQuality
+import com.nivukx.music.constants.AudioQuality
 import kotlinx.coroutines.flow.first
-import echo.music.iad1tya.utils.cipher.CipherDeobfuscator
-import echo.music.iad1tya.utils.YTPlayerUtils.MAIN_CLIENT
-import echo.music.iad1tya.utils.YTPlayerUtils.STREAM_FALLBACK_CLIENTS
-import echo.music.iad1tya.utils.YTPlayerUtils.validateStatus
-import echo.music.iad1tya.utils.potoken.PoTokenGenerator
-import echo.music.iad1tya.utils.potoken.PoTokenResult
-import echo.music.iad1tya.utils.sabr.EjsNTransformSolver
+import com.nivukx.music.utils.cipher.CipherDeobfuscator
+import com.nivukx.music.utils.YTPlayerUtils.MAIN_CLIENT
+import com.nivukx.music.utils.YTPlayerUtils.STREAM_FALLBACK_CLIENTS
+import com.nivukx.music.utils.YTPlayerUtils.validateStatus
+import com.nivukx.music.utils.potoken.PoTokenGenerator
+import com.nivukx.music.utils.potoken.PoTokenResult
+import com.nivukx.music.utils.sabr.EjsNTransformSolver
 import okhttp3.OkHttpClient
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -49,7 +49,7 @@ object YTPlayerUtils {
      * - AUTO: Try PoToken first, fall back to BravePipe automatically
      */
     @Volatile
-    var playbackEngine: echo.music.iad1tya.constants.PlaybackEngine = echo.music.iad1tya.constants.PlaybackEngine.AUTO
+    var playbackEngine: com.nivukx.music.constants.PlaybackEngine = com.nivukx.music.constants.PlaybackEngine.AUTO
 
     private val httpClient = OkHttpClient.Builder()
         .proxy(YouTube.proxy)
@@ -77,7 +77,7 @@ object YTPlayerUtils {
         if (initialized) return
         // AppContextHolder is initialized before this object is used. This is a lazy fallback for
         // very fast first playback before the deferred Application warm-up runs.
-        CipherDeobfuscator.initialize(echo.music.iad1tya.utils.AppContextHolder.appContext)
+        CipherDeobfuscator.initialize(com.nivukx.music.utils.AppContextHolder.appContext)
         initialize()
     }
 
@@ -994,7 +994,7 @@ object YTPlayerUtils {
         }
 
         // --- PoToken / CipherDeobfuscator path ---
-        val useCipher = engine == echo.music.iad1tya.constants.PlaybackEngine.POTOKEN || engine == echo.music.iad1tya.constants.PlaybackEngine.AUTO
+        val useCipher = engine == com.nivukx.music.constants.PlaybackEngine.POTOKEN || engine == com.nivukx.music.constants.PlaybackEngine.AUTO
         if (useCipher) {
             val signatureCipher = format.signatureCipher ?: format.cipher
             if (!signatureCipher.isNullOrEmpty()) {
@@ -1013,7 +1013,7 @@ object YTPlayerUtils {
         }
 
         // --- BravePipe / NewPipeExtractor path ---
-        val useBravePipe = engine == echo.music.iad1tya.constants.PlaybackEngine.BRAVEPIPE || engine == echo.music.iad1tya.constants.PlaybackEngine.AUTO
+        val useBravePipe = engine == com.nivukx.music.constants.PlaybackEngine.BRAVEPIPE || engine == com.nivukx.music.constants.PlaybackEngine.AUTO
         if (useBravePipe) {
             if (skipNewPipe) {
                 Timber.tag(logTag).d("Skipping NewPipe methods for age-restricted content")

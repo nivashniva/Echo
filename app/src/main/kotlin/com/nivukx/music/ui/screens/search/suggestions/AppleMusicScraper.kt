@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.search.suggestions
+package com.nivukx.music.ui.screens.search.suggestions
 
 import android.util.Log
 import okhttp3.OkHttpClient

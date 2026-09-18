@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.screens.settings
+package com.nivukx.music.ui.screens.settings
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
@@ -19,8 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import echo.music.iad1tya.R
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
+import com.nivukx.music.R
+import com.nivukx.music.LocalPlayerAwareWindowInsets
 import androidx.compose.material3.TopAppBar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

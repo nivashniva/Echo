@@ -1,9 +1,9 @@
 
 
-package echo.music.iad1tya.viewmodels
+package com.nivukx.music.viewmodels
 
 import androidx.lifecycle.ViewModel
-import echo.music.iad1tya.listentogether.ListenTogetherManager
+import com.nivukx.music.listentogether.ListenTogetherManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -3,7 +3,7 @@
  * Licensed under GPL-3.0 | See git history for contributors
  */
 
-package echo.music.iad1tya.ui.screens.settings
+package com.nivukx.music.ui.screens.settings
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.WindowInsets
@@ -57,25 +57,25 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
-import echo.music.iad1tya.utils.lastfm.LastFM
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.EnableLastFMScrobblingKey
-import echo.music.iad1tya.constants.LastFMSessionKey
-import echo.music.iad1tya.constants.LastFMUseNowPlaying
-import echo.music.iad1tya.constants.LastFMUseSendLikes
-import echo.music.iad1tya.constants.LastFMUsernameKey
-import echo.music.iad1tya.constants.ScrobbleDelayPercentKey
-import echo.music.iad1tya.constants.ScrobbleDelaySecondsKey
-import echo.music.iad1tya.constants.ScrobbleMinSongDurationKey
-import echo.music.iad1tya.ui.component.DefaultDialog
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.Material3SettingsGroup
-import echo.music.iad1tya.ui.component.Material3SettingsItem
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.utils.makeTimeString
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.utils.reportException
+import com.nivukx.music.utils.lastfm.LastFM
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.R
+import com.nivukx.music.constants.EnableLastFMScrobblingKey
+import com.nivukx.music.constants.LastFMSessionKey
+import com.nivukx.music.constants.LastFMUseNowPlaying
+import com.nivukx.music.constants.LastFMUseSendLikes
+import com.nivukx.music.constants.LastFMUsernameKey
+import com.nivukx.music.constants.ScrobbleDelayPercentKey
+import com.nivukx.music.constants.ScrobbleDelaySecondsKey
+import com.nivukx.music.constants.ScrobbleMinSongDurationKey
+import com.nivukx.music.ui.component.DefaultDialog
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.Material3SettingsGroup
+import com.nivukx.music.ui.component.Material3SettingsItem
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.utils.makeTimeString
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.utils.reportException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -283,14 +283,14 @@ fun LastFMSettingsScreen(
         contentWindowInsets = androidx.compose.foundation.layout.WindowInsets(0, 0, 0, 0),
         topBar = {
             androidx.compose.material3.TopAppBar(
-                title = { androidx.compose.material3.Text(androidx.compose.ui.res.stringResource(echo.music.iad1tya.R.string.lastfm_integration)) },
+                title = { androidx.compose.material3.Text(androidx.compose.ui.res.stringResource(com.nivukx.music.R.string.lastfm_integration)) },
                 navigationIcon = {
-                    echo.music.iad1tya.ui.component.IconButton(
+                    com.nivukx.music.ui.component.IconButton(
                         onClick = navController::navigateUp,
                         onLongClick = navController::backToMain,
                     ) {
                         androidx.compose.material3.Icon(
-                            androidx.compose.ui.res.painterResource(echo.music.iad1tya.R.drawable.arrow_back),
+                            androidx.compose.ui.res.painterResource(com.nivukx.music.R.drawable.arrow_back),
                             contentDescription = null,
                         )
                     }

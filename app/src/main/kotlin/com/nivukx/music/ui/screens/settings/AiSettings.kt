@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.settings
+package com.nivukx.music.ui.screens.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,24 +33,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.AiProviderKey
-import echo.music.iad1tya.constants.DeeplApiKey
-import echo.music.iad1tya.constants.DeeplFormalityKey
-import echo.music.iad1tya.constants.LanguageCodeToName
-import echo.music.iad1tya.constants.OpenRouterApiKey
-import echo.music.iad1tya.constants.OpenRouterBaseUrlKey
-import echo.music.iad1tya.constants.OpenRouterModelKey
-import echo.music.iad1tya.constants.TranslateLanguageKey
-import echo.music.iad1tya.constants.TranslateModeKey
-import echo.music.iad1tya.constants.AutoTranslateKey
-import echo.music.iad1tya.constants.AiRecommendationsKey
-import echo.music.iad1tya.ui.component.EnumDialog
-import echo.music.iad1tya.ui.component.Material3SettingsGroup
-import echo.music.iad1tya.ui.component.Material3SettingsItem
-import echo.music.iad1tya.ui.component.TextFieldDialog
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.R
+import com.nivukx.music.constants.AiProviderKey
+import com.nivukx.music.constants.DeeplApiKey
+import com.nivukx.music.constants.DeeplFormalityKey
+import com.nivukx.music.constants.LanguageCodeToName
+import com.nivukx.music.constants.OpenRouterApiKey
+import com.nivukx.music.constants.OpenRouterBaseUrlKey
+import com.nivukx.music.constants.OpenRouterModelKey
+import com.nivukx.music.constants.TranslateLanguageKey
+import com.nivukx.music.constants.TranslateModeKey
+import com.nivukx.music.constants.AutoTranslateKey
+import com.nivukx.music.constants.AiRecommendationsKey
+import com.nivukx.music.ui.component.EnumDialog
+import com.nivukx.music.ui.component.Material3SettingsGroup
+import com.nivukx.music.ui.component.Material3SettingsItem
+import com.nivukx.music.ui.component.TextFieldDialog
+import com.nivukx.music.utils.rememberPreference
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -641,7 +641,7 @@ highlightKey: String? = null) {
         )
 
         if (showRefreshDialog) {
-            echo.music.iad1tya.ui.component.RefreshAiRecommendationDialog(
+            com.nivukx.music.ui.component.RefreshAiRecommendationDialog(
                 onDismiss = { showRefreshDialog = false }
             )
         }

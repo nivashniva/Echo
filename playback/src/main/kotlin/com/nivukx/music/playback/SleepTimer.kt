@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.playback
+package com.nivukx.music.playback
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf

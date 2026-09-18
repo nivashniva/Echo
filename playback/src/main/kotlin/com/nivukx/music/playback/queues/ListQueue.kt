@@ -1,9 +1,9 @@
 
 
-package echo.music.iad1tya.playback.queues
+package com.nivukx.music.playback.queues
 
 import androidx.media3.common.MediaItem
-import echo.music.iad1tya.models.MediaMetadata
+import com.nivukx.music.models.MediaMetadata
 
 class ListQueue(
     val title: String? = null,

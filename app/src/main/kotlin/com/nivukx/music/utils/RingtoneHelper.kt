@@ -1,4 +1,4 @@
-package echo.music.iad1tya.utils
+package com.nivukx.music.utils
 
 import android.content.ContentValues
 import android.content.Context
@@ -13,9 +13,9 @@ import android.provider.Settings
 import androidx.core.content.getSystemService
 import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.ReturnCode
-import echo.music.iad1tya.constants.AudioQuality
-import echo.music.iad1tya.constants.AudioQualityKey
-import echo.music.iad1tya.utils.dataStore
+import com.nivukx.music.constants.AudioQuality
+import com.nivukx.music.constants.AudioQualityKey
+import com.nivukx.music.utils.dataStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext

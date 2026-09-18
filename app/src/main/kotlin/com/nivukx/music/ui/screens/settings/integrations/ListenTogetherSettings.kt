@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.settings.integrations
+package com.nivukx.music.ui.screens.settings.integrations
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -62,26 +62,26 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.ListenTogetherAutoApprovalKey
-import echo.music.iad1tya.constants.ListenTogetherServerUrlKey
-import echo.music.iad1tya.constants.ListenTogetherSmartResyncKey
-import echo.music.iad1tya.constants.ListenTogetherSyncVolumeKey
-import echo.music.iad1tya.constants.ListenTogetherUsernameKey
-import echo.music.iad1tya.listentogether.ListenTogetherEvent
-import echo.music.iad1tya.listentogether.ListenTogetherServer
-import echo.music.iad1tya.listentogether.ListenTogetherServers
-import echo.music.iad1tya.listentogether.LogEntry
-import echo.music.iad1tya.listentogether.LogLevel
-import echo.music.iad1tya.listentogether.RoomRole
-import echo.music.iad1tya.ui.component.DefaultDialog
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.IntegrationCard
-import echo.music.iad1tya.ui.component.IntegrationCardItem
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.viewmodels.ListenTogetherViewModel
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.R
+import com.nivukx.music.constants.ListenTogetherAutoApprovalKey
+import com.nivukx.music.constants.ListenTogetherServerUrlKey
+import com.nivukx.music.constants.ListenTogetherSmartResyncKey
+import com.nivukx.music.constants.ListenTogetherSyncVolumeKey
+import com.nivukx.music.constants.ListenTogetherUsernameKey
+import com.nivukx.music.listentogether.ListenTogetherEvent
+import com.nivukx.music.listentogether.ListenTogetherServer
+import com.nivukx.music.listentogether.ListenTogetherServers
+import com.nivukx.music.listentogether.LogEntry
+import com.nivukx.music.listentogether.LogLevel
+import com.nivukx.music.listentogether.RoomRole
+import com.nivukx.music.ui.component.DefaultDialog
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.IntegrationCard
+import com.nivukx.music.ui.component.IntegrationCardItem
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.viewmodels.ListenTogetherViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.utils
+package com.nivukx.music.utils
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
@@ -11,19 +11,19 @@ import com.music.innertube.models.PlaylistItem
 import com.music.innertube.models.SongItem
 import com.music.innertube.utils.completed
 import com.music.innertube.utils.parseCookieString
-import echo.music.iad1tya.constants.InnerTubeCookieKey
-import echo.music.iad1tya.constants.LastFMUseSendLikes
-import echo.music.iad1tya.constants.LastFullSyncKey
-import echo.music.iad1tya.constants.SYNC_COOLDOWN
-import echo.music.iad1tya.db.MusicDatabase
-import echo.music.iad1tya.db.entities.ArtistEntity
-import echo.music.iad1tya.db.entities.PlaylistEntity
-import echo.music.iad1tya.db.entities.PlaylistSongMap
-import echo.music.iad1tya.db.entities.SongEntity
-import echo.music.iad1tya.extensions.collectLatest
-import echo.music.iad1tya.extensions.isInternetConnected
-import echo.music.iad1tya.extensions.isSyncEnabled
-import echo.music.iad1tya.models.toMediaMetadata
+import com.nivukx.music.constants.InnerTubeCookieKey
+import com.nivukx.music.constants.LastFMUseSendLikes
+import com.nivukx.music.constants.LastFullSyncKey
+import com.nivukx.music.constants.SYNC_COOLDOWN
+import com.nivukx.music.db.MusicDatabase
+import com.nivukx.music.db.entities.ArtistEntity
+import com.nivukx.music.db.entities.PlaylistEntity
+import com.nivukx.music.db.entities.PlaylistSongMap
+import com.nivukx.music.db.entities.SongEntity
+import com.nivukx.music.extensions.collectLatest
+import com.nivukx.music.extensions.isInternetConnected
+import com.nivukx.music.extensions.isSyncEnabled
+import com.nivukx.music.models.toMediaMetadata
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler

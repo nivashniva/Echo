@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.settings
+package com.nivukx.music.ui.screens.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,22 +37,22 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.music.innertube.YouTube
 import com.music.innertube.utils.parseCookieString
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.constants.*
-import echo.music.iad1tya.ui.component.*
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.constants.*
+import com.nivukx.music.ui.component.*
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.utils.rememberPreference
 
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import echo.music.iad1tya.models.AccountData
-import echo.music.iad1tya.constants.SavedAccountsKey
+import com.nivukx.music.models.AccountData
+import com.nivukx.music.constants.SavedAccountsKey
 import android.content.Intent
 
-import echo.music.iad1tya.viewmodels.AccountSettingsViewModel
-import echo.music.iad1tya.viewmodels.HomeViewModel
-import echo.music.iad1tya.R
+import com.nivukx.music.viewmodels.AccountSettingsViewModel
+import com.nivukx.music.viewmodels.HomeViewModel
+import com.nivukx.music.R
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AccountSettingsScreen(

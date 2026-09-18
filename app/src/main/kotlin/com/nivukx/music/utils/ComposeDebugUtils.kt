@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.utils
+package com.nivukx.music.utils
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable

@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.screens.settings
+package com.nivukx.music.ui.screens.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -37,30 +37,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.LiquidGlassChromaticAberrationKey
-import echo.music.iad1tya.constants.LiquidGlassDepthEffectKey
-import echo.music.iad1tya.constants.LiquidGlassBlurRadiusKey
-import echo.music.iad1tya.constants.LiquidGlassGlobalEnabledKey
-import echo.music.iad1tya.constants.LiquidGlassLensAmountKey
-import echo.music.iad1tya.constants.LiquidGlassLensHeightKey
-import echo.music.iad1tya.constants.LiquidGlassMiniPlayerEnabledKey
-import echo.music.iad1tya.constants.LiquidGlassNavBarEnabledKey
-import echo.music.iad1tya.constants.LiquidGlassPlayerEnabledKey
-import echo.music.iad1tya.constants.LiquidGlassSurfaceOpacityKey
-import echo.music.iad1tya.constants.LiquidGlassSurfaceTintColorKey
-import echo.music.iad1tya.constants.LiquidGlassTextColorKey
-import echo.music.iad1tya.constants.LiquidGlassVibrancyKey
-import echo.music.iad1tya.constants.UseFloatingNavBarKey
-import echo.music.iad1tya.ui.component.ColorPickerDialog
-import echo.music.iad1tya.ui.component.DefaultDialog
-import echo.music.iad1tya.ui.component.IconButton as AppIconButton
-import echo.music.iad1tya.ui.component.Material3SettingsGroup
-import echo.music.iad1tya.ui.component.Material3SettingsItem
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.constants.*
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.R
+import com.nivukx.music.constants.LiquidGlassChromaticAberrationKey
+import com.nivukx.music.constants.LiquidGlassDepthEffectKey
+import com.nivukx.music.constants.LiquidGlassBlurRadiusKey
+import com.nivukx.music.constants.LiquidGlassGlobalEnabledKey
+import com.nivukx.music.constants.LiquidGlassLensAmountKey
+import com.nivukx.music.constants.LiquidGlassLensHeightKey
+import com.nivukx.music.constants.LiquidGlassMiniPlayerEnabledKey
+import com.nivukx.music.constants.LiquidGlassNavBarEnabledKey
+import com.nivukx.music.constants.LiquidGlassPlayerEnabledKey
+import com.nivukx.music.constants.LiquidGlassSurfaceOpacityKey
+import com.nivukx.music.constants.LiquidGlassSurfaceTintColorKey
+import com.nivukx.music.constants.LiquidGlassTextColorKey
+import com.nivukx.music.constants.LiquidGlassVibrancyKey
+import com.nivukx.music.constants.UseFloatingNavBarKey
+import com.nivukx.music.ui.component.ColorPickerDialog
+import com.nivukx.music.ui.component.DefaultDialog
+import com.nivukx.music.ui.component.IconButton as AppIconButton
+import com.nivukx.music.ui.component.Material3SettingsGroup
+import com.nivukx.music.ui.component.Material3SettingsItem
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.constants.*
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)

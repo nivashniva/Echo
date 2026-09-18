@@ -1,5 +1,5 @@
-package echo.music.iad1tya.utils
-import echo.music.iad1tya.R
+package com.nivukx.music.utils
+import com.nivukx.music.R
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

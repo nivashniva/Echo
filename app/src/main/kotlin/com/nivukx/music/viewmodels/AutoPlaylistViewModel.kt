@@ -1,23 +1,23 @@
 
 
-package echo.music.iad1tya.viewmodels
+package com.nivukx.music.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import echo.music.iad1tya.constants.ExportedSongIdsKey
-import echo.music.iad1tya.constants.HideExplicitKey
-import echo.music.iad1tya.constants.HideVideoSongsKey
-import echo.music.iad1tya.constants.SongSortDescendingKey
-import echo.music.iad1tya.constants.SongSortType
-import echo.music.iad1tya.constants.SongSortTypeKey
-import echo.music.iad1tya.db.MusicDatabase
-import echo.music.iad1tya.extensions.filterExplicit
-import echo.music.iad1tya.extensions.filterVideoSongs
-import echo.music.iad1tya.extensions.toEnum
-import echo.music.iad1tya.utils.SyncUtils
-import echo.music.iad1tya.utils.dataStore
+import com.nivukx.music.constants.ExportedSongIdsKey
+import com.nivukx.music.constants.HideExplicitKey
+import com.nivukx.music.constants.HideVideoSongsKey
+import com.nivukx.music.constants.SongSortDescendingKey
+import com.nivukx.music.constants.SongSortType
+import com.nivukx.music.constants.SongSortTypeKey
+import com.nivukx.music.db.MusicDatabase
+import com.nivukx.music.extensions.filterExplicit
+import com.nivukx.music.extensions.filterVideoSongs
+import com.nivukx.music.extensions.toEnum
+import com.nivukx.music.utils.SyncUtils
+import com.nivukx.music.utils.dataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers

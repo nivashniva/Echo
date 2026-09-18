@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.viewmodels
+package com.nivukx.music.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
@@ -10,18 +10,18 @@ import androidx.lifecycle.viewModelScope
 import com.music.innertube.YouTube
 import com.music.innertube.models.SongItem
 import com.music.innertube.models.WatchEndpoint
-import echo.music.iad1tya.constants.HideVideoSongsKey
-import echo.music.iad1tya.constants.PlaylistSongSortDescendingKey
-import echo.music.iad1tya.constants.PlaylistSongSortType
-import echo.music.iad1tya.constants.PlaylistSongSortTypeKey
-import echo.music.iad1tya.db.MusicDatabase
-import echo.music.iad1tya.db.entities.PlaylistSong
-import echo.music.iad1tya.extensions.reversed
-import echo.music.iad1tya.extensions.toEnum
-import echo.music.iad1tya.models.toMediaMetadata
-import echo.music.iad1tya.utils.SyncUtils
-import echo.music.iad1tya.spotifyimport.SpotifyImportRepository
-import echo.music.iad1tya.utils.dataStore
+import com.nivukx.music.constants.HideVideoSongsKey
+import com.nivukx.music.constants.PlaylistSongSortDescendingKey
+import com.nivukx.music.constants.PlaylistSongSortType
+import com.nivukx.music.constants.PlaylistSongSortTypeKey
+import com.nivukx.music.db.MusicDatabase
+import com.nivukx.music.db.entities.PlaylistSong
+import com.nivukx.music.extensions.reversed
+import com.nivukx.music.extensions.toEnum
+import com.nivukx.music.models.toMediaMetadata
+import com.nivukx.music.utils.SyncUtils
+import com.nivukx.music.spotifyimport.SpotifyImportRepository
+import com.nivukx.music.utils.dataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers

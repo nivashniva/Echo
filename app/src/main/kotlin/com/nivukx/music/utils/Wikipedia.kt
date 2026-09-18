@@ -1,4 +1,4 @@
-package echo.music.iad1tya.utils
+package com.nivukx.music.utils
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

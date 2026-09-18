@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.constants
+package com.nivukx.music.constants
 
 enum class HistorySource {
     LOCAL, REMOTE

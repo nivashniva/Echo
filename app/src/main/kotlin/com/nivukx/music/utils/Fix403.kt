@@ -3,9 +3,9 @@
  * Licensed under GPL-3.0 | See git history for contributors
  */
 
-package echo.music.iad1tya.utils
+package com.nivukx.music.utils
 
-import echo.music.iad1tya.BuildConfig
+import com.nivukx.music.BuildConfig
 import timber.log.Timber
 import java.security.MessageDigest
 import java.util.concurrent.atomic.AtomicLong

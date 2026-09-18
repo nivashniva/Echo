@@ -1,4 +1,4 @@
-package echo.music.iad1tya.betterlyrics
+package com.nivukx.music.betterlyrics
 
 import org.w3c.dom.Element
 import org.w3c.dom.Node

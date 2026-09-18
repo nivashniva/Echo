@@ -1,4 +1,4 @@
-package echo.music.iad1tya.eq.audio
+package com.nivukx.music.eq.audio
 
 import androidx.media3.common.C
 import androidx.media3.common.audio.AudioProcessor

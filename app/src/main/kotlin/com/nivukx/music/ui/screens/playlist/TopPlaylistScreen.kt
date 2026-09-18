@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.playlist
+package com.nivukx.music.ui.screens.playlist
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -83,30 +83,30 @@ import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
-import echo.music.iad1tya.LocalDownloadUtil
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.MyTopFilter
-import echo.music.iad1tya.db.entities.Song
-import echo.music.iad1tya.extensions.toMediaItem
-import echo.music.iad1tya.playback.ExoDownloadService
-import echo.music.iad1tya.playback.queues.ListQueue
-import echo.music.iad1tya.ui.component.DefaultDialog
-import echo.music.iad1tya.ui.component.DraggableScrollbar
-import echo.music.iad1tya.ui.component.EmptyPlaceholder
-import echo.music.iad1tya.ui.component.ExpandableText
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.LocalMenuState
-import echo.music.iad1tya.ui.component.SongListItem
-import echo.music.iad1tya.ui.component.SortHeader
-import echo.music.iad1tya.ui.menu.SelectionSongMenu
-import echo.music.iad1tya.ui.menu.SongMenu
-import echo.music.iad1tya.ui.menu.TopPlaylistMenu
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.utils.listItemShape
-import echo.music.iad1tya.utils.makeTimeString
-import echo.music.iad1tya.viewmodels.TopPlaylistViewModel
+import com.nivukx.music.LocalDownloadUtil
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.MyTopFilter
+import com.nivukx.music.db.entities.Song
+import com.nivukx.music.extensions.toMediaItem
+import com.nivukx.music.playback.ExoDownloadService
+import com.nivukx.music.playback.queues.ListQueue
+import com.nivukx.music.ui.component.DefaultDialog
+import com.nivukx.music.ui.component.DraggableScrollbar
+import com.nivukx.music.ui.component.EmptyPlaceholder
+import com.nivukx.music.ui.component.ExpandableText
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.SongListItem
+import com.nivukx.music.ui.component.SortHeader
+import com.nivukx.music.ui.menu.SelectionSongMenu
+import com.nivukx.music.ui.menu.SongMenu
+import com.nivukx.music.ui.menu.TopPlaylistMenu
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.utils.listItemShape
+import com.nivukx.music.utils.makeTimeString
+import com.nivukx.music.viewmodels.TopPlaylistViewModel
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TopPlaylistScreen(
@@ -519,7 +519,7 @@ private fun TopPlaylistHeader(
     likeLength: Int,
     downloadState: Int,
     onShowRemoveDownloadDialog: () -> Unit,
-    menuState: echo.music.iad1tya.ui.component.MenuState,
+    menuState: com.nivukx.music.ui.component.MenuState,
     modifier: Modifier = Modifier
 ) {
     val playerConnection = LocalPlayerConnection.current ?: return

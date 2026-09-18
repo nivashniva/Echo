@@ -1,4 +1,4 @@
-package echo.music.iad1tya.utils.cipher
+package com.nivukx.music.utils.cipher
 
 import android.content.Context
 import android.webkit.ConsoleMessage

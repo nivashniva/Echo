@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.settings
+package com.nivukx.music.ui.screens.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,56 +32,56 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import echo.music.iad1tya.BuildConfig
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.AudioNormalizationKey
-import echo.music.iad1tya.constants.AudioOffload
-import echo.music.iad1tya.constants.AudioQuality
-import echo.music.iad1tya.constants.AudioQualityKey
-import echo.music.iad1tya.constants.AutoDownloadOnLikeKey
-import echo.music.iad1tya.constants.AutomixCrossfadeKey
-import echo.music.iad1tya.constants.AutomixDebugOverlayKey
-import echo.music.iad1tya.constants.CrossfadeDurationKey
-import echo.music.iad1tya.constants.CrossfadeEnabledKey
-import echo.music.iad1tya.constants.CrossfadeGaplessKey
-import echo.music.iad1tya.constants.AutoLoadMoreKey
-import echo.music.iad1tya.constants.AutoSkipNextOnErrorKey
-import echo.music.iad1tya.constants.DisableLoadMoreWhenRepeatAllKey
-import echo.music.iad1tya.constants.DownloadOnWifiOnlyKey
-import echo.music.iad1tya.constants.EnableGoogleCastKey
-import echo.music.iad1tya.constants.HistoryDuration
-import echo.music.iad1tya.constants.KeepScreenOn
-import echo.music.iad1tya.constants.PauseOnMute
-import echo.music.iad1tya.constants.PersistentQueueKey
-import echo.music.iad1tya.constants.PersistentShuffleAcrossQueuesKey
-import echo.music.iad1tya.constants.PreventDuplicateTracksInQueueKey
-import echo.music.iad1tya.constants.RememberShuffleAndRepeatKey
-import echo.music.iad1tya.constants.ResumeOnBluetoothConnectKey
-import echo.music.iad1tya.constants.SeekExtraSeconds
-import echo.music.iad1tya.constants.ShufflePlaylistFirstKey
-import echo.music.iad1tya.constants.SimilarContent
+import com.nivukx.music.BuildConfig
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.R
+import com.nivukx.music.constants.AudioNormalizationKey
+import com.nivukx.music.constants.AudioOffload
+import com.nivukx.music.constants.AudioQuality
+import com.nivukx.music.constants.AudioQualityKey
+import com.nivukx.music.constants.AutoDownloadOnLikeKey
+import com.nivukx.music.constants.AutomixCrossfadeKey
+import com.nivukx.music.constants.AutomixDebugOverlayKey
+import com.nivukx.music.constants.CrossfadeDurationKey
+import com.nivukx.music.constants.CrossfadeEnabledKey
+import com.nivukx.music.constants.CrossfadeGaplessKey
+import com.nivukx.music.constants.AutoLoadMoreKey
+import com.nivukx.music.constants.AutoSkipNextOnErrorKey
+import com.nivukx.music.constants.DisableLoadMoreWhenRepeatAllKey
+import com.nivukx.music.constants.DownloadOnWifiOnlyKey
+import com.nivukx.music.constants.EnableGoogleCastKey
+import com.nivukx.music.constants.HistoryDuration
+import com.nivukx.music.constants.KeepScreenOn
+import com.nivukx.music.constants.PauseOnMute
+import com.nivukx.music.constants.PersistentQueueKey
+import com.nivukx.music.constants.PersistentShuffleAcrossQueuesKey
+import com.nivukx.music.constants.PreventDuplicateTracksInQueueKey
+import com.nivukx.music.constants.RememberShuffleAndRepeatKey
+import com.nivukx.music.constants.ResumeOnBluetoothConnectKey
+import com.nivukx.music.constants.SeekExtraSeconds
+import com.nivukx.music.constants.ShufflePlaylistFirstKey
+import com.nivukx.music.constants.SimilarContent
 
-import echo.music.iad1tya.constants.SkipSilenceInstantKey
-import echo.music.iad1tya.constants.SkipSilenceKey
-import echo.music.iad1tya.constants.StopMusicOnTaskClearKey
-import echo.music.iad1tya.constants.EnableExportAsMp3Key
+import com.nivukx.music.constants.SkipSilenceInstantKey
+import com.nivukx.music.constants.SkipSilenceKey
+import com.nivukx.music.constants.StopMusicOnTaskClearKey
+import com.nivukx.music.constants.EnableExportAsMp3Key
 
-import echo.music.iad1tya.constants.PreloadNextSongEnabledKey
-import echo.music.iad1tya.constants.PreloadNextSongLimitKey
-import echo.music.iad1tya.constants.PreloadLyricsEnabledKey
+import com.nivukx.music.constants.PreloadNextSongEnabledKey
+import com.nivukx.music.constants.PreloadNextSongLimitKey
+import com.nivukx.music.constants.PreloadLyricsEnabledKey
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import echo.music.iad1tya.ui.component.DefaultDialog
-import echo.music.iad1tya.ui.component.EnumDialog
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.Material3SettingsGroup
-import echo.music.iad1tya.ui.component.Material3SettingsItem
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.utils.userVisibleLabel
+import com.nivukx.music.ui.component.DefaultDialog
+import com.nivukx.music.ui.component.EnumDialog
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.Material3SettingsGroup
+import com.nivukx.music.ui.component.Material3SettingsItem
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.utils.userVisibleLabel
 import kotlin.math.roundToInt
 import android.content.Intent
 import android.net.Uri
@@ -136,13 +136,13 @@ highlightKey: String? = null) {
         defaultValue = true
     )
     val (audioLoudnessPreset, onAudioLoudnessPresetChange) = rememberEnumPreference(
-        echo.music.iad1tya.constants.AudioLoudnessPresetKey,
-        defaultValue = echo.music.iad1tya.constants.AudioLoudnessPreset.NORMAL
+        com.nivukx.music.constants.AudioLoudnessPresetKey,
+        defaultValue = com.nivukx.music.constants.AudioLoudnessPreset.NORMAL
     )
     var showLoudnessPresetDialog by remember { mutableStateOf(false) }
 
     val (spatialAudio, onSpatialAudioChange) = rememberPreference(
-        echo.music.iad1tya.constants.SpatialAudioKey,
+        com.nivukx.music.constants.SpatialAudioKey,
         defaultValue = false
     )
 
@@ -168,7 +168,7 @@ highlightKey: String? = null) {
     )
 
     val (dataSaverEnabled, onDataSaverEnabledChange) = rememberPreference(
-        key = echo.music.iad1tya.constants.DataSaverEnabledKey,
+        key = com.nivukx.music.constants.DataSaverEnabledKey,
         defaultValue = false
     )
 
@@ -255,13 +255,13 @@ highlightKey: String? = null) {
     var showPlaybackEngineDialog by remember { mutableStateOf(false) }
 
     val (playbackEngine, onPlaybackEngineChange) = rememberEnumPreference(
-        echo.music.iad1tya.constants.PlaybackEngineKey,
-        defaultValue = echo.music.iad1tya.constants.PlaybackEngine.AUTO
+        com.nivukx.music.constants.PlaybackEngineKey,
+        defaultValue = com.nivukx.music.constants.PlaybackEngine.AUTO
     )
 
     val (downloadQuality, onDownloadQualityChange) = rememberEnumPreference(
-        echo.music.iad1tya.constants.DownloadQualityKey,
-        defaultValue = echo.music.iad1tya.constants.DownloadQuality.AUTO
+        com.nivukx.music.constants.DownloadQualityKey,
+        defaultValue = com.nivukx.music.constants.DownloadQuality.AUTO
     )
 
     if (showAudioQualityDialog) {
@@ -294,10 +294,10 @@ highlightKey: String? = null) {
             title = stringResource(R.string.download_quality_title),
             current = downloadQuality,
             values = listOf(
-                echo.music.iad1tya.constants.DownloadQuality.AUTO,
-                echo.music.iad1tya.constants.DownloadQuality.HIGH,
-                echo.music.iad1tya.constants.DownloadQuality.LOSSLESS_WHEN_AVAILABLE,
-                echo.music.iad1tya.constants.DownloadQuality.YOUTUBE,
+                com.nivukx.music.constants.DownloadQuality.AUTO,
+                com.nivukx.music.constants.DownloadQuality.HIGH,
+                com.nivukx.music.constants.DownloadQuality.LOSSLESS_WHEN_AVAILABLE,
+                com.nivukx.music.constants.DownloadQuality.YOUTUBE,
             ),
             valueText = { it.userVisibleLabel(context) }
         )
@@ -313,17 +313,17 @@ highlightKey: String? = null) {
             title = stringResource(R.string.audio_loudness_preset),
             current = audioLoudnessPreset,
             values = listOf(
-                echo.music.iad1tya.constants.AudioLoudnessPreset.QUIET,
-                echo.music.iad1tya.constants.AudioLoudnessPreset.NORMAL,
-                echo.music.iad1tya.constants.AudioLoudnessPreset.LOUD,
-                echo.music.iad1tya.constants.AudioLoudnessPreset.AGGRESSIVE,
+                com.nivukx.music.constants.AudioLoudnessPreset.QUIET,
+                com.nivukx.music.constants.AudioLoudnessPreset.NORMAL,
+                com.nivukx.music.constants.AudioLoudnessPreset.LOUD,
+                com.nivukx.music.constants.AudioLoudnessPreset.AGGRESSIVE,
             ),
             valueText = {
                 when (it) {
-                    echo.music.iad1tya.constants.AudioLoudnessPreset.QUIET -> stringResource(R.string.loudness_preset_quiet)
-                    echo.music.iad1tya.constants.AudioLoudnessPreset.NORMAL -> stringResource(R.string.loudness_preset_normal)
-                    echo.music.iad1tya.constants.AudioLoudnessPreset.LOUD -> stringResource(R.string.loudness_preset_loud)
-                    echo.music.iad1tya.constants.AudioLoudnessPreset.AGGRESSIVE -> stringResource(R.string.loudness_preset_aggressive)
+                    com.nivukx.music.constants.AudioLoudnessPreset.QUIET -> stringResource(R.string.loudness_preset_quiet)
+                    com.nivukx.music.constants.AudioLoudnessPreset.NORMAL -> stringResource(R.string.loudness_preset_normal)
+                    com.nivukx.music.constants.AudioLoudnessPreset.LOUD -> stringResource(R.string.loudness_preset_loud)
+                    com.nivukx.music.constants.AudioLoudnessPreset.AGGRESSIVE -> stringResource(R.string.loudness_preset_aggressive)
                 }
             },
         )
@@ -334,28 +334,28 @@ highlightKey: String? = null) {
             onDismiss = { showPlaybackEngineDialog = false },
             onSelect = {
                 onPlaybackEngineChange(it)
-                echo.music.iad1tya.utils.YTPlayerUtils.playbackEngine = it
+                com.nivukx.music.utils.YTPlayerUtils.playbackEngine = it
                 showPlaybackEngineDialog = false
             },
             title = "Playback Engine",
             current = playbackEngine,
             values = listOf(
-                echo.music.iad1tya.constants.PlaybackEngine.POTOKEN,
-                echo.music.iad1tya.constants.PlaybackEngine.BRAVEPIPE,
-                echo.music.iad1tya.constants.PlaybackEngine.AUTO,
+                com.nivukx.music.constants.PlaybackEngine.POTOKEN,
+                com.nivukx.music.constants.PlaybackEngine.BRAVEPIPE,
+                com.nivukx.music.constants.PlaybackEngine.AUTO,
             ),
             valueText = {
                 when (it) {
-                    echo.music.iad1tya.constants.PlaybackEngine.POTOKEN -> "PoToken (Recommended)"
-                    echo.music.iad1tya.constants.PlaybackEngine.BRAVEPIPE -> "BravePipe (NewPipe)"
-                    echo.music.iad1tya.constants.PlaybackEngine.AUTO -> "Auto (Try Both)"
+                    com.nivukx.music.constants.PlaybackEngine.POTOKEN -> "PoToken (Recommended)"
+                    com.nivukx.music.constants.PlaybackEngine.BRAVEPIPE -> "BravePipe (NewPipe)"
+                    com.nivukx.music.constants.PlaybackEngine.AUTO -> "Auto (Try Both)"
                 }
             },
             valueDescription = {
                 when (it) {
-                    echo.music.iad1tya.constants.PlaybackEngine.POTOKEN -> "Uses WebView PoToken + CipherDeobfuscator. Most reliable and future-proof."
-                    echo.music.iad1tya.constants.PlaybackEngine.BRAVEPIPE -> "Uses NewPipe extractor for stream resolution. Lightweight but may break with YouTube updates."
-                    echo.music.iad1tya.constants.PlaybackEngine.AUTO -> "Tries PoToken first, falls back to BravePipe if it fails."
+                    com.nivukx.music.constants.PlaybackEngine.POTOKEN -> "Uses WebView PoToken + CipherDeobfuscator. Most reliable and future-proof."
+                    com.nivukx.music.constants.PlaybackEngine.BRAVEPIPE -> "Uses NewPipe extractor for stream resolution. Lightweight but may break with YouTube updates."
+                    com.nivukx.music.constants.PlaybackEngine.AUTO -> "Tries PoToken first, falls back to BravePipe if it fails."
                 }
             }
         )
@@ -491,9 +491,9 @@ highlightKey: String? = null) {
                     description = {
                         Text(
                             when (playbackEngine) {
-                                echo.music.iad1tya.constants.PlaybackEngine.POTOKEN -> "PoToken (Recommended)"
-                                echo.music.iad1tya.constants.PlaybackEngine.BRAVEPIPE -> "BravePipe (NewPipe)"
-                                echo.music.iad1tya.constants.PlaybackEngine.AUTO -> "Auto (Try Both)"
+                                com.nivukx.music.constants.PlaybackEngine.POTOKEN -> "PoToken (Recommended)"
+                                com.nivukx.music.constants.PlaybackEngine.BRAVEPIPE -> "BravePipe (NewPipe)"
+                                com.nivukx.music.constants.PlaybackEngine.AUTO -> "Auto (Try Both)"
                             }
                         )
                     },
@@ -733,10 +733,10 @@ highlightKey: String? = null) {
                     description = {
                         Text(
                             when (audioLoudnessPreset) {
-                                echo.music.iad1tya.constants.AudioLoudnessPreset.QUIET -> stringResource(R.string.loudness_preset_quiet)
-                                echo.music.iad1tya.constants.AudioLoudnessPreset.NORMAL -> stringResource(R.string.loudness_preset_normal)
-                                echo.music.iad1tya.constants.AudioLoudnessPreset.LOUD -> stringResource(R.string.loudness_preset_loud)
-                                echo.music.iad1tya.constants.AudioLoudnessPreset.AGGRESSIVE -> stringResource(R.string.loudness_preset_aggressive)
+                                com.nivukx.music.constants.AudioLoudnessPreset.QUIET -> stringResource(R.string.loudness_preset_quiet)
+                                com.nivukx.music.constants.AudioLoudnessPreset.NORMAL -> stringResource(R.string.loudness_preset_normal)
+                                com.nivukx.music.constants.AudioLoudnessPreset.LOUD -> stringResource(R.string.loudness_preset_loud)
+                                com.nivukx.music.constants.AudioLoudnessPreset.AGGRESSIVE -> stringResource(R.string.loudness_preset_aggressive)
                             }
                         )
                     },

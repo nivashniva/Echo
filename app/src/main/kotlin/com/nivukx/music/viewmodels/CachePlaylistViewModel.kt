@@ -1,21 +1,21 @@
 
 
-package echo.music.iad1tya.viewmodels
+package com.nivukx.music.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.datasource.cache.SimpleCache
-import echo.music.iad1tya.constants.HideExplicitKey
-import echo.music.iad1tya.constants.HideVideoSongsKey
-import echo.music.iad1tya.db.MusicDatabase
-import echo.music.iad1tya.db.entities.Song
-import echo.music.iad1tya.di.DownloadCache
-import echo.music.iad1tya.di.PlayerCache
-import echo.music.iad1tya.extensions.filterExplicit
-import echo.music.iad1tya.extensions.filterVideoSongs
-import echo.music.iad1tya.utils.dataStore
-import echo.music.iad1tya.utils.get
+import com.nivukx.music.constants.HideExplicitKey
+import com.nivukx.music.constants.HideVideoSongsKey
+import com.nivukx.music.db.MusicDatabase
+import com.nivukx.music.db.entities.Song
+import com.nivukx.music.di.DownloadCache
+import com.nivukx.music.di.PlayerCache
+import com.nivukx.music.extensions.filterExplicit
+import com.nivukx.music.extensions.filterVideoSongs
+import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.get
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay

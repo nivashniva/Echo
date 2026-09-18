@@ -3,7 +3,7 @@
  * Licensed under GPL-3.0 | See git history for contributors
  */
 
-package echo.music.iad1tya.widget
+package com.nivukx.music.widget
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -16,23 +16,23 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.RemoteViews
-import echo.music.iad1tya.MainActivity
-import echo.music.iad1tya.R
-import echo.music.iad1tya.recognition.MusicRecognitionService
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.ALBUM_ART_CACHE_FILE
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.PREF_ARTIST_NAME
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.PREF_COVER_ART_PATH
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.PREF_ERROR_MESSAGE
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.PREF_PULSE_FRAME
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.PREF_SONG_TITLE
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.PREF_STATE
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.PREFS_NAME
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.STATE_ERROR
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.STATE_IDLE
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.STATE_LISTENING
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.STATE_NO_MATCH
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.STATE_PROCESSING
-import echo.music.iad1tya.widget.MusicRecognizerWidgetService.Companion.STATE_SUCCESS
+import com.nivukx.music.MainActivity
+import com.nivukx.music.R
+import com.nivukx.music.recognition.MusicRecognitionService
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.ALBUM_ART_CACHE_FILE
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.PREF_ARTIST_NAME
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.PREF_COVER_ART_PATH
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.PREF_ERROR_MESSAGE
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.PREF_PULSE_FRAME
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.PREF_SONG_TITLE
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.PREF_STATE
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.PREFS_NAME
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.STATE_ERROR
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.STATE_IDLE
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.STATE_LISTENING
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.STATE_NO_MATCH
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.STATE_PROCESSING
+import com.nivukx.music.widget.MusicRecognizerWidgetService.Companion.STATE_SUCCESS
 import java.io.File
 
 /**
@@ -114,7 +114,7 @@ class MusicRecognizerWidgetReceiver : AppWidgetProvider() {
         if (!MusicRecognitionService.hasRecordPermission(context)) {
             context.startActivity(
                 Intent(context, MainActivity::class.java).apply {
-                    action = "echo.music.iad1tya.action.RECOGNITION"
+                    action = "com.nivukx.music.action.RECOGNITION"
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
                 }
             )
@@ -334,15 +334,15 @@ class MusicRecognizerWidgetReceiver : AppWidgetProvider() {
         PendingIntent.getActivity(
             context, 21,
             Intent(context, MainActivity::class.java).apply {
-                action = "echo.music.iad1tya.action.RECOGNITION"
+                action = "com.nivukx.music.action.RECOGNITION"
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
             },
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
     companion object {
-        const val ACTION_START_RECOGNITION = "com.music.echo.widget.recognizer.TAP_MIC"
-        const val ACTION_UPDATE_WIDGET = "com.music.echo.widget.recognizer.UPDATE"
-        const val ACTION_RESET_STATE = "com.music.echo.widget.recognizer.RESET"
+        const val ACTION_START_RECOGNITION = "com.nivukx.music.widget.recognizer.TAP_MIC"
+        const val ACTION_UPDATE_WIDGET = "com.nivukx.music.widget.recognizer.UPDATE"
+        const val ACTION_RESET_STATE = "com.nivukx.music.widget.recognizer.RESET"
     }
 }

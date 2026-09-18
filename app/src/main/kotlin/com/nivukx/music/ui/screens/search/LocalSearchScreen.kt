@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.search
+package com.nivukx.music.ui.screens.search
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -42,28 +42,28 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.CONTENT_TYPE_LIST
-import echo.music.iad1tya.constants.ListItemHeight
-import echo.music.iad1tya.db.entities.Album
-import echo.music.iad1tya.db.entities.Artist
-import echo.music.iad1tya.db.entities.Playlist
-import echo.music.iad1tya.db.entities.Song
-import echo.music.iad1tya.extensions.toMediaItem
-import echo.music.iad1tya.playback.queues.ListQueue
-import echo.music.iad1tya.ui.component.AlbumListItem
-import echo.music.iad1tya.ui.component.ArtistListItem
-import echo.music.iad1tya.ui.component.ChipsRow
-import echo.music.iad1tya.ui.component.EmptyPlaceholder
-import echo.music.iad1tya.ui.component.LocalMenuState
-import echo.music.iad1tya.ui.component.PlaylistListItem
-import echo.music.iad1tya.ui.component.SongListItem
-import echo.music.iad1tya.ui.menu.SongMenu
-import echo.music.iad1tya.utils.listItemShape
-import echo.music.iad1tya.viewmodels.LocalFilter
-import echo.music.iad1tya.viewmodels.LocalSearchViewModel
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.CONTENT_TYPE_LIST
+import com.nivukx.music.constants.ListItemHeight
+import com.nivukx.music.db.entities.Album
+import com.nivukx.music.db.entities.Artist
+import com.nivukx.music.db.entities.Playlist
+import com.nivukx.music.db.entities.Song
+import com.nivukx.music.extensions.toMediaItem
+import com.nivukx.music.playback.queues.ListQueue
+import com.nivukx.music.ui.component.AlbumListItem
+import com.nivukx.music.ui.component.ArtistListItem
+import com.nivukx.music.ui.component.ChipsRow
+import com.nivukx.music.ui.component.EmptyPlaceholder
+import com.nivukx.music.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.PlaylistListItem
+import com.nivukx.music.ui.component.SongListItem
+import com.nivukx.music.ui.menu.SongMenu
+import com.nivukx.music.utils.listItemShape
+import com.nivukx.music.viewmodels.LocalFilter
+import com.nivukx.music.viewmodels.LocalSearchViewModel
 import kotlinx.coroutines.flow.drop
 
 @OptIn(ExperimentalFoundationApi::class)

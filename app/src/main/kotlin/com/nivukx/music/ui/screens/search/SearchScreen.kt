@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.search
+package com.nivukx.music.ui.screens.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -75,22 +75,22 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
 import com.music.innertube.models.WatchEndpoint
 import com.music.innertube.utils.YouTubeUrlParser
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.LocalIsPlayerExpanded
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.PauseSearchHistoryKey
-import echo.music.iad1tya.constants.SearchSource
-import echo.music.iad1tya.constants.SearchSourceKey
-import echo.music.iad1tya.db.entities.SearchHistory
-import echo.music.iad1tya.playback.queues.YouTubeQueue
-import echo.music.iad1tya.ui.component.NavigationTitle
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.viewmodels.MoodAndGenresViewModel
-import echo.music.iad1tya.viewmodels.ExploreViewModel
-import echo.music.iad1tya.ui.screens.search.suggestions.SuggestionsTabContent
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.LocalIsPlayerExpanded
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.PauseSearchHistoryKey
+import com.nivukx.music.constants.SearchSource
+import com.nivukx.music.constants.SearchSourceKey
+import com.nivukx.music.db.entities.SearchHistory
+import com.nivukx.music.playback.queues.YouTubeQueue
+import com.nivukx.music.ui.component.NavigationTitle
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.viewmodels.MoodAndGenresViewModel
+import com.nivukx.music.viewmodels.ExploreViewModel
+import com.nivukx.music.ui.screens.search.suggestions.SuggestionsTabContent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
@@ -108,12 +108,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import echo.music.iad1tya.ui.component.LocalMenuState
-import echo.music.iad1tya.ui.component.YouTubeGridItem
-import echo.music.iad1tya.ui.menu.YouTubeAlbumMenu
-import echo.music.iad1tya.constants.GridThumbnailHeight
-import echo.music.iad1tya.constants.GridItemsSizeKey
-import echo.music.iad1tya.constants.GridItemSize
+import com.nivukx.music.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.YouTubeGridItem
+import com.nivukx.music.ui.menu.YouTubeAlbumMenu
+import com.nivukx.music.constants.GridThumbnailHeight
+import com.nivukx.music.constants.GridItemsSizeKey
+import com.nivukx.music.constants.GridItemSize
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

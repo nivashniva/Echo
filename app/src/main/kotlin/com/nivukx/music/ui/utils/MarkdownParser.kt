@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.utils
+package com.nivukx.music.ui.utils
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -12,7 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
-import echo.music.iad1tya.echomusic.updater.ChangelogSection
+import com.nivukx.music.echomusic.updater.ChangelogSection
 
 /**
  * Parses markdown formatted text into an [AnnotatedString] supporting:

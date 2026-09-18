@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 
-package echo.music.iad1tya.ui.screens.settings
+package com.nivukx.music.ui.screens.settings
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
@@ -68,16 +68,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.materialkolor.PaletteStyle
 import com.materialkolor.rememberDynamicColorScheme
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.DarkModeKey
-import echo.music.iad1tya.constants.DynamicThemeKey
-import echo.music.iad1tya.constants.PureBlackKey
-import echo.music.iad1tya.constants.PureBlackMiniPlayerKey
-import echo.music.iad1tya.constants.SelectedThemeColorKey
-import echo.music.iad1tya.ui.theme.DefaultThemeColor
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.R
+import com.nivukx.music.constants.DarkModeKey
+import com.nivukx.music.constants.DynamicThemeKey
+import com.nivukx.music.constants.PureBlackKey
+import com.nivukx.music.constants.PureBlackMiniPlayerKey
+import com.nivukx.music.constants.SelectedThemeColorKey
+import com.nivukx.music.ui.theme.DefaultThemeColor
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberPreference
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.material3.Switch

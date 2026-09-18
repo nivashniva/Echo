@@ -1,4 +1,4 @@
-package echo.music.iad1tya.eq.data
+package com.nivukx.music.eq.data
 
 import android.content.Context
 import android.content.SharedPreferences

@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.settings
+package com.nivukx.music.ui.screens.settings
 
 import androidx.compose.foundation.layout.Column
 
@@ -29,28 +29,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.LyricsRomanizeAsMainKey
-import echo.music.iad1tya.constants.LyricsRomanizeBelarusianKey
-import echo.music.iad1tya.constants.LyricsRomanizeBulgarianKey
-import echo.music.iad1tya.constants.LyricsRomanizeChineseKey
-import echo.music.iad1tya.constants.LyricsRomanizeHindiKey
-import echo.music.iad1tya.constants.LyricsRomanizePunjabiKey
-import echo.music.iad1tya.constants.LyricsRomanizeCyrillicByLineKey
-import echo.music.iad1tya.constants.LyricsRomanizeJapaneseKey
-import echo.music.iad1tya.constants.LyricsRomanizeKoreanKey
-import echo.music.iad1tya.constants.LyricsRomanizeKyrgyzKey
-import echo.music.iad1tya.constants.LyricsRomanizeMacedonianKey
-import echo.music.iad1tya.constants.LyricsRomanizeRussianKey
-import echo.music.iad1tya.constants.LyricsRomanizeSerbianKey
-import echo.music.iad1tya.constants.LyricsRomanizeUkrainianKey
-import echo.music.iad1tya.ui.component.ActionPromptDialog
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.Material3SettingsGroup
-import echo.music.iad1tya.ui.component.Material3SettingsItem
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.R
+import com.nivukx.music.constants.LyricsRomanizeAsMainKey
+import com.nivukx.music.constants.LyricsRomanizeBelarusianKey
+import com.nivukx.music.constants.LyricsRomanizeBulgarianKey
+import com.nivukx.music.constants.LyricsRomanizeChineseKey
+import com.nivukx.music.constants.LyricsRomanizeHindiKey
+import com.nivukx.music.constants.LyricsRomanizePunjabiKey
+import com.nivukx.music.constants.LyricsRomanizeCyrillicByLineKey
+import com.nivukx.music.constants.LyricsRomanizeJapaneseKey
+import com.nivukx.music.constants.LyricsRomanizeKoreanKey
+import com.nivukx.music.constants.LyricsRomanizeKyrgyzKey
+import com.nivukx.music.constants.LyricsRomanizeMacedonianKey
+import com.nivukx.music.constants.LyricsRomanizeRussianKey
+import com.nivukx.music.constants.LyricsRomanizeSerbianKey
+import com.nivukx.music.constants.LyricsRomanizeUkrainianKey
+import com.nivukx.music.ui.component.ActionPromptDialog
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.Material3SettingsGroup
+import com.nivukx.music.ui.component.Material3SettingsItem
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.utils.rememberPreference
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,9 +1,9 @@
-package echo.music.iad1tya.models
+package com.nivukx.music.models
 
 import com.music.innertube.models.SongItem
-import echo.music.iad1tya.db.entities.Song
-import echo.music.iad1tya.db.entities.SongEntity
-import echo.music.iad1tya.ui.utils.resize
+import com.nivukx.music.db.entities.Song
+import com.nivukx.music.db.entities.SongEntity
+import com.nivukx.music.ui.utils.resize
 
 fun MediaMetadata.toSongEntity() =
     SongEntity(

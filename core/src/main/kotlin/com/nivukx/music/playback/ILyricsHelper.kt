@@ -1,6 +1,6 @@
-package echo.music.iad1tya.playback
+package com.nivukx.music.playback
 
-import echo.music.iad1tya.models.MediaMetadata
+import com.nivukx.music.models.MediaMetadata
 
 data class LyricsWithProvider(
     val lyrics: String?,

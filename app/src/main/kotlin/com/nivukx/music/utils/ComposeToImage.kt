@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.utils
+package com.nivukx.music.utils
 
 import android.content.ContentValues
 import android.content.Context
@@ -30,8 +30,8 @@ import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.toBitmap
-import echo.music.iad1tya.R
-import echo.music.iad1tya.ui.component.LyricsBackgroundStyle
+import com.nivukx.music.R
+import com.nivukx.music.ui.component.LyricsBackgroundStyle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
