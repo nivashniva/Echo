@@ -873,7 +873,7 @@ private fun HiddenThumbnailPlaceholder(
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            painter = painterResource(R.drawable.ic_launcher_nobg),
+            painter = painterResource(R.drawable.app_logo),
             contentDescription = stringResource(R.string.hide_player_thumbnail),
             tint = textBackgroundColor.copy(alpha = 0.7f),
             modifier = Modifier.size(120.dp)
@@ -905,8 +905,8 @@ private fun ThumbnailImage(
                 .build(),
             contentDescription = null,
             contentScale = if (cropArtwork) ContentScale.Crop else ContentScale.Fit,
-            error = painterResource(R.drawable.ic_launcher_nobg),
-            fallback = painterResource(R.drawable.ic_launcher_nobg),
+            error = painterResource(R.drawable.app_logo),
+            fallback = painterResource(R.drawable.app_logo),
             onError = {
                 val url = currentUrl
                 if (url != null && url.contains("maxresdefault.jpg")) {
