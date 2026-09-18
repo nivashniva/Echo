@@ -66,7 +66,6 @@ import com.music.innertube.pages.SearchSummary
 import com.music.innertube.pages.SearchSummaryPage
 import io.ktor.client.call.body
 import io.ktor.client.statement.bodyAsText
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
@@ -1168,9 +1167,8 @@ object YouTube {
         innerTube.moveSongPlaylist(WEB_REMIX, playlistId, setVideoId, successorSetVideoId)
     }
 
-    fun createPlaylist(title: String) = runBlocking {
+    suspend fun createPlaylist(title: String): String =
         innerTube.createPlaylist(WEB_REMIX, title).body<CreatePlaylistResponse>().playlistId
-    }
 
     suspend fun renamePlaylist(playlistId: String, name: String) = runCatching {
         innerTube.renamePlaylist(WEB_REMIX, playlistId, name)
