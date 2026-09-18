@@ -354,7 +354,9 @@ class ListenTogetherClient @Inject constructor(
     private val codec = MessageCodec(MessageFormat.JSON, false)
 
     @Volatile private var webSocket: WebSocket? = null
+    @Volatile private var connectionGeneration: Long = 0L
     private var pingJob: Job? = null
+    private var reconnectJob: Job? = null
     private var pingSentTime: Long = 0L
     private var reconnectAttempts = 0
     
@@ -431,69 +433,47 @@ class ListenTogetherClient @Inject constructor(
 
     
     fun connect() {
-        if (_connectionState.value == ConnectionState.CONNECTED || 
-            _connectionState.value == ConnectionState.CONNECTING) {
-            log(LogLevel.WARNING, "Already connected or connecting")
-            return
+        val generation: Long
+        synchronized(this) {
+            if (_connectionState.value == ConnectionState.CONNECTED || _connectionState.value == ConnectionState.CONNECTING) {
+                log(LogLevel.WARNING, "Already connected or connecting")
+                return
+            }
+            reconnectJob?.cancel(); reconnectJob = null; connectionGeneration += 1
+            generation = connectionGeneration; _connectionState.value = ConnectionState.CONNECTING
         }
-
-        _connectionState.value = ConnectionState.CONNECTING
         val serverUrl = getServerUrl()
         log(LogLevel.INFO, "Connecting to server", serverUrl)
-
-        
-        codec.format = MessageFormat.JSON
-        codec.compressionEnabled = false
-
-        val request = Request.Builder()
-            .url(serverUrl)
-            .build()
-
-        webSocket = client.newWebSocket(request, object : WebSocketListener() {
+        codec.format = MessageFormat.JSON; codec.compressionEnabled = false
+        val request = Request.Builder().url(serverUrl).build()
+        val socket = client.newWebSocket(request, object : WebSocketListener() {
+            private fun isCurrent(currentSocket: WebSocket): Boolean = generation == connectionGeneration && webSocket === currentSocket
             override fun onOpen(webSocket: WebSocket, response: Response) {
-                log(LogLevel.INFO, "Connected to server")
-                this@ListenTogetherClient.webSocket = webSocket
-                _connectionState.value = ConnectionState.CONNECTED
-                reconnectAttempts = 0
-                startPingJob()
-                
-                
+                if (generation != connectionGeneration) { webSocket.close(1000, "Stale connection"); return }
+                log(LogLevel.INFO, "Connected to server"); this@ListenTogetherClient.webSocket = webSocket
+                _connectionState.value = ConnectionState.CONNECTED; reconnectAttempts = 0; startPingJob()
                 if (sessionToken != null && storedRoomCode != null) {
                     log(LogLevel.INFO, "Attempting to reconnect to previous session", "Room: $storedRoomCode")
                     sendMessage(MessageTypes.RECONNECT, ReconnectPayload(sessionToken!!))
-                } else {
-                    
-                    executePendingAction()
-                }
+                } else executePendingAction()
             }
-
-            override fun onMessage(webSocket: WebSocket, text: String) {
-                
-                handleMessage(text.toByteArray())
-            }
-            
-            override fun onMessage(webSocket: WebSocket, bytes: okio.ByteString) {
-                
-                handleMessage(bytes.toByteArray())
-            }
-
+            override fun onMessage(webSocket: WebSocket, text: String) { if (isCurrent(webSocket)) handleMessage(text.toByteArray()) }
+            override fun onMessage(webSocket: WebSocket, bytes: okio.ByteString) { if (isCurrent(webSocket)) handleMessage(bytes.toByteArray()) }
             override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                log(LogLevel.INFO, "Server closing connection", "Code: $code, Reason: $reason")
-                webSocket.close(1000, null)
+                if (!isCurrent(webSocket)) return
+                log(LogLevel.INFO, "Server closing connection", "Code: $code, Reason: $reason"); webSocket.close(1000, null)
             }
-
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                log(LogLevel.INFO, "Connection closed", "Code: $code, Reason: $reason")
-                handleDisconnect()
+                if (!isCurrent(webSocket)) return
+                log(LogLevel.INFO, "Connection closed", "Code: $code, Reason: $reason"); handleDisconnect(webSocket)
             }
-
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                log(LogLevel.ERROR, "Connection failure", t.message)
-                handleConnectionFailure(t)
+                if (!isCurrent(webSocket)) return
+                log(LogLevel.ERROR, "Connection failure", t.message); handleConnectionFailure(t, webSocket)
             }
         })
+        synchronized(this) { if (generation == connectionGeneration) webSocket = socket else socket.close(1000, "Superseded connection") }
     }
-    
     private fun executePendingAction() {
         val action = pendingAction ?: return
         pendingAction = null
@@ -512,32 +492,18 @@ class ListenTogetherClient @Inject constructor(
 
     
     fun disconnect() {
-        log(LogLevel.INFO, "Disconnecting from server")
-        releaseWakeLock() 
-        pingJob?.cancel()
-        pingJob = null
-        webSocket?.close(1000, "User disconnected")
-        webSocket = null
-        _connectionState.value = ConnectionState.DISCONNECTED
-        
-        
-        sessionToken = null
-        storedRoomCode = null
-        storedUsername = null
-        pendingAction = null
-        _roomState.value = null
-        _role.value = RoomRole.NONE
-        _userId.value = null
-        _pendingJoinRequests.value = emptyList()
-        _bufferingUsers.value = emptyList()
-        
-        
-        clearPersistedSession()
-        reconnectAttempts = 0
-        
+        log(LogLevel.INFO, "Disconnecting from server"); releaseWakeLock()
+        val socket = synchronized(this) {
+            connectionGeneration += 1; reconnectJob?.cancel(); reconnectJob = null; pingJob?.cancel(); pingJob = null
+            val current = webSocket; webSocket = null; _connectionState.value = ConnectionState.DISCONNECTED; current
+        }
+        socket?.close(1000, "User disconnected")
+        sessionToken = null; storedRoomCode = null; storedUsername = null; pendingAction = null
+        _roomState.value = null; _role.value = RoomRole.NONE; _userId.value = null
+        _pendingJoinRequests.value = emptyList(); _bufferingUsers.value = emptyList()
+        clearPersistedSession(); reconnectAttempts = 0
         scope.launch { _events.emit(ListenTogetherEvent.Disconnected) }
     }
-
     private fun startPingJob() {
         pingJob?.cancel()
         pingJob = scope.launch {
