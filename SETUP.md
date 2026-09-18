@@ -51,16 +51,28 @@ The build reads these secrets from `local.properties` first and environment vari
 - Linux: `/home/username/Android/sdk`
 - Windows: `C:\\Users\\username\\AppData\\Local\\Android\\sdk`
 
-### 3. Configure Firebase (Optional)
+### 3. Configure Firebase
 
-Firebase is used for analytics and crash reporting. If you want to use these features:
+Nivukx is configured for the dedicated Firebase project `nivukx-musicx`.
 
-1. Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
-2. Add an Android app to your Firebase project
-3. Download the `google-services.json` file
-4. Place it in the `app/` directory
+The repository expects one combined Android Firebase configuration at:
 
-**Note:** If you skip Firebase setup, the app can still use the normal GMS build configuration without Firebase services enabled.
+```text
+app/google-services.json
+```
+
+That configuration registers both Nivukx application IDs:
+
+```text
+Release: com.nivukx.music
+Debug:   com.nivukx.music.debug
+```
+
+The Android module validates that both package registrations are present before enabling the Google Services and Crashlytics Gradle plugins. Do not replace this file with a configuration from the legacy Echo Firebase project or with a single-client debug/release file.
+
+When creating a new Firebase environment, download the generated `google-services.json` containing both Android clients and replace the repository file as a complete file. Do not manually edit Firebase-generated IDs.
+
+**Security boundary:** the Android `google-services.json` file is client-side application configuration. Do not put Firebase service-account keys, private keys, or other server credentials into it or into source control.
 
 ### 4. Configure Release Signing (Optional)
 
@@ -114,12 +126,14 @@ Nivukx supports AI-powered lyrics translation. You can configure this in **Setti
 
 ### Confidential Files (Never commit these)
 
-- `local.properties` - local SDK path and optional development secrets
-- `app/google-services.json` - Firebase configuration when used
+- `local.properties` - local SDK path and development secrets
 - `*.keystore` - release signing keys
-- `gradle.properties` - may contain local Gradle configuration
+- `gradle.properties` - may contain local Gradle configuration or secrets
 
-These files should never contain credentials that are checked into source control.
+### Firebase Client Configuration
+
+- `app/google-services.json` - Nivukx Android client configuration for the release and debug package IDs
+- `app/google-services.json.template` - safe template for regenerating the expected release/debug structure
 
 ### Template Files (Safe to commit)
 
@@ -134,11 +148,14 @@ Make sure `local.properties` contains the correct SDK path.
 
 ### Firebase-related Build Errors
 
-Verify that `app/google-services.json` was generated from the Nivukx Firebase project and contains registrations for `com.nivukx.music` and `com.nivukx.music.debug`:
+Verify that `app/google-services.json` comes from the Nivukx Firebase project `nivukx-musicx` and contains both registrations:
 
-```bash
-./gradlew assembleUniversalGmsDebug
+```text
+com.nivukx.music
+com.nivukx.music.debug
 ```
+
+The application module performs this validation before enabling the Google Services and Crashlytics plugins.
 
 ### Gradle Sync Issues
 
@@ -151,7 +168,7 @@ Try cleaning and rebuilding:
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details about the code of conduct and the process for submitting pull requests.
 
 ## License
 
