@@ -24,6 +24,7 @@ import com.nivukx.music.utils.get
 import com.nivukx.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.net.URLDecoder
@@ -36,11 +37,15 @@ constructor(
     @ApplicationContext val context: Context,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    val query = try {
-        URLDecoder.decode(savedStateHandle.get<String>("query")!!, "UTF-8")
-    } catch (e: IllegalArgumentException) {
-        savedStateHandle.get<String>("query")!!
+    private val encodedQuery = savedStateHandle.get<String>("query").orEmpty()
+
+    val query: String = runCatching {
+        URLDecoder.decode(encodedQuery, "UTF-8")
+    }.getOrElse {
+        encodedQuery
     }
+
+    private var loadMoreJob: Job? = null
     val filter = MutableStateFlow<YouTube.SearchFilter?>(null)
     var summaryPage by mutableStateOf<SearchSummaryPage?>(null)
     val viewStateMap = mutableStateMapOf<String, ItemsPage?>()
@@ -96,12 +101,14 @@ constructor(
     }
 
     fun loadMore() {
-        val filter = filter.value?.value
-        viewModelScope.launch {
-            if (filter == null) return@launch
-            val viewState = viewStateMap[filter] ?: return@launch
-            val continuation = viewState.continuation
-            if (continuation != null) {
+        if (loadMoreJob?.isActive == true) return
+
+        val filter = filter.value?.value ?: return
+        val viewState = viewStateMap[filter] ?: return
+        val continuation = viewState.continuation ?: return
+
+        loadMoreJob = viewModelScope.launch {
+            try {
                 val searchResult =
                     YouTube.searchContinuation(continuation).getOrNull() ?: return@launch
                 val hideExplicit = context.dataStore.get(HideExplicitKey, false)
@@ -114,11 +121,22 @@ constructor(
                         else items.filterVideoSongs(hideVideoSongs)
                     }
                     .filterYoutubeShorts(hideYoutubeShorts)
-                viewStateMap[filter] = ItemsPage(
-                    (viewState.items + newItems).distinctBy { it.id },
-                    searchResult.continuation
-                )
+
+                val latest = viewStateMap[filter]
+                if (latest != null) {
+                    viewStateMap[filter] = ItemsPage(
+                        (latest.items + newItems).distinctBy { it.id },
+                        searchResult.continuation
+                    )
+                }
+            } finally {
+                loadMoreJob = null
             }
         }
+    }
+
+    override fun onCleared() {
+        loadMoreJob?.cancel()
+        super.onCleared()
     }
 }
