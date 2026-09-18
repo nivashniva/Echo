@@ -2,6 +2,7 @@ package com.nivukx.music.utils
 
 import com.music.innertube.models.response.PlayerResponse
 import com.nivukx.music.constants.AudioQuality
+import com.nivukx.music.constants.DownloadQuality
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -49,6 +50,66 @@ class YTPlayerUtilsLosslessTest {
         assertEquals(flac, selected)
         assertTrue(YTPlayerUtils.isGenuinelyLosslessFormat(flac))
         assertFalse(YTPlayerUtils.isGenuinelyLosslessFormat(opus))
+    }
+
+
+    @Test
+    fun opusSelectionNeverFallsBackToAac() {
+        val opus = format("audio/webm; codecs=\"opus\"", 160000)
+        val aac = format("audio/mp4; codecs=\"mp4a.40.2\"", 256000)
+
+        val selected = YTPlayerUtils.selectAudioFormat(
+            listOf(aac, opus),
+            AudioQuality.OPUS,
+        )
+
+        assertEquals(opus, selected)
+        assertTrue(YTPlayerUtils.isGenuinelyOpusFormat(opus))
+        assertFalse(YTPlayerUtils.isGenuinelyOpusFormat(aac))
+    }
+
+    @Test
+    fun opusSelectionReturnsNullWhenOpusIsUnavailable() {
+        val aac = format("audio/mp4; codecs=\"mp4a.40.2\"", 256000)
+
+        val selected = YTPlayerUtils.selectAudioFormat(
+            listOf(aac),
+            AudioQuality.OPUS,
+        )
+
+        assertEquals(null, selected)
+    }
+
+    @Test
+    fun highAndAutoSelectTheBestAvailableAudioFormat() {
+        val medium = format("audio/webm; codecs=\"opus\"", 160000)
+        val high = format("audio/mp4; codecs=\"mp4a.40.2\"", 256000)
+
+        assertEquals(
+            high,
+            YTPlayerUtils.selectAudioFormat(
+                listOf(medium, high),
+                AudioQuality.HIGH,
+            ),
+        )
+        assertEquals(
+            high,
+            YTPlayerUtils.selectAudioFormat(
+                listOf(medium, high),
+                AudioQuality.AUTO,
+            ),
+        )
+    }
+
+    @Test
+    fun downloadQualityMapsToItsIndependentAudioContract() {
+        assertEquals(AudioQuality.AUTO, DownloadQuality.AUTO.toAudioQuality())
+        assertEquals(AudioQuality.HIGH, DownloadQuality.HIGH.toAudioQuality())
+        assertEquals(
+            AudioQuality.LOSSLESS_WHEN_AVAILABLE,
+            DownloadQuality.LOSSLESS_WHEN_AVAILABLE.toAudioQuality(),
+        )
+        assertEquals(AudioQuality.OPUS, DownloadQuality.YOUTUBE.toAudioQuality())
     }
 
     @Test
