@@ -61,6 +61,9 @@ import kotlin.math.abs
 import kotlin.math.exp
 import kotlin.math.roundToInt
 import com.nivukx.music.ui.motion.echoPress
+import com.nivukx.music.ui.motion.nivukxPressDepth
+import com.nivukx.music.ui.motion.nivukxSwipeDepth
+import com.nivukx.music.ui.motion.nivukxArtworkTransition
 import kotlinx.coroutines.launch
 
 /**
@@ -106,14 +109,9 @@ fun FloatingMiniPlayer(
     val artCornerRadius = if (isInline) 8.dp else 10.dp
     val controlSize = if (isInline) 32.dp else 40.dp
 
-    // iOS 26 style press response: the whole glass pill grows slightly while touched.
+    // Premium physical press response: preserve the original expansion while adding
+    // magnetic depth and a restrained rotational settle.
     val pressInteractionSource = remember { MutableInteractionSource() }
-    val isPressed by pressInteractionSource.collectIsPressedAsState()
-    val pressScale by animateFloatAsState(
-        targetValue = if (isPressed) 1.04f else 1f,
-        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
-        label = "accessoryPressScale",
-    )
 
     // Same structure as MiniPlayer: the drag detector sits on the outermost
     // container so the whole accessory is swipeable, and the entire content row
@@ -121,10 +119,12 @@ fun FloatingMiniPlayer(
     Box(
         contentAlignment = Alignment.CenterStart,
         modifier = Modifier
-            .graphicsLayer {
-                scaleX = pressScale
-                scaleY = pressScale
-            }
+            .nivukxPressDepth(
+                interactionSource = pressInteractionSource,
+                pressedScale = 1.04f,
+                pressedTranslationY = -1.2f,
+                pressedRotationZ = -0.2f,
+            )
             .then(modifier)
             .clipToBounds()
             .then(
@@ -197,6 +197,7 @@ fun FloatingMiniPlayer(
             modifier = Modifier
                 .fillMaxWidth()
                 .offset { IntOffset(offsetXAnimatable.value.roundToInt(), 0) }
+                .nivukxSwipeDepth(offsetXAnimatable.value)
                 .clickable(
                     interactionSource = pressInteractionSource,
                     indication = null,
@@ -214,7 +215,11 @@ fun FloatingMiniPlayer(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(artSize)
-                    .clip(RoundedCornerShape(artCornerRadius)),
+                    .clip(RoundedCornerShape(artCornerRadius))
+                    .nivukxArtworkTransition(
+                        mediaMetadata?.id ?: mediaMetadata?.thumbnailUrl,
+                        intensity = if (isInline) 0.75f else 1f,
+                    ),
             )
 
             Spacer(Modifier.width(if (isInline) 8.dp else 12.dp))
