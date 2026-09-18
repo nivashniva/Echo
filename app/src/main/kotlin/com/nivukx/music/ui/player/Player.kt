@@ -244,7 +244,7 @@ import com.nivukx.music.extensions.metadata
 import com.nivukx.music.ui.player.CanvasArtworkPlaybackCache
 import com.nivukx.music.ui.player.normalizeCanvasArtistName
 import com.nivukx.music.ui.player.normalizeCanvasSongTitle
-import com.nivukx.music.echomusiccanvas.echomusicCanvasProvider
+import com.nivukx.music.nivukxcanvas.NivukxCanvasProvider
 import java.util.Locale
 import kotlin.math.cos
 import kotlin.math.sin
@@ -678,7 +678,7 @@ fun BottomSheetPlayer(
             val s = normalizeCanvasSongTitle(requestedTitle)
             val a = normalizeCanvasArtistName(requestedArtist)
 
-            val fetched = echomusicCanvasProvider.getBySongArtist(s, a)
+            val fetched = NivukxCanvasProvider.getBySongArtist(s, a)
                 ?.takeIf { !it.preferredAnimationUrl.isNullOrBlank() }
                 ?: TidalCanvasProvider.getBySongArtist(s, a, requestedAlbum)
                     ?.takeIf { !it.preferredAnimationUrl.isNullOrBlank() }
