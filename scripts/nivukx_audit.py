@@ -67,7 +67,6 @@ FEATURES = {
     "Downloads / offline": ["Download", "download", "cache"],
     "Listen Together": ["listentogether", "ListenTogether"],
     "Music recognition": ["recognition", "shazam"],
-    "Discord": ["discord", "Discord"],
     "Google Cast": ["cast", "Cast"],
     "Spotify import": ["spotify", "Spotify"],
     "AI": ["/ai/", "OpenRouter", "Mistral"],
@@ -166,6 +165,8 @@ def main() -> int:
             try:
                 content = workflow.read_text(encoding="utf-8", errors="replace")
             except Exception:
+                continue
+            if workflow.name == "nivukx-build.yml":
                 continue
             for match in workflow_build_rule.finditer(content):
                 workflow_build_hits.append({
