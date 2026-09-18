@@ -228,14 +228,14 @@ fun SettingDialoge(
                     text = "Privacy Policy",
                     style = MaterialTheme.typography.bodySmall,
                     color = onSecondaryColor,
-                    modifier = Modifier.clickable { uriHandler.openUri("https://echomusic.fun/p/privacy-policy") }.padding(4.dp)
+                    modifier = Modifier.clickable { uriHandler.openUri("https://github.com/nivash01/Echo/blob/main/PRIVACY_POLICY.md") }.padding(4.dp)
                 )
                 Text(text = " • ", color = onSecondaryColor, style = MaterialTheme.typography.bodySmall)
                 Text(
                     text = "Terms of Service",
                     style = MaterialTheme.typography.bodySmall,
                     color = onSecondaryColor,
-                    modifier = Modifier.clickable { uriHandler.openUri("https://echomusic.fun/p/toc") }.padding(4.dp)
+                    modifier = Modifier.clickable { uriHandler.openUri("https://github.com/nivash01/Echo#legal-disclaimer--terms-of-use") }.padding(4.dp)
                 )
             }
         }
