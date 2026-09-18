@@ -217,7 +217,7 @@ import com.nivukx.music.ui.screens.settings.DarkMode
 import com.nivukx.music.ui.screens.settings.NavigationTab
 import com.nivukx.music.ui.theme.ColorSaver
 import com.nivukx.music.ui.theme.DefaultThemeColor
-import com.nivukx.music.ui.theme.echomusicTheme
+import com.nivukx.music.ui.theme.NivukxTheme
 import com.nivukx.music.ui.theme.extractThemeColor
 import com.nivukx.music.ui.utils.appBarScrollBehavior
 import com.nivukx.music.ui.utils.resetHeightOffset
@@ -446,7 +446,7 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            echomusicApp(
+            NivukxApp(
                 playerConnection = playerConnection,
                 database = database,
                 downloadUtil = downloadUtil,
@@ -458,7 +458,7 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
     @Composable
-    private fun echomusicApp(
+    private fun NivukxApp(
         playerConnection: PlayerConnection?,
         database: MusicDatabase,
         downloadUtil: DownloadUtil,
@@ -613,7 +613,7 @@ class MainActivity : ComponentActivity() {
         val view = LocalView.current
         var lastScrollHapticTime by remember { mutableStateOf(0L) }
 
-        echomusicTheme(
+        NivukxTheme(
             darkTheme = useDarkTheme,
             pureBlack = pureBlack,
             themeColor = themeColor,
@@ -968,7 +968,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 val currentTitle = when (navBackStackEntry?.destination?.route) {
-                    Screens.Home.route -> "Echo Music"
+                    Screens.Home.route -> "Nivukx"
                     Screens.Search.route -> stringResource(R.string.search)
                     Screens.Library.route -> stringResource(R.string.filter_library)
                     Screens.ListenTogether.route -> stringResource(R.string.together)
