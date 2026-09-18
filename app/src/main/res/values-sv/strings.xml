@@ -322,12 +322,9 @@
     <string name="backup_create_success">Säkerhetskopian skapades</string>
     <string name="backup_create_failed">Det gick inte att skapa säkerhetskopian</string>
     <string name="restore_failed">Det gick inte att återställa säkerhetskopian</string>
-    <string name="discord_integration">Discord-integrering</string>
-    <string name="discord_information">echomusic använder biblioteket KizzyRPC för att ställa in statusen för ditt Discord-konto. Detta innebär att Discord Gateway-anslutningen används, vilket kan betraktas som ett brott mot Discords användarvillkor. Det finns dock inga kända fall där användarkonton har stängts av av denna anledning. Använd på egen risk.\nchomusic hämtar endast din token, och allt annat lagras lokalt.</string>
     <string name="dismiss">Stäng</string>
     <string name="options">Alternativ</string>
     <string name="preview">Förhandsgranska</string>
-    <string name="enable_discord_rpc">Aktivera Rich Presence</string>
     <string name="about">Om</string>
     <string name="app_version">Appversion</string>
     <string name="new_version_available">En ny version är tillgänglig</string>
