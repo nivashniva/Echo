@@ -1,9 +1,9 @@
 
 
-package echo.music.iad1tya.utils
+package com.nivukx.music.utils
 
 import android.content.Context
-import echo.music.iad1tya.db.entities.Song
+import com.nivukx.music.db.entities.Song
 import timber.log.Timber
 
 data class ResolvedDiscordImages(
