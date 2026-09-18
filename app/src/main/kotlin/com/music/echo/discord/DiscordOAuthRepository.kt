@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.discord
+package com.nivukx.music.discord
 
 import android.content.Context
 import android.net.Uri
@@ -12,14 +12,14 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import echo.music.iad1tya.BuildConfig
-import echo.music.iad1tya.constants.DiscordAvatarUrlKey
-import echo.music.iad1tya.constants.DiscordNameKey
-import echo.music.iad1tya.constants.DiscordRefreshTokenKey
-import echo.music.iad1tya.constants.DiscordTokenExpiresAtKey
-import echo.music.iad1tya.constants.DiscordTokenKey
-import echo.music.iad1tya.constants.DiscordUsernameKey
-import echo.music.iad1tya.utils.dataStore
+import com.nivukx.music.BuildConfig
+import com.nivukx.music.constants.DiscordAvatarUrlKey
+import com.nivukx.music.constants.DiscordNameKey
+import com.nivukx.music.constants.DiscordRefreshTokenKey
+import com.nivukx.music.constants.DiscordTokenExpiresAtKey
+import com.nivukx.music.constants.DiscordTokenKey
+import com.nivukx.music.constants.DiscordUsernameKey
+import com.nivukx.music.utils.dataStore
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
