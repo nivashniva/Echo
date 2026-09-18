@@ -179,7 +179,7 @@ import com.nivukx.music.utils.YTPlayerUtils
 import com.nivukx.music.utils.dataStore
 import com.nivukx.music.utils.get
 import com.nivukx.music.utils.reportException
-import com.nivukx.music.widget.EchoMusicWidgetManager
+import com.nivukx.music.widget.NivukxWidgetManager
 import com.nivukx.music.widget.MusicWidgetReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import com.nivukx.music.utils.isLocalMediaId
@@ -247,7 +247,7 @@ class MusicService :
     lateinit var eqProfileRepository: EQProfileRepository
 
     @Inject
-    lateinit var widgetManager: com.nivukx.music.widget.EchoMusicWidgetManager
+    lateinit var widgetManager: com.nivukx.music.widget.NivukxWidgetManager
 
     @Inject
     lateinit var listenTogetherManager: com.nivukx.music.listentogether.ListenTogetherManager
