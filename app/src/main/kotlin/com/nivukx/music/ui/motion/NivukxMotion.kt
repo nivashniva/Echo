@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.motion
+package com.nivukx.music.ui.motion
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
