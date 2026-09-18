@@ -15,7 +15,12 @@ import com.nivukx.music.db.entities.SongEntity
 import com.nivukx.music.utils.dataStore
 import com.nivukx.music.utils.get
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -151,24 +156,28 @@ object AiPlaylistGenerator {
         val playlistName = parsedJson.optString("name", "AI Playlist")
         val songsArray = parsedJson.optJSONArray("songs") ?: return@withContext null
 
-        val resolvedSongs = mutableListOf<SongItem>()
         val totalSongs = songsArray.length()
+        onLog("Found $totalSongs songs. Searching InnerTube in parallel...")
 
-        onLog("Found $totalSongs songs. Searching InnerTube...")
+        val semaphore = Semaphore(4)
+        val resolvedSongs = coroutineScope {
+            (0 until totalSongs).map { index ->
+                async {
+                    semaphore.withPermit {
+                        val item = songsArray.optJSONObject(index) ?: return@async null
+                        val title = item.optString("title")
+                        val artist = item.optString("artist")
+                        if (title.isBlank()) return@async null
 
-        for (i in 0 until totalSongs) {
-            val item = songsArray.optJSONObject(i) ?: continue
-            val title = item.optString("title")
-            val artist = item.optString("artist")
-            if (title.isNotEmpty()) {
-                onLog("Searching [${i + 1}/$totalSongs]: $title - $artist")
-                val searchQuery = "$title $artist"
-                val result = YouTube.search(searchQuery, YouTube.SearchFilter.FILTER_SONG).getOrNull()
-                val topResult = result?.items?.firstOrNull() as? SongItem
-                if (topResult != null) {
-                    resolvedSongs.add(topResult)
+                        onLog("Searching [${index + 1}/$totalSongs]: $title - $artist")
+                        val searchQuery = "$title $artist"
+                        YouTube.search(
+                            searchQuery,
+                            YouTube.SearchFilter.FILTER_SONG,
+                        ).getOrNull()?.items?.firstOrNull() as? SongItem
+                    }
                 }
-            }
+            }.awaitAll().filterNotNull()
         }
 
         if (resolvedSongs.isEmpty()) {
