@@ -157,7 +157,7 @@ import com.nivukx.music.extensions.toEnum
 import com.nivukx.music.extensions.toMediaItem
 import com.nivukx.music.playback.toPersistQueue
 import com.nivukx.music.playback.toQueue
-import com.nivukx.music.echomusic.updater.downloadmanager.EchoNotificationProvider
+import com.nivukx.music.nivukx.updater.downloadmanager.NivukxNotificationProvider
 import com.nivukx.music.lyrics.LyricsHelper
 import com.nivukx.music.models.PersistPlayerState
 import com.nivukx.music.models.PersistQueue
@@ -632,7 +632,7 @@ class MusicService :
         }
 
         setMediaNotificationProvider(
-            EchoNotificationProvider(
+            NivukxNotificationProvider(
                 this,
                 { NOTIFICATION_ID },
                 CHANNEL_ID,
