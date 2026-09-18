@@ -342,7 +342,7 @@
     <string name="listen_together_smart_resync">Έξυπνος επανασυγχρονισμός δικτύου</string>
     <string name="listen_together_smart_resync_desc">Αυτόματος συγχρονισμός με τον οικοδεσπότη μετά από διακοπή σύνδεσης</string>
     <string name="spotify_import_title">Εισαγωγή από το Spotify</string>
-    <string name="spotify_import_desc">Συνδέστε το Spotify, επιλέξτε λίστες αναπαραγωγής και αντιγράψτε τις σε τοπικές λίστες αναπαραγωγής του Echo Music.</string>
+    <string name="spotify_import_desc">Συνδέστε το Spotify, επιλέξτε λίστες αναπαραγωγής και αντιγράψτε τις σε τοπικές λίστες αναπαραγωγής του Nivukx.</string>
     <string name="spotify_connect">Σύνδεση Spotify</string>
     <string name="spotify_refresh">Ανανέωση βιβλιοθήκης Spotify</string>
     <string name="spotify_select_sources">Επιλογή λιστών αναπαραγωγής Spotify</string>
@@ -402,10 +402,10 @@
     <string name="recognition_notification_processing">Αναγνώριση…</string>
     <string name="recognition_notification_no_match">Δεν βρέθηκε αντιστοιχία</string>
     <string name="recognition_notification_failed">Η αναγνώριση απέτυχε</string>
-    <string name="listen_on_echo_music">Ακρόαση στο Echo Music</string>
+    <string name="listen_on_echo_music">Ακρόαση στο Nivukx</string>
     <string name="qs_tile_music_recognizer">Αναγνώριση μουσικής</string>
-    <string name="echo_brain_beta">Echo Brain (Beta)</string>
-    <string name="echo_brain_enable">Ενεργοποίηση Echo Brain</string>
+    <string name="echo_brain_beta">Nivukx Brain (Beta)</string>
+    <string name="echo_brain_enable">Ενεργοποίηση Nivukx Brain</string>
     <string name="echo_brain_enable_desc">Αυτόματη προσθήκη προτάσεων τεχνητής νοημοσύνης βάσει των συνηθειών ακρόασής σας</string>
     <string name="echo_brain_profile_statistics">Στατιστικά προφίλ</string>
     <string name="echo_brain_learning_level">Επίπεδο εκμάθησης</string>
@@ -432,9 +432,9 @@
     <string name="listenbrainz_scrobbling">Scrobbling στο ListenBrainz</string>
     <string name="listenbrainz_scrobbling_description">Αυτόματη υποβολή των κομματιών που ακούσατε στο ListenBrainz</string>
     <string name="set_listenbrainz_token">Ορισμός διακριτικού ListenBrainz</string>
-    <string name="youtube_decryption_settings">Echo Extractor</string>
+    <string name="youtube_decryption_settings">Nivukx Extractor</string>
     <string name="youtube_decryption_desc">Διαμόρφωση ρυθμίσεων εξαγωγέα</string>
-    <string name="youtube_decryption_support">Echo Extractor</string>
+    <string name="youtube_decryption_support">Nivukx Extractor</string>
     <string name="youtube_decryption_support_desc">Εξάγει αυτόματα τις διαμορφώσεις αναπαραγωγής του YouTube. Παραμένει υποχρεωτικά ενεργό.</string>
     <string name="force_update_cipher">Εξαναγκασμένη ενημέρωση διαμορφώσεων</string>
     <string name="force_update_cipher_desc">Λήψη των πιο πρόσφατων αντιστοιχίσεων παράκαμψης του εξαγωγέα. Περιορίζεται σε 3 ενημερώσεις την ημέρα.</string>
