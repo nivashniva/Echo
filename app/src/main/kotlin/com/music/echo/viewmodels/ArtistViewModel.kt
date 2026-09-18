@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.viewmodels
+package com.nivukx.music.viewmodels
 
 import android.content.Context
 import androidx.compose.runtime.getValue
@@ -9,20 +9,20 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.music.innertube.YouTube
-import com.music.innertube.models.filterExplicit
-import com.music.innertube.models.filterVideoSongs
-import com.music.innertube.models.filterYoutubeShorts
-import com.music.innertube.pages.ArtistPage
-import echo.music.iad1tya.constants.HideExplicitKey
-import echo.music.iad1tya.constants.HideVideoSongsKey
-import echo.music.iad1tya.constants.HideYoutubeShortsKey
-import echo.music.iad1tya.db.MusicDatabase
-import echo.music.iad1tya.extensions.filterExplicit
-import echo.music.iad1tya.extensions.filterExplicitAlbums
-import echo.music.iad1tya.utils.dataStore
-import echo.music.iad1tya.utils.get
-import echo.music.iad1tya.utils.reportException
+import com.nivukx.innertube.YouTube
+import com.nivukx.innertube.models.filterExplicit
+import com.nivukx.innertube.models.filterVideoSongs
+import com.nivukx.innertube.models.filterYoutubeShorts
+import com.nivukx.innertube.pages.ArtistPage
+import com.nivukx.music.constants.HideExplicitKey
+import com.nivukx.music.constants.HideVideoSongsKey
+import com.nivukx.music.constants.HideYoutubeShortsKey
+import com.nivukx.music.db.MusicDatabase
+import com.nivukx.music.extensions.filterExplicit
+import com.nivukx.music.extensions.filterExplicitAlbums
+import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.get
+import com.nivukx.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,8 +33,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import echo.music.iad1tya.extensions.filterVideoSongs as filterVideoSongsLocal
-import echo.music.iad1tya.artistvideo.ArtistVideoCanvasProvider
+import com.nivukx.music.extensions.filterVideoSongs as filterVideoSongsLocal
+import com.nivukx.music.artistvideo.ArtistVideoCanvasProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -51,8 +51,8 @@ class ArtistViewModel @Inject constructor(
     private val _artistVideoUrl = MutableStateFlow<String?>(null)
     val artistVideoUrl: StateFlow<String?> = _artistVideoUrl
 
-    private val _artistVideoSong = MutableStateFlow<com.music.innertube.models.SongItem?>(null)
-    val artistVideoSong: StateFlow<com.music.innertube.models.SongItem?> = _artistVideoSong
+    private val _artistVideoSong = MutableStateFlow<com.nivukx.innertube.models.SongItem?>(null)
+    val artistVideoSong: StateFlow<com.nivukx.innertube.models.SongItem?> = _artistVideoSong
     
     val libraryArtist = database.artist(artistId)
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
@@ -105,9 +105,9 @@ class ArtistViewModel @Inject constructor(
                     artistPage = page.copy(sections = filteredSections)
                     
                     
-                    val topSongsSection = page.sections.find { it.items.firstOrNull() is com.music.innertube.models.SongItem }
+                    val topSongsSection = page.sections.find { it.items.firstOrNull() is com.nivukx.innertube.models.SongItem }
                     topSongsSection?.items?.forEach { item ->
-                        if (item is com.music.innertube.models.SongItem) {
+                        if (item is com.nivukx.innertube.models.SongItem) {
                             val canvas = ArtistVideoCanvasProvider.getBySongArtist(
                                 song = item.title,
                                 artist = page.artist?.title ?: ""
