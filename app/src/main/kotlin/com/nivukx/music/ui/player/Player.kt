@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.player
+package com.nivukx.music.ui.player
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -151,67 +151,67 @@ import coil3.imageLoader
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.toBitmap
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.LocalDownloadUtil
-import echo.music.iad1tya.LocalListenTogetherManager
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.ui.component.HeartBurstIcon
-import echo.music.iad1tya.constants.AudioQuality
-import echo.music.iad1tya.constants.AudioQualityKey
-import echo.music.iad1tya.constants.CropAlbumArtKey
-import echo.music.iad1tya.constants.DarkModeKey
-import echo.music.iad1tya.constants.HidePlayerThumbnailKey
-import echo.music.iad1tya.constants.HideStatusBarOnFullscreenKey
-import echo.music.iad1tya.constants.ShowLyricsOnPlayerKey
-import echo.music.iad1tya.constants.EnableLyricsThumbnailPlayPauseKey
-import echo.music.iad1tya.constants.KeepScreenOn
-import echo.music.iad1tya.constants.PlayerBackgroundStyle
-import echo.music.iad1tya.constants.PlayerBackgroundStyleKey
-import echo.music.iad1tya.constants.PlayerButtonsStyle
-import echo.music.iad1tya.constants.PlayerButtonsStyleKey
-import echo.music.iad1tya.constants.PlayerHorizontalPadding
-import echo.music.iad1tya.constants.QueuePeekHeight
-import echo.music.iad1tya.constants.SliderStyle
-import echo.music.iad1tya.constants.SliderStyleKey
-import echo.music.iad1tya.constants.SquigglySliderKey
-import echo.music.iad1tya.constants.SwipeLyricsKey
-import echo.music.iad1tya.constants.ThumbnailCornerRadius
-import echo.music.iad1tya.constants.UseNewPlayerDesignKey
-import echo.music.iad1tya.db.entities.LyricsEntity
-import echo.music.iad1tya.extensions.SwipeGesture
-import echo.music.iad1tya.extensions.togglePlayPause
-import echo.music.iad1tya.extensions.toggleRepeatMode
-import echo.music.iad1tya.listentogether.RoomRole
-import echo.music.iad1tya.models.MediaMetadata
-import echo.music.iad1tya.playback.ExoDownloadService
-import echo.music.iad1tya.echomusic.getConnectedBluetoothDeviceName
-import echo.music.iad1tya.echomusic.isBuds
-import echo.music.iad1tya.echomusic.isSpeaker
-import echo.music.iad1tya.echomusic.AudioDeviceBottomSheet
-import echo.music.iad1tya.ui.component.BottomSheet
-import echo.music.iad1tya.ui.component.BottomSheetState
-import echo.music.iad1tya.ui.component.CastButton
-import echo.music.iad1tya.ui.component.LocalBottomSheetPageState
-import echo.music.iad1tya.ui.component.LocalMenuState
-import echo.music.iad1tya.ui.component.Lyrics
-import echo.music.iad1tya.ui.component.PlayerSliderTrack
-import echo.music.iad1tya.ui.component.ResizableIconButton
-import echo.music.iad1tya.ui.component.SquigglySlider
-import echo.music.iad1tya.ui.component.WavySlider
-import echo.music.iad1tya.ui.component.rememberBottomSheetState
-import echo.music.iad1tya.ui.menu.OldPlayerMenu
-import echo.music.iad1tya.ui.menu.PlayerMenu
-import echo.music.iad1tya.ui.component.VolumeSlider
-import echo.music.iad1tya.ui.screens.settings.DarkMode
-import echo.music.iad1tya.ui.theme.PlayerColorExtractor
-import echo.music.iad1tya.ui.theme.PlayerSliderColors
-import echo.music.iad1tya.ui.utils.ShowMediaInfo
-import echo.music.iad1tya.ui.utils.ShowOffsetDialog
-import echo.music.iad1tya.utils.makeTimeString
-import echo.music.iad1tya.utils.isLocalMediaId
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.LocalDownloadUtil
+import com.nivukx.music.LocalListenTogetherManager
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.ui.component.HeartBurstIcon
+import com.nivukx.music.constants.AudioQuality
+import com.nivukx.music.constants.AudioQualityKey
+import com.nivukx.music.constants.CropAlbumArtKey
+import com.nivukx.music.constants.DarkModeKey
+import com.nivukx.music.constants.HidePlayerThumbnailKey
+import com.nivukx.music.constants.HideStatusBarOnFullscreenKey
+import com.nivukx.music.constants.ShowLyricsOnPlayerKey
+import com.nivukx.music.constants.EnableLyricsThumbnailPlayPauseKey
+import com.nivukx.music.constants.KeepScreenOn
+import com.nivukx.music.constants.PlayerBackgroundStyle
+import com.nivukx.music.constants.PlayerBackgroundStyleKey
+import com.nivukx.music.constants.PlayerButtonsStyle
+import com.nivukx.music.constants.PlayerButtonsStyleKey
+import com.nivukx.music.constants.PlayerHorizontalPadding
+import com.nivukx.music.constants.QueuePeekHeight
+import com.nivukx.music.constants.SliderStyle
+import com.nivukx.music.constants.SliderStyleKey
+import com.nivukx.music.constants.SquigglySliderKey
+import com.nivukx.music.constants.SwipeLyricsKey
+import com.nivukx.music.constants.ThumbnailCornerRadius
+import com.nivukx.music.constants.UseNewPlayerDesignKey
+import com.nivukx.music.db.entities.LyricsEntity
+import com.nivukx.music.extensions.SwipeGesture
+import com.nivukx.music.extensions.togglePlayPause
+import com.nivukx.music.extensions.toggleRepeatMode
+import com.nivukx.music.listentogether.RoomRole
+import com.nivukx.music.models.MediaMetadata
+import com.nivukx.music.playback.ExoDownloadService
+import com.nivukx.music.echomusic.getConnectedBluetoothDeviceName
+import com.nivukx.music.echomusic.isBuds
+import com.nivukx.music.echomusic.isSpeaker
+import com.nivukx.music.echomusic.AudioDeviceBottomSheet
+import com.nivukx.music.ui.component.BottomSheet
+import com.nivukx.music.ui.component.BottomSheetState
+import com.nivukx.music.ui.component.CastButton
+import com.nivukx.music.ui.component.LocalBottomSheetPageState
+import com.nivukx.music.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.Lyrics
+import com.nivukx.music.ui.component.PlayerSliderTrack
+import com.nivukx.music.ui.component.ResizableIconButton
+import com.nivukx.music.ui.component.SquigglySlider
+import com.nivukx.music.ui.component.WavySlider
+import com.nivukx.music.ui.component.rememberBottomSheetState
+import com.nivukx.music.ui.menu.OldPlayerMenu
+import com.nivukx.music.ui.menu.PlayerMenu
+import com.nivukx.music.ui.component.VolumeSlider
+import com.nivukx.music.ui.screens.settings.DarkMode
+import com.nivukx.music.ui.theme.PlayerColorExtractor
+import com.nivukx.music.ui.theme.PlayerSliderColors
+import com.nivukx.music.ui.utils.ShowMediaInfo
+import com.nivukx.music.ui.utils.ShowOffsetDialog
+import com.nivukx.music.utils.makeTimeString
+import com.nivukx.music.utils.isLocalMediaId
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberPreference
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
@@ -221,7 +221,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.max
 import kotlin.math.roundToInt
-import echo.music.iad1tya.ui.component.Icon as MIcon
+import com.nivukx.music.ui.component.Icon as MIcon
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.exoplayer.DefaultLoadControl
 import android.view.TextureView
@@ -236,15 +236,15 @@ import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import echo.music.iad1tya.applecanvas.AppleMusicCanvasProvider
-import echo.music.iad1tya.canvas.CanvasArtwork
-import echo.music.iad1tya.canvas.TidalCanvasProvider
-import echo.music.iad1tya.constants.CanvasThumbnailAnimationKey
-import echo.music.iad1tya.extensions.metadata
-import echo.music.iad1tya.ui.player.CanvasArtworkPlaybackCache
-import echo.music.iad1tya.ui.player.normalizeCanvasArtistName
-import echo.music.iad1tya.ui.player.normalizeCanvasSongTitle
-import echo.music.iad1tya.echomusiccanvas.echomusicCanvasProvider
+import com.nivukx.music.applecanvas.AppleMusicCanvasProvider
+import com.nivukx.music.canvas.CanvasArtwork
+import com.nivukx.music.canvas.TidalCanvasProvider
+import com.nivukx.music.constants.CanvasThumbnailAnimationKey
+import com.nivukx.music.extensions.metadata
+import com.nivukx.music.ui.player.CanvasArtworkPlaybackCache
+import com.nivukx.music.ui.player.normalizeCanvasArtistName
+import com.nivukx.music.ui.player.normalizeCanvasSongTitle
+import com.nivukx.music.echomusiccanvas.echomusicCanvasProvider
 import java.util.Locale
 import kotlin.math.cos
 import kotlin.math.sin
@@ -307,8 +307,8 @@ fun BottomSheetPlayer(
         UseNewPlayerDesignKey,
         defaultValue = true
     )
-    val showCodecOnPlayer by rememberPreference(echo.music.iad1tya.constants.ShowCodecOnPlayerKey, false)
-    val hidePlayerSlider by rememberPreference(echo.music.iad1tya.constants.HidePlayerSliderKey, false)
+    val showCodecOnPlayer by rememberPreference(com.nivukx.music.constants.ShowCodecOnPlayerKey, false)
+    val hidePlayerSlider by rememberPreference(com.nivukx.music.constants.HidePlayerSliderKey, false)
     val (hidePlayerThumbnail, onHidePlayerThumbnailChange) = rememberPreference(HidePlayerThumbnailKey, false)
     val cropAlbumArt by rememberPreference(CropAlbumArtKey, false)
     val showLyricsOnPlayer by rememberPreference(ShowLyricsOnPlayerKey, false)
@@ -331,7 +331,7 @@ fun BottomSheetPlayer(
         if (darkTheme == DarkMode.AUTO) isSystemInDarkTheme else darkTheme == DarkMode.ON
     }
 
-    val dataSaverEnabled by rememberPreference(key = echo.music.iad1tya.constants.DataSaverEnabledKey, defaultValue = false)
+    val dataSaverEnabled by rememberPreference(key = com.nivukx.music.constants.DataSaverEnabledKey, defaultValue = false)
     val enableCanvasPref by rememberPreference(CanvasThumbnailAnimationKey, true)
     val enableCanvas = if (dataSaverEnabled) false else enableCanvasPref
 
@@ -345,7 +345,7 @@ fun BottomSheetPlayer(
     val isCrossfading by playerConnection.isCrossfading.collectAsState()
     val isAutomixing by playerConnection.isAutomixing.collectAsState()
     val automixDebug by playerConnection.automixDebugInfo.collectAsState()
-    val automixDebugOverlayEnabled by rememberPreference(echo.music.iad1tya.constants.AutomixDebugOverlayKey, false)
+    val automixDebugOverlayEnabled by rememberPreference(com.nivukx.music.constants.AutomixDebugOverlayKey, false)
 
     var currentAudioFormat by remember { mutableStateOf<androidx.media3.common.Format?>(null) }
     DisposableEffect(playerConnection, isCrossfading) {
@@ -1772,7 +1772,7 @@ fun BottomSheetPlayer(
                                 FilledIconButton(
                                     onClick = {
                                         menuState.show {
-                                            echo.music.iad1tya.ui.menu.LyricsMenu(
+                                            com.nivukx.music.ui.menu.LyricsMenu(
                                                 lyricsProvider = { currentLyrics },
                                                 songProvider = { currentSong?.song },
                                                 mediaMetadataProvider = { mediaMetadata },
@@ -1886,7 +1886,7 @@ fun BottomSheetPlayer(
                                     .background(textButtonColor.copy(alpha = 0.2f))
                                     .clickable {
                                         menuState.show {
-                                            echo.music.iad1tya.ui.menu.LyricsMenu(
+                                            com.nivukx.music.ui.menu.LyricsMenu(
                                                 lyricsProvider = { currentLyrics },
                                                 songProvider = { currentSong?.song },
                                                 mediaMetadataProvider = { mediaMetadata },
@@ -2939,7 +2939,7 @@ fun InlineLyricsView(
                     if (existing != null) return@launch
                     val entryPoint = EntryPointAccessors.fromApplication(
                         context.applicationContext,
-                        echo.music.iad1tya.di.LyricsHelperEntryPoint::class.java
+                        com.nivukx.music.di.LyricsHelperEntryPoint::class.java
                     )
                     val lyricsHelper = entryPoint.lyricsHelper()
                     val fetchedLyricsWithProvider = lyricsHelper.getLyrics(mediaMetadata)
