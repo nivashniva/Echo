@@ -169,7 +169,7 @@ Download the latest pre-compiled APK from the [Nivukx Releases Page](https://git
 
    ```bash
    git clone https://github.com/nivash01/Echo.git
-   cd Nivukx
+   cd Echo
    ```
 
 2. **Configure Android SDK**
