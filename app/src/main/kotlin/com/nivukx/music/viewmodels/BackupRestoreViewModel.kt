@@ -2,9 +2,14 @@
 
 package com.nivukx.music.viewmodels
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
+import android.os.Process
+import android.os.SystemClock
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.nivukx.music.MainActivity
@@ -23,7 +28,6 @@ import com.nivukx.music.playback.MusicService.Companion.PERSISTENT_QUEUE_FILE
 import com.nivukx.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.delay
@@ -36,7 +40,6 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import javax.inject.Inject
-import kotlin.system.exitProcess
 
 data class CsvImportState(
     val previewRows: List<List<String>> = emptyList(),
@@ -112,11 +115,21 @@ class BackupRestoreViewModel @Inject constructor(
                                     inputStream.copyTo(outputStream)
                                 }
                                 
+                                if (tempFile.length() <= 0L) {
+                                    throw IllegalStateException("Restore database is empty")
+                                }
+
                                 var backupVersion = 0
-                                runCatching {
-                                    java.io.RandomAccessFile(tempFile, "r").use { raf ->
-                                        raf.seek(60)
-                                        backupVersion = raf.readInt()
+                                SQLiteDatabase.openDatabase(
+                                    tempFile.absolutePath,
+                                    null,
+                                    SQLiteDatabase.OPEN_READONLY,
+                                ).use { backupDb ->
+                                    backupVersion = backupDb.version
+                                    backupDb.rawQuery("PRAGMA integrity_check", null).use { cursor ->
+                                        if (!cursor.moveToFirst() || cursor.getString(0) != "ok") {
+                                            throw IllegalStateException("Restore database integrity check failed")
+                                        }
                                     }
                                 }
                                 
@@ -175,14 +188,39 @@ class BackupRestoreViewModel @Inject constructor(
                 Timber.tag("RESTORE").e("Could not open input stream for uri: $uri")
             }
 
+            if (!foundAny) {
+                throw IllegalStateException("Restore archive contained no supported backup entries")
+            }
+
             withContext(Dispatchers.Main) {
                 context.stopService(Intent(context, MusicService::class.java))
                 context.filesDir.resolve(PERSISTENT_QUEUE_FILE).delete()
-                val restartIntent = Intent(context, MainActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-                context.startActivity(restartIntent)
-                exitProcess(0)
+
+                val restartIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+                    ?.apply {
+                        addFlags(
+                            Intent.FLAG_ACTIVITY_NEW_TASK or
+                                Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                                Intent.FLAG_ACTIVITY_NO_ANIMATION
+                        )
+                    }
+                    ?: throw IllegalStateException("Unable to resolve app launch activity")
+
+                val restartPendingIntent = PendingIntent.getActivity(
+                    context,
+                    RESTORE_RESTART_REQUEST_CODE,
+                    restartIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                )
+                val alarmManager = context.getSystemService(AlarmManager::class.java)
+                    ?: throw IllegalStateException("AlarmManager unavailable")
+
+                alarmManager.setAndAllowWhileIdle(
+                    AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() + RESTORE_RESTART_DELAY_MS,
+                    restartPendingIntent,
+                )
+                Process.killProcess(Process.myPid())
             }
         }.onFailure {
             reportException(it)
@@ -191,6 +229,12 @@ class BackupRestoreViewModel @Inject constructor(
                 Toast.makeText(context, "Due to new architecture, this backup can't be restored", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    companion object {
+        private const val SETTINGS_FILENAME = "settings.preferences_pb"
+        private const val RESTORE_RESTART_REQUEST_CODE = 0x4E56
+        private const val RESTORE_RESTART_DELAY_MS = 750L
     }
 
     suspend fun previewCsvFile(context: Context, uri: Uri): CsvImportState = withContext(Dispatchers.IO) {
