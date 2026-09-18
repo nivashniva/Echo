@@ -7,7 +7,10 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.togetherWith
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -32,9 +35,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.nivukx.music.R
 import com.nivukx.music.constants.ThumbnailCornerRadius
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 @Composable
 fun PlayingIndicator(
@@ -44,23 +44,21 @@ fun PlayingIndicator(
     barWidth: Dp = 4.dp,
     cornerRadius: Dp = ThumbnailCornerRadius,
 ) {
-    val animatables =
-        remember {
-            List(bars) {
-                Animatable(0.1f)
-            }
-        }
-
-    LaunchedEffect(Unit) {
-        delay(300)
-        animatables.forEach { animatable ->
-            launch {
-                while (true) {
-                    animatable.animateTo(Random.nextFloat() * 0.9f + 0.1f)
-                    delay(50)
-                }
-            }
-        }
+    val infiniteTransition = rememberInfiniteTransition(label = "nivukxPlayingIndicator")
+    val barProgress = List(bars) { index ->
+        infiniteTransition.animateFloat(
+            initialValue = 0.12f,
+            targetValue = 0.92f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(
+                    durationMillis = 540 + (index * 85),
+                    delayMillis = index * 70,
+                    easing = androidx.compose.animation.core.FastOutSlowInEasing,
+                ),
+                repeatMode = RepeatMode.Reverse,
+            ),
+            label = "playingBar$index",
+        )
     }
 
     Row(
@@ -68,7 +66,7 @@ fun PlayingIndicator(
         verticalAlignment = Alignment.Bottom,
         modifier = modifier,
     ) {
-        animatables.forEach { animatable ->
+        barProgress.forEach { progress ->
             Canvas(
                 modifier =
                 Modifier
