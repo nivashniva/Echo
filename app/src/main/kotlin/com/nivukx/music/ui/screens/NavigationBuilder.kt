@@ -423,17 +423,11 @@ fun NavGraphBuilder.navigationBuilder(
         BackupAndRestore(navController, scrollBehavior, highlightKey = backStackEntry.arguments?.getString("highlightKey"))
     }
 
-    composable("settings/discord") {
-        com.nivukx.music.ui.screens.settings.DiscordSettings(navController, scrollBehavior)
-    }
 
     composable("settings/lastfm") {
         com.nivukx.music.ui.screens.settings.LastFMSettingsScreen(navController)
     }
 
-    composable("settings/discord/experimental") {
-        com.nivukx.music.ui.screens.settings.DiscordExperimental(navController)
-    }
 
     composable("settings/spotify_import") {
         SpotifyImportScreen(navController)
