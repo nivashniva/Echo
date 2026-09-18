@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.menu
+package com.nivukx.music.ui.menu
 
 import android.content.Context
 import android.content.res.Configuration
@@ -72,29 +72,29 @@ import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
 import androidx.navigation.NavController
 import com.music.innertube.YouTube
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.LocalDownloadUtil
-import echo.music.iad1tya.LocalListenTogetherManager
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.EnableExportAsMp3Key
-import echo.music.iad1tya.constants.ExportDirectoryUriKey
-import echo.music.iad1tya.constants.ExportedSongIdsKey
-import echo.music.iad1tya.constants.ExportingSongIdsKey
-import echo.music.iad1tya.constants.ListItemHeight
-import echo.music.iad1tya.listentogether.ConnectionState
-import echo.music.iad1tya.listentogether.ListenTogetherEvent
-import echo.music.iad1tya.models.MediaMetadata
-import echo.music.iad1tya.playback.ExoDownloadService
-import echo.music.iad1tya.ui.component.BottomSheetState
-import echo.music.iad1tya.ui.component.ListDialog
-import echo.music.iad1tya.constants.ShowLyricsOnPlayerKey
-import echo.music.iad1tya.ui.component.Material3MenuGroup
-import echo.music.iad1tya.ui.component.Material3MenuItemData
-import echo.music.iad1tya.ui.component.NewAction
-import echo.music.iad1tya.ui.component.NewActionGrid
-import echo.music.iad1tya.ui.component.VolumeSlider
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.LocalDownloadUtil
+import com.nivukx.music.LocalListenTogetherManager
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.EnableExportAsMp3Key
+import com.nivukx.music.constants.ExportDirectoryUriKey
+import com.nivukx.music.constants.ExportedSongIdsKey
+import com.nivukx.music.constants.ExportingSongIdsKey
+import com.nivukx.music.constants.ListItemHeight
+import com.nivukx.music.listentogether.ConnectionState
+import com.nivukx.music.listentogether.ListenTogetherEvent
+import com.nivukx.music.models.MediaMetadata
+import com.nivukx.music.playback.ExoDownloadService
+import com.nivukx.music.ui.component.BottomSheetState
+import com.nivukx.music.ui.component.ListDialog
+import com.nivukx.music.constants.ShowLyricsOnPlayerKey
+import com.nivukx.music.ui.component.Material3MenuGroup
+import com.nivukx.music.ui.component.Material3MenuItemData
+import com.nivukx.music.ui.component.NewAction
+import com.nivukx.music.ui.component.NewActionGrid
+import com.nivukx.music.ui.component.VolumeSlider
+import com.nivukx.music.utils.rememberPreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.math.log2
@@ -174,7 +174,7 @@ fun PlayerMenu(
     val (exportedSongIds) = rememberPreference(key = ExportedSongIdsKey, defaultValue = "")
     val (showLyricsOnPlayer, onShowLyricsOnPlayerChange) = rememberPreference(key = ShowLyricsOnPlayerKey, defaultValue = false)
     
-    val (exportProgressString) = rememberPreference(key = echo.music.iad1tya.constants.ExportProgressKey, defaultValue = "")
+    val (exportProgressString) = rememberPreference(key = com.nivukx.music.constants.ExportProgressKey, defaultValue = "")
     val exportProgress = remember(exportProgressString, mediaMetadata.id) {
         exportProgressString.split(',').find { it.startsWith("${mediaMetadata.id}:") }?.split(':')?.getOrNull(1)?.toIntOrNull() ?: 0
     }
@@ -187,7 +187,7 @@ fun PlayerMenu(
     }
 
     val listenTogetherManager = LocalListenTogetherManager.current
-    val ringtoneViewModel = echo.music.iad1tya.LocalRingtoneViewModel.current
+    val ringtoneViewModel = com.nivukx.music.LocalRingtoneViewModel.current
     val isListenTogetherGuest by listenTogetherManager?.guestPlaybackRestricted?.collectAsState(initial = false) ?: remember { mutableStateOf(false) }
     val pendingSuggestions by listenTogetherManager?.pendingSuggestions?.collectAsState(initial = emptyList()) ?: remember { mutableStateOf(emptyList()) }
 
@@ -455,7 +455,7 @@ fun PlayerMenu(
                     add(
                         Material3MenuItemData(
                             customComposable = {
-                                echo.music.iad1tya.ui.component.CastButton(asMenuItem = true)
+                                com.nivukx.music.ui.component.CastButton(asMenuItem = true)
                             }
                         )
                     )
@@ -625,7 +625,7 @@ fun PlayerMenu(
                                         onDismiss()
                                     } else {
                                         onDismiss()
-                                        echo.music.iad1tya.playback.AudioExportService.start(
+                                        com.nivukx.music.playback.AudioExportService.start(
                                             context = context,
                                             songId = mediaMetadata.id,
                                             songTitle = mediaMetadata.title,
@@ -811,7 +811,7 @@ fun TempoPitchDialog(onDismiss: () -> Unit) {
         playerConnection.player.playbackParameters =
             PlaybackParameters(tempo, 2f.pow(transposeValue.toFloat() / 12))
     }
-    val listenTogetherManager = echo.music.iad1tya.LocalListenTogetherManager.current
+    val listenTogetherManager = com.nivukx.music.LocalListenTogetherManager.current
     val isInRoom = listenTogetherManager?.isInRoom ?: false
 
     AlertDialog(
@@ -930,7 +930,7 @@ fun ListenTogetherDialog(
     if (!visible) return
     
     val context = LocalContext.current
-    val listenTogetherManager = echo.music.iad1tya.LocalListenTogetherManager.current
+    val listenTogetherManager = com.nivukx.music.LocalListenTogetherManager.current
     
     
     if (listenTogetherManager == null) {
@@ -984,7 +984,7 @@ fun ListenTogetherDialog(
     val pendingSuggestions by listenTogetherManager.pendingSuggestions.collectAsState()
     
     
-    var savedUsername by rememberPreference(echo.music.iad1tya.constants.ListenTogetherUsernameKey, "")
+    var savedUsername by rememberPreference(com.nivukx.music.constants.ListenTogetherUsernameKey, "")
     var roomCodeInput by rememberSaveable { mutableStateOf("") }
     var usernameInput by rememberSaveable { mutableStateOf(savedUsername) }
 
