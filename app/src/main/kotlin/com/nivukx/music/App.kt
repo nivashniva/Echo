@@ -31,6 +31,7 @@ import com.nivukx.music.extensions.toInetSocketAddress
 import com.nivukx.music.utils.CrashHandler
 import com.nivukx.music.utils.AppContextHolder
 import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.DataStoreSnapshot
 import com.nivukx.music.utils.reportException
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
@@ -100,6 +101,9 @@ class App : Application(), SingletonImageLoader.Factory {
         
 
         AppContextHolder.initialize(this)
+        // Prime the in-memory settings snapshot once at application startup so legacy
+        // synchronous callers never block the UI thread on DataStore disk I/O.
+        DataStoreSnapshot.start(dataStore)
         // Keep Application.onCreate() lightweight. Cipher/WebView initialization is expensive
         // and can compete with Activity/Compose startup. Warm it after the first UI window has
         // had time to render; playback code also initializes it lazily as a safety net.
