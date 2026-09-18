@@ -1,4 +1,4 @@
-package echo.music.iad1tya.playback
+package com.nivukx.music.playback
 
 interface IWidgetManager {
     suspend fun updateWidgets(
