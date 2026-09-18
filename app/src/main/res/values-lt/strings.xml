@@ -342,12 +342,9 @@
     <string name="backup_create_success">Atsarginė kopija sėkmingai sukurta</string>
     <string name="backup_create_failed">Nepavyko sukurti atsarginės kopijos</string>
     <string name="restore_failed">Nepavyko atkurti atsarginės kopijos</string>
-    <string name="discord_integration">„Discord“ integracija</string>
-    <string name="discord_information">„echomusic“ naudoja „KizzyRPC“ biblioteką jūsų „Discord“ paskyros būsenai nustatyti. Tam naudojamas „Discord Gateway“ ryšys, kuris gali būti laikomas „Discord“ naudojimo sąlygų pažeidimu. Tačiau nėra žinoma atvejų, kai dėl šios priežasties būtų sustabdytos naudotojų paskyros. Naudokite savo rizika.\n„chomusic“ išgaus tik jūsų prieigos raktą, o visa kita bus saugoma vietoje.</string>
     <string name="dismiss">Uždaryti</string>
     <string name="options">Parinktys</string>
     <string name="preview">Peržiūra</string>
-    <string name="enable_discord_rpc">Įjungti „Rich Presence“</string>
     <string name="about">Apie</string>
     <string name="app_version">Programėlės versija</string>
     <string name="new_version_available">Pasiekiama nauja versija</string>
