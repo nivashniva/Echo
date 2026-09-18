@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.db
+package com.nivukx.music.db
 
 import androidx.room.TypeConverter
 import java.time.Instant
