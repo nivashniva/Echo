@@ -1,4 +1,4 @@
-package echo.music.iad1tya.playback
+package com.nivukx.music.playback
 
 import android.app.Service
 import android.content.Context
@@ -11,14 +11,14 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.datastore.preferences.core.edit
 import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.ReturnCode
-import com.music.innertube.YouTube
-import echo.music.iad1tya.constants.AudioQuality
-import echo.music.iad1tya.constants.AudioQualityKey
-import echo.music.iad1tya.constants.ExportProgressKey
-import echo.music.iad1tya.constants.ExportedSongIdsKey
-import echo.music.iad1tya.constants.ExportingSongIdsKey
-import echo.music.iad1tya.utils.YTPlayerUtils
-import echo.music.iad1tya.utils.dataStore
+import com.nivukx.innertube.YouTube
+import com.nivukx.music.constants.AudioQuality
+import com.nivukx.music.constants.AudioQualityKey
+import com.nivukx.music.constants.ExportProgressKey
+import com.nivukx.music.constants.ExportedSongIdsKey
+import com.nivukx.music.constants.ExportingSongIdsKey
+import com.nivukx.music.utils.YTPlayerUtils
+import com.nivukx.music.utils.dataStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
