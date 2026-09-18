@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens
+package com.nivukx.music.ui.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
@@ -36,30 +36,30 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.music.innertube.models.WatchEndpoint
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.StatPeriod
-import echo.music.iad1tya.extensions.toMediaItem
-import echo.music.iad1tya.models.toMediaMetadata
-import echo.music.iad1tya.playback.queues.ListQueue
-import echo.music.iad1tya.playback.queues.YouTubeQueue
-import echo.music.iad1tya.ui.component.ChoiceChipsRow
-import echo.music.iad1tya.ui.component.HideOnScrollFAB
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.LocalAlbumsGrid
-import echo.music.iad1tya.ui.component.LocalArtistsGrid
-import echo.music.iad1tya.ui.component.LocalMenuState
-import echo.music.iad1tya.ui.component.LocalSongsGrid
-import echo.music.iad1tya.ui.component.NavigationTitle
-import echo.music.iad1tya.ui.menu.AlbumMenu
-import echo.music.iad1tya.ui.menu.ArtistMenu
-import echo.music.iad1tya.ui.menu.SongMenu
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.utils.joinByBullet
-import echo.music.iad1tya.utils.makeTimeString
-import echo.music.iad1tya.viewmodels.StatsViewModel
+import com.nivukx.innertube.models.WatchEndpoint
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.StatPeriod
+import com.nivukx.music.extensions.toMediaItem
+import com.nivukx.music.models.toMediaMetadata
+import com.nivukx.music.playback.queues.ListQueue
+import com.nivukx.music.playback.queues.YouTubeQueue
+import com.nivukx.music.ui.component.ChoiceChipsRow
+import com.nivukx.music.ui.component.HideOnScrollFAB
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.LocalAlbumsGrid
+import com.nivukx.music.ui.component.LocalArtistsGrid
+import com.nivukx.music.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.LocalSongsGrid
+import com.nivukx.music.ui.component.NavigationTitle
+import com.nivukx.music.ui.menu.AlbumMenu
+import com.nivukx.music.ui.menu.ArtistMenu
+import com.nivukx.music.ui.menu.SongMenu
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.utils.joinByBullet
+import com.nivukx.music.utils.makeTimeString
+import com.nivukx.music.viewmodels.StatsViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
