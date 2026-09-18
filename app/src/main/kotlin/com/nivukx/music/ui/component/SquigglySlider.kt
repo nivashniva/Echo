@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import com.nivukx.music.ui.motion.NivukxMotion
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -54,6 +55,11 @@ fun SquigglySlider(
     var dragPosition by remember { mutableFloatStateOf(value) }
     
     val currentValue = if (isDragging) dragPosition else value
+    val nivukxSliderGlow by androidx.compose.animation.core.animateFloatAsState(
+        targetValue = if (isDragging) 1f else 0f,
+        animationSpec = NivukxMotion.MagneticSpring,
+        label = "nivukxSliderGlow",
+    )
     val duration = valueRange.endInclusive - valueRange.start
     val position = currentValue - valueRange.start
 
@@ -221,6 +227,7 @@ fun SquigglySlider(
             val disabledAlpha = 77f / 255f
             val inactiveTrackColor = primaryColor.copy(alpha = disabledAlpha)
             val capRadius = strokeWidth / 2f
+            val glowAlpha = 0.08f * nivukxSliderGlow
 
             fun drawPathSegment(startX: Float, endX: Float, color: Color) {
                 if (endX <= startX) return
@@ -239,6 +246,13 @@ fun SquigglySlider(
             }
 
             
+            if (glowAlpha > 0f) {
+                drawCircle(
+                    color = primaryColor.copy(alpha = glowAlpha),
+                    radius = strokeWidth * 2.1f * nivukxSliderGlow,
+                    center = Offset(totalProgressPx, centerY),
+                )
+            }
             drawPathSegment(0f, totalProgressPx, primaryColor)
 
             
