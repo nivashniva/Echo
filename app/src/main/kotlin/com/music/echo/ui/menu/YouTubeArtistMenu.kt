@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.menu
+package com.nivukx.music.ui.menu
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -27,19 +27,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.music.innertube.models.ArtistItem
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.LocalListenTogetherManager
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.db.entities.SpeedDialItem
-import echo.music.iad1tya.db.entities.ArtistEntity
-import echo.music.iad1tya.playback.queues.YouTubeQueue
-import echo.music.iad1tya.ui.component.Material3MenuGroup
-import echo.music.iad1tya.ui.component.Material3MenuItemData
-import echo.music.iad1tya.ui.component.NewAction
-import echo.music.iad1tya.ui.component.NewActionGrid
-import echo.music.iad1tya.ui.component.YouTubeListItem
+import com.nivukx.innertube.models.ArtistItem
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.LocalListenTogetherManager
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.db.entities.SpeedDialItem
+import com.nivukx.music.db.entities.ArtistEntity
+import com.nivukx.music.playback.queues.YouTubeQueue
+import com.nivukx.music.ui.component.Material3MenuGroup
+import com.nivukx.music.ui.component.Material3MenuItemData
+import com.nivukx.music.ui.component.NewAction
+import com.nivukx.music.ui.component.NewActionGrid
+import com.nivukx.music.ui.component.YouTubeListItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.rememberCoroutineScope
