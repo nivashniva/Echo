@@ -1,4 +1,4 @@
-package echo.music.iad1tya.echomusic
+package com.nivukx.music.echomusic
 
 import android.content.Context
 import android.media.AudioDeviceInfo
