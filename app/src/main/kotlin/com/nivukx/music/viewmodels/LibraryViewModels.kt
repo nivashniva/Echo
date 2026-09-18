@@ -271,7 +271,7 @@ constructor(
     database: MusicDatabase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val artistId = savedStateHandle.get<String>("artistId")!!
+    private val artistId = savedStateHandle.get<String>("artistId").orEmpty()
     val artist =
         database
             .artist(artistId)
