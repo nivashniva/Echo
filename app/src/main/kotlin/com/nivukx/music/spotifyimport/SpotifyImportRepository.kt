@@ -273,11 +273,19 @@ class SpotifyImportRepository @Inject constructor(
 
         val finalTracks = ArrayList<MediaMetadata>()
         
+        val exactExistingByTitle = existingSongs.groupBy {
+            normalizeMatchTitle(it.song.song.title)
+        }
+
         for ((index, track) in remoteTracks.withIndex()) {
-            val existing = existingSongs.find { 
+            val spotifyArtist = track.artists.joinToString(" ") { it.name }
+            val titleCandidates = exactExistingByTitle[normalizeMatchTitle(track.name)].orEmpty()
+            val candidates = if (titleCandidates.isNotEmpty()) titleCandidates else existingSongs
+
+            val existing = candidates.firstOrNull {
                 SpotifyMapper.matchScore(
                     spotifyTitle = track.name,
-                    spotifyArtist = track.artists.joinToString(" ") { it.name },
+                    spotifyArtist = spotifyArtist,
                     spotifyDurationMs = track.durationMs,
                     candidateTitle = it.song.song.title,
                     candidateArtist = it.song.artists.joinToString(" ") { it.name },
@@ -595,6 +603,12 @@ class SpotifyImportRepository @Inject constructor(
             update(entity.copy(lastUpdateTime = now))
         }
     }
+
+    private fun normalizeMatchTitle(value: String): String =
+        value.lowercase()
+            .replace(Regex("[^\\p{L}\\p{N}]+"), " ")
+            .trim()
+            .replace(Regex("\\s+"), " ")
 
     private fun progressPercent(
         completedSources: Int,
