@@ -64,7 +64,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:largeHeap="true"
-        android:theme="@style/Theme.echomusic"
+        android:theme="@style/Theme.Nivukx"
         tools:targetApi="tiramisu">
         <uses-library
             android:name="org.apache.http.legacy"
@@ -73,7 +73,7 @@
         <activity
             android:name=".ui.screens.CrashActivity"
             android:exported="false"
-            android:theme="@style/Theme.echomusic"
+            android:theme="@style/Theme.Nivukx"
             android:excludeFromRecents="true"
             android:process=":crash" />
 
@@ -81,7 +81,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.echomusic"
+            android:theme="@style/Theme.Nivukx"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
