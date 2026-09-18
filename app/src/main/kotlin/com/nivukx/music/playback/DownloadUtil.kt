@@ -34,7 +34,6 @@ import com.nivukx.music.db.entities.SongEntity
 import com.nivukx.music.di.DownloadCache
 import com.nivukx.music.di.PlayerCache
 import com.nivukx.music.ui.utils.resize
-import com.nivukx.music.utils.YTPlayerUtils
 import com.nivukx.music.utils.enumPreference
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -50,7 +49,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import java.time.LocalDateTime
 import java.util.concurrent.Executors
@@ -71,9 +69,11 @@ constructor(
     private val downloadQuality by enumPreference(context, com.nivukx.music.constants.DownloadQualityKey, com.nivukx.music.constants.DownloadQuality.YOUTUBE)
     private val audioQuality by enumPreference(context, AudioQualityKey, AudioQuality.OPUS)
     private val ipVersion by enumPreference(context, IpVersionKey, IpVersion.AUTO)
-    private val songUrlCache = java.util.concurrent.ConcurrentHashMap<String, Pair<String, Long>>()
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    @Inject
+    lateinit var playbackUrlResolver: PlaybackUrlResolver
 
     val downloads = MutableStateFlow<Map<String, Download>>(emptyMap())
 
@@ -113,19 +113,11 @@ constructor(
             )
         ) { dataSpec ->
             val mediaId = dataSpec.key ?: error("No media id")
-            val cacheKey = "${mediaId}_${downloadQuality.name}_${audioQuality.name}"
-
-            songUrlCache[cacheKey]?.takeIf { it.second > System.currentTimeMillis() }?.let {
-                return@Factory dataSpec.withUri(it.first.toUri())
-            }
-
-            val playbackData = runBlocking(Dispatchers.IO) {
-                YTPlayerUtils.playerResponseForPlayback(
+            val playbackData = playbackUrlResolver.cached(mediaId, audioQuality)
+                ?: playbackUrlResolver.resolveBlocking(
                     videoId = mediaId,
                     audioQuality = audioQuality,
-                    connectivityManager = connectivityManager
-                )
-            }.getOrThrow()
+                ).getOrThrow()
             val format = playbackData.format
 
             database.query {
@@ -176,11 +168,7 @@ constructor(
                 }
             }
 
-            val streamUrl = playbackData.streamUrl
-
-            songUrlCache[cacheKey] =
-                streamUrl to (System.currentTimeMillis() + playbackData.streamExpiresInSeconds * 1000L)
-            dataSpec.withUri(streamUrl.toUri())
+            dataSpec.withUri(playbackData.streamUrl.toUri())
         }
 
     val downloadNotificationHelper =
