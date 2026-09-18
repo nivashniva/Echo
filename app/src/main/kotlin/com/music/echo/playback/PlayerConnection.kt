@@ -1,12 +1,12 @@
 
 
-package echo.music.iad1tya.playback
+package com.nivukx.music.playback
 
 import android.content.Context
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
-import echo.music.iad1tya.utils.PlaybackLogManager
-import echo.music.iad1tya.utils.PlaybackLogLevel
+import com.nivukx.music.utils.PlaybackLogManager
+import com.nivukx.music.utils.PlaybackLogLevel
 import androidx.media3.common.Player
 import androidx.media3.common.Player.COMMAND_SEEK_IN_CURRENT_MEDIA_ITEM
 import androidx.media3.common.Player.COMMAND_SEEK_TO_NEXT_MEDIA_ITEM
@@ -15,15 +15,15 @@ import androidx.media3.common.Player.REPEAT_MODE_OFF
 import androidx.media3.common.Player.STATE_ENDED
 import androidx.media3.common.Timeline
 import androidx.media3.exoplayer.ExoPlayer
-import echo.music.iad1tya.db.MusicDatabase
-import echo.music.iad1tya.extensions.currentMetadata
-import echo.music.iad1tya.extensions.getCurrentQueueIndex
-import echo.music.iad1tya.extensions.getQueueWindows
-import echo.music.iad1tya.extensions.metadata
-import echo.music.iad1tya.extensions.togglePlayPause
-import echo.music.iad1tya.playback.MusicService.MusicBinder
-import echo.music.iad1tya.playback.queues.Queue
-import echo.music.iad1tya.utils.reportException
+import com.nivukx.music.db.MusicDatabase
+import com.nivukx.music.extensions.currentMetadata
+import com.nivukx.music.extensions.getCurrentQueueIndex
+import com.nivukx.music.extensions.getQueueWindows
+import com.nivukx.music.extensions.metadata
+import com.nivukx.music.extensions.togglePlayPause
+import com.nivukx.music.playback.MusicService.MusicBinder
+import com.nivukx.music.playback.queues.Queue
+import com.nivukx.music.utils.reportException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,10 +33,10 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import echo.music.iad1tya.constants.SponsorBlockEnabledKey
-import echo.music.iad1tya.utils.dataStore
-import echo.music.iad1tya.data.SponsorBlockRepository
-import echo.music.iad1tya.models.SponsorBlockSegment
+import com.nivukx.music.constants.SponsorBlockEnabledKey
+import com.nivukx.music.utils.dataStore
+import com.nivukx.music.data.SponsorBlockRepository
+import com.nivukx.music.models.SponsorBlockSegment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.Job
