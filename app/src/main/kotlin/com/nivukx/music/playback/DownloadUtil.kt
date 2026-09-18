@@ -19,10 +19,11 @@ import androidx.media3.exoplayer.offline.DownloadNotificationHelper
 import androidx.media3.exoplayer.scheduler.Requirements
 import com.music.innertube.YouTube
 import com.nivukx.music.constants.AudioQuality
-import com.nivukx.music.constants.AudioQualityKey
+import com.nivukx.music.constants.DownloadQuality
 import com.nivukx.music.constants.DownloadOnWifiOnlyKey
 import com.nivukx.music.constants.IpVersionKey
 import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.toAudioQuality
 import com.music.innertube.models.IpVersion
 import okhttp3.Dns
 import java.net.InetAddress
@@ -66,8 +67,11 @@ constructor(
     @PlayerCache val playerCache: SimpleCache,
 ) {
     private val connectivityManager = context.getSystemService<ConnectivityManager>()!!
-    private val downloadQuality by enumPreference(context, com.nivukx.music.constants.DownloadQualityKey, com.nivukx.music.constants.DownloadQuality.YOUTUBE)
-    private val audioQuality by enumPreference(context, AudioQualityKey, AudioQuality.OPUS)
+    private val downloadQuality by enumPreference(
+        context,
+        com.nivukx.music.constants.DownloadQualityKey,
+        DownloadQuality.AUTO,
+    )
     private val ipVersion by enumPreference(context, IpVersionKey, IpVersion.AUTO)
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -113,12 +117,28 @@ constructor(
             )
         ) { dataSpec ->
             val mediaId = dataSpec.key ?: error("No media id")
-            val playbackData = playbackUrlResolver.cached(mediaId, audioQuality)
+            val selectedQuality = downloadQuality.toAudioQuality()
+            val qualityCacheKey = mediaId + "_" + selectedQuality.name
+
+            val playbackData = playbackUrlResolver.cached(mediaId, selectedQuality)
                 ?: playbackUrlResolver.resolveBlocking(
                     videoId = mediaId,
-                    audioQuality = audioQuality,
+                    audioQuality = selectedQuality,
                 ).getOrThrow()
             val format = playbackData.format
+
+            when (selectedQuality) {
+                AudioQuality.LOSSLESS_WHEN_AVAILABLE ->
+                    check(com.nivukx.music.utils.YTPlayerUtils.isGenuinelyLosslessFormat(format)) {
+                        "Download contract violated: selected Lossless but resolver returned ${format.mimeType}"
+                    }
+                AudioQuality.OPUS ->
+                    check(com.nivukx.music.utils.YTPlayerUtils.isGenuinelyOpusFormat(format)) {
+                        "Download contract violated: selected Opus but resolver returned ${format.mimeType}"
+                    }
+                AudioQuality.AUTO,
+                AudioQuality.HIGH -> Unit
+            }
 
             database.query {
                 upsert(
@@ -168,8 +188,11 @@ constructor(
                 }
             }
 
-            dataSpec.withUri(playbackData.streamUrl.toUri())
-        }
+            dataSpec
+                .buildUpon()
+                .setKey(qualityCacheKey)
+                .setUri(playbackData.streamUrl.toUri())
+                .build()        }
 
     val downloadNotificationHelper =
         DownloadNotificationHelper(context, ExoDownloadService.CHANNEL_ID)
