@@ -285,7 +285,7 @@ fun Modifier.echoTitleMotion(
     )
     val scale = animateFloatAsState(
         targetValue = if (visible) 1f else 0.965f,
-        animationSpec = NivukxMotion.SoftSpring,
+        animationSpec = NivukxMotion.HighEndSpring,
         label = "echoTitleScale",
     )
 
@@ -309,7 +309,7 @@ fun Modifier.echoPress(
     val pressed by interactionSource.collectIsPressedAsState()
     val scale by animateFloatAsState(
         targetValue = if (pressed) pressedScale else 1f,
-        animationSpec = NivukxMotion.SoftSpring,
+        animationSpec = NivukxMotion.HighEndSpring,
         label = "echoPressScale",
     )
     return graphicsLayer {
