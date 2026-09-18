@@ -58,6 +58,7 @@ import com.nivukx.music.ui.component.Material3SettingsItem
 import com.nivukx.music.ui.screens.Screens
 import com.nivukx.music.ui.utils.backToMain
 import com.nivukx.music.nivukx.updater.getUpdateAvailableState
+import androidx.compose.ui.layout.ContentScale
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -97,6 +98,9 @@ highlightKey: String? = null) {
     val backupDesc = stringResource(R.string.setting_desc_backup)
     val systemUpdateDesc = stringResource(R.string.setting_desc_update)
     val aboutDesc = stringResource(R.string.setting_desc_about)
+
+    val appBrandingText = stringResource(R.string.app_branding)
+    val appBrandingDesc = stringResource(R.string.app_branding_desc)
 
     val scrollState = rememberScrollState()
     Column(
@@ -317,6 +321,43 @@ highlightKey: String? = null) {
                     )
                 }
             }
+            if (appBrandingText.lowercase().contains(searchLower) || appBrandingDesc.lowercase().contains(searchLower)) {
+                add(
+                    Material3SettingsItem(
+                        isHighlighted = (highlightKey == appBrandingText),
+                        customIcon = {
+                            Row(
+                                modifier = Modifier.size(48.dp),
+                                horizontalArrangement = Arrangement.spacedBy((-8).dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                androidx.compose.foundation.Image(
+                                    painter = painterResource(R.mipmap.ic_launcher),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                        .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
+                                        .padding(3.dp),
+                                    contentScale = ContentScale.Fit
+                                )
+                                androidx.compose.foundation.Image(
+                                    painter = painterResource(R.mipmap.legacy_icon),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                        .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
+                                        .padding(3.dp),
+                                    contentScale = ContentScale.Fit
+                                )
+                            }
+                        },
+                        title = { Text(appBrandingText) },
+                        description = { Text(appBrandingDesc) },
+                        onClick = { navController.navigate("settings/app_branding") }
+                    )
+                )
+            }
+
             if (aboutText.lowercase().contains(searchLower) || aboutDesc.lowercase().contains(searchLower)) {
                 add(
                     Material3SettingsItem(
@@ -381,7 +422,7 @@ highlightKey: String? = null) {
             val accountGroup = itemsList.take(2) // Account, AI
             val playerGroup = itemsList.drop(2).take(3) // Appearance, Player, Listen Together
             val dataGroup = itemsList.drop(5).take(4) // Content, Privacy, Storage, Backup
-            val systemGroup = itemsList.drop(9) // Update, Links, About
+            val systemGroup = itemsList.drop(9) // Update, Links, About, App Branding
             
             if (accountGroup.isNotEmpty()) {
                 Material3SettingsGroup(scrollState = scrollState, items = accountGroup)
