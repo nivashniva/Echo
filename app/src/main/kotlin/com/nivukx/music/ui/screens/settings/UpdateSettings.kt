@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.screens.settings
+package com.nivukx.music.ui.screens.settings
 
 import androidx.compose.foundation.layout.Column
 
@@ -32,34 +32,34 @@ import androidx.compose.ui.unit.dp
 import android.content.Intent
 import android.net.Uri
 import androidx.navigation.NavController
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.R
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.Material3SettingsGroup
-import echo.music.iad1tya.ui.component.Material3SettingsItem
-import echo.music.iad1tya.echomusic.component.UpdateInfoDialog
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.echomusic.updater.getAutoUpdateCheckSetting
-import echo.music.iad1tya.echomusic.updater.saveAutoUpdateCheckSetting
-import echo.music.iad1tya.echomusic.updater.getUpdateAvailableState
-import echo.music.iad1tya.echomusic.updater.saveUpdateAvailableState
-import echo.music.iad1tya.echomusic.updater.getUpdateNotificationsSetting
-import echo.music.iad1tya.echomusic.updater.saveUpdateNotificationsSetting
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.R
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.Material3SettingsGroup
+import com.nivukx.music.ui.component.Material3SettingsItem
+import com.nivukx.music.nivukx.component.UpdateInfoDialog
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.nivukx.updater.getAutoUpdateCheckSetting
+import com.nivukx.music.nivukx.updater.saveAutoUpdateCheckSetting
+import com.nivukx.music.nivukx.updater.getUpdateAvailableState
+import com.nivukx.music.nivukx.updater.saveUpdateAvailableState
+import com.nivukx.music.nivukx.updater.getUpdateNotificationsSetting
+import com.nivukx.music.nivukx.updater.saveUpdateNotificationsSetting
 import android.widget.Toast
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.foundation.layout.fillMaxWidth
-import echo.music.iad1tya.echomusic.updater.getDownloadedApkCount
-import echo.music.iad1tya.echomusic.updater.clearDownloadedApks
-import echo.music.iad1tya.echomusic.updater.getBetaUpdatesSetting
-import echo.music.iad1tya.echomusic.updater.saveBetaUpdatesSetting
-import echo.music.iad1tya.echomusic.updater.autoClearOldApks
+import com.nivukx.music.nivukx.updater.getDownloadedApkCount
+import com.nivukx.music.nivukx.updater.clearDownloadedApks
+import com.nivukx.music.nivukx.updater.getBetaUpdatesSetting
+import com.nivukx.music.nivukx.updater.saveBetaUpdatesSetting
+import com.nivukx.music.nivukx.updater.autoClearOldApks
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.ui.text.font.FontWeight
-import echo.music.iad1tya.ui.utils.parseMarkdownToSections
-import echo.music.iad1tya.ui.utils.parseSimpleMarkdown
-import echo.music.iad1tya.BuildConfig
+import com.nivukx.music.ui.utils.parseMarkdownToSections
+import com.nivukx.music.ui.utils.parseSimpleMarkdown
+import com.nivukx.music.BuildConfig
 import org.json.JSONObject
 
 /**
