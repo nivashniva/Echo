@@ -9,6 +9,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
@@ -145,20 +147,28 @@ object NivukxMotion {
 
     val Exit: ExitTransition =
         fadeOut(
-            animationSpec = tween(170, easing = StandardEasing),
+            animationSpec = tween(170, easing = ExitEasing),
         ) +
+            slideOutVertically(
+                targetOffsetY = { -(it * 0.012f).toInt() },
+                animationSpec = tween(170, easing = ExitEasing),
+            ) +
             scaleOut(
                 targetScale = 0.99f,
-                animationSpec = tween(170, easing = StandardEasing),
+                animationSpec = tween(170, easing = ExitEasing),
             )
 
     val SheetEnter: EnterTransition =
         fadeIn(
-            animationSpec = tween(180, easing = StandardEasing),
+            animationSpec = tween(180, easing = PremiumEasing),
         ) +
             slideInVertically(
                 initialOffsetY = { (it * 0.035f).toInt() },
-                animationSpec = tween(Standard, easing = StandardEasing),
+                animationSpec = tween(Standard, easing = PremiumEasing),
+            ) +
+            scaleIn(
+                initialScale = 0.985f,
+                animationSpec = tween(Standard, easing = PremiumEasing),
             )
 
     val SheetExit: ExitTransition =
