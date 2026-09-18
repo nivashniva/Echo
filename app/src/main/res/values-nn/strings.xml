@@ -322,12 +322,9 @@
     <string name="backup_create_success">Tryggleikskopien vart oppretta</string>
     <string name="backup_create_failed">Klarte ikkje å oppretta tryggleikskopi</string>
     <string name="restore_failed">Klarte ikkje å gjenoppretta tryggleikskopien</string>
-    <string name="discord_integration">Discord-integrasjon</string>
-    <string name="discord_information">echomusic brukar KizzyRPC-biblioteket til å velja statusen for Discord-kontoen din. Dette inneber bruk av Discord Gateway-tilkoplinga, noko som kan reknast som eit brot på bruksvilkåra til Discord. Det finst likevel ingen kjende tilfelle der brukarkontoar har vorte suspenderte av denne grunnen. Bruk på eige ansvar.\nchomusic hentar berre tokenet ditt, og alt anna vert lagra lokalt.</string>
     <string name="dismiss">Lukk</string>
     <string name="options">Val</string>
     <string name="preview">Førehandsvising</string>
-    <string name="enable_discord_rpc">Slå på Rich Presence</string>
     <string name="about">Om</string>
     <string name="app_version">Appversjon</string>
     <string name="new_version_available">Ein ny versjon er tilgjengeleg</string>
