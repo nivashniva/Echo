@@ -75,10 +75,7 @@ object AiRecommendationHelper {
         // 2. Query AI Provider
         onLog?.invoke("Connecting to AI Provider...")
         val aiProvider = context.dataStore.get(AiProviderKey, "OpenRouter")
-        val jsonOutput = if (aiProvider == "Puter") {
-            onLog?.invoke("Puter provider is not available. Select OpenRouter or configure a supported AI provider.")
-            return@withContext
-        } else {
+        val jsonOutput = run {
             val apiKey = context.dataStore.get(OpenRouterApiKey, "")
             val baseUrl = context.dataStore.get(OpenRouterBaseUrlKey, "https://openrouter.ai/api/v1/chat/completions")
             val model = context.dataStore.get(OpenRouterModelKey, "google/gemini-2.5-flash-lite")
