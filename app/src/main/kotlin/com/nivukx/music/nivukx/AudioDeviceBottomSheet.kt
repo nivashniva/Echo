@@ -1,6 +1,7 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 
 package com.nivukx.music.nivukx
+import com.nivukx.music.ui.motion.nivukxHighEndReveal
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -349,6 +350,7 @@ fun AudioDeviceBottomSheet(onDismiss: () -> Unit, modifier: Modifier = Modifier)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .nivukxHighEndReveal(offsetY = 10f, initialScale = 0.99f)
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 24.dp)
                 .animateContentSize()
