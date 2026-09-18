@@ -2952,13 +2952,12 @@ class MusicService :
 
             
             val lockedQuality = audioQuality
-            val strictLossless = lockedQuality == com.nivukx.music.constants.AudioQuality.LOSSLESS_WHEN_AVAILABLE
             val qualityCacheKey = "${mediaId}_${lockedQuality.name}"
-            val cacheKey = if (strictLossless) qualityCacheKey else mediaId
+            val cacheKey = qualityCacheKey
             val shouldBypassCache = bypassCacheForQualityChange.contains(mediaId)
 
-            // Lossless never consumes the legacy mediaId-only cache because it can contain
-            // compressed bytes from an earlier quality selection.
+            // Every quality uses its own cache identity so a format selected under one quality
+            // can never be replayed after the user changes to another quality.
             val cachedLength = androidx.media3.datasource.cache.ContentMetadata.getContentLength(
                 downloadCache.getContentMetadata(cacheKey)
             ).takeIf { it != androidx.media3.common.C.LENGTH_UNSET.toLong() } ?: -1L
@@ -2981,10 +2980,9 @@ class MusicService :
                         scope.launch(Dispatchers.IO) { recoverSong(mediaId, isOfflinePlayback = true) }
                         return@Factory dataSpec.withUri(it.first.toUri())
                     }
-                    if (strictLossless) {
-                        return@Factory dataSpec.buildUpon().setKey(cacheKey).build()
-                    }
-                    // Fall through to fetch a fresh URL for legacy non-lossless cache behavior.
+                    // Cache bytes are already isolated by qualityCacheKey. When the matching
+                    // quality exists, keep using it; never reinterpret it as another quality.
+                    return@Factory dataSpec.buildUpon().setKey(cacheKey).build()
                 }
 
                 if (playerCache.isCached(cacheKey, dataSpec.position, CHUNK_LENGTH)) {
@@ -2992,11 +2990,7 @@ class MusicService :
                         scope.launch(Dispatchers.IO) { recoverSong(mediaId, isOfflinePlayback = true) }
                         return@Factory dataSpec.withUri(it.first.toUri())
                     }
-                    if (strictLossless) {
-                        return@Factory dataSpec.buildUpon().setKey(cacheKey).build()
-                    }
-                    Timber.tag(TAG).w("Ghost cache entry for $mediaId, re-fetching")
-                    playerCache.removeResource(cacheKey)
+                    return@Factory dataSpec.buildUpon().setKey(cacheKey).build()
                 }
 
                 songUrlCache["${mediaId}_${lockedQuality.name}"]?.takeIf { it.second > System.currentTimeMillis() }?.let {
