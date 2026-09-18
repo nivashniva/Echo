@@ -77,7 +77,7 @@ highlightKey: String? = null) {
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
             try {
-                val url = java.net.URL("https://api.github.com/repos/EchoMusicApp/Echo-Music/contributors")
+                val url = java.net.URL("https://api.github.com/repos/nivash01/Echo/contributors")
                 val json = url.openStream().bufferedReader().use { it.readText() }
                 val array = JSONArray(json)
                 val list = mutableListOf<Contributor>()
@@ -247,8 +247,8 @@ highlightKey: String? = null) {
                     AboutActionRow(
                         icon = painterResource(R.drawable.github),
                         title = "GitHub",
-                        subtitle = "EchoMusicApp/Echo-Music",
-                        onClick = { uriHandler.openUri("https://github.com/EchoMusicApp/Echo-Music") },
+                        subtitle = "nivash01/Echo",
+                        onClick = { uriHandler.openUri("https://github.com/nivash01/Echo") },
                     )
                     AboutDivider()
                     AboutActionRow(
