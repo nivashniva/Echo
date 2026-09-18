@@ -194,7 +194,7 @@ fun LoginScreen(
 
                             Spacer(Modifier.height(20.dp))
                             Text(
-                                text = "Sign in to Echo",
+                                text = "Sign in to Nivukx",
                                 style = MaterialTheme.typography.headlineSmall,
                                 fontWeight = FontWeight.Bold
                             )
