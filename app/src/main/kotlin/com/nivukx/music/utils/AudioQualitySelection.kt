@@ -1,9 +1,9 @@
-package echo.music.iad1tya.utils
+package com.nivukx.music.utils
 
 import android.content.Context
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.AudioQuality
-import echo.music.iad1tya.constants.DownloadQuality
+import com.nivukx.music.R
+import com.nivukx.music.constants.AudioQuality
+import com.nivukx.music.constants.DownloadQuality
 
 fun AudioQuality.userVisibleLabel(context: Context): String =
     when (this) {
