@@ -11,7 +11,6 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.awaitCancellation
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,7 +29,7 @@ class PlaybackUrlResolver @Inject constructor(
     )
 
     private data class CachedUrl(
-        val url: String,
+        val playback: com.nivukx.music.utils.PlaybackData,
         val expiresAtMs: Long,
     )
 
@@ -40,11 +39,11 @@ class PlaybackUrlResolver @Inject constructor(
     private val cache = ConcurrentHashMap<Key, CachedUrl>()
     private val inFlight = ConcurrentHashMap<Key, Deferred<Result<String>>>()
 
-    fun cached(videoId: String, audioQuality: AudioQuality): String? {
+    fun cached(videoId: String, audioQuality: AudioQuality): com.nivukx.music.utils.PlaybackData? {
         val key = Key(videoId, audioQuality)
         val entry = cache[key] ?: return null
         if (entry.expiresAtMs > System.currentTimeMillis() + CACHE_SAFETY_WINDOW_MS) {
-            return entry.url
+            return entry.playback
         }
         cache.remove(key, entry)
         return null
@@ -60,7 +59,7 @@ class PlaybackUrlResolver @Inject constructor(
     suspend fun resolve(
         videoId: String,
         audioQuality: AudioQuality,
-    ): Result<String> {
+    ): Result<com.nivukx.music.utils.PlaybackData> {
         cached(videoId, audioQuality)?.let { return Result.success(it) }
 
         val key = Key(videoId, audioQuality)
@@ -73,7 +72,7 @@ class PlaybackUrlResolver @Inject constructor(
                 ).map { playback ->
                     val ttlSeconds = playback.streamExpiresInSeconds.coerceAtLeast(MIN_STREAM_TTL_SECONDS)
                     cache[key] = CachedUrl(
-                        url = playback.streamUrl,
+                        playback = playback,
                         expiresAtMs = System.currentTimeMillis() + ttlSeconds * 1000L,
                     )
                     playback.streamUrl
@@ -93,7 +92,7 @@ class PlaybackUrlResolver @Inject constructor(
     fun resolveBlocking(
         videoId: String,
         audioQuality: AudioQuality,
-    ): Result<String> = runBlocking {
+    ): Result<com.nivukx.music.utils.PlaybackData> = runBlocking {
         resolve(videoId, audioQuality)
     }
 
