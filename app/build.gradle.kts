@@ -18,15 +18,28 @@ plugins {
 }
 
 val nivukxApplicationId = "com.nivukx.music"
+val nivukxFirebasePackageIds = setOf(
+    nivukxApplicationId,
+    "$nivukxApplicationId.debug",
+)
 val googleServicesConfig = file("google-services.json")
 val hasGoogleServicesConfig = googleServicesConfig.exists() && runCatching {
     val root = JsonSlurper().parse(googleServicesConfig) as? Map<*, *>
+    val projectInfo = root?.get("project_info") as? Map<*, *>
+    val projectId = projectInfo?.get("project_id")?.toString().orEmpty()
     val clients = root?.get("client") as? List<*>
-    clients?.any { client ->
-        val clientInfo = (client as? Map<*, *>)?.get("client_info") as? Map<*, *>
-        val androidClientInfo = clientInfo?.get("android_client_info") as? Map<*, *>
-        androidClientInfo?.get("package_name") == nivukxApplicationId
-    } == true
+    val registeredPackages = clients
+        ?.mapNotNull { client ->
+            val clientInfo = (client as? Map<*, *>)?.get("client_info") as? Map<*, *>
+            val androidClientInfo = clientInfo?.get("android_client_info") as? Map<*, *>
+            androidClientInfo?.get("package_name")?.toString()
+        }
+        ?.toSet()
+        .orEmpty()
+
+    projectId.isNotBlank() &&
+        !projectId.startsWith("REPLACE_WITH_") &&
+        registeredPackages.containsAll(nivukxFirebasePackageIds)
 }.getOrDefault(false)
 
 if (hasGoogleServicesConfig) {
