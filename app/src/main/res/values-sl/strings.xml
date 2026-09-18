@@ -352,12 +352,9 @@
     <string name="backup_create_success">Varnostna kopija je uspešno ustvarjena</string>
     <string name="backup_create_failed">Varnostne kopije ni bilo mogoče ustvariti</string>
     <string name="restore_failed">Obnova varnostne kopije ni uspela</string>
-    <string name="discord_integration">Integracija z Discordom</string>
-    <string name="discord_information">echomusic uporablja knjižnico KizzyRPC za nastavitev stanja vašega Discord računa. To vključuje uporabo povezave Discord Gateway, kar se lahko šteje za kršitev pogojev uporabe Discord. Vendar ni znanih primerov, da bi bili uporabniški računi zaradi tega suspendirani. Uporabljate na lastno odgovornost.\n\nechomusic bo izluščil samo vaš žeton, vse ostalo pa je shranjeno lokalno.</string>
     <string name="dismiss">Opusti</string>
     <string name="options">Možnosti</string>
     <string name="preview">Predogled</string>
-    <string name="enable_discord_rpc">Omogoči Rich Presence</string>
     <string name="about">O programu</string>
     <string name="app_version">Različica programa</string>
     <string name="new_version_available">Na voljo je nova različica</string>
