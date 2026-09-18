@@ -1,6 +1,7 @@
 
 
 package com.nivukx.music.ui.player
+import com.nivukx.music.ui.motion.nivukxHighEndReveal
 import com.nivukx.music.utils.isLocalMediaId
 
 import androidx.compose.animation.AnimatedVisibility
@@ -682,6 +683,7 @@ private fun ThumbnailItem(
         Box(
             modifier = Modifier
                 .size(dimensions.thumbnailSize)
+                .nivukxHighEndReveal(offsetY = 10f, initialScale = 0.99f)
                 .graphicsLayer {
                     rotationZ = rotation
                 }
