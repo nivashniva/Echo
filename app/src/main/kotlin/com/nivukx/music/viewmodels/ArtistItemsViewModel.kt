@@ -30,7 +30,7 @@ constructor(
     @ApplicationContext val context: Context,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val browseId = savedStateHandle.get<String>("browseId")!!
+    private val browseId = savedStateHandle.get<String>("browseId").orEmpty()
     private val params = savedStateHandle.get<String>("params")
 
     val title = MutableStateFlow("")
