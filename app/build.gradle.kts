@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 import java.net.URL
+import groovy.json.JsonSlurper
 
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
@@ -16,7 +17,17 @@ plugins {
     alias(libs.plugins.protobufPlugin)
 }
 
-val hasGoogleServicesConfig = file("google-services.json").exists()
+val nivukxApplicationId = "com.nivukx.music"
+val googleServicesConfig = file("google-services.json")
+val hasGoogleServicesConfig = googleServicesConfig.exists() && runCatching {
+    val root = JsonSlurper().parse(googleServicesConfig) as? Map<*, *>
+    val clients = root?.get("client") as? List<*>
+    clients?.any { client ->
+        val clientInfo = (client as? Map<*, *>)?.get("client_info") as? Map<*, *>
+        val androidClientInfo = clientInfo?.get("android_client_info") as? Map<*, *>
+        androidClientInfo?.get("package_name") == nivukxApplicationId
+    } == true
+}.getOrDefault(false)
 
 if (hasGoogleServicesConfig) {
     apply(plugin = "com.google.gms.google-services")
@@ -29,7 +40,7 @@ android {
     ndkVersion = "27.0.12077973"
 
     defaultConfig {
-        applicationId = "echo.music.iad1tya"
+        applicationId = nivukxApplicationId
         minSdk = 26
         targetSdk = 36
         versionCode = 156
