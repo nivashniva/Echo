@@ -1,4 +1,5 @@
 package com.nivukx.music.ui.screens.recognition
+import com.nivukx.music.ui.motion.nivukxHighEndReveal
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -178,7 +179,7 @@ fun RecognitionScreen(
         }
     }
     
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize().nivukxHighEndReveal()) {
         AnimatedContent(
             targetState = recognitionStatus,
             transitionSpec = {
