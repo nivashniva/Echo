@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.echomusic.updater
+package com.nivukx.music.echomusic.updater
 
 
 import android.content.Context
@@ -61,13 +61,13 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import echo.music.iad1tya.BuildConfig
-import echo.music.iad1tya.R
+import com.nivukx.music.BuildConfig
+import com.nivukx.music.R
 import coil3.compose.AsyncImage
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import echo.music.iad1tya.echomusic.updater.downloadmanager.UpdateDownloadWorker
-import echo.music.iad1tya.echomusic.updater.downloadmanager.DownloadNotificationManager
+import com.nivukx.music.echomusic.updater.downloadmanager.UpdateDownloadWorker
+import com.nivukx.music.echomusic.updater.downloadmanager.DownloadNotificationManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -79,24 +79,24 @@ import java.net.URL
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
-import echo.music.iad1tya.ui.component.ChangelogItem
-import echo.music.iad1tya.ui.component.leadingItemShape
-import echo.music.iad1tya.ui.component.middleItemShape
-import echo.music.iad1tya.ui.component.endItemShape
-import echo.music.iad1tya.ui.component.detachedItemShape
-import echo.music.iad1tya.ui.component.parseMarkdown
-import echo.music.iad1tya.ui.component.endItemShape
-import echo.music.iad1tya.ui.component.detachedItemShape
-import echo.music.iad1tya.ui.component.AnimatedActionButton
-import echo.music.iad1tya.ui.component.ExpressiveIconButton
-import echo.music.iad1tya.ui.component.ErrorSnackbar
+import com.nivukx.music.ui.component.ChangelogItem
+import com.nivukx.music.ui.component.leadingItemShape
+import com.nivukx.music.ui.component.middleItemShape
+import com.nivukx.music.ui.component.endItemShape
+import com.nivukx.music.ui.component.detachedItemShape
+import com.nivukx.music.ui.component.parseMarkdown
+import com.nivukx.music.ui.component.endItemShape
+import com.nivukx.music.ui.component.detachedItemShape
+import com.nivukx.music.ui.component.AnimatedActionButton
+import com.nivukx.music.ui.component.ExpressiveIconButton
+import com.nivukx.music.ui.component.ErrorSnackbar
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.foundation.lazy.LazyColumn
-import echo.music.iad1tya.ui.utils.parseMarkdownToSections
-import echo.music.iad1tya.ui.utils.parseSimpleMarkdown
+import com.nivukx.music.ui.utils.parseMarkdownToSections
+import com.nivukx.music.ui.utils.parseSimpleMarkdown
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -114,7 +114,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.layout.heightIn
-import echo.music.iad1tya.ui.component.DefaultDialog
+import com.nivukx.music.ui.component.DefaultDialog
 
 data class ChangelogSection(val title: String, val items: List<String>)
 
