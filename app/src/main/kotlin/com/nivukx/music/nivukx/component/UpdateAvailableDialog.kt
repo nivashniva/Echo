@@ -1,4 +1,4 @@
-package echo.music.iad1tya.echomusic.component
+package com.nivukx.music.echomusic.component
 
 import android.content.Intent
 import androidx.compose.foundation.layout.*
@@ -14,10 +14,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import echo.music.iad1tya.R
-import echo.music.iad1tya.echomusic.updater.ChangelogSection
-import echo.music.iad1tya.ui.utils.parseMarkdownToSections
-import echo.music.iad1tya.ui.utils.parseSimpleMarkdown
+import com.nivukx.music.R
+import com.nivukx.music.echomusic.updater.ChangelogSection
+import com.nivukx.music.ui.utils.parseMarkdownToSections
+import com.nivukx.music.ui.utils.parseSimpleMarkdown
 import racra.compose.smooth_corner_rect_library.AbsoluteSmoothCornerShape
 
 /**
