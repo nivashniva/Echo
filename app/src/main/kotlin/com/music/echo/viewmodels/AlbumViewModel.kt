@@ -1,14 +1,14 @@
 
 
-package echo.music.iad1tya.viewmodels
+package com.nivukx.music.viewmodels
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.music.innertube.YouTube
-import com.music.innertube.models.AlbumItem
-import echo.music.iad1tya.db.MusicDatabase
-import echo.music.iad1tya.utils.reportException
+import com.nivukx.innertube.YouTube
+import com.nivukx.innertube.models.AlbumItem
+import com.nivukx.music.db.MusicDatabase
+import com.nivukx.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,8 +16,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
-import echo.music.iad1tya.utils.Wikipedia
-import echo.music.iad1tya.utils.AppleMusicAboutAlbum
+import com.nivukx.music.utils.Wikipedia
+import com.nivukx.music.utils.AppleMusicAboutAlbum
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,7 +36,7 @@ constructor(
     var otherVersions = MutableStateFlow<List<AlbumItem>>(emptyList())
     var releasesForYou = MutableStateFlow<List<AlbumItem>>(emptyList())
     var description = MutableStateFlow<String?>(null)
-    var descriptionRuns = MutableStateFlow<List<com.music.innertube.models.Run>?>(null)
+    var descriptionRuns = MutableStateFlow<List<com.nivukx.innertube.models.Run>?>(null)
 
     init {
         viewModelScope.launch {
