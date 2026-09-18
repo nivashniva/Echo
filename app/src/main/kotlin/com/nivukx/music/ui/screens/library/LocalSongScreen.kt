@@ -727,8 +727,8 @@ private fun LocalSongScanSheet(
         !hasStoragePermission -> stringResource(R.string.local_songs_permission_body)
         hasSummary -> stringResource(
             R.string.local_songs_scan_summary,
-            lastSummary!!.scannedSongs,
-            lastSummary.removedSongs,
+            lastSummary?.scannedSongs ?: 0,
+            lastSummary?.removedSongs ?: 0,
         )
         else -> stringResource(R.string.local_songs_ready_desc)
     }
