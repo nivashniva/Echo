@@ -226,41 +226,6 @@ highlightKey: String? = null) {
                 )
             }
 
-            ,
-                            description = { Text("discord.gg/Xt5hgsJJuA") },
-                            onClick = { uriHandler.openUri("https://discord.gg/Xt5hgsJJuA") }
-                        )
-                    )
-                )
-            }
-
-
-
-            /* item {
-                AboutSectionCard(title = "App") {
-                    AboutActionRow(
-                        icon = painterResource(R.drawable.github),
-                        title = "GitHub",
-                        subtitle = "nivash01/Echo",
-                        onClick = { uriHandler.openUri("https://github.com/nivash01/Echo") },
-                    )
-                    AboutDivider()
-                    AboutActionRow(
-                        icon = painterResource(R.drawable.ic_discord_new),
-                        title = "Discord",
-                        subtitle = "discord.gg/EcfV3AxH5c",
-                        onClick = { uriHandler.openUri("https://discord.gg/EcfV3AxH5c") },
-                    )
-                    AboutDivider()
-                    AboutActionRow(
-                        icon = painterResource(R.drawable.ic_telegram_new),
-                        title = "Telegram",
-                        subtitle = "t.me/EchoMusicApp",
-                        onClick = { uriHandler.openUri("https://t.me/EchoMusicApp") },
-                    )
-                }
-            } */
-
 
 
         }
