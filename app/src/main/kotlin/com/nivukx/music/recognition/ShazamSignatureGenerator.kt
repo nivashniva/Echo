@@ -46,6 +46,8 @@ internal object ShazamSignatureGenerator {
     private class SignatureGeneratorState {
         
         private val samplesRing = IntArray(FFT_SIZE)
+        private val windowedSamples = DoubleArray(FFT_SIZE)
+        private val spreadScratch = DoubleArray(FFT_OUTPUT_SIZE)
         private var samplesPos = 0
 
         
@@ -90,10 +92,10 @@ internal object ShazamSignatureGenerator {
 
         private fun doFFT() {
             
-            val windowed = DoubleArray(FFT_SIZE) { i ->
-                samplesRing[(samplesPos + i) % FFT_SIZE].toDouble() * HANNING[i]
+            for (i in 0 until FFT_SIZE) {
+                windowedSamples[i] = samplesRing[(samplesPos + i) % FFT_SIZE].toDouble() * HANNING[i]
             }
-            val result = computeRfft(windowed)
+            val result = computeRfft(windowedSamples)
             result.copyInto(fftOutputs[fftPos])
             fftPos = (fftPos + 1) % RING_BUF_SIZE
             fftNumWritten++
@@ -109,7 +111,9 @@ internal object ShazamSignatureGenerator {
         private fun doPeakSpreading() {
             
             val lastFftIdx = (fftPos - 1 + RING_BUF_SIZE) % RING_BUF_SIZE
-            val spread = fftOutputs[lastFftIdx].copyOf()
+            val source = fftOutputs[lastFftIdx]
+            source.copyInto(spreadScratch)
+            val spread = spreadScratch
 
             
             for (pos in 0 until FFT_OUTPUT_SIZE - 2) {
