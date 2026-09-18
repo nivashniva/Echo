@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens
+package com.nivukx.music.ui.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
@@ -91,7 +91,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.foundation.layout.offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import echo.music.iad1tya.constants.AppBarHeight
+import com.nivukx.music.constants.AppBarHeight
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastForEachIndexed
@@ -100,36 +100,36 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.media3.exoplayer.offline.Download
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.LocalDownloadUtil
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.ui.component.HeartBurstIcon
-import echo.music.iad1tya.constants.HideExplicitKey
-import echo.music.iad1tya.constants.HideVideoSongsKey
-import echo.music.iad1tya.constants.AlbumCanvasEnabledKey
-import echo.music.iad1tya.db.entities.Album
-import echo.music.iad1tya.playback.ExoDownloadService
-import echo.music.iad1tya.playback.queues.LocalAlbumRadio
-import echo.music.iad1tya.ui.component.AlbumGradient
-import echo.music.iad1tya.ui.component.ExpandableText
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.LinkSegment
-import echo.music.iad1tya.ui.component.LocalMenuState
-import echo.music.iad1tya.ui.component.NavigationTitle
-import echo.music.iad1tya.ui.component.SongListItem
-import echo.music.iad1tya.ui.component.YouTubeGridItem
-import echo.music.iad1tya.ui.menu.AlbumMenu
-import echo.music.iad1tya.ui.menu.SelectionSongMenu
-import echo.music.iad1tya.ui.menu.SongMenu
-import echo.music.iad1tya.ui.menu.YouTubeAlbumMenu
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.ui.utils.fadingEdge
-import echo.music.iad1tya.ui.player.CanvasArtworkPlayer
-import echo.music.iad1tya.utils.listItemShape
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.viewmodels.AlbumViewModel
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.LocalDownloadUtil
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.ui.component.HeartBurstIcon
+import com.nivukx.music.constants.HideExplicitKey
+import com.nivukx.music.constants.HideVideoSongsKey
+import com.nivukx.music.constants.AlbumCanvasEnabledKey
+import com.nivukx.music.db.entities.Album
+import com.nivukx.music.playback.ExoDownloadService
+import com.nivukx.music.playback.queues.LocalAlbumRadio
+import com.nivukx.music.ui.component.AlbumGradient
+import com.nivukx.music.ui.component.ExpandableText
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.LinkSegment
+import com.nivukx.music.ui.component.LocalMenuState
+import com.nivukx.music.ui.component.NavigationTitle
+import com.nivukx.music.ui.component.SongListItem
+import com.nivukx.music.ui.component.YouTubeGridItem
+import com.nivukx.music.ui.menu.AlbumMenu
+import com.nivukx.music.ui.menu.SelectionSongMenu
+import com.nivukx.music.ui.menu.SongMenu
+import com.nivukx.music.ui.menu.YouTubeAlbumMenu
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.ui.utils.fadingEdge
+import com.nivukx.music.ui.player.CanvasArtworkPlayer
+import com.nivukx.music.utils.listItemShape
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.viewmodels.AlbumViewModel
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -157,7 +157,7 @@ fun AlbumScreen(
     val description by viewModel.description.collectAsState()
     val descriptionRuns by viewModel.descriptionRuns.collectAsState()
     val hideExplicit by rememberPreference(key = HideExplicitKey, defaultValue = false)
-    val dataSaverEnabled by rememberPreference(key = echo.music.iad1tya.constants.DataSaverEnabledKey, defaultValue = false)
+    val dataSaverEnabled by rememberPreference(key = com.nivukx.music.constants.DataSaverEnabledKey, defaultValue = false)
     val hideVideoSongsPref by rememberPreference(key = HideVideoSongsKey, defaultValue = false)
     val hideVideoSongs = if (dataSaverEnabled) true else hideVideoSongsPref
     val albumCanvasEnabledPref by rememberPreference(key = AlbumCanvasEnabledKey, defaultValue = false)
