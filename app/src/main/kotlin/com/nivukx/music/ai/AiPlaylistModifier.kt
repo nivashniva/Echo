@@ -71,10 +71,7 @@ object AiPlaylistModifier {
             }
         """.trimIndent()
 
-        val jsonOutput = if (aiProvider == "Puter") {
-            onLog("Puter is not implemented yet. Using dummy data.")
-            "{}"
-        } else {
+        val jsonOutput = run {
             val apiKey = context.dataStore.get(OpenRouterApiKey, "")
             val baseUrl = context.dataStore.get(OpenRouterBaseUrlKey, "https://openrouter.ai/api/v1/chat/completions")
             val model = context.dataStore.get(OpenRouterModelKey, "google/gemini-2.5-flash-lite")
