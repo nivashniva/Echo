@@ -3,6 +3,7 @@
 package com.nivukx.music.ui.component
 
 import androidx.compose.animation.core.animateFloatAsState
+import com.nivukx.music.ui.motion.NivukxMotion
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -67,6 +68,11 @@ fun WavySlider(
         targetValue = if (isPlaying) 1f else 0f,
         animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
         label = "amplitude"
+    )
+    val dragThumbScale by animateFloatAsState(
+        targetValue = if (isDragging) 1.14f else 1f,
+        animationSpec = NivukxMotion.MagneticSpring,
+        label = "nivukxWavyThumbScale",
     )
     
     val activeColor = colors.activeTrackColor
@@ -141,7 +147,7 @@ fun WavySlider(
             
             drawCircle(
                 color = thumbColor,
-                radius = thumbRadiusPx,
+                radius = thumbRadiusPx * dragThumbScale,
                 center = Offset(thumbX, thumbY)
             )
         }
