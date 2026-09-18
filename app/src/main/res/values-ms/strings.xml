@@ -312,12 +312,9 @@
     <string name="backup_create_success">Sandaran berjaya dicipta</string>
     <string name="backup_create_failed">Tidak dapat mencipta sandaran</string>
     <string name="restore_failed">Gagal memulihkan sandaran</string>
-    <string name="discord_integration">Penyepaduan Discord</string>
-    <string name="discord_information">echomusic menggunakan pustaka KizzyRPC untuk menetapkan status akaun Discord anda. Ini melibatkan penggunaan sambungan Discord Gateway yang mungkin dianggap sebagai pelanggaran Syarat Perkhidmatan Discord. Walau bagaimanapun, tiada kes akaun pengguna digantung atas sebab ini yang diketahui. Gunakan atas risiko anda sendiri.\nchomusic hanya akan mengekstrak token anda dan semua yang lain disimpan secara setempat.</string>
     <string name="dismiss">Tutup</string>
     <string name="options">Pilihan</string>
     <string name="preview">Pratonton</string>
-    <string name="enable_discord_rpc">Dayakan Rich Presence</string>
     <string name="about">Perihal</string>
     <string name="app_version">Versi aplikasi</string>
     <string name="new_version_available">Versi baharu tersedia</string>
