@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.playback
+package com.nivukx.music.playback
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -15,7 +15,7 @@ import androidx.media3.exoplayer.offline.DownloadNotificationHelper
 import androidx.media3.exoplayer.offline.DownloadService
 import androidx.media3.exoplayer.scheduler.PlatformScheduler
 import androidx.media3.exoplayer.scheduler.Scheduler
-import echo.music.iad1tya.R
+import com.nivukx.music.R
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
