@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.utils
+package com.nivukx.music.ui.utils
 
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.CornerSize
