@@ -350,12 +350,9 @@
     <string name="backup_create_success">Cruthaíodh an cúltaca go rathúil</string>
     <string name="backup_create_failed">Níorbh fhéidir cúltaca a chruthú</string>
     <string name="restore_failed">Theip ar athchóiriú an chúltaca</string>
-    <string name="discord_integration">Comhtháthú Discord</string>
-    <string name="discord_information">Úsáideann echomusic leabharlann KizzyRPC chun stádas do chuntais Discord a shocrú. Baineann sé seo úsáid as nasc Discord Gateway, rud a d’fhéadfaí a mheas gur sárú ar Théarmaí Seirbhíse Discord é. Mar sin féin, níl aon chás aitheanta ann inar cuireadh cuntas úsáideora ar fionraí ar an gcúis seo. Úsáid ar do phriacal féin.\nNí bhainfidh chomusic ach do chomhartha amach, agus stórálfar gach rud eile go háitiúil.</string>
     <string name="dismiss">Dífhostaigh</string>
     <string name="options">Roghanna</string>
     <string name="preview">Réamhamharc</string>
-    <string name="enable_discord_rpc">Cumasaigh Rich Presence</string>
     <string name="about">Maidir leis</string>
     <string name="app_version">Leagan na haipe</string>
     <string name="new_version_available">Tá leagan nua ar fáil</string>
