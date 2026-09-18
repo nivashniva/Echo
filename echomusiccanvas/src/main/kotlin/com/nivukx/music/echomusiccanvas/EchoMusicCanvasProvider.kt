@@ -1,6 +1,6 @@
-package echo.music.iad1tya.echomusiccanvas
+package com.nivukx.music.echomusiccanvas
 
-import echo.music.iad1tya.canvas.CanvasArtwork
+import com.nivukx.music.canvas.CanvasArtwork
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
