@@ -379,15 +379,6 @@ fun AccountSettingsScreen(
                 title = stringResource(R.string.integrations),
                 items = listOf(
                     Material3SettingsItem(
-                        isHighlighted = (highlightKey == stringResource(R.string.discord)),
-                        icon = painterResource(R.drawable.discord),
-                        title = { Text(stringResource(R.string.discord)) },
-                        description = { Text(stringResource(R.string.discord_integration_desc)) },
-                        onClick = {
-                            navController.navigate("settings/discord")
-                        }
-                    ),
-                    Material3SettingsItem(
                         isHighlighted = (highlightKey == stringResource(R.string.lastfm_integration)),
                         icon = painterResource(R.drawable.ic_lastfm),
                         title = { Text(stringResource(R.string.lastfm_integration)) },
