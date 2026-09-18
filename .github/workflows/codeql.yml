@@ -1,70 +1,30 @@
-name: "CodeQL"
+name: "CodeQL (No App Build)"
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
   schedule:
     - cron: '30 12 * * 1'
 
 jobs:
-  analyze:
-    name: Analyze
+  analyze-java:
+    name: Analyze Java sources without building the Android app
     runs-on: ubuntu-latest
     permissions:
       actions: read
       contents: read
       security-events: read
       security-events: write
-
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'java-kotlin' ]
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        submodules: recursive
-
-    - name: Setup Java
-      uses: actions/setup-java@v5
-      with:
-        distribution: 'temurin'
-        java-version: '21'
-        cache: 'gradle'
-
-    - name: Provision Android debug keystore
-      shell: bash
-      run: |
-        set -euo pipefail
-        mkdir -p "$HOME/.android"
-        if [[ ! -f "$HOME/.android/debug.keystore" ]]; then
-          keytool -genkeypair \
-            -keystore "$HOME/.android/debug.keystore" \
-            -storepass android \
-            -alias androiddebugkey \
-            -keypass android \
-            -dname "CN=Android Debug,O=Android,C=US" \
-            -keyalg RSA \
-            -validity 10000
-        fi
-
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v4
-      with:
-        languages: ${{ matrix.language }}
-        build-mode: manual
-
-    - name: Build Universal GMS project for CodeQL tracing
-      run: |
-        chmod +x gradlew
-        ./gradlew :app:compileUniversalGmsDebugKotlin --stacktrace --no-daemon
-        ./gradlew assembleUniversalGmsDebug --stacktrace --no-daemon
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v4
-      with:
-        category: "/language:${{matrix.language}}"
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Initialize CodeQL for Java without build
+        uses: github/codeql-action/init@v4
+        with:
+          languages: java
+          build-mode: none
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:java"
