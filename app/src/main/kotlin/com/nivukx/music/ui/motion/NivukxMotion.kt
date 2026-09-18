@@ -520,16 +520,16 @@ fun Modifier.nivukxGestureDepth(
  */
 fun stateContentTransform(): ContentTransform =
     (
-        fadeIn(tween(260, easing = PremiumEasing)) +
+        fadeIn(tween(260, easing = NivukxMotion.PremiumEasing)) +
             scaleIn(
                 initialScale = 0.988f,
-                animationSpec = tween(260, easing = PremiumEasing),
+                animationSpec = tween(260, easing = NivukxMotion.PremiumEasing),
             )
     ).togetherWith(
-        fadeOut(tween(140, easing = ExitEasing)) +
+        fadeOut(tween(140, easing = NivukxMotion.ExitEasing)) +
             scaleOut(
                 targetScale = 0.996f,
-                animationSpec = tween(140, easing = ExitEasing),
+                animationSpec = tween(140, easing = NivukxMotion.ExitEasing),
             )
     )
 
@@ -627,3 +627,11 @@ fun Modifier.nivukxFocusMotion(active: Boolean): Modifier {
         this.alpha = alpha
     }
 }
+
+@Composable
+fun Modifier.nivukxThemeReactiveGlow(active: Boolean): Modifier =
+    nivukxReactiveGlow(active = active)
+
+@Composable
+fun Modifier.nivukxSearchFocusMotion(active: Boolean): Modifier =
+    nivukxFocusMotion(active = active)

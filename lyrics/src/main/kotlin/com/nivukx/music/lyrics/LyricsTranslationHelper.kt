@@ -72,7 +72,7 @@ object LyricsTranslationHelper {
         val digest = MessageDigest.getInstance("SHA-256")
             .digest(lyricsText.toByteArray(Charsets.UTF_8))
         val textKey = digest.joinToString("") { "%02x".format(it) }
-        return "$textKey_${mode}_$language"
+        return "${textKey}_${mode}_$language"
     }
 
     

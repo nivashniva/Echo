@@ -1,0 +1,243 @@
+[1mdiff --git a/app/build.gradle.kts b/app/build.gradle.kts[m
+[1mindex 345856e..d94ed81 100644[m
+[1m--- a/app/build.gradle.kts[m
+[1m+++ b/app/build.gradle.kts[m
+[36m@@ -203,7 +203,10 @@[m [mandroid {[m
+             useLegacyPackaging = true[m
+             keepDebugSymbols += listOf([m
+                 "**/libandroidx.graphics.path.so",[m
+[31m-                "**/libdatastore_shared_counter.so"[m
+[32m+[m[32m                "**/libdatastore_shared_counter.so",[m
+[32m+[m[32m                // Termux/ARM64 builds cannot execute the x86_64 NDK objcopy[m
+[32m+[m[32m                // binary used by AGP's native-symbol stripping task.[m
+[32m+[m[32m                "**/*.so"[m
+             )[m
+         }[m
+         resources {[m
+[36m@@ -220,7 +223,12 @@[m [mandroid {[m
+ [m
+ protobuf {[m
+     protoc {[m
+[31m-        artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"[m
+[32m+[m[32m        val localProtoc = providers.gradleProperty("protocPath").orNull[m
+[32m+[m[32m        if (localProtoc != null) {[m
+[32m+[m[32m            path = localProtoc[m
+[32m+[m[32m        } else {[m
+[32m+[m[32m            artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"[m
+[32m+[m[32m        }[m
+     }[m
+     generateProtoTasks {[m
+         all().forEach { task ->[m
+[1mdiff --git a/app/src/main/kotlin/com/nivukx/music/MainActivity.kt b/app/src/main/kotlin/com/nivukx/music/MainActivity.kt[m
+[1mindex 91819ac..497b7eb 100644[m
+[1m--- a/app/src/main/kotlin/com/nivukx/music/MainActivity.kt[m
+[1m+++ b/app/src/main/kotlin/com/nivukx/music/MainActivity.kt[m
+[36m@@ -1,6 +1,8 @@[m
+ [m
+ [m
+ package com.nivukx.music[m
+[32m+[m
+[32m+[m[32mimport com.nivukx.music.ui.motion.NivukxMotion[m
+ import com.nivukx.music.R[m
+ import com.nivukx.music.BuildConfig[m
+ import com.nivukx.music.ui.screens.settings.RingtoneViewModel[m
+[1mdiff --git a/app/src/main/kotlin/com/nivukx/music/ui/component/Items.kt b/app/src/main/kotlin/com/nivukx/music/ui/component/Items.kt[m
+[1mindex 3052abd..79a4f16 100644[m
+[1m--- a/app/src/main/kotlin/com/nivukx/music/ui/component/Items.kt[m
+[1m+++ b/app/src/main/kotlin/com/nivukx/music/ui/component/Items.kt[m
+[36m@@ -2,6 +2,8 @@[m
+ [m
+ package com.nivukx.music.ui.component[m
+ [m
+[32m+[m[32mimport com.nivukx.music.ui.motion.nivukxItemReveal[m
+[32m+[m
+ import android.widget.Toast[m
+ import androidx.compose.animation.AnimatedVisibility[m
+ import androidx.compose.animation.core.animate[m
+[36m@@ -1824,4 +1826,3 @@[m [mobject Icon {[m
+ }[m
+ [m
+ [m
+[31m-[m
+[1mdiff --git a/app/src/main/kotlin/com/nivukx/music/ui/component/PlayingIndicator.kt b/app/src/main/kotlin/com/nivukx/music/ui/component/PlayingIndicator.kt[m
+[1mindex b1ed90b..9a82a36 100644[m
+[1m--- a/app/src/main/kotlin/com/nivukx/music/ui/component/PlayingIndicator.kt[m
+[1m+++ b/app/src/main/kotlin/com/nivukx/music/ui/component/PlayingIndicator.kt[m
+[36m@@ -75,8 +75,8 @@[m [mfun PlayingIndicator([m
+             ) {[m
+                 drawRoundRect([m
+                     color = color,[m
+[31m-                    topLeft = Offset(x = 0f, y = size.height * (1 - animatable.value)),[m
+[31m-                    size = size.copy(height = animatable.value * size.height),[m
+[32m+[m[32m                    topLeft = Offset(x = 0f, y = size.height * (1 - progress.value)),[m
+[32m+[m[32m                    size = size.copy(height = progress.value * size.height),[m
+                     cornerRadius = CornerRadius(cornerRadius.toPx()),[m
+                 )[m
+             }[m
+[1mdiff --git a/app/src/main/kotlin/com/nivukx/music/ui/motion/NivukxMotion.kt b/app/src/main/kotlin/com/nivukx/music/ui/motion/NivukxMotion.kt[m
+[1mindex 2ac6cbb..d58dd0a 100644[m
+[1m--- a/app/src/main/kotlin/com/nivukx/music/ui/motion/NivukxMotion.kt[m
+[1m+++ b/app/src/main/kotlin/com/nivukx/music/ui/motion/NivukxMotion.kt[m
+[36m@@ -520,16 +520,16 @@[m [mfun Modifier.nivukxGestureDepth([m
+  */[m
+ fun stateContentTransform(): ContentTransform =[m
+     ([m
+[31m-        fadeIn(tween(260, easing = PremiumEasing)) +[m
+[32m+[m[32m        fadeIn(tween(260, easing = NivukxMotion.PremiumEasing)) +[m
+             scaleIn([m
+                 initialScale = 0.988f,[m
+[31m-                animationSpec = tween(260, easing = PremiumEasing),[m
+[32m+[m[32m                animationSpec = tween(260, easing = NivukxMotion.PremiumEasing),[m
+             )[m
+     ).togetherWith([m
+[31m-        fadeOut(tween(140, easing = ExitEasing)) +[m
+[32m+[m[32m        fadeOut(tween(140, easing = NivukxMotion.ExitEasing)) +[m
+             scaleOut([m
+                 targetScale = 0.996f,[m
+[31m-                animationSpec = tween(140, easing = ExitEasing),[m
+[32m+[m[32m                animationSpec = tween(140, easing = NivukxMotion.ExitEasing),[m
+             )[m
+     )[m
+ [m
+[36m@@ -627,3 +627,11 @@[m [mfun Modifier.nivukxFocusMotion(active: Boolean): Modifier {[m
+         this.alpha = alpha[m
+     }[m
+ }[m
+[32m+[m
+[32m+[m[32m@Composable[m
+[32m+[m[32mfun Modifier.nivukxThemeReactiveGlow(active: Boolean): Modifier =[m
+[32m+[m[32m    nivukxReactiveGlow(active = active)[m
+[32m+[m
+[32m+[m[32m@Composable[m
+[32m+[m[32mfun Modifier.nivukxSearchFocusMotion(active: Boolean): Modifier =[m
+[32m+[m[32m    nivukxFocusMotion(active = active)[m
+[1mdiff --git a/app/src/main/kotlin/com/nivukx/music/ui/player/Player.kt b/app/src/main/kotlin/com/nivukx/music/ui/player/Player.kt[m
+[1mindex e8cd142..9f77ec8 100644[m
+[1m--- a/app/src/main/kotlin/com/nivukx/music/ui/player/Player.kt[m
+[1m+++ b/app/src/main/kotlin/com/nivukx/music/ui/player/Player.kt[m
+[36m@@ -2,6 +2,10 @@[m
+ [m
+ package com.nivukx.music.ui.player[m
+ [m
+[32m+[m[32mimport com.nivukx.music.ui.motion.NivukxMotion[m
+[32m+[m[32mimport com.nivukx.music.ui.motion.nivukxArtworkTransition[m
+[32m+[m[32mimport com.nivukx.music.ui.motion.nivukxPressDepth[m
+[32m+[m
+ import android.content.ClipData[m
+ import android.content.ClipboardManager[m
+ import android.content.Context[m
+[1mdiff --git a/app/src/main/kotlin/com/nivukx/music/ui/screens/settings/PlayerSettings.kt b/app/src/main/kotlin/com/nivukx/music/ui/screens/settings/PlayerSettings.kt[m
+[1mindex c06da1e..f1b7b06 100644[m
+[1m--- a/app/src/main/kotlin/com/nivukx/music/ui/screens/settings/PlayerSettings.kt[m
+[1m+++ b/app/src/main/kotlin/com/nivukx/music/ui/screens/settings/PlayerSettings.kt[m
+[36m@@ -907,7 +907,7 @@[m [mhighlightKey: String? = null) {[m
+                 ))[m
+                 add(Material3SettingsItem([m
+     isHighlighted = (highlightKey == stringResource(R.string.echo_equalizer)),[m
+[31m-                    icon = painterResource(R.drawable.echoequlizer),[m
+[32m+[m[32m                    icon = painterResource(R.drawable.nivukx_equalizer),[m
+                     title = { Text(stringResource(R.string.echo_equalizer)) },[m
+                     description = { Text(stringResource(R.string.echo_equalizer_desc)) },[m
+                     onClick = { navController.navigate("settings/equalizer") }[m
+[1mdiff --git a/app/src/main/kotlin/com/nivukx/music/utils/YTPlayerUtils.kt b/app/src/main/kotlin/com/nivukx/music/utils/YTPlayerUtils.kt[m
+[1mindex 7922646..dc51aa7 100644[m
+[1m--- a/app/src/main/kotlin/com/nivukx/music/utils/YTPlayerUtils.kt[m
+[1m+++ b/app/src/main/kotlin/com/nivukx/music/utils/YTPlayerUtils.kt[m
+[36m@@ -923,7 +923,7 @@[m [mobject YTPlayerUtils {[m
+         val mimeLower = format.mimeType.lowercase()[m
+         val codecLower = format.mimeType[m
+             .substringAfter("codecs=", "")[m
+[31m-            .removeSurrounding(""")[m
+[32m+[m[32m            .removeSurrounding("\"")[m
+             .lowercase()[m
+ [m
+         return mimeLower.startsWith("audio/webm") &&[m
+[36m@@ -1006,7 +1006,7 @@[m [mobject YTPlayerUtils {[m
+      *[m
+      * Remaining known discrepancy: we send `Cookie` here and ExoPlayer does not.[m
+      */[m
+[31m-    private fun validateStatus(url: String, contentLength: Long? = null, label: String = ""): Boolean {[m
+[32m+[m[32m    internal fun validateStatus(url: String, contentLength: Long? = null, label: String = ""): Boolean {[m
+         Timber.tag(logTag).d("Validating stream URL status")[m
+         try {[m
+             // Last byte when we know the size, else the first chunk ExoPlayer will ask for.[m
+[36m@@ -1053,7 +1053,7 @@[m [mobject YTPlayerUtils {[m
+         val isAgeRestricted: Boolean[m
+     )[m
+ [m
+[31m-    private fun getSignatureTimestampOrNull(videoId: String): SignatureTimestampResult {[m
+[32m+[m[32m    internal fun getSignatureTimestampOrNull(videoId: String): SignatureTimestampResult {[m
+         Timber.tag(logTag).d("Getting signature timestamp for videoId: $videoId")[m
+         val result = NewPipeExtractor.getSignatureTimestamp(videoId)[m
+         return result.fold([m
+[36m@@ -1076,7 +1076,7 @@[m [mobject YTPlayerUtils {[m
+         )[m
+     }[m
+ [m
+[31m-    private suspend fun findUrlOrNull([m
+[32m+[m[32m    internal suspend fun findUrlOrNull([m
+         format: PlayerResponse.StreamingData.Format,[m
+         videoId: String,[m
+         playerResponse: PlayerResponse,[m
+[1mdiff --git a/app/src/test/kotlin/com/nivukx/music/utils/YTPlayerUtilsLosslessTest.kt b/app/src/test/kotlin/com/nivukx/music/utils/YTPlayerUtilsLosslessTest.kt[m
+[1mindex 5dd199c..74a0279 100644[m
+[1m--- a/app/src/test/kotlin/com/nivukx/music/utils/YTPlayerUtilsLosslessTest.kt[m
+[1m+++ b/app/src/test/kotlin/com/nivukx/music/utils/YTPlayerUtilsLosslessTest.kt[m
+[36m@@ -125,10 +125,18 @@[m [mclass YTPlayerUtilsLosslessTest {[m
+         assertEquals(null, selected)[m
+     }[m
+ [m
+[32m+[m[32m    @Test[m
+[32m+[m[32m    fun audioSelectionReturnsNullForEmptyFormatList() {[m
+[32m+[m[32m        assertEquals([m
+[32m+[m[32m            null,[m
+[32m+[m[32m            YTPlayerUtils.selectAudioFormat(emptyList(), AudioQuality.AUTO),[m
+[32m+[m[32m        )[m
+[32m+[m[32m    }[m
+[32m+[m
+     @Test[m
+     fun losslessDetectorAcceptsLosslessCodecs() {[m
+         assertTrue(YTPlayerUtils.isGenuinelyLosslessFormat(format("audio/mp4; codecs=\"alac\"", 1200000)))[m
+         assertTrue(YTPlayerUtils.isGenuinelyLosslessFormat(format("audio/l16", 1536000)))[m
+         assertTrue(YTPlayerUtils.isGenuinelyLosslessFormat(format("audio/wav", 1411200)))[m
+     }[m
+[31m-}[m
+\ No newline at end of file[m
+[32m+[m[32m}[m
+[1mdiff --git a/core/src/main/kotlin/com/nivukx/music/utils/DataStore.kt b/core/src/main/kotlin/com/nivukx/music/utils/DataStore.kt[m
+[1mindex 59476f5..974ea45 100644[m
+[1m--- a/core/src/main/kotlin/com/nivukx/music/utils/DataStore.kt[m
+[1m+++ b/core/src/main/kotlin/com/nivukx/music/utils/DataStore.kt[m
+[36m@@ -82,4 +82,6 @@[m [minline fun <reified T : Enum<T>> enumPreference([m
+     context: Context,[m
+     key: Preferences.Key<String>,[m
+     defaultValue: T,[m
+[31m-) = ReadOnlyProperty<Any?, T> { _, _ -> context.dataStore.get(key, defaultValue).toEnum(defaultValue) }[m
+[32m+[m[32m) = ReadOnlyProperty<Any?, T> { _, _ ->[m
+[32m+[m[32m    context.dataStore.get(key, defaultValue.name).toEnum(defaultValue)[m
+[32m+[m[32m}[m
+[1mdiff --git a/lyrics/src/main/kotlin/com/nivukx/music/lyrics/LyricsTranslationHelper.kt b/lyrics/src/main/kotlin/com/nivukx/music/lyrics/LyricsTranslationHelper.kt[m
+[1mindex d076323..89c0dd6 100644[m
+[1m--- a/lyrics/src/main/kotlin/com/nivukx/music/lyrics/LyricsTranslationHelper.kt[m
+[1m+++ b/lyrics/src/main/kotlin/com/nivukx/music/lyrics/LyricsTranslationHelper.kt[m
+[36m@@ -72,7 +72,7 @@[m [mobject LyricsTranslationHelper {[m
+         val digest = MessageDigest.getInstance("SHA-256")[m
+             .digest(lyricsText.toByteArray(Charsets.UTF_8))[m
+         val textKey = digest.joinToString("") { "%02x".format(it) }[m
+[31m-        return "$textKey_${mode}_$language"[m
+[32m+[m[32m        return "${textKey}_${mode}_$language"[m
+     }[m
+ [m
+     [m
+[1mdiff --git a/upcomingupdate.json b/upcomingupdate.json[m
+[1mindex 3e8f264..8f3f7a8 100644[m
+[1m--- a/upcomingupdate.json[m
+[1m+++ b/upcomingupdate.json[m
+[36m@@ -31,6 +31,7 @@[m
+     "Video track selection now adapts to the device display capability instead of forcing maximum bitrate on every device.",[m
+     "Download playback resolution now shares the centralized playback resolver instead of performing an independent blocking network resolution.",[m
+     "The dedicated Universal GMS build workflow is excluded from the static audit's forbidden-workflow-build rule because it is the canonical app verification workflow."[m
+[32m+[m[32m    ,"Added coverage for empty audio-format selection in the YT player unit tests."[m
+   ],[m
+   "contributors": [][m
+ }[m

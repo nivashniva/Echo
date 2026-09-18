@@ -126,6 +126,14 @@ class YTPlayerUtilsLosslessTest {
     }
 
     @Test
+    fun audioSelectionReturnsNullForEmptyFormatList() {
+        assertEquals(
+            null,
+            YTPlayerUtils.selectAudioFormat(emptyList(), AudioQuality.AUTO),
+        )
+    }
+
+    @Test
     fun losslessDetectorAcceptsLosslessCodecs() {
         assertTrue(YTPlayerUtils.isGenuinelyLosslessFormat(format("audio/mp4; codecs=\"alac\"", 1200000)))
         assertTrue(YTPlayerUtils.isGenuinelyLosslessFormat(format("audio/l16", 1536000)))

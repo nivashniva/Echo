@@ -203,7 +203,10 @@ android {
             useLegacyPackaging = true
             keepDebugSymbols += listOf(
                 "**/libandroidx.graphics.path.so",
-                "**/libdatastore_shared_counter.so"
+                "**/libdatastore_shared_counter.so",
+                // Termux/ARM64 builds cannot execute the x86_64 NDK objcopy
+                // binary used by AGP's native-symbol stripping task.
+                "**/*.so"
             )
         }
         resources {
@@ -220,7 +223,12 @@ android {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"
+        val localProtoc = providers.gradleProperty("protocPath").orNull
+        if (localProtoc != null) {
+            path = localProtoc
+        } else {
+            artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}"
+        }
     }
     generateProtoTasks {
         all().forEach { task ->

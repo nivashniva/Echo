@@ -82,4 +82,6 @@ inline fun <reified T : Enum<T>> enumPreference(
     context: Context,
     key: Preferences.Key<String>,
     defaultValue: T,
-) = ReadOnlyProperty<Any?, T> { _, _ -> context.dataStore.get(key, defaultValue).toEnum(defaultValue) }
+) = ReadOnlyProperty<Any?, T> { _, _ ->
+    context.dataStore.get(key, defaultValue.name).toEnum(defaultValue)
+}

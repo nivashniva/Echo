@@ -75,8 +75,8 @@ fun PlayingIndicator(
             ) {
                 drawRoundRect(
                     color = color,
-                    topLeft = Offset(x = 0f, y = size.height * (1 - animatable.value)),
-                    size = size.copy(height = animatable.value * size.height),
+                    topLeft = Offset(x = 0f, y = size.height * (1 - progress.value)),
+                    size = size.copy(height = progress.value * size.height),
                     cornerRadius = CornerRadius(cornerRadius.toPx()),
                 )
             }

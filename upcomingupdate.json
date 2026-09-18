@@ -31,6 +31,7 @@
     "Video track selection now adapts to the device display capability instead of forcing maximum bitrate on every device.",
     "Download playback resolution now shares the centralized playback resolver instead of performing an independent blocking network resolution.",
     "The dedicated Universal GMS build workflow is excluded from the static audit's forbidden-workflow-build rule because it is the canonical app verification workflow."
+    ,"Added coverage for empty audio-format selection in the YT player unit tests."
   ],
   "contributors": []
 }

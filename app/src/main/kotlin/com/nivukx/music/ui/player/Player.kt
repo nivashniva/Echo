@@ -2,6 +2,10 @@
 
 package com.nivukx.music.ui.player
 
+import com.nivukx.music.ui.motion.NivukxMotion
+import com.nivukx.music.ui.motion.nivukxArtworkTransition
+import com.nivukx.music.ui.motion.nivukxPressDepth
+
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context

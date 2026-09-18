@@ -923,7 +923,7 @@ object YTPlayerUtils {
         val mimeLower = format.mimeType.lowercase()
         val codecLower = format.mimeType
             .substringAfter("codecs=", "")
-            .removeSurrounding(""")
+            .removeSurrounding("\"")
             .lowercase()
 
         return mimeLower.startsWith("audio/webm") &&
@@ -1006,7 +1006,7 @@ object YTPlayerUtils {
      *
      * Remaining known discrepancy: we send `Cookie` here and ExoPlayer does not.
      */
-    private fun validateStatus(url: String, contentLength: Long? = null, label: String = ""): Boolean {
+    internal fun validateStatus(url: String, contentLength: Long? = null, label: String = ""): Boolean {
         Timber.tag(logTag).d("Validating stream URL status")
         try {
             // Last byte when we know the size, else the first chunk ExoPlayer will ask for.
@@ -1053,7 +1053,7 @@ object YTPlayerUtils {
         val isAgeRestricted: Boolean
     )
 
-    private fun getSignatureTimestampOrNull(videoId: String): SignatureTimestampResult {
+    internal fun getSignatureTimestampOrNull(videoId: String): SignatureTimestampResult {
         Timber.tag(logTag).d("Getting signature timestamp for videoId: $videoId")
         val result = NewPipeExtractor.getSignatureTimestamp(videoId)
         return result.fold(
@@ -1076,7 +1076,7 @@ object YTPlayerUtils {
         )
     }
 
-    private suspend fun findUrlOrNull(
+    internal suspend fun findUrlOrNull(
         format: PlayerResponse.StreamingData.Format,
         videoId: String,
         playerResponse: PlayerResponse,
