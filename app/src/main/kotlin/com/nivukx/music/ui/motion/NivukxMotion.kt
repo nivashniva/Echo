@@ -15,6 +15,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
@@ -86,6 +87,16 @@ object NivukxMotion {
     val HighEndSpring = spring<Float>(
         dampingRatio = 0.88f,
         stiffness = 480f,
+    )
+
+    val FluidSpring = spring<Float>(
+        dampingRatio = 0.9f,
+        stiffness = 420f,
+    )
+
+    val MagneticSpring = spring<Float>(
+        dampingRatio = 0.94f,
+        stiffness = 700f,
     )
 
     val NavigationEnterForward: EnterTransition =
@@ -315,5 +326,187 @@ fun Modifier.echoPress(
     return graphicsLayer {
         scaleX = scale
         scaleY = scale
+    }
+}
+
+
+/**
+ * High-end surface reveal used for screen and content entrances.
+ *
+ * The entire transform stays in graphicsLayer so the animation does not cause
+ * repeated layout passes while it is running.
+ */
+@Composable
+fun Modifier.nivukxHighEndReveal(
+    offsetY: Float = 14f,
+    initialScale: Float = 0.985f,
+): Modifier {
+    val progress = remember { Animatable(0f) }
+
+    LaunchedEffect(Unit) {
+        progress.snapTo(0f)
+        progress.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(
+                durationMillis = NivukxMotion.PremiumScreen,
+                easing = NivukxMotion.PremiumEasing,
+            ),
+        )
+    }
+
+    return graphicsLayer {
+        val p = progress.value
+        alpha = 0.82f + (0.18f * p)
+        translationY = offsetY * (1f - p)
+        scaleX = initialScale + ((1f - initialScale) * p)
+        scaleY = initialScale + ((1f - initialScale) * p)
+    }
+}
+
+/**
+ * High-end press depth for controls and floating surfaces.
+ * It combines scale, depth, translation and a tiny rotational response.
+ */
+@Composable
+fun Modifier.nivukxPressDepth(
+    interactionSource: MutableInteractionSource,
+    pressedScale: Float = 0.972f,
+    pressedTranslationY: Float = 1.5f,
+    pressedRotationZ: Float = 0.35f,
+): Modifier {
+    val pressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (pressed) pressedScale else 1f,
+        animationSpec = NivukxMotion.MagneticSpring,
+        label = "nivukxPressScale",
+    )
+    val translationY by animateFloatAsState(
+        targetValue = if (pressed) pressedTranslationY else 0f,
+        animationSpec = NivukxMotion.MagneticSpring,
+        label = "nivukxPressTranslation",
+    )
+    val rotationZ by animateFloatAsState(
+        targetValue = if (pressed) pressedRotationZ else 0f,
+        animationSpec = NivukxMotion.MagneticSpring,
+        label = "nivukxPressRotation",
+    )
+
+    return graphicsLayer {
+        scaleX = scale
+        scaleY = scale
+        this.translationY = translationY
+        this.rotationZ = rotationZ
+    }
+}
+
+/**
+ * Adds physically coherent depth while a surface is being horizontally swiped.
+ * The translation itself remains owned by the caller.
+ */
+fun Modifier.nivukxSwipeDepth(
+    horizontalOffset: Float,
+    maxOffset: Float = 220f,
+): Modifier = graphicsLayer {
+    val progress = (kotlin.math.abs(horizontalOffset) / maxOffset).coerceIn(0f, 1f)
+    val direction = if (horizontalOffset >= 0f) 1f else -1f
+    val depth = progress * progress
+    scaleX = 1f + (0.012f * depth)
+    scaleY = 1f + (0.006f * depth)
+    rotationZ = direction * 1.1f * depth
+    alpha = 1f - (0.04f * depth)
+}
+
+/**
+ * Premium artwork identity transition for track changes.
+ * A very small 3D rotation and scale shift makes consecutive artwork frames
+ * read as one continuous morph rather than a hard swap.
+ */
+@Composable
+fun Modifier.nivukxArtworkTransition(
+    identity: Any?,
+    intensity: Float = 1f,
+): Modifier {
+    val progress = remember { Animatable(1f) }
+
+    LaunchedEffect(identity) {
+        progress.snapTo(0f)
+        progress.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(
+                durationMillis = 420,
+                easing = NivukxMotion.PremiumEasing,
+            ),
+        )
+    }
+
+    return graphicsLayer {
+        val p = progress.value
+        val settle = 1f - p
+        alpha = 0.82f + (0.18f * p)
+        scaleX = 0.965f + (0.035f * p)
+        scaleY = 0.965f + (0.035f * p)
+        rotationY = -1.7f * settle * intensity
+        rotationZ = 0.25f * settle * intensity
+    }
+}
+
+/**
+ * State-reactive ambient glow that follows the selected theme colors.
+ */
+@Composable
+fun Modifier.nivukxReactiveGlow(
+    active: Boolean,
+    cornerRadius: Dp = 28.dp,
+    alpha: Float = 0.11f,
+): Modifier {
+    val glowColor by animateColorAsState(
+        targetValue = if (active) {
+            MaterialTheme.colorScheme.primary.copy(alpha = alpha)
+        } else {
+            Color.Transparent
+        },
+        animationSpec = tween(
+            durationMillis = NivukxMotion.Emphasis,
+            easing = NivukxMotion.PremiumEasing,
+        ),
+        label = "nivukxReactiveGlow",
+    )
+
+    return drawBehind {
+        if (glowColor.alpha > 0f) {
+            drawRoundRect(
+                color = glowColor,
+                cornerRadius = androidx.compose.ui.geometry.CornerRadius(
+                    cornerRadius.toPx(),
+                    cornerRadius.toPx(),
+                ),
+            )
+        }
+    }
+}
+
+/**
+ * Lightweight magnetic focus motion for search fields and active destinations.
+ */
+@Composable
+fun Modifier.nivukxFocusMotion(active: Boolean): Modifier {
+    val scale by animateFloatAsState(
+        targetValue = if (active) 1.008f else 1f,
+        animationSpec = NivukxMotion.FluidSpring,
+        label = "nivukxFocusScale",
+    )
+    val alpha by animateFloatAsState(
+        targetValue = if (active) 1f else 0.985f,
+        animationSpec = tween(
+            durationMillis = NivukxMotion.MicroSettle,
+            easing = NivukxMotion.PremiumEasing,
+        ),
+        label = "nivukxFocusAlpha",
+    )
+
+    return graphicsLayer {
+        scaleX = scale
+        scaleY = scale
+        this.alpha = alpha
     }
 }
