@@ -148,7 +148,7 @@ def main() -> int:
         "builds": [{k: v for k, v in result.items() if k != "output"} for result in build_results],
         "compiler_error_candidates": compiler_errors,
     }
-    (REPORT_DIR / "echo_audit.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    (REPORT_DIR / "nivukx_audit.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
 
     report = ["# Nivukx — Python Repository Audit", "", f"Commit: `{summary['commit']}`", "",
               f"Files scanned: **{len(files)}**", f"Source/config lines scanned: **{int(total_lines):,}**", "",
@@ -165,7 +165,7 @@ def main() -> int:
         report.append(f"- **{item['severity']} — {item['type']}** `{location}` — {item['detail']}")
     report += ["", "## Method limitation", "",
                "This audit is repository-wide static analysis plus real Universal GMS Gradle compile/build/lint execution. It cannot prove runtime behavior requiring an Android emulator/device, authenticated accounts, live services, DRM, Bluetooth/Cast hardware, sensors, or human UI interaction."]
-    (REPORT_DIR / "echo_audit.md").write_text("\n".join(report) + "\n", encoding="utf-8")
+    (REPORT_DIR / "nivukx_audit.md").write_text("\n".join(report) + "\n", encoding="utf-8")
     print("\n".join(report))
     return 0
 
