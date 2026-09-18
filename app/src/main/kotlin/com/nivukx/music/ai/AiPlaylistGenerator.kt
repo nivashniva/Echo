@@ -93,9 +93,8 @@ object AiPlaylistGenerator {
         }
 
         val jsonOutput = if (aiProvider == "Puter") {
-            // Puter logic placeholder
-            onLog("Puter is not implemented yet. Using dummy data.")
-            "{}"
+            onLog("Puter provider is not available. Select OpenRouter or configure a supported AI provider.")
+            return@withContext null
         } else {
             val apiKey = context.dataStore.get(OpenRouterApiKey, "")
             val baseUrl = context.dataStore.get(OpenRouterBaseUrlKey, "https://openrouter.ai/api/v1/chat/completions")
