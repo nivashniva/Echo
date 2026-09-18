@@ -332,7 +332,7 @@ highlightKey: String? = null) {
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 androidx.compose.foundation.Image(
-                                    painter = painterResource(R.mipmap.ic_launcher),
+                                    painter = painterResource(R.drawable.original),
                                     contentDescription = null,
                                     modifier = Modifier
                                         .size(30.dp)
@@ -341,7 +341,7 @@ highlightKey: String? = null) {
                                     contentScale = ContentScale.Fit
                                 )
                                 androidx.compose.foundation.Image(
-                                    painter = painterResource(R.mipmap.legacy_icon),
+                                    painter = painterResource(R.drawable.legacy),
                                     contentDescription = null,
                                     modifier = Modifier
                                         .size(30.dp)

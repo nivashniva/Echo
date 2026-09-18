@@ -79,13 +79,13 @@ fun AppBrandingSettings(
             BrandingCard(
                 title = stringResource(R.string.current_app_logo),
                 description = stringResource(R.string.current_app_logo_desc),
-                imageRes = R.mipmap.ic_launcher,
+                imageRes = R.drawable.original,
             )
 
             BrandingCard(
                 title = stringResource(R.string.legacy_app_logo),
                 description = stringResource(R.string.legacy_app_logo_desc),
-                imageRes = R.mipmap.legacy_icon,
+                imageRes = R.drawable.legacy,
             )
 
             Spacer(modifier = Modifier.height(4.dp))
