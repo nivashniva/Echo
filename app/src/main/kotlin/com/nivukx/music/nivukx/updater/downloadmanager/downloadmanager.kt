@@ -51,7 +51,7 @@ class CustomDownloadManager {
 
                 val downloadRoot = appContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
                     ?: throw IllegalStateException("Download storage is unavailable")
-                val downloadDir = File(downloadRoot, "echo_updates").apply {
+                val downloadDir = File(downloadRoot, "nivukx_updates").apply {
                     if (!exists() && !mkdirs()) throw IllegalStateException("Cannot create update directory")
                 }
 
