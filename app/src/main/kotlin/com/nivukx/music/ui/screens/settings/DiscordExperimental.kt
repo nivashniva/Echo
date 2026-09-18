@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.screens.settings
+package com.nivukx.music.ui.screens.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,19 +19,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.DiscordActivityButton1CustomUrlKey
-import echo.music.iad1tya.constants.DiscordActivityButton1EnabledKey
-import echo.music.iad1tya.constants.DiscordActivityButton1LabelKey
-import echo.music.iad1tya.constants.DiscordActivityButton1UrlSourceKey
-import echo.music.iad1tya.constants.DiscordActivityButton2CustomUrlKey
-import echo.music.iad1tya.constants.DiscordActivityButton2EnabledKey
-import echo.music.iad1tya.constants.DiscordActivityButton2LabelKey
-import echo.music.iad1tya.constants.DiscordActivityButton2UrlSourceKey
-import echo.music.iad1tya.ui.component.EditTextPreference
-import echo.music.iad1tya.ui.component.ListPreference
-import echo.music.iad1tya.ui.component.SwitchPreference
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.R
+import com.nivukx.music.constants.DiscordActivityButton1CustomUrlKey
+import com.nivukx.music.constants.DiscordActivityButton1EnabledKey
+import com.nivukx.music.constants.DiscordActivityButton1LabelKey
+import com.nivukx.music.constants.DiscordActivityButton1UrlSourceKey
+import com.nivukx.music.constants.DiscordActivityButton2CustomUrlKey
+import com.nivukx.music.constants.DiscordActivityButton2EnabledKey
+import com.nivukx.music.constants.DiscordActivityButton2LabelKey
+import com.nivukx.music.constants.DiscordActivityButton2UrlSourceKey
+import com.nivukx.music.ui.component.EditTextPreference
+import com.nivukx.music.ui.component.ListPreference
+import com.nivukx.music.ui.component.SwitchPreference
+import com.nivukx.music.utils.rememberPreference
 
 private val DiscordExperimentalButtonUrlOptions =
     listOf("songurl", "artisturl", "albumurl", "custom")
@@ -54,7 +54,7 @@ fun DiscordExperimental(navController: NavController) {
     val (button2Label, onButton2LabelChange) =
         rememberPreference(
             key = DiscordActivityButton2LabelKey,
-            defaultValue = "Go to Echo Music",
+            defaultValue = "Go to Nivukx",
         )
     val (button2Enabled, onButton2EnabledChange) =
         rememberPreference(
