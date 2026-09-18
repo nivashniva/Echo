@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.lyrics
+package com.nivukx.music.lyrics
 
 import kotlinx.coroutines.flow.MutableStateFlow
 
