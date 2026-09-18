@@ -89,17 +89,17 @@ class BackupRestoreViewModel @Inject constructor(
 
     suspend fun restore(context: Context, uri: Uri) = withContext(Dispatchers.IO) {
         runCatching {
+            var restoredAny = false
             Timber.tag("RESTORE").i("Starting restore from URI: $uri")
             context.applicationContext.contentResolver.openInputStream(uri)?.use { raw ->
                 raw.zipInputStream().use { inputStream ->
                     var entry = tryOrNull { inputStream.nextEntry } 
-                    var foundAny = false
                     while (entry != null) {
                         Timber.tag("RESTORE").i("Found zip entry: ${entry.name}")
                         when (entry.name) {
                             SETTINGS_FILENAME -> {
                                 Timber.tag("RESTORE").i("Restoring settings to datastore")
-                                foundAny = true
+                                restoredAny = true
                                 (context.filesDir / "datastore" / SETTINGS_FILENAME).outputStream()
                                     .use { outputStream ->
                                         inputStream.copyTo(outputStream)
@@ -180,7 +180,7 @@ class BackupRestoreViewModel @Inject constructor(
                         }
                         entry = tryOrNull { inputStream.nextEntry } 
                     }
-                    if (!foundAny) {
+                    if (!restoredAny) {
                         Timber.tag("RESTORE").w("No expected entries found in archive")
                     }
                 }
@@ -188,7 +188,7 @@ class BackupRestoreViewModel @Inject constructor(
                 Timber.tag("RESTORE").e("Could not open input stream for uri: $uri")
             }
 
-            if (!foundAny) {
+            if (!restoredAny) {
                 throw IllegalStateException("Restore archive contained no supported backup entries")
             }
 
