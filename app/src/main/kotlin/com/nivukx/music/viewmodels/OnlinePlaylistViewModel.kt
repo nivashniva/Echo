@@ -34,7 +34,7 @@ class OnlinePlaylistViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     database: MusicDatabase
 ) : ViewModel() {
-    private val playlistId = savedStateHandle.get<String>("playlistId")!!
+    private val playlistId = savedStateHandle.get<String>("playlistId").orEmpty()
 
     val playlist = MutableStateFlow<PlaylistItem?>(null)
     val playlistSongs = MutableStateFlow<List<SongItem>>(emptyList())
@@ -58,11 +58,22 @@ class OnlinePlaylistViewModel @Inject constructor(
     private var proactiveLoadJob: Job? = null
 
     init {
-        fetchInitialPlaylistData()
+        if (playlistId.isBlank()) {
+            _isLoading.value = false
+            _error.value = "Missing playlist id"
+        } else {
+            fetchInitialPlaylistData()
+        }
     }
 
     private fun fetchInitialPlaylistData() {
         viewModelScope.launch(Dispatchers.IO) {
+            if (playlistId.isBlank()) {
+                _isLoading.value = false
+                _error.value = "Missing playlist id"
+                return@launch
+            }
+
             _isLoading.value = true
             _error.value = null
             continuation = null
