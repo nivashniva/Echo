@@ -309,7 +309,6 @@ db/
   entities/     Room entities (Song, Album, Artist, Playlist, Lyrics, etc.)
   daos/         Room DAOs
 di/             Hilt modules (AppModule, NetworkModule, Qualifiers, entry points)
-discord/        Discord Rich Presence integration
 nivukx/      Core app-level classes
 eq/             Equalizer
 extensions/     Kotlin extension functions
