@@ -1,6 +1,7 @@
 
 
 package com.nivukx.music.ui.screens.playlist
+import com.nivukx.music.ui.motion.nivukxHighEndReveal
 
 import android.content.Intent
 import androidx.compose.material3.Checkbox
@@ -253,6 +254,7 @@ fun OnlinePlaylistScreen(
 
     Box(Modifier.fillMaxSize()) {
         LazyColumn(
+            modifier = Modifier.nivukxHighEndReveal(),
             state = lazyListState,
             contentPadding = LocalPlayerAwareWindowInsets.current.union(WindowInsets.ime).asPaddingValues(),
         ) {
