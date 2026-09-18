@@ -3,6 +3,7 @@
 @file:OptIn(ExperimentalMaterial3ExpressiveApi::class)
 
 package com.nivukx.music.ui.component
+import com.nivukx.music.ui.motion.nivukxThemeReactiveGlow
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -225,6 +226,7 @@ private fun ToolbarItemsContainer(
                         .offset(x = slidingPillOffset)
                         .width(slidingPillWidth)
                         .fillMaxHeight()
+                        .nivukxThemeReactiveGlow(targetWidth > 0.dp)
                         .background(
                             color = floatingToolbarSelectedItemContainerColor(pureBlack),
                             shape = RoundedCornerShape(24.dp)
