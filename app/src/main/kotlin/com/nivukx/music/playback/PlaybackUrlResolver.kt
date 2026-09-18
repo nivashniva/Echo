@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
@@ -51,7 +52,7 @@ class PlaybackUrlResolver @Inject constructor(
 
     fun prefetch(videoId: String, audioQuality: AudioQuality) {
         if (videoId.isBlank() || videoId.isLocalId()) return
-        scope.async {
+        scope.launch {
             resolve(videoId, audioQuality)
         }
     }
