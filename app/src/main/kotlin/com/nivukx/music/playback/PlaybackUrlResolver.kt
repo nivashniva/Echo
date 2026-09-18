@@ -37,7 +37,7 @@ class PlaybackUrlResolver @Inject constructor(
         SupervisorJob() + kotlinx.coroutines.Dispatchers.IO.limitedParallelism(MAX_CONCURRENT_RESOLVES)
     )
     private val cache = ConcurrentHashMap<Key, CachedUrl>()
-    private val inFlight = ConcurrentHashMap<Key, Deferred<Result<String>>>()
+    private val inFlight = ConcurrentHashMap<Key, Deferred<Result<com.nivukx.music.utils.PlaybackData>>>()
 
     fun cached(videoId: String, audioQuality: AudioQuality): com.nivukx.music.utils.PlaybackData? {
         val key = Key(videoId, audioQuality)
@@ -75,7 +75,7 @@ class PlaybackUrlResolver @Inject constructor(
                         playback = playback,
                         expiresAtMs = System.currentTimeMillis() + ttlSeconds * 1000L,
                     )
-                    playback.streamUrl
+                    playback
                 }
             }.also { inFlight[key] = it }
         }
