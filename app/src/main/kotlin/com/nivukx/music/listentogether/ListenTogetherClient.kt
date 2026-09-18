@@ -631,86 +631,46 @@ class ListenTogetherClient @Inject constructor(
         }
     }
 
-    private fun handleDisconnect() {
-        pingJob?.cancel()
-        pingJob = null
-        
-        
-        
+    private fun handleDisconnect(socket: WebSocket) {
+        if (webSocket !== socket) return
+        pingJob?.cancel(); pingJob = null; webSocket = null
         _connectionState.value = ConnectionState.DISCONNECTED
-        _pendingJoinRequests.value = emptyList()
-        _bufferingUsers.value = emptyList()
-        
-        
+        _pendingJoinRequests.value = emptyList(); _bufferingUsers.value = emptyList()
         if (sessionToken != null && _roomState.value != null) {
             log(LogLevel.INFO, "Connection lost, will attempt to reconnect")
-            handleConnectionFailure(Exception("Connection lost"))
-        } else {
-            scope.launch { _events.emit(ListenTogetherEvent.Disconnected) }
-        }
+            handleConnectionFailure(Exception("Connection lost"), socket)
+        } else scope.launch { _events.emit(ListenTogetherEvent.Disconnected) }
     }
 
-    private fun handleConnectionFailure(t: Throwable) {
-        pingJob?.cancel()
-        pingJob = null
-        
-        
+    private fun handleConnectionFailure(t: Throwable, socket: WebSocket? = null) {
+        if (socket != null && webSocket !== socket) return
+        pingJob?.cancel(); pingJob = null; if (socket != null) webSocket = null
         val shouldReconnect = sessionToken != null || _roomState.value != null || pendingAction != null
-        
         if (!isNetworkAvailable) {
             log(LogLevel.WARNING, "Connection failure, waiting for network", t.message)
-            _connectionState.value = ConnectionState.DISCONNECTED
-            return
+            _connectionState.value = ConnectionState.DISCONNECTED; return
         }
-        
         if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS && shouldReconnect) {
-            reconnectAttempts++
-            _connectionState.value = ConnectionState.RECONNECTING
-            
-            val delayMs = calculateBackoffDelay(reconnectAttempts)
-            val delaySeconds = delayMs / 1000
-            
-            log(LogLevel.INFO, "Attempting reconnect", 
-                "Attempt $reconnectAttempts/$MAX_RECONNECT_ATTEMPTS, waiting ${delaySeconds}s, reason: ${t.message}")
-            
-            scope.launch {
-                _events.emit(ListenTogetherEvent.Reconnecting(reconnectAttempts, MAX_RECONNECT_ATTEMPTS))
-                delay(delayMs)
-                
-                
-                if (_connectionState.value == ConnectionState.RECONNECTING || _connectionState.value == ConnectionState.DISCONNECTED) {
-                    log(LogLevel.INFO, "Reconnecting after backoff", "Delay was ${delaySeconds}s")
-                    connect()
-                }
+            reconnectAttempts++; _connectionState.value = ConnectionState.RECONNECTING
+            val delayMs = calculateBackoffDelay(reconnectAttempts); val delaySeconds = delayMs / 1000
+            log(LogLevel.INFO, "Attempting reconnect", "Attempt $reconnectAttempts/$MAX_RECONNECT_ATTEMPTS, waiting ${delaySeconds}s, reason: ${t.message}")
+            reconnectJob?.cancel()
+            reconnectJob = scope.launch {
+                try {
+                    _events.emit(ListenTogetherEvent.Reconnecting(reconnectAttempts, MAX_RECONNECT_ATTEMPTS)); delay(delayMs)
+                    if (_connectionState.value == ConnectionState.RECONNECTING || _connectionState.value == ConnectionState.DISCONNECTED) {
+                        log(LogLevel.INFO, "Reconnecting after backoff", "Delay was ${delaySeconds}s"); connect()
+                    }
+                } finally { reconnectJob = null }
             }
         } else {
             _connectionState.value = ConnectionState.ERROR
-            
-            
-            if (sessionToken != null) {
-                log(LogLevel.ERROR, "Reconnection failed", 
-                    "Max attempts reached, but session preserved for manual reconnect")
-                scope.launch { 
-                    _events.emit(ListenTogetherEvent.ConnectionError(
-                        "Connection failed after $MAX_RECONNECT_ATTEMPTS attempts. ${t.message ?: "Unknown error"}"
-                    ))
-                }
-            } else {
-                
-                sessionToken = null
-                storedRoomCode = null
-                storedUsername = null
-                _roomState.value = null
-                _role.value = RoomRole.NONE
-                clearPersistedSession()
-                
-                scope.launch { 
-                    _events.emit(ListenTogetherEvent.ConnectionError(t.message ?: "Unknown error"))
-                }
+            scope.launch {
+                val message = if (sessionToken != null) "Connection failed after $MAX_RECONNECT_ATTEMPTS attempts. ${t.message ?: "Unknown error"}" else (t.message ?: "Unknown error")
+                _events.emit(ListenTogetherEvent.ConnectionError(message))
             }
         }
     }
-
     private fun handleMessage(data: ByteArray) {
         log(LogLevel.DEBUG, "Received message", "${data.size} bytes")
         
@@ -1450,28 +1410,17 @@ class ListenTogetherClient @Inject constructor(
     
     
     fun forceReconnect() {
-        log(LogLevel.INFO, "Forcing reconnection to server")
-        reconnectAttempts = 0  
-        
-        if (webSocket != null) {
-            try {
-                webSocket?.close(1000, "Forcing reconnection")
-            } catch (e: Exception) {
-                log(LogLevel.DEBUG, "Error closing WebSocket", e.message)
-            }
-            webSocket = null
+        log(LogLevel.INFO, "Forcing reconnection to server"); reconnectAttempts = 0
+        val socket = synchronized(this) {
+            connectionGeneration += 1; reconnectJob?.cancel(); reconnectJob = null; pingJob?.cancel(); pingJob = null
+            val current = webSocket; webSocket = null; _connectionState.value = ConnectionState.DISCONNECTED; current
         }
-        
-        _connectionState.value = ConnectionState.DISCONNECTED
-        
-        
-        scope.launch {
-            delay(500)
-            connect()
+        try { socket?.close(1000, "Forcing reconnection") } catch (e: Exception) { log(LogLevel.DEBUG, "Error closing WebSocket", e.message) }
+        reconnectJob = scope.launch {
+            delay(500); reconnectJob = null
+            if (_connectionState.value == ConnectionState.DISCONNECTED) connect()
         }
     }
-    
-    
     val hasPersistedSession: Boolean
         get() = sessionToken != null && storedRoomCode != null
     
