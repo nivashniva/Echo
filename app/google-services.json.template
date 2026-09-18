@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "REPLACE_WITH_NIVUKX_PROJECT_NUMBER",
+    "project_id": "REPLACE_WITH_NIVUKX_PROJECT_ID",
+    "storage_bucket": "REPLACE_WITH_NIVUKX_STORAGE_BUCKET"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "REPLACE_WITH_NIVUKX_RELEASE_MOBILE_SDK_APP_ID",
+        "android_client_info": {
+          "package_name": "com.nivukx.music"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "REPLACE_WITH_NIVUKX_API_KEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "REPLACE_WITH_NIVUKX_DEBUG_MOBILE_SDK_APP_ID",
+        "android_client_info": {
+          "package_name": "com.nivukx.music.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "REPLACE_WITH_NIVUKX_DEBUG_API_KEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
