@@ -356,7 +356,7 @@ class ListenTogetherClient @Inject constructor(
     @Volatile private var webSocket: WebSocket? = null
     @Volatile private var connectionGeneration: Long = 0L
     private var pingJob: Job? = null
-    private var reconnectJob: Job? = null
+    @Volatile private var reconnectJob: Job? = null
     private var pingSentTime: Long = 0L
     private var reconnectAttempts = 0
     
@@ -633,13 +633,20 @@ class ListenTogetherClient @Inject constructor(
 
     private fun handleDisconnect(socket: WebSocket) {
         if (webSocket !== socket) return
-        pingJob?.cancel(); pingJob = null; webSocket = null
+
+        pingJob?.cancel()
+        pingJob = null
         _connectionState.value = ConnectionState.DISCONNECTED
-        _pendingJoinRequests.value = emptyList(); _bufferingUsers.value = emptyList()
+        _pendingJoinRequests.value = emptyList()
+        _bufferingUsers.value = emptyList()
+
         if (sessionToken != null && _roomState.value != null) {
             log(LogLevel.INFO, "Connection lost, will attempt to reconnect")
             handleConnectionFailure(Exception("Connection lost"), socket)
-        } else scope.launch { _events.emit(ListenTogetherEvent.Disconnected) }
+        } else {
+            webSocket = null
+            scope.launch { _events.emit(ListenTogetherEvent.Disconnected) }
+        }
     }
 
     private fun handleConnectionFailure(t: Throwable, socket: WebSocket? = null) {
