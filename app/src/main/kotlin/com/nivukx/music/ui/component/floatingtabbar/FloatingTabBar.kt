@@ -177,7 +177,37 @@ fun FloatingTabBar(
     SharedTransitionLayout(modifier = modifier) {
         AnimatedContent(
             targetState = scrollConnection.isInline,
-            transitionSpec = { fadeIn() togetherWith fadeOut() },
+            transitionSpec = {
+                (
+                    fadeIn(
+                        animationSpec = androidx.compose.animation.core.tween(
+                            durationMillis = 280,
+                            easing = com.nivukx.music.ui.motion.NivukxMotion.PremiumEasing,
+                        ),
+                    ) +
+                        androidx.compose.animation.scaleIn(
+                            initialScale = 0.985f,
+                            animationSpec = androidx.compose.animation.core.tween(
+                                durationMillis = 280,
+                                easing = com.nivukx.music.ui.motion.NivukxMotion.PremiumEasing,
+                            ),
+                        )
+                ).togetherWith(
+                    fadeOut(
+                        animationSpec = androidx.compose.animation.core.tween(
+                            durationMillis = 170,
+                            easing = com.nivukx.music.ui.motion.NivukxMotion.ExitEasing,
+                        ),
+                    ) +
+                        androidx.compose.animation.scaleOut(
+                            targetScale = 0.992f,
+                            animationSpec = androidx.compose.animation.core.tween(
+                                durationMillis = 170,
+                                easing = com.nivukx.music.ui.motion.NivukxMotion.ExitEasing,
+                            ),
+                        )
+                )
+            },
             contentAlignment = Alignment.BottomCenter
         ) { isInline ->
             if (isInline) {
