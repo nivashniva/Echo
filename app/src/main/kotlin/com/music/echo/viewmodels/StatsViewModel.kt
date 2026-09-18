@@ -1,17 +1,17 @@
 
 
-package echo.music.iad1tya.viewmodels
+package com.nivukx.music.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.music.innertube.YouTube
-import echo.music.iad1tya.constants.HideVideoSongsKey
-import echo.music.iad1tya.constants.statToPeriod
-import echo.music.iad1tya.db.MusicDatabase
-import echo.music.iad1tya.ui.screens.OptionStats
-import echo.music.iad1tya.utils.dataStore
-import echo.music.iad1tya.utils.reportException
+import com.nivukx.innertube.YouTube
+import com.nivukx.music.constants.HideVideoSongsKey
+import com.nivukx.music.constants.statToPeriod
+import com.nivukx.music.db.MusicDatabase
+import com.nivukx.music.ui.screens.OptionStats
+import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
