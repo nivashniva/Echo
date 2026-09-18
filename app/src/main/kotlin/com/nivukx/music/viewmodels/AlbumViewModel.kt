@@ -27,7 +27,7 @@ constructor(
     database: MusicDatabase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    val albumId = savedStateHandle.get<String>("albumId")!!
+    val albumId = savedStateHandle.get<String>("albumId").orEmpty()
     val playlistId = MutableStateFlow("")
     val albumWithSongs =
         database
