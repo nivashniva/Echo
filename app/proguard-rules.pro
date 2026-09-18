@@ -6,20 +6,20 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # WEB_REMIX Streaming - WebView JavaScript interfaces
--keepclassmembers class echo.music.iad1tya.utils.sabr.EjsNTransformSolver$SolverWebView {
+-keepclassmembers class com.nivukx.music.utils.sabr.EjsNTransformSolver$SolverWebView {
     @android.webkit.JavascriptInterface public *;
 }
--keepclassmembers class echo.music.iad1tya.utils.cipher.CipherWebView {
+-keepclassmembers class com.nivukx.music.utils.cipher.CipherWebView {
     @android.webkit.JavascriptInterface public *;
 }
--keepclassmembers class echo.music.iad1tya.utils.potoken.PoTokenWebView {
+-keepclassmembers class com.nivukx.music.utils.potoken.PoTokenWebView {
     @android.webkit.JavascriptInterface public *;
 }
 
 # Keep streaming utility classes
--keep class echo.music.iad1tya.utils.cipher.** { *; }
--keep class echo.music.iad1tya.utils.sabr.** { *; }
--keep class echo.music.iad1tya.utils.potoken.** { *; }
+-keep class com.nivukx.music.utils.cipher.** { *; }
+-keep class com.nivukx.music.utils.sabr.** { *; }
+-keep class com.nivukx.music.utils.potoken.** { *; }
 
 # Keep coroutine continuation for WebView callbacks
 -keepclassmembers class * {
@@ -117,11 +117,11 @@
 
 ## Queue Persistence Rules
 # Keep queue-related classes to prevent serialization issues in release builds
--keep class echo.music.iad1tya.models.PersistQueue { *; }
--keep class echo.music.iad1tya.models.PersistPlayerState { *; }
--keep class echo.music.iad1tya.models.QueueData { *; }
--keep class echo.music.iad1tya.models.QueueType { *; }
--keep class echo.music.iad1tya.playback.queues.** { *; }
+-keep class com.nivukx.music.models.PersistQueue { *; }
+-keep class com.nivukx.music.models.PersistPlayerState { *; }
+-keep class com.nivukx.music.models.QueueData { *; }
+-keep class com.nivukx.music.models.QueueType { *; }
+-keep class com.nivukx.music.playback.queues.** { *; }
 
 # Keep serialization methods for queue persistence
 -keepclassmembers class * implements java.io.Serializable {
@@ -135,7 +135,7 @@
 -keep interface com.yalantis.ucrop** { *; }
 
 ## Google Cast Rules
--keep class echo.music.iad1tya.cast.** { *; }
+-keep class com.nivukx.music.cast.** { *; }
 -keep class com.google.android.gms.cast.** { *; }
 -keep class androidx.mediarouter.** { *; }
 
@@ -143,8 +143,8 @@
 -dontwarn com.google.re2j.**
 
 # Vibra fingerprint library
--keep class echo.music.iad1tya.recognition.VibraSignature { *; }
--keepclassmembers class echo.music.iad1tya.recognition.VibraSignature {
+-keep class com.nivukx.music.recognition.VibraSignature { *; }
+-keepclassmembers class com.nivukx.music.recognition.VibraSignature {
     native <methods>;
 }
 
@@ -174,13 +174,13 @@
 }
 
 ## Listen Together Serialization
--keep class echo.music.iad1tya.listentogether.** { *; }
--keepclassmembers class echo.music.iad1tya.listentogether.** {
+-keep class com.nivukx.music.listentogether.** { *; }
+-keepclassmembers class com.nivukx.music.listentogether.** {
     *;
 }
--keepclassmembers class echo.music.iad1tya.listentogether.** {
+-keepclassmembers class com.nivukx.music.listentogether.** {
     *** Companion;
 }
--keepclasseswithmembers class echo.music.iad1tya.listentogether.** {
+-keepclasseswithmembers class com.nivukx.music.listentogether.** {
     kotlinx.serialization.KSerializer serializer(...);
 }
