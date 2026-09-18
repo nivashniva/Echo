@@ -226,13 +226,7 @@ highlightKey: String? = null) {
                 )
             }
 
-            item {
-                Material3SettingsGroup(
-                    title = "Community",
-                    items = listOf(
-                        Material3SettingsItem(
-                            icon = painterResource(R.drawable.ic_discord_new),
-                            title = { Text("Discord") },
+            ,
                             description = { Text("discord.gg/Xt5hgsJJuA") },
                             onClick = { uriHandler.openUri("https://discord.gg/Xt5hgsJJuA") }
                         )
