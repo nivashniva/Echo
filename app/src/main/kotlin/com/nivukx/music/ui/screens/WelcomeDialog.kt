@@ -90,49 +90,49 @@ fun WelcomeDialog(
             ) {
                 WelcomeAppCard()
 
-                WelcomeSectionCard(title = "Follow Developer") {
+                WelcomeSectionCard(title = "Nivukx Project") {
                     WelcomeActionRow(
                         icon = painterResource(R.drawable.ic_instagram_new),
-                        title = "Instagram",
-                        subtitle = "@iad1tya",
-                        onClick = { uriHandler.openUri("https://instagram.com/iad1tya") }
+                        title = "GitHub",
+                        subtitle = "@nivash01",
+                        onClick = { uriHandler.openUri("https://github.com/nivash01") }
                     )
                     WelcomeDivider()
                     WelcomeActionRow(
                         icon = painterResource(R.drawable.ic_x_new),
-                        title = "X (Twitter)",
-                        subtitle = "@xad1tya",
-                        onClick = { uriHandler.openUri("https://x.com/xad1tya") }
+                        title = "Repository",
+                        subtitle = "github.com/nivash01/Echo",
+                        onClick = { uriHandler.openUri("https://github.com/nivash01/Echo") }
                     )
                     WelcomeDivider()
                     WelcomeActionRow(
                         icon = painterResource(R.drawable.github),
-                        title = "GitHub",
-                        subtitle = "iad1tya",
-                        onClick = { uriHandler.openUri("https://github.com/iad1tya") }
+                        title = "Issues",
+                        subtitle = "github.com/nivash01/Echo/issues",
+                        onClick = { uriHandler.openUri("https://github.com/nivash01/Echo/issues") }
                     )
                 }
 
-                WelcomeSectionCard(title = "Support Echo") {
+                WelcomeSectionCard(title = "Support Nivukx") {
                     WelcomeActionRow(
                         icon = painterResource(R.drawable.coffee),
-                        title = "Buy Me a Coffee",
-                        subtitle = "buymeacoffee.com/iad1tya",
-                        onClick = { uriHandler.openUri("https://buymeacoffee.com/iad1tya") }
+                        title = "Star Nivukx",
+                        subtitle = "github.com/nivash01/Echo",
+                        onClick = { uriHandler.openUri("https://github.com/nivash01/Echo") }
                     )
                     WelcomeDivider()
                     WelcomeActionRow(
                         icon = painterResource(R.drawable.ic_patreon_new),
-                        title = "Patreon",
-                        subtitle = "patreon.com/cw/iad1tya",
-                        onClick = { uriHandler.openUri("https://www.patreon.com/cw/iad1tya") }
+                        title = "Discussions",
+                        subtitle = "github.com/nivash01/Echo/discussions",
+                        onClick = { uriHandler.openUri("https://github.com/nivash01/Echo/discussions") }
                     )
                     WelcomeDivider()
                     WelcomeActionRow(
                         icon = painterResource(R.drawable.upi_new),
-                        title = "UPI",
-                        subtitle = "iad1tya@upi",
-                        onClick = { uriHandler.openUri("https://intradeus.github.io/http-protocol-redirector/?r=upi://pay?pa=iad1tya@upi&pn=Aditya%20Yadav&am=&tn=Thank%20You%20so%20much%20for%20this%20support") }
+                        title = "Project Page",
+                        subtitle = "github.com/nivash01/Echo",
+                        onClick = { uriHandler.openUri("https://github.com/nivash01/Echo") }
                     )
                 }
 
