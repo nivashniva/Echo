@@ -342,7 +342,7 @@
     <string name="listen_together_smart_resync">Älykäs verkon uudelleensynkronointi</string>
     <string name="listen_together_smart_resync_desc">Tavoita isäntä automaattisesti yhteyden katkeamisen jälkeen</string>
     <string name="spotify_import_title">Tuo Spotifysta</string>
-    <string name="spotify_import_desc">Yhdistä Spotify, valitse soittolistat ja peilaa ne paikallisiksi Echo Music-soittolistoiksi.</string>
+    <string name="spotify_import_desc">Yhdistä Spotify, valitse soittolistat ja peilaa ne paikallisiksi Nivukx-soittolistoiksi.</string>
     <string name="spotify_connect">Yhdistä Spotify</string>
     <string name="spotify_refresh">Päivitä Spotify-kirjasto</string>
     <string name="spotify_select_sources">Valitse Spotify-soittolistat</string>
@@ -402,10 +402,10 @@
     <string name="recognition_notification_processing">Tunnistetaan…</string>
     <string name="recognition_notification_no_match">Vastaavuutta ei löytynyt</string>
     <string name="recognition_notification_failed">Tunnistus epäonnistui</string>
-    <string name="listen_on_echo_music">Kuuntele Echo Musicissa</string>
+    <string name="listen_on_echo_music">Kuuntele Nivukxissa</string>
     <string name="qs_tile_music_recognizer">Tunnista musiikki</string>
-    <string name="echo_brain_beta">Echo Brain (beeta)</string>
-    <string name="echo_brain_enable">Ota Echo Brain käyttöön</string>
+    <string name="echo_brain_beta">Nivukx Brain (beeta)</string>
+    <string name="echo_brain_enable">Ota Nivukx Brain käyttöön</string>
     <string name="echo_brain_enable_desc">Lisää automaattisesti tekoälysuosituksia kuuntelutottumustesi perusteella</string>
     <string name="echo_brain_profile_statistics">Profiilin tilastot</string>
     <string name="echo_brain_learning_level">Oppimistaso</string>
@@ -432,9 +432,9 @@
     <string name="listenbrainz_scrobbling">ListenBrainz-skrobblaus</string>
     <string name="listenbrainz_scrobbling_description">Lähetä kuuntelemasi kappaleet automaattisesti ListenBrainziin</string>
     <string name="set_listenbrainz_token">Aseta ListenBrainz-tunniste</string>
-    <string name="youtube_decryption_settings">Echo Extractor</string>
+    <string name="youtube_decryption_settings">Nivukx Extractor</string>
     <string name="youtube_decryption_desc">Määritä poimijan asetukset</string>
-    <string name="youtube_decryption_support">Echo Extractor</string>
+    <string name="youtube_decryption_support">Nivukx Extractor</string>
     <string name="youtube_decryption_support_desc">Poimii YouTuben toistomääritykset automaattisesti. Lukittu aktiiviseksi.</string>
     <string name="force_update_cipher">Pakota määritysten päivitys</string>
     <string name="force_update_cipher_desc">Lataa uusimmat poimijan ohitusmääritykset. Enintään 3 päivitystä päivässä.</string>
