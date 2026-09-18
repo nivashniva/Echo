@@ -342,7 +342,7 @@
     <string name="listen_together_smart_resync">Slimme netwerkresynchronisatie</string>
     <string name="listen_together_smart_resync_desc">Loop automatisch weer gelijk met de host na een verbindingsonderbreking</string>
     <string name="spotify_import_title">Importeren vanuit Spotify</string>
-    <string name="spotify_import_desc">Verbind Spotify, kies afspeellijsten en kopieer ze naar lokale Echo Music-afspeellijsten.</string>
+    <string name="spotify_import_desc">Verbind Spotify, kies afspeellijsten en kopieer ze naar lokale Nivukx-afspeellijsten.</string>
     <string name="spotify_connect">Spotify verbinden</string>
     <string name="spotify_refresh">Spotify-bibliotheek vernieuwen</string>
     <string name="spotify_select_sources">Selecteer Spotify-afspeellijsten</string>
@@ -402,10 +402,10 @@
     <string name="recognition_notification_processing">Herkennen…</string>
     <string name="recognition_notification_no_match">Geen overeenkomst gevonden</string>
     <string name="recognition_notification_failed">Herkenning mislukt</string>
-    <string name="listen_on_echo_music">Luisteren op Echo Music</string>
+    <string name="listen_on_echo_music">Luisteren op Nivukx</string>
     <string name="qs_tile_music_recognizer">Muziek herkennen</string>
-    <string name="echo_brain_beta">Echo Brain (bèta)</string>
-    <string name="echo_brain_enable">Echo Brain inschakelen</string>
+    <string name="echo_brain_beta">Nivukx Brain (bèta)</string>
+    <string name="echo_brain_enable">Nivukx Brain inschakelen</string>
     <string name="echo_brain_enable_desc">Voeg automatisch AI-aanbevelingen toe op basis van je luistergewoonten</string>
     <string name="echo_brain_profile_statistics">Profielstatistieken</string>
     <string name="echo_brain_learning_level">Leerniveau</string>
@@ -432,9 +432,9 @@
     <string name="listenbrainz_scrobbling">Scrobblen met ListenBrainz</string>
     <string name="listenbrainz_scrobbling_description">Stuur beluisterde nummers automatisch naar ListenBrainz</string>
     <string name="set_listenbrainz_token">ListenBrainz-token instellen</string>
-    <string name="youtube_decryption_settings">Echo Extractor</string>
+    <string name="youtube_decryption_settings">Nivukx Extractor</string>
     <string name="youtube_decryption_desc">Extractorinstellingen configureren</string>
-    <string name="youtube_decryption_support">Echo Extractor</string>
+    <string name="youtube_decryption_support">Nivukx Extractor</string>
     <string name="youtube_decryption_support_desc">Extraheert automatisch YouTube-afspeelconfiguraties. Permanent ingesteld op Actief.</string>
     <string name="force_update_cipher">Configuraties geforceerd bijwerken</string>
     <string name="force_update_cipher_desc">Download de nieuwste vervangende extractortoewijzingen. Beperkt tot 3 updates per dag.</string>
