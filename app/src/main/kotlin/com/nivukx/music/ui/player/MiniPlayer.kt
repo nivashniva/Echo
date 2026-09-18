@@ -107,6 +107,9 @@ import com.nivukx.music.LocalPlayerConnection
 import com.nivukx.music.R
 import com.nivukx.music.ui.component.HeartBurstIcon
 import com.nivukx.music.ui.motion.EchoAnimatedContent
+import com.nivukx.music.ui.motion.nivukxArtworkTransition
+import com.nivukx.music.ui.motion.nivukxReactiveGlow
+import com.nivukx.music.ui.motion.nivukxSwipeDepth
 import com.nivukx.music.constants.CropAlbumArtKey
 import com.nivukx.music.constants.DarkModeKey
 import com.nivukx.music.constants.MiniPlayerBackgroundStyleKey
@@ -436,6 +439,8 @@ private fun NewMiniPlayer(
                 .liquidGlass(config = glassConfig, shape = RoundedCornerShape(32.dp))
                 .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.65f))
                 .border(1.dp, outlineColor.copy(alpha = 0.3f), RoundedCornerShape(32.dp))
+                .nivukxReactiveGlow(isDynamicBackground, cornerRadius = 32.dp)
+                .nivukxSwipeDepth(offsetXAnimatable.value)
         ) {
             
             MiniPlayerBackgroundLayer(
@@ -563,6 +568,7 @@ private fun NewMiniPlayerThumbnail(
                 .size(40.dp)
                 .clip(CircleShape)
                 .border(1.dp, outlineColor.copy(alpha = 0.3f), CircleShape)
+                .nivukxArtworkTransition(mediaMetadata?.id ?: mediaMetadata?.thumbnailUrl, intensity = 0.8f)
         ) {
             EchoAnimatedContent(
                 targetState = mediaMetadata?.thumbnailUrl,
@@ -802,6 +808,7 @@ private fun LegacyMiniPlayer(
             modifier = Modifier
                 .fillMaxSize()
                 .offset { IntOffset(offsetXAnimatable.value.roundToInt(), 0) }
+                .nivukxSwipeDepth(offsetXAnimatable.value)
                 .padding(end = 12.dp),
         ) {
             Box(Modifier.weight(1f)) {
