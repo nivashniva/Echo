@@ -1,4 +1,4 @@
-package com.nivukx.music.echomusic
+package com.nivukx.music.nivukx
 
 import android.Manifest
 import android.app.NotificationChannel
