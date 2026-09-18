@@ -93,6 +93,8 @@ The app identity is always the exact text **"Nivukx"**. Use a small alpha + tran
 * Do not solve performance regressions by disabling existing product functionality.
 * For player morphing, animate alpha, translation, scale, and bounded effect intensity from the existing sheet progress instead of launching separate per-frame coroutines.
 * Do not perform network resolution, database I/O, bitmap decoding, or FFmpeg work from frame-critical UI animation lambdas.
+* High-end motion uses shared spatial primitives rather than stacking unrelated animations. List/grid items use restrained reveal motion, active controls use spring-based state morphs, and direct gestures may drive depth transforms synchronously from gesture progress.
+* Shared-transition surfaces should use short fade/scale/bounds choreography and preserve the identity of the underlying content.
 
 ---
 
