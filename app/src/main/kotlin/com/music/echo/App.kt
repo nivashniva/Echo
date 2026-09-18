@@ -1,8 +1,8 @@
 
 
-package echo.music.iad1tya
-import echo.music.iad1tya.R
-import echo.music.iad1tya.BuildConfig
+package com.nivukx.music
+import com.nivukx.music.R
+import com.nivukx.music.BuildConfig
 
 import android.app.Application
 import android.app.NotificationChannel
@@ -20,18 +20,18 @@ import coil3.memory.MemoryCache
 import coil3.request.CachePolicy
 import coil3.request.allowHardware
 import coil3.request.crossfade
-import com.music.innertube.YouTube
-import com.music.innertube.models.IpVersion
-import com.music.innertube.models.YouTubeLocale
-import com.music.kugou.KuGou
-import echo.music.iad1tya.constants.*
-import echo.music.iad1tya.di.ApplicationScope
-import echo.music.iad1tya.extensions.toEnum
-import echo.music.iad1tya.extensions.toInetSocketAddress
-import echo.music.iad1tya.utils.CrashHandler
-import echo.music.iad1tya.utils.AppContextHolder
-import echo.music.iad1tya.utils.dataStore
-import echo.music.iad1tya.utils.reportException
+import com.nivukx.innertube.YouTube
+import com.nivukx.innertube.models.IpVersion
+import com.nivukx.innertube.models.YouTubeLocale
+import com.nivukx.kugou.KuGou
+import com.nivukx.music.constants.*
+import com.nivukx.music.di.ApplicationScope
+import com.nivukx.music.extensions.toEnum
+import com.nivukx.music.extensions.toInetSocketAddress
+import com.nivukx.music.utils.CrashHandler
+import com.nivukx.music.utils.AppContextHolder
+import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.reportException
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -106,8 +106,8 @@ class App : Application(), SingletonImageLoader.Factory {
         applicationScope.launch(Dispatchers.Default) {
             delay(2500L)
             runCatching {
-                echo.music.iad1tya.utils.cipher.CipherDeobfuscator.initialize(this@App)
-                echo.music.iad1tya.utils.YTPlayerUtils.initialize()
+                com.nivukx.music.utils.cipher.CipherDeobfuscator.initialize(this@App)
+                com.nivukx.music.utils.YTPlayerUtils.initialize()
             }.onFailure {
                 Timber.w(it, "Deferred playback engine warm-up failed")
             }
@@ -192,11 +192,11 @@ class App : Application(), SingletonImageLoader.Factory {
         YouTube.ipVersion = settings[IpVersionKey]?.toEnum(defaultValue = IpVersion.AUTO) ?: IpVersion.AUTO
 
         // Set playback engine preference
-        val engineName = settings[echo.music.iad1tya.constants.PlaybackEngineKey]
-        echo.music.iad1tya.utils.YTPlayerUtils.playbackEngine = try {
-            if (engineName != null) echo.music.iad1tya.constants.PlaybackEngine.valueOf(engineName)
-            else echo.music.iad1tya.constants.PlaybackEngine.AUTO
-        } catch (_: Exception) { echo.music.iad1tya.constants.PlaybackEngine.AUTO }
+        val engineName = settings[com.nivukx.music.constants.PlaybackEngineKey]
+        com.nivukx.music.utils.YTPlayerUtils.playbackEngine = try {
+            if (engineName != null) com.nivukx.music.constants.PlaybackEngine.valueOf(engineName)
+            else com.nivukx.music.constants.PlaybackEngine.AUTO
+        } catch (_: Exception) { com.nivukx.music.constants.PlaybackEngine.AUTO }
 
         val channel = NotificationChannel(
             "updates",
@@ -224,7 +224,7 @@ class App : Application(), SingletonImageLoader.Factory {
                 }
         }
 
-        echo.music.iad1tya.utils.lastfm.LastFM.initialize(
+        com.nivukx.music.utils.lastfm.LastFM.initialize(
             apiKey = BuildConfig.LASTFM_API_KEY.takeIf { it.isNotEmpty() } ?: "",
             secret = BuildConfig.LASTFM_SECRET.takeIf { it.isNotEmpty() } ?: "",
         )
