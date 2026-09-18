@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.component
+package com.nivukx.music.ui.component
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
@@ -33,9 +33,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import echo.music.iad1tya.R
-import echo.music.iad1tya.utils.PlaybackLogEntry
-import echo.music.iad1tya.utils.PlaybackLogLevel
+import com.nivukx.music.R
+import com.nivukx.music.utils.PlaybackLogEntry
+import com.nivukx.music.utils.PlaybackLogLevel
 
 @Composable
 fun PlaybackLogsDialog(
