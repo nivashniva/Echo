@@ -1,6 +1,7 @@
 
 
 package com.nivukx.music.ui.screens.artist
+import com.nivukx.music.ui.motion.nivukxHighEndReveal
 
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.foundation.shape.CircleShape
@@ -498,6 +499,7 @@ fun ArtistScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         LazyColumn(
+            modifier = Modifier.nivukxHighEndReveal(),
             state = lazyListState,
             contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues(),
         ) {
