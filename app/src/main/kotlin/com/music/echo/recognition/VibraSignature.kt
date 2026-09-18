@@ -1,4 +1,4 @@
-package echo.music.iad1tya.recognition
+package com.nivukx.music.recognition
 
 
 object VibraSignature {
