@@ -71,6 +71,20 @@ class PlaybackUrlResolver @Inject constructor(
                     audioQuality = audioQuality,
                     connectivityManager = connectivityManager,
                 ).map { playback ->
+                    when (audioQuality) {
+                        AudioQuality.LOSSLESS_WHEN_AVAILABLE ->
+                            check(YTPlayerUtils.isGenuinelyLosslessFormat(playback.format)) {
+                                "Lossless playback contract violated for $videoId"
+                            }
+
+                        AudioQuality.OPUS ->
+                            check(YTPlayerUtils.isGenuinelyOpusFormat(playback.format)) {
+                                "Opus playback contract violated for $videoId"
+                            }
+
+                        else -> Unit
+                    }
+
                     val ttlSeconds = playback.streamExpiresInSeconds.coerceAtLeast(MIN_STREAM_TTL_SECONDS)
                     cache[key] = CachedUrl(
                         playback = playback,
