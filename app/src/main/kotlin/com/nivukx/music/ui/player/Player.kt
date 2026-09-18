@@ -957,9 +957,7 @@ fun BottomSheetPlayer(
                     PlayerBackgroundStyle.BLUR -> {
                         AnimatedContent(
                             targetState = backgroundThumbnailUrl,
-                            transitionSpec = {
-                                fadeIn(tween(800)).togetherWith(fadeOut(tween(800)))
-                            },
+                            transitionSpec = { NivukxMotion.artworkBackgroundTransform() },
                             label = "blurBackground"
                         ) { thumbnailUrl ->
                             if (thumbnailUrl != null) {
@@ -1020,9 +1018,7 @@ fun BottomSheetPlayer(
                     PlayerBackgroundStyle.GLOW_ANIMATED -> {
                         AnimatedContent(
                             targetState = gradientColors,
-                            transitionSpec = {
-                                fadeIn(tween(1200)) togetherWith fadeOut(tween(1200))
-                            },
+                            transitionSpec = { NivukxMotion.artworkBackgroundTransform() },
                             label = "GlowAnimatedContent"
                         ) { colors ->
                             if (colors.isNotEmpty()) {
@@ -1302,9 +1298,7 @@ fun BottomSheetPlayer(
 
                         AnimatedContent(
                             targetState = backgroundThumbnailUrl,
-                            transitionSpec = {
-                                fadeIn(tween(1500)).togetherWith(fadeOut(tween(1500)))
-                            },
+                            transitionSpec = { NivukxMotion.artworkBackgroundTransform() },
                             label = "liveMeshBackground"
                         ) { thumbnailUrl ->
                             if (thumbnailUrl != null) {
@@ -1474,7 +1468,9 @@ fun BottomSheetPlayer(
                                         model = mediaMetadata.thumbnailUrl,
                                         contentDescription = null,
                                         contentScale = if (cropAlbumArt) ContentScale.Crop else ContentScale.Fit,
-                                        modifier = Modifier.fillMaxSize()
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .nivukxArtworkTransition(mediaMetadata.id, intensity = 0.65f)
                                     )
 
                                     if (isFullScreen && enableLyricsThumbnailPlayPause) {
@@ -1519,7 +1515,7 @@ fun BottomSheetPlayer(
                 ) {
                     AnimatedContent(
                         targetState = mediaMetadata.title,
-                        transitionSpec = { fadeIn() togetherWith fadeOut() },
+                        transitionSpec = { NivukxMotion.playerContentTransform() },
                         label = "",
                     ) { title ->
                         Text(
