@@ -9,7 +9,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.os.Build
+import androidx.core.content.ContextCompat
 import android.os.Bundle
 import com.nivukx.music.playback.MusicService
 
@@ -67,11 +67,7 @@ class MusicWidgetReceiver : AppWidgetProvider() {
                     putExtras(intent)
                 }
                 try {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        context.startService(serviceIntent)
-                    } else {
-                        context.startService(serviceIntent)
-                    }
+                    ContextCompat.startForegroundService(context, serviceIntent)
                 } catch (e: Exception) {
                     // Service might be restricted in background
                 }
