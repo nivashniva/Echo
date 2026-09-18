@@ -1,6 +1,7 @@
 
 
 package com.nivukx.music.ui.player
+import com.nivukx.music.ui.motion.nivukxHighEndReveal
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
@@ -1110,6 +1111,7 @@ fun Queue(
 
             Box(modifier = Modifier.weight(1f)) {
                 LazyColumn(
+                    modifier = Modifier.nivukxHighEndReveal(offsetY = 8f),
                     state = lazyListState,
                     contentPadding =
                         WindowInsets.systemBars
