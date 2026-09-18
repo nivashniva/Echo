@@ -1,4 +1,4 @@
-package echo.music.iad1tya.ui.menu
+package com.nivukx.music.ui.menu
 
 import android.content.Intent
 import android.widget.Toast
@@ -54,30 +54,30 @@ import androidx.media3.exoplayer.offline.DownloadService
 import androidx.navigation.NavController
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.music.innertube.YouTube
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.LocalDownloadUtil
-import echo.music.iad1tya.LocalListenTogetherManager
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.EnableExportAsMp3Key
-import echo.music.iad1tya.constants.ExportDirectoryUriKey
-import echo.music.iad1tya.constants.ExportedSongIdsKey
-import echo.music.iad1tya.constants.ExportingSongIdsKey
-import echo.music.iad1tya.constants.ListItemHeight
-import echo.music.iad1tya.extensions.toggleRepeatMode
-import echo.music.iad1tya.listentogether.RoomRole
-import echo.music.iad1tya.models.MediaMetadata
-import echo.music.iad1tya.models.toMediaMetadata
-import echo.music.iad1tya.playback.ExoDownloadService
-import echo.music.iad1tya.ui.component.BottomSheetState
-import echo.music.iad1tya.ui.component.ListDialog
-import echo.music.iad1tya.ui.component.Material3MenuGroup
-import echo.music.iad1tya.ui.component.Material3MenuItemData
-import echo.music.iad1tya.ui.component.NewAction
-import echo.music.iad1tya.ui.component.NewActionGrid
-import echo.music.iad1tya.ui.component.VolumeSlider
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.viewmodels.CachePlaylistViewModel
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.LocalDownloadUtil
+import com.nivukx.music.LocalListenTogetherManager
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.EnableExportAsMp3Key
+import com.nivukx.music.constants.ExportDirectoryUriKey
+import com.nivukx.music.constants.ExportedSongIdsKey
+import com.nivukx.music.constants.ExportingSongIdsKey
+import com.nivukx.music.constants.ListItemHeight
+import com.nivukx.music.extensions.toggleRepeatMode
+import com.nivukx.music.listentogether.RoomRole
+import com.nivukx.music.models.MediaMetadata
+import com.nivukx.music.models.toMediaMetadata
+import com.nivukx.music.playback.ExoDownloadService
+import com.nivukx.music.ui.component.BottomSheetState
+import com.nivukx.music.ui.component.ListDialog
+import com.nivukx.music.ui.component.Material3MenuGroup
+import com.nivukx.music.ui.component.Material3MenuItemData
+import com.nivukx.music.ui.component.NewAction
+import com.nivukx.music.ui.component.NewActionGrid
+import com.nivukx.music.ui.component.VolumeSlider
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.viewmodels.CachePlaylistViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -122,13 +122,13 @@ fun OldPlayerMenu(
         mediaMetadata.artists.filter { it.id != null }
     }
 
-    val ringtoneViewModel = echo.music.iad1tya.LocalRingtoneViewModel.current
+    val ringtoneViewModel = com.nivukx.music.LocalRingtoneViewModel.current
 
     val (enableExportAsMp3) = rememberPreference(key = EnableExportAsMp3Key, defaultValue = false)
     val (exportDirectoryUri) = rememberPreference(key = ExportDirectoryUriKey, defaultValue = "")
     val (exportingSongIds) = rememberPreference(key = ExportingSongIdsKey, defaultValue = "")
     val (exportedSongIds) = rememberPreference(key = ExportedSongIdsKey, defaultValue = "")
-    val (showLyricsOnPlayer, onShowLyricsOnPlayerChange) = rememberPreference(key = echo.music.iad1tya.constants.ShowLyricsOnPlayerKey, defaultValue = false)
+    val (showLyricsOnPlayer, onShowLyricsOnPlayerChange) = rememberPreference(key = com.nivukx.music.constants.ShowLyricsOnPlayerKey, defaultValue = false)
 
     val isExporting = remember(exportingSongIds, mediaMetadata.id) { exportingSongIds.split(",").contains(mediaMetadata.id) }
     val isExported = remember(exportedSongIds, mediaMetadata.id) { exportedSongIds.split(",").contains(mediaMetadata.id) }
@@ -308,7 +308,7 @@ fun OldPlayerMenu(
                     add(
                         Material3MenuItemData(
                             customComposable = {
-                                echo.music.iad1tya.ui.component.CastButton(asMenuItem = true)
+                                com.nivukx.music.ui.component.CastButton(asMenuItem = true)
                             }
                         )
                     )
@@ -470,7 +470,7 @@ fun OldPlayerMenu(
                                             onDismiss()
                                         } else {
                                             onDismiss()
-                                            echo.music.iad1tya.playback.AudioExportService.start(
+                                            com.nivukx.music.playback.AudioExportService.start(
                                                 context = context,
                                                 songId = mediaMetadata.id,
                                                 songTitle = mediaMetadata.title,
@@ -546,9 +546,9 @@ fun OldPlayerMenu(
                             onClick = {
                                 refetchIconDegree -= 360
                                 cacheViewModel.removeSongFromCache(mediaMetadata.id)
-                                androidx.media3.exoplayer.offline.DownloadService.sendRemoveDownload(context, echo.music.iad1tya.playback.ExoDownloadService::class.java, mediaMetadata.id, false)
-                                val intent = android.content.Intent(context, echo.music.iad1tya.playback.MusicService::class.java).apply {
-                                    action = "echo.music.iad1tya.ACTION_CLEAR_SONG_CACHE"
+                                androidx.media3.exoplayer.offline.DownloadService.sendRemoveDownload(context, com.nivukx.music.playback.ExoDownloadService::class.java, mediaMetadata.id, false)
+                                val intent = android.content.Intent(context, com.nivukx.music.playback.MusicService::class.java).apply {
+                                    action = "com.nivukx.music.ACTION_CLEAR_SONG_CACHE"
                                     putExtra("songId", mediaMetadata.id)
                                 }
                                 context.startService(intent)
