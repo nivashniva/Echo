@@ -99,6 +99,16 @@ object NivukxMotion {
         stiffness = 700f,
     )
 
+    val PrecisionSpring = spring<Float>(
+        dampingRatio = 0.92f,
+        stiffness = 620f,
+    )
+
+    val GestureSpring = spring<Float>(
+        dampingRatio = 0.86f,
+        stiffness = 520f,
+    )
+
     val NavigationEnterForward: EnterTransition =
         fadeIn(tween(Navigation, easing = PremiumEasing)) +
             slideInHorizontally(
@@ -430,6 +440,98 @@ fun Modifier.nivukxSwipeDepth(
     rotationZ = direction * 1.1f * depth
     alpha = 1f - (0.04f * depth)
 }
+
+/**
+ * High-end list/grid item entrance with a restrained spatial settle.
+ * This is intentionally short and low-amplitude so dense music libraries remain
+ * responsive instead of turning every scroll into a fireworks display.
+ */
+@Composable
+fun Modifier.nivukxItemReveal(
+    offsetY: Float = 8f,
+    initialScale: Float = 0.992f,
+): Modifier {
+    val progress = remember { Animatable(0f) }
+    LaunchedEffect(Unit) {
+        progress.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(
+                durationMillis = NivukxMotion.Standard,
+                easing = NivukxMotion.PremiumEasing,
+            ),
+        )
+    }
+    return graphicsLayer {
+        val p = progress.value
+        alpha = 0.9f + (0.1f * p)
+        translationY = offsetY * (1f - p)
+        scaleX = initialScale + ((1f - initialScale) * p)
+        scaleY = initialScale + ((1f - initialScale) * p)
+    }
+}
+
+/**
+ * State-driven icon morph treatment. Keeps the icon node stable while the
+ * surrounding UI responds to playback state changes.
+ */
+@Composable
+fun Modifier.nivukxStateMorph(
+    active: Boolean,
+    activeScale: Float = 1.06f,
+    activeRotation: Float = 0f,
+): Modifier {
+    val scale by animateFloatAsState(
+        targetValue = if (active) activeScale else 1f,
+        animationSpec = NivukxMotion.PrecisionSpring,
+        label = "nivukxStateMorphScale",
+    )
+    val rotation by animateFloatAsState(
+        targetValue = if (active) activeRotation else 0f,
+        animationSpec = NivukxMotion.PrecisionSpring,
+        label = "nivukxStateMorphRotation",
+    )
+    return graphicsLayer {
+        scaleX = scale
+        scaleY = scale
+        rotationZ = rotation
+    }
+}
+
+/**
+ * Gesture-following depth that can be driven directly from a drag fraction.
+ * No coroutine is launched per frame.
+ */
+fun Modifier.nivukxGestureDepth(
+    progress: Float,
+    maxScale: Float = 1.018f,
+    maxRotation: Float = 1.2f,
+): Modifier = graphicsLayer {
+    val p = progress.coerceIn(-1f, 1f)
+    val magnitude = kotlin.math.abs(p)
+    val direction = if (p >= 0f) 1f else -1f
+    val depth = magnitude * magnitude
+    scaleX = 1f + ((maxScale - 1f) * depth)
+    scaleY = 1f + ((maxScale - 1f) * depth * 0.65f)
+    rotationZ = direction * maxRotation * depth
+}
+
+/**
+ * Coordinated fade/scale for loading-to-content and empty/error state changes.
+ */
+fun stateContentTransform(): ContentTransform =
+    (
+        fadeIn(tween(260, easing = PremiumEasing)) +
+            scaleIn(
+                initialScale = 0.988f,
+                animationSpec = tween(260, easing = PremiumEasing),
+            )
+    ).togetherWith(
+        fadeOut(tween(140, easing = ExitEasing)) +
+            scaleOut(
+                targetScale = 0.996f,
+                animationSpec = tween(140, easing = ExitEasing),
+            )
+    )
 
 /**
  * Premium artwork identity transition for track changes.
