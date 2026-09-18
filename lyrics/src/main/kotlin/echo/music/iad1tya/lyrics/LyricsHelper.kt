@@ -1,20 +1,20 @@
 
 
-package echo.music.iad1tya.lyrics
+package com.nivukx.music.lyrics
 
 import android.content.Context
 import android.util.LruCache
-import echo.music.iad1tya.constants.LyricsProviderOrderKey
-import echo.music.iad1tya.constants.PreferredLyricsProvider
-import echo.music.iad1tya.constants.PreferredLyricsProviderKey
-import echo.music.iad1tya.constants.FetchFasterLyricsKey
-import echo.music.iad1tya.db.entities.LyricsEntity.Companion.LYRICS_NOT_FOUND
-import echo.music.iad1tya.extensions.toEnum
-import echo.music.iad1tya.models.MediaMetadata
-import echo.music.iad1tya.playback.LyricsWithProvider
-import echo.music.iad1tya.utils.NetworkConnectivityObserver
-import echo.music.iad1tya.utils.dataStore
-import echo.music.iad1tya.utils.reportException
+import com.nivukx.music.constants.LyricsProviderOrderKey
+import com.nivukx.music.constants.PreferredLyricsProvider
+import com.nivukx.music.constants.PreferredLyricsProviderKey
+import com.nivukx.music.constants.FetchFasterLyricsKey
+import com.nivukx.music.db.entities.LyricsEntity.Companion.LYRICS_NOT_FOUND
+import com.nivukx.music.extensions.toEnum
+import com.nivukx.music.models.MediaMetadata
+import com.nivukx.music.playback.LyricsWithProvider
+import com.nivukx.music.utils.NetworkConnectivityObserver
+import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.reportException
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
