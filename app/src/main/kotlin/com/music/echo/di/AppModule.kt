@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.di
+package com.nivukx.music.di
 
 import android.content.Context
 import androidx.media3.database.DatabaseProvider
@@ -8,13 +8,13 @@ import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.cache.LeastRecentlyUsedCacheEvictor
 import androidx.media3.datasource.cache.NoOpCacheEvictor
 import androidx.media3.datasource.cache.SimpleCache
-import echo.music.iad1tya.constants.MaxSongCacheSizeKey
-import echo.music.iad1tya.db.InternalDatabase
-import echo.music.iad1tya.db.MusicDatabase
-import echo.music.iad1tya.listentogether.ListenTogetherClient
-import echo.music.iad1tya.listentogether.ListenTogetherManager
-import echo.music.iad1tya.utils.dataStore
-import echo.music.iad1tya.utils.get
+import com.nivukx.music.constants.MaxSongCacheSizeKey
+import com.nivukx.music.db.InternalDatabase
+import com.nivukx.music.db.MusicDatabase
+import com.nivukx.music.listentogether.ListenTogetherClient
+import com.nivukx.music.listentogether.ListenTogetherManager
+import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.get
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
