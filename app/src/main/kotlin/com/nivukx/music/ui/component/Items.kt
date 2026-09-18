@@ -843,7 +843,7 @@ fun PlaylistListItem(
                     stringResource(R.string.cached_playlist) -> R.drawable.cached
                     
                     stringResource(R.string.uploaded_playlist) -> R.drawable.backup
-                    else -> if (autoPlaylist) R.drawable.trending_up else R.drawable.ic_launcher_nobg
+                    else -> if (autoPlaylist) R.drawable.trending_up else R.drawable.app_logo
                 }
                 Icon(
                     painter = painterResource(painter),
@@ -955,7 +955,7 @@ fun PlaylistGridItem(
                     stringResource(R.string.cached_playlist) -> R.drawable.cached
                     
                     stringResource(R.string.uploaded_playlist) -> R.drawable.backup
-                    else -> if (autoPlaylist) R.drawable.trending_up else R.drawable.ic_launcher_nobg
+                    else -> if (autoPlaylist) R.drawable.trending_up else R.drawable.app_logo
                 }
                 Box(
                     contentAlignment = Alignment.Center,
@@ -1531,8 +1531,8 @@ fun PlaylistThumbnail(
                 .build(),
             contentDescription = null,
             contentScale = if (cropAlbumArt) ContentScale.Crop else ContentScale.Fit,
-            placeholder = painterResource(R.drawable.ic_launcher_nobg),
-            error = painterResource(R.drawable.ic_launcher_nobg),
+            placeholder = painterResource(R.drawable.app_logo),
+            error = painterResource(R.drawable.app_logo),
             modifier = Modifier
                 .size(size)
                 .clip(shape)
@@ -1558,8 +1558,8 @@ fun PlaylistThumbnail(
                         .build(),
                     contentDescription = null,
                     contentScale = if (cropAlbumArt) ContentScale.Crop else ContentScale.Fit,
-                    placeholder = painterResource(R.drawable.ic_launcher_nobg),
-                    error = painterResource(R.drawable.ic_launcher_nobg),
+                    placeholder = painterResource(R.drawable.app_logo),
+                    error = painterResource(R.drawable.app_logo),
                     modifier = Modifier
                         .align(alignment)
                         .size(size / 2)
@@ -1710,7 +1710,7 @@ fun SwipeToSongBox(
                     Alignment.CenterStart
                 ) else
                 Quadruple(
-                    R.drawable.ic_launcher_nobg,
+                    R.drawable.app_logo,
                     MaterialTheme.colorScheme.primary,
                     MaterialTheme.colorScheme.onPrimary,
                     Alignment.CenterEnd
