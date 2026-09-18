@@ -312,12 +312,9 @@
     <string name="backup_create_success">สำรองข้อมูลสำเร็จ</string>
     <string name="backup_create_failed">ไม่สามารถสำรองข้อมูลได้</string>
     <string name="restore_failed">กู้คืนข้อมูลสำรองไม่สำเร็จ</string>
-    <string name="discord_integration">การเชื่อมต่อ Discord</string>
-    <string name="discord_information">echomusic ใช้ไลบรารี KizzyRPC เพื่อตั้งค่าสถานะบัญชี Discord ของคุณ ซึ่งต้องใช้การเชื่อมต่อ Discord Gateway ซึ่งอาจถือเป็นการละเมิดข้อกำหนดการใช้งานของ Discord อย่างไรก็ตาม ยังไม่พบกรณีที่บัญชีผู้ใช้ถูกระงับด้วยเหตุผลนี้ ใช้ความเสี่ยงด้วยตัวคุณเอง\nechomusic จะดึงเฉพาะโทเคนของคุณเท่านั้น ส่วนอื่น ๆ ทั้งหมดจะถูกเก็บไว้ในเครื่องของคุณ</string>
     <string name="dismiss">ปิด</string>
     <string name="options">ตัวเลือก</string>
     <string name="preview">ตัวอย่าง</string>
-    <string name="enable_discord_rpc">เปิดใช้ Rich Presence</string>
     <string name="about">เกี่ยวกับ</string>
     <string name="app_version">เวอร์ชันแอป</string>
     <string name="new_version_available">มีเวอร์ชันใหม่พร้อมใช้งาน</string>
