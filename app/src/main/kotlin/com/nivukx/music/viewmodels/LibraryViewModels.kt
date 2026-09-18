@@ -59,6 +59,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.LocalDateTime
@@ -144,6 +146,7 @@ constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
+            val semaphore = Semaphore(4)
             allArtists.collect { artists ->
                 artists
                     .map { it.artist }
@@ -152,10 +155,15 @@ constructor(
                             it.lastUpdateTime,
                             LocalDateTime.now()
                         ) > Duration.ofDays(10)
-                    }.forEach { artist ->
-                        YouTube.artist(artist.id).onSuccess { artistPage ->
-                            database.query {
-                                update(artist, artistPage)
+                    }
+                    .forEach { artist ->
+                        launch {
+                            semaphore.withPermit {
+                                YouTube.artist(artist.id).onSuccess { artistPage ->
+                                    database.query {
+                                        update(artist, artistPage)
+                                    }
+                                }
                             }
                         }
                     }
@@ -305,8 +313,11 @@ constructor(
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
             _isRefreshing.value = true
-            syncUtils.performFullSyncSuspend()
-            _isRefreshing.value = false
+            try {
+                syncUtils.performFullSyncSuspend()
+            } finally {
+                _isRefreshing.value = false
+            }
         }
     }
 
