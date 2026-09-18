@@ -757,7 +757,14 @@ class MusicService :
                         com.nivukx.music.constants.AudioQuality.entries.find { enumVal -> enumVal.name == value }
                     } ?: com.nivukx.music.constants.AudioQuality.AUTO
                     val dataSaver = it[com.nivukx.music.constants.DataSaverEnabledKey] ?: false
-                    if (dataSaver) com.nivukx.music.constants.AudioQuality.OPUS else quality
+                    if (
+                        dataSaver &&
+                        quality != com.nivukx.music.constants.AudioQuality.LOSSLESS_WHEN_AVAILABLE
+                    ) {
+                        com.nivukx.music.constants.AudioQuality.OPUS
+                    } else {
+                        quality
+                    }
                 }
                 .distinctUntilChanged()
                 .collect { newQuality ->
@@ -773,33 +780,43 @@ class MusicService :
 
                     Timber.tag("MusicService").i("QUALITY CHANGED: $oldQuality -> $newQuality")
 
-                    Timber.tag("MusicService").i("QUALITY CHANGED: $oldQuality -> $newQuality. Will take effect starting from the next song.")
-
-                    // Clear cache for upcoming songs so they fetch the new quality, keeping the currently playing track's URL cache entry intact.
+                    // Quality is a playback contract. Invalidate the current song caches before
+                    // Media3 requests another byte, then reprepare the current item immediately.
                     val currentMediaId = player.currentMediaItem?.mediaId
-                    val currentCachedEntry = currentMediaId?.let { mediaId ->
-                        songUrlCache.filter { it.key.startsWith("${mediaId}_") }
-                    }
-                    songUrlCache.clear()
-                    if (currentCachedEntry != null) {
-                        songUrlCache.putAll(currentCachedEntry)
+                        ?.takeIf { !it.isLocalMediaId() }
+                    if (currentMediaId != null) {
+                        playbackUrlResolver.invalidate(currentMediaId)
+                        songUrlCache.keys
+                            .filter { it.startsWith("${currentMediaId}_") }
+                            .forEach(songUrlCache::remove)
+                        playerCache.removeResource(currentMediaId)
+                        playerCache.removeResource("${currentMediaId}_${oldQuality.name}")
+
+                        val currentIndex = player.currentMediaItemIndex
+                        val currentPosition = player.currentPosition
+                        val wasPlaying = player.isPlaying
+
+                        player.stop()
+                        player.seekTo(currentIndex, currentPosition)
+                        player.prepare()
+                        if (wasPlaying) {
+                            player.play()
+                        }
                     }
 
-                    // Re-trigger prefetch to fetch the next songs in the new quality
+                    // Re-trigger prefetch to fetch upcoming songs in the newly selected quality.
                     preloadUpcomingItems()
-        mediaItem?.mediaId
-            ?.takeIf { !it.isLocalMediaId() }
-            ?.let { currentId ->
-                if (::audioQuality.isInitialized) {
-                    playbackUrlResolver.prefetch(currentId, audioQuality)
+                    player.currentMediaItem?.mediaId
+                        ?.takeIf { !it.isLocalMediaId() }
+                        ?.let { currentId ->
+                            playbackUrlResolver.prefetch(currentId, audioQuality)
+                        }
                     if (player.currentMediaItemIndex + 1 < player.mediaItemCount) {
                         player.getMediaItemAt(player.currentMediaItemIndex + 1)
                             .mediaId
                             .takeIf { it.isNotBlank() && !it.isLocalMediaId() }
                             ?.let { playbackUrlResolver.prefetch(it, audioQuality) }
                     }
-                }
-            }
 
                 }
         }
@@ -2934,26 +2951,28 @@ class MusicService :
 
 
             
-            var shouldBypassCache = bypassCacheForQualityChange.contains(mediaId)
-            
-            val cachedLength = androidx.media3.datasource.cache.ContentMetadata.getContentLength(downloadCache.getContentMetadata(mediaId))
-                .takeIf { it != androidx.media3.common.C.LENGTH_UNSET.toLong() } ?: -1L
-            val isFullyDownloaded = cachedLength > 0 && downloadCache.isCached(mediaId, 0, cachedLength)
+            val lockedQuality = audioQuality
+            val strictLossless = lockedQuality == com.nivukx.music.constants.AudioQuality.LOSSLESS_WHEN_AVAILABLE
+            val qualityCacheKey = "${mediaId}_${lockedQuality.name}"
+            val cacheKey = if (strictLossless) qualityCacheKey else mediaId
+            val shouldBypassCache = bypassCacheForQualityChange.contains(mediaId)
 
-            val activeQualityInCache = songUrlCache.keys.find { it.startsWith("${mediaId}_") }?.substringAfter("_")?.let {
-                runCatching { com.nivukx.music.constants.AudioQuality.valueOf(it) }.getOrNull()
-            }
-            val lockedQuality = activeQualityInCache ?: audioQuality
+            // Lossless never consumes the legacy mediaId-only cache because it can contain
+            // compressed bytes from an earlier quality selection.
+            val cachedLength = androidx.media3.datasource.cache.ContentMetadata.getContentLength(
+                downloadCache.getContentMetadata(cacheKey)
+            ).takeIf { it != androidx.media3.common.C.LENGTH_UNSET.toLong() } ?: -1L
+            val isFullyDownloaded = cachedLength > 0 && downloadCache.isCached(cacheKey, 0, cachedLength)
 
 
             if (!shouldBypassCache) {
-                if (isFullyDownloaded) {
+                if (isFullyDownloaded && !strictLossless) {
                     scope.launch(Dispatchers.IO) { recoverSong(mediaId, isOfflinePlayback = true) }
                     return@Factory dataSpec
                 }
 
                 if (downloadCache.isCached(
-                        mediaId,
+                        cacheKey,
                         dataSpec.position,
                         if (dataSpec.length >= 0) dataSpec.length else 1
                     )
@@ -2965,13 +2984,13 @@ class MusicService :
                     // Fall through to fetch real URL since it's only partially downloaded
                 }
 
-                if (playerCache.isCached(mediaId, dataSpec.position, CHUNK_LENGTH)) {
+                if (playerCache.isCached(cacheKey, dataSpec.position, CHUNK_LENGTH)) {
                     songUrlCache["${mediaId}_${lockedQuality.name}"]?.takeIf { it.second > System.currentTimeMillis() }?.let {
                         scope.launch(Dispatchers.IO) { recoverSong(mediaId, isOfflinePlayback = true) }
                         return@Factory dataSpec.withUri(it.first.toUri())
                     }
                     Timber.tag(TAG).w("Ghost cache entry for $mediaId, re-fetching")
-                    playerCache.removeResource(mediaId)
+                    playerCache.removeResource(cacheKey)
                 }
 
                 songUrlCache["${mediaId}_${lockedQuality.name}"]?.takeIf { it.second > System.currentTimeMillis() }?.let {
@@ -3020,11 +3039,11 @@ class MusicService :
             run {
                 val format = nonNullPlayback.format
                 
-                var targetCacheKey = mediaId
-                
+                var targetCacheKey = cacheKey
+
                 if (shouldBypassCache) {
                     Timber.tag(TAG).i("Bypassed cache. Using custom cache key to prevent intercept.")
-                    targetCacheKey = "${mediaId}_diff"
+                    targetCacheKey = "${cacheKey}_diff"
                 }
 
                 val loudnessDb = nonNullPlayback.audioConfig?.loudnessDb
