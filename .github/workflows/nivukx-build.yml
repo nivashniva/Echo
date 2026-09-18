@@ -1,0 +1,48 @@
+name: Nivukx Universal GMS Build
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nivukx-universal-gms-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Assemble Universal GMS Debug
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
+
+      - name: Assemble Universal GMS Debug
+        run: ./gradlew assembleUniversalGmsDebug --stacktrace --no-daemon --build-cache
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nivukx-Universal-GMS-Debug
+          path: |
+            app/build/outputs/apk/**/*.apk
+            app/build/outputs/apk/**/*.aab
+          if-no-files-found: error
+          retention-days: 14
