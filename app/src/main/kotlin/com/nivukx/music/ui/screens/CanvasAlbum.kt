@@ -9,7 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.nivukx.music.applecanvas.AppleMusicCanvasProvider
-import com.nivukx.music.echomusiccanvas.echomusicCanvasProvider
+import com.nivukx.music.nivukxcanvas.NivukxCanvasProvider
 import com.nivukx.music.canvas.CanvasArtwork
 import com.nivukx.music.canvas.TidalCanvasProvider
 import com.nivukx.music.ui.player.CanvasArtworkPlaybackCache
@@ -63,7 +63,7 @@ fun rememberAlbumCanvas(
 
             searchTasks.filter { (s, a) -> s.isNotBlank() && a.isNotBlank() }
                 .firstNotNullOfOrNull { (s, a) ->
-                    echomusicCanvasProvider.getBySongArtist(
+                    NivukxCanvasProvider.getBySongArtist(
                         song = s,
                         artist = a
                     )?.takeIf { !it.preferredAnimationUrl.isNullOrBlank() }
