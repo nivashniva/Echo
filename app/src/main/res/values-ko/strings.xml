@@ -250,8 +250,6 @@
     <string name="hide_explicit">선정적 콘텐츠 숨기기</string>
     <string name="preview">미리보기</string>
     <string name="login_failed">로그인 실패</string>
-    <string name="discord_integration">Discord 연동</string>
-    <string name="discord_information">echomusic은 KizzyRPC 라이브러리를 사용하여 Discord 계정의 상태를 설정합니다. 이 과정에서 Discord Gateway 연결을 사용하며, 이는 Discord 이용 약관 위반으로 간주될 수 있습니다. 하지만 이 이유로 사용자 계정이 정지된 사례는 알려진 바가 없습니다. 사용에 따른 책임은 사용자 본인에게 있습니다.\nechomusic은 토큰만 추출하며 그 밖의 모든 데이터는 기기에 저장됩니다.</string>
     <string name="options">옵션</string>
     <string name="action_logout">로그아웃</string>
     <string name="action_like_all">모두 좋아요</string>
@@ -268,7 +266,6 @@
     <string name="similar_to">비슷한 음악</string>
     <string name="auto_skip_next_on_error_desc">끊김 없는 재생 환경을 제공합니다</string>
     <string name="disable_screenshot_desc">이 옵션을 켜면 스크린샷을 찍을 수 없으며 최근 앱 화면에서 앱 내용이 숨겨집니다.</string>
-    <string name="enable_discord_rpc">Rich Presence 사용</string>
     <string name="action_login">로그인</string>
     <!-- Bottom navigation -->
     <string name="music">음악</string>
