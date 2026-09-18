@@ -1,6 +1,7 @@
 
 
 package com.nivukx.music.ui.screens.search
+import com.nivukx.music.ui.motion.nivukxHighEndReveal
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -368,6 +369,7 @@ fun SuggestionItem(
             .padding(horizontal = 16.dp, vertical = 1.dp)
             .fillMaxWidth()
             .height(SuggestionItemHeight)
+            .nivukxHighEndReveal(offsetY = 6f, initialScale = 0.99f)
             .clip(shape)
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .clickable(onClick = onClick)
