@@ -1,6 +1,7 @@
 
 
 package com.nivukx.music.ui.screens.settings
+import com.nivukx.music.ui.motion.nivukxHighEndReveal
 
 import com.nivukx.music.R
 import android.content.ActivityNotFoundException
@@ -105,6 +106,7 @@ highlightKey: String? = null) {
     val scrollState = rememberScrollState()
     Column(
         Modifier
+            .nivukxHighEndReveal()
             .windowInsetsPadding(LocalPlayerAwareWindowInsets.current.only(WindowInsetsSides.Horizontal))
             .verticalScroll(scrollState)
             .padding(horizontal = 16.dp)
