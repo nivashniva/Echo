@@ -874,6 +874,9 @@ object YTPlayerUtils {
         val format = selectAudioFormat(audioFormats, audioQuality)
 
         if (format != null) {
+            if (audioQuality == AudioQuality.OPUS && !isGenuinelyOpusFormat(format)) {
+                throw IllegalStateException("Opus playback contract violated by selected format")
+            }
             Timber.tag(logTag).d(
                 "Selected format: ${format.mimeType}, bitrate: ${format.bitrate}, " +
                     "lossless=${isGenuinelyLosslessFormat(format)}"
@@ -903,9 +906,8 @@ object YTPlayerUtils {
 
             AudioQuality.OPUS ->
                 audioFormats
-                    .filter { it.mimeType.startsWith("audio/webm") }
+                    .filter(::isGenuinelyOpusFormat)
                     .maxByOrNull(::qualityScore)
-                    ?: audioFormats.maxByOrNull(::qualityScore)
         }
 
     private fun qualityScore(format: PlayerResponse.StreamingData.Format): Long {
@@ -915,6 +917,17 @@ object YTPlayerUtils {
             else -> 0L
         }
         return format.bitrate.toLong() + mimeBonus
+    }
+
+    internal fun isGenuinelyOpusFormat(format: PlayerResponse.StreamingData.Format): Boolean {
+        val mimeLower = format.mimeType.lowercase()
+        val codecLower = format.mimeType
+            .substringAfter("codecs=", "")
+            .removeSurrounding(""")
+            .lowercase()
+
+        return mimeLower.startsWith("audio/webm") &&
+            ("opus" in codecLower || codecLower.isBlank())
     }
 
     internal fun isGenuinelyLosslessFormat(format: PlayerResponse.StreamingData.Format): Boolean {
