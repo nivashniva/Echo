@@ -1,4 +1,4 @@
-package echo.music.iad1tya.playback
+package com.nivukx.music.playback
 
 import coil3.SingletonImageLoader
 import coil3.request.CachePolicy
@@ -17,25 +17,25 @@ import androidx.media3.exoplayer.offline.Download
 import androidx.media3.exoplayer.offline.DownloadManager
 import androidx.media3.exoplayer.offline.DownloadNotificationHelper
 import androidx.media3.exoplayer.scheduler.Requirements
-import com.music.innertube.YouTube
-import echo.music.iad1tya.constants.AudioQuality
-import echo.music.iad1tya.constants.AudioQualityKey
-import echo.music.iad1tya.constants.DownloadOnWifiOnlyKey
-import echo.music.iad1tya.constants.IpVersionKey
-import echo.music.iad1tya.utils.dataStore
-import com.music.innertube.models.IpVersion
+import com.nivukx.innertube.YouTube
+import com.nivukx.music.constants.AudioQuality
+import com.nivukx.music.constants.AudioQualityKey
+import com.nivukx.music.constants.DownloadOnWifiOnlyKey
+import com.nivukx.music.constants.IpVersionKey
+import com.nivukx.music.utils.dataStore
+import com.nivukx.innertube.models.IpVersion
 import okhttp3.Dns
 import java.net.InetAddress
 import java.net.Inet4Address
 import java.net.Inet6Address
-import echo.music.iad1tya.db.MusicDatabase
-import echo.music.iad1tya.db.entities.FormatEntity
-import echo.music.iad1tya.db.entities.SongEntity
-import echo.music.iad1tya.di.DownloadCache
-import echo.music.iad1tya.di.PlayerCache
-import echo.music.iad1tya.ui.utils.resize
-import echo.music.iad1tya.utils.YTPlayerUtils
-import echo.music.iad1tya.utils.enumPreference
+import com.nivukx.music.db.MusicDatabase
+import com.nivukx.music.db.entities.FormatEntity
+import com.nivukx.music.db.entities.SongEntity
+import com.nivukx.music.di.DownloadCache
+import com.nivukx.music.di.PlayerCache
+import com.nivukx.music.ui.utils.resize
+import com.nivukx.music.utils.YTPlayerUtils
+import com.nivukx.music.utils.enumPreference
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -68,7 +68,7 @@ constructor(
     @PlayerCache val playerCache: SimpleCache,
 ) {
     private val connectivityManager = context.getSystemService<ConnectivityManager>()!!
-    private val downloadQuality by enumPreference(context, echo.music.iad1tya.constants.DownloadQualityKey, echo.music.iad1tya.constants.DownloadQuality.YOUTUBE)
+    private val downloadQuality by enumPreference(context, com.nivukx.music.constants.DownloadQualityKey, com.nivukx.music.constants.DownloadQuality.YOUTUBE)
     private val audioQuality by enumPreference(context, AudioQualityKey, AudioQuality.OPUS)
     private val ipVersion by enumPreference(context, IpVersionKey, IpVersion.AUTO)
     private val songUrlCache = java.util.concurrent.ConcurrentHashMap<String, Pair<String, Long>>()
