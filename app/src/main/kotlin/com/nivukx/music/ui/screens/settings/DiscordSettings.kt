@@ -2,7 +2,7 @@
 
 @file:OptIn(ExperimentalMaterial3ExpressiveApi::class)
 
-package echo.music.iad1tya.ui.screens.settings
+package com.nivukx.music.ui.screens.settings
 
 import android.content.Intent
 import android.net.Uri
@@ -43,27 +43,27 @@ import coil3.request.allowHardware
 import coil3.toBitmap
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.*
-import echo.music.iad1tya.db.entities.Song
-import echo.music.iad1tya.discord.DiscordAuthCoordinator
-import echo.music.iad1tya.discord.DiscordOAuthRepository
-import echo.music.iad1tya.ui.component.EditTextPreference
-import echo.music.iad1tya.ui.component.EnumListPreference
-import echo.music.iad1tya.ui.component.IconButton
-import echo.music.iad1tya.ui.component.ListPreference
-import echo.music.iad1tya.ui.component.PreferenceEntry
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.R
+import com.nivukx.music.constants.*
+import com.nivukx.music.db.entities.Song
+import com.nivukx.music.discord.DiscordAuthCoordinator
+import com.nivukx.music.discord.DiscordOAuthRepository
+import com.nivukx.music.ui.component.EditTextPreference
+import com.nivukx.music.ui.component.EnumListPreference
+import com.nivukx.music.ui.component.IconButton
+import com.nivukx.music.ui.component.ListPreference
+import com.nivukx.music.ui.component.PreferenceEntry
 
-import echo.music.iad1tya.ui.component.SwitchPreference
-import echo.music.iad1tya.ui.component.PreferenceGroupTitle
-import echo.music.iad1tya.ui.theme.PlayerColorExtractor
-import echo.music.iad1tya.ui.theme.extractThemeColor
-import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.utils.makeTimeString
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.rememberPreference
+import com.nivukx.music.ui.component.SwitchPreference
+import com.nivukx.music.ui.component.PreferenceGroupTitle
+import com.nivukx.music.ui.theme.PlayerColorExtractor
+import com.nivukx.music.ui.theme.extractThemeColor
+import com.nivukx.music.ui.utils.backToMain
+import com.nivukx.music.utils.makeTimeString
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberPreference
 import timber.log.Timber
 
 enum class ActivitySource { ARTIST, ALBUM, SONG, APP }
@@ -271,7 +271,7 @@ fun DiscordSettings(
     val (button2Label) =
         rememberPreference(
             key = DiscordActivityButton2LabelKey,
-            defaultValue = "Go to Echo Music",
+            defaultValue = "Go to Nivukx",
         )
     val (button2Enabled) =
         rememberPreference(
@@ -1183,7 +1183,7 @@ fun RichPresence(
     button1Enabled: Boolean = true,
     button1UrlSource: String = "songurl",
     button1CustomUrl: String = "",
-    button2Label: String = "Go to Echo Music",
+    button2Label: String = "Go to Nivukx",
     button2Enabled: Boolean = true,
     button2UrlSource: String = "custom",
     button2CustomUrl: String = "https://github.com/nivash01/Echo",
