@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "echo.music.iad1tya.artistvideo"
+    namespace = "com.nivukx.music.artistvideo"
     compileSdk = 36
 
     defaultConfig {
