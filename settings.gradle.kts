@@ -29,7 +29,7 @@ include(
     ":shazamkit",
     ":artistvideo",
     ":canvas",
-    ":echomusiccanvas",
+    ":nivukxcanvas",
     ":applecanvas",
     ":unison",
     ":core",
