@@ -1,4 +1,4 @@
-package echo.music.iad1tya.utils
+package com.nivukx.music.utils
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -57,7 +57,7 @@ object AppleMusicAboutAlbum {
             }
 
             val searchUrl = "$AMP_BASE_URL/v1/catalog/$storefront/search"
-            val token = echo.music.iad1tya.utils.AppleMusicTokenProvider.getToken()
+            val token = com.nivukx.music.utils.AppleMusicTokenProvider.getToken()
             val searchResponse = client.get(searchUrl) {
                 header("Authorization", "Bearer $token")
                 header("Origin", "https://music.apple.com")
