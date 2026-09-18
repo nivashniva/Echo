@@ -3099,7 +3099,7 @@ private fun BackgroundVideoView(
         DefaultTrackSelector(context).apply {
             parameters = buildUponParameters()
                 .setMaxVideoSize(maxVideoDimension, maxVideoDimension)
-                .setForceHighestSupportedBitrate(false)
+                .setForceHighestSupportedBitrate(true)
                 .build()
         }
     }
