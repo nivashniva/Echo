@@ -66,6 +66,6 @@ jobs:
     - name: Upload Universal APK
       uses: actions/upload-artifact@v4
       with:
-        name: Echo-Music-Universal-GMS-APK
+        name: Nivukx-Universal-GMS-APK
         path: app/build/outputs/apk/**/*.apk
         if-no-files-found: error
