@@ -1,19 +1,19 @@
-package echo.music.iad1tya.ai
+package com.nivukx.music.ai
 
 import android.content.Context
-import com.music.innertube.YouTube
-import com.music.innertube.models.SongItem
-import echo.music.iad1tya.ai.weather.toSnapshotString
-import echo.music.iad1tya.constants.AiProviderKey
-import echo.music.iad1tya.constants.OpenRouterApiKey
-import echo.music.iad1tya.constants.OpenRouterBaseUrlKey
-import echo.music.iad1tya.constants.OpenRouterModelKey
-import echo.music.iad1tya.db.InternalDatabase
-import echo.music.iad1tya.db.entities.PlaylistEntity
-import echo.music.iad1tya.db.entities.PlaylistSongMap
-import echo.music.iad1tya.db.entities.SongEntity
-import echo.music.iad1tya.utils.dataStore
-import echo.music.iad1tya.utils.get
+import com.nivukx.innertube.YouTube
+import com.nivukx.innertube.models.SongItem
+import com.nivukx.music.ai.weather.toSnapshotString
+import com.nivukx.music.constants.AiProviderKey
+import com.nivukx.music.constants.OpenRouterApiKey
+import com.nivukx.music.constants.OpenRouterBaseUrlKey
+import com.nivukx.music.constants.OpenRouterModelKey
+import com.nivukx.music.db.InternalDatabase
+import com.nivukx.music.db.entities.PlaylistEntity
+import com.nivukx.music.db.entities.PlaylistSongMap
+import com.nivukx.music.db.entities.SongEntity
+import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.get
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
@@ -30,7 +30,7 @@ object AiPlaylistGenerator {
         context: Context,
         userPrompt: String,
         numberOfSongs: Int = 15,
-        weatherInfo: echo.music.iad1tya.ai.weather.WeatherInfo? = null,
+        weatherInfo: com.nivukx.music.ai.weather.WeatherInfo? = null,
         onLog: suspend (String) -> Unit
     ): String? = withContext(Dispatchers.IO) {
         val database = InternalDatabase.newInstance(context)
