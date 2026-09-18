@@ -243,7 +243,6 @@
     <string name="add_anyway">Trotzdem hinzufügen</string>
     <string name="player_slider_style">Stil des Player-Schiebereglers</string>
     <string name="duplicates_description_multiple">%d Songs befinden sich bereits in deiner Playlist</string>
-    <string name="enable_discord_rpc">Rich Presence aktivieren</string>
     <string name="auto_skip_next_on_error_desc">Sorgt für eine unterbrechungsfreie Wiedergabe</string>
     <string name="dismiss">Schließen</string>
     <string name="player_text_alignment">Textausrichtung im Player</string>
@@ -260,13 +259,11 @@
     <string name="your_youtube_playlists">Deine YouTube-Playlists</string>
     <string name="library_playlist_empty">Deine Playlists werden hier angezeigt</string>
     <string name="disable_screenshot_desc">Wenn diese Option aktiviert ist, sind Screenshots und die App-Vorschau in der Übersicht der zuletzt verwendeten Apps deaktiviert.</string>
-    <string name="discord_information">Nivukx verwendet die KizzyRPC-Bibliothek, um den Status deines Discord-Kontos festzulegen. Dabei wird eine Verbindung zum Discord-Gateway verwendet, was als Verstoß gegen die Nutzungsbedingungen von Discord angesehen werden kann. Es sind jedoch keine Fälle bekannt, in denen Benutzerkonten aus diesem Grund gesperrt wurden. Die Verwendung erfolgt auf eigene Gefahr.\nchomusic liest lediglich dein Token aus. Alle anderen Daten werden lokal gespeichert.</string>
     <string name="squiggly">Wellenförmig</string>
     <string name="grid_cell_size">Größe der Rasterzellen</string>
     <string name="search_history">Suchverlauf</string>
     <string name="enable_lrclib">LrcLib als Songtextanbieter aktivieren</string>
     <string name="hide_explicit">Anstößige Inhalte ausblenden</string>
-    <string name="discord_integration">Discord-Integration</string>
     <string name="library_song_empty">Songs aus deiner Bibliothek werden hier angezeigt</string>
     <string name="remove_download_playlist_confirm">Möchtest du wirklich alle Songs der Playlist „%s“ aus dem Speicher für heruntergeladene Songs entfernen?</string>
     <string name="delete_playlist_confirm">Möchtest du die Playlist „%s“ wirklich löschen?</string>
