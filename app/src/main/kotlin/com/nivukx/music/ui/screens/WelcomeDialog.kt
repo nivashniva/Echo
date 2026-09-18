@@ -193,7 +193,7 @@ private fun WelcomeAppCard() {
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             AsyncImage(
-                model = R.mipmap.ic_launcher,
+                model = R.drawable.app_logo,
                 contentDescription = null,
                 modifier = Modifier
                     .size(100.dp)
