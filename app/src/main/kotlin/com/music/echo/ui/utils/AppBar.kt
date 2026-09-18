@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.utils
+package com.nivukx.music.ui.utils
 
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.DecayAnimationSpec
