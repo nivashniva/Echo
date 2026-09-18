@@ -187,7 +187,6 @@
     <string name="skip_silence_instant_desc">پرش مستقیم به بخش بعدی صدا در لحظات سکوت، به جای افزایش سرعت پخش</string>
 
     <string name="google">گوگل</string>
-    <string name="discord">دیسکورد</string>
     <string name="advanced_login">ورود با توکن</string>
     <string name="token_hidden">برای نمایش توکن ضربه بزنید</string>
     <string name="token_shown">برای کپی یا ویرایش دوباره ضربه بزنید</string>
@@ -222,8 +221,6 @@
     <string name="proxy_username">نام کاربری پروکسی</string>
     <string name="proxy_password">رمز عبور پروکسی</string>
     <string name="enable_authentication">فعال‌سازی احراز هویت</string>
-    <string name="discord_use_details">استفاده از جزئیات به جای وضعیت</string>
-    <string name="discord_use_details_description">نمایش برجسته عنوان آهنگ به جای نام هنرمندان</string>
 
     <string name="audio_quality_max">حداکثر کیفیت (بتا)</string>
     <string name="enable_similar_content">فعال‌سازی محتوای مشابه</string>
@@ -793,36 +790,9 @@
     <string name="csv_import_failed">خطا در وارد کردن فایل CSV</string>
     <string name="csv_preview_failed">خطا در پیش‌نمایش فایل CSV</string>
 
-    <!-- Discord Integration Redesign -->
-    <string name="discord_integration_settings">اتصال به دیسکورد</string>
-    <string name="discord_status">وضعیت</string>
-    <string name="discord_status_online">آنلاین (Online)</string>
-    <string name="discord_status_idle">غایب (Idle)</string>
-    <string name="discord_status_dnd">مشغول (Do Not Disturb)</string>
-    <string name="discord_buttons">دکمه‌ها</string>
-    <string name="discord_button_1">دکمه ۱</string>
-    <string name="discord_button_2">دکمه ۲</string>
     <string name="button_text">متن دکمه</string>
     <string name="button_visible">نمایان</string>
     <string name="login_successful">ورود با موفقیت انجام شد!</string>
-    <string name="discord_information_warning">این قابلیت از کتابخانه KizzyRPC برای اتصال به Gateway دیسکورد و تنظیم وضعیت Rich Presence شما استفاده می‌کند. اگرچه هیچ مورد تعلیق حسابی به دلیل استفاده‌های مشابه گزارش نشده است، اما این روش رسماً توسط دیسکورد پشتیبانی نمی‌شود و ممکن است نقض قوانین خدمات (ToS) تلقی شود. توکن شما به صورت محلی استخراج می‌شود و هرگز به سرورهای شخص ثالث ارسال نخواهد شد. با مسئولیت خودتان ادامه دهید.</string>
-    <string name="discord_activity_type">نوع فعالیت</string>
-    <string name="discord_activity_playing">در حال بازی</string>
-    <string name="discord_activity_listening">در حال گوش دادن به</string>
-    <string name="discord_activity_watching">در حال تماشا</string>
-    <string name="discord_activity_competing">در حال رقابت در</string>
-    <string name="discord_customization">شخصی‌سازی</string>
-    <string name="discord_button_text_variables">متغیرها: {song_name}, {artist_name}, {album_name}</string>
-    <string name="discord_rpc_preview">پیش‌نمایش Rich Presence</string>
-    <string name="discord_presence">حضور (Presence)</string>
-    <string name="discord_connect_description">برای اشتراک‌گذاری موزیک‌های در حال پخش، وارد حساب دیسکورد خود شوید</string>
-    <string name="discord_playing_echomusic">در حال اجرای Nivukx</string>
-    <string name="discord_watching_echomusic">در حال تماشای Nivukx</string>
-    <string name="discord_competing_echomusic">در حال رقابت در Nivukx</string>
-    <string name="discord_activity_name">نام فعالیت</string>
-    <string name="discord_activity_name_description">نام سفارشی برای فعالیت (برای حالت پیش‌فرض خالی بگذارید)</string>
-    <string name="discord_advanced_mode">حالت پیشرفته</string>
-    <string name="discord_advanced_mode_description">نمایش گزینه‌های شخصی‌سازی بیشتر برای Rich Presence</string>
     <string name="speed_dial">شماره‌گیری سریع (Speed dial)</string>
     <string name="pin_to_speed_dial">سنجاق کردن به شماره‌گیری سریع</string>
     <string name="unpin_from_speed_dial">برداشتن سنجاق از شماره‌گیری سریع</string>
