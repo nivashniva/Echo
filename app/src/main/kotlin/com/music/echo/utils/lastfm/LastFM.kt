@@ -1,8 +1,8 @@
-package echo.music.iad1tya.utils.lastfm
+package com.nivukx.music.utils.lastfm
 
-import echo.music.iad1tya.models.lastfm.Authentication
-import echo.music.iad1tya.models.lastfm.LastFmError
-import echo.music.iad1tya.models.lastfm.TokenResponse
+import com.nivukx.music.models.lastfm.Authentication
+import com.nivukx.music.models.lastfm.LastFmError
+import com.nivukx.music.models.lastfm.TokenResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
