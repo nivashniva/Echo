@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens
+package com.nivukx.music.ui.screens
 
 import android.app.Activity
 import androidx.compose.animation.core.tween
@@ -20,49 +20,49 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.navArgument
-import echo.music.iad1tya.constants.DarkModeKey
-import echo.music.iad1tya.constants.PureBlackKey
-import echo.music.iad1tya.ui.screens.artist.ArtistAlbumsScreen
-import echo.music.iad1tya.ui.screens.artist.ArtistItemsScreen
-import echo.music.iad1tya.ui.screens.artist.ArtistScreen
-import echo.music.iad1tya.ui.screens.artist.ArtistSongsScreen
-import echo.music.iad1tya.ui.screens.equalizer.EqScreen
-import echo.music.iad1tya.ui.screens.library.LibraryScreen
-import echo.music.iad1tya.ui.screens.library.LocalSongScreen
-import echo.music.iad1tya.ui.screens.playlist.AutoPlaylistScreen
-import echo.music.iad1tya.ui.screens.playlist.CachePlaylistScreen
-import echo.music.iad1tya.ui.screens.playlist.LocalPlaylistScreen
-import echo.music.iad1tya.ui.screens.playlist.OnlinePlaylistScreen
-import echo.music.iad1tya.ui.screens.playlist.TopPlaylistScreen
-import echo.music.iad1tya.ui.screens.search.OnlineSearchResult
-import echo.music.iad1tya.ui.screens.search.SearchScreen
-import echo.music.iad1tya.ui.screens.settings.AboutScreen
-import echo.music.iad1tya.ui.screens.settings.AppearanceSettings
-import echo.music.iad1tya.ui.screens.settings.GlassEffectSettings
-import echo.music.iad1tya.ui.screens.settings.BackupAndRestore
-import echo.music.iad1tya.ui.screens.settings.ContentSettings
-import echo.music.iad1tya.ui.screens.settings.UptimeScreen
-import echo.music.iad1tya.ui.screens.settings.DarkMode
-import echo.music.iad1tya.ui.screens.settings.PlayerSettings
-import echo.music.iad1tya.ui.screens.settings.PrivacySettings
-import echo.music.iad1tya.ui.screens.settings.RomanizationSettings
-import echo.music.iad1tya.ui.screens.settings.SettingsScreen
-import echo.music.iad1tya.ui.screens.settings.AccountSettingsScreen
-import echo.music.iad1tya.ui.screens.settings.StorageSettings
-import echo.music.iad1tya.ui.screens.settings.ThemeScreen
-import echo.music.iad1tya.ui.screens.settings.AiSettings
+import com.nivukx.music.constants.DarkModeKey
+import com.nivukx.music.constants.PureBlackKey
+import com.nivukx.music.ui.screens.artist.ArtistAlbumsScreen
+import com.nivukx.music.ui.screens.artist.ArtistItemsScreen
+import com.nivukx.music.ui.screens.artist.ArtistScreen
+import com.nivukx.music.ui.screens.artist.ArtistSongsScreen
+import com.nivukx.music.ui.screens.equalizer.EqScreen
+import com.nivukx.music.ui.screens.library.LibraryScreen
+import com.nivukx.music.ui.screens.library.LocalSongScreen
+import com.nivukx.music.ui.screens.playlist.AutoPlaylistScreen
+import com.nivukx.music.ui.screens.playlist.CachePlaylistScreen
+import com.nivukx.music.ui.screens.playlist.LocalPlaylistScreen
+import com.nivukx.music.ui.screens.playlist.OnlinePlaylistScreen
+import com.nivukx.music.ui.screens.playlist.TopPlaylistScreen
+import com.nivukx.music.ui.screens.search.OnlineSearchResult
+import com.nivukx.music.ui.screens.search.SearchScreen
+import com.nivukx.music.ui.screens.settings.AboutScreen
+import com.nivukx.music.ui.screens.settings.AppearanceSettings
+import com.nivukx.music.ui.screens.settings.GlassEffectSettings
+import com.nivukx.music.ui.screens.settings.BackupAndRestore
+import com.nivukx.music.ui.screens.settings.ContentSettings
+import com.nivukx.music.ui.screens.settings.UptimeScreen
+import com.nivukx.music.ui.screens.settings.DarkMode
+import com.nivukx.music.ui.screens.settings.PlayerSettings
+import com.nivukx.music.ui.screens.settings.PrivacySettings
+import com.nivukx.music.ui.screens.settings.RomanizationSettings
+import com.nivukx.music.ui.screens.settings.SettingsScreen
+import com.nivukx.music.ui.screens.settings.AccountSettingsScreen
+import com.nivukx.music.ui.screens.settings.StorageSettings
+import com.nivukx.music.ui.screens.settings.ThemeScreen
+import com.nivukx.music.ui.screens.settings.AiSettings
 
-import echo.music.iad1tya.ui.screens.settings.integrations.ListenTogetherSettings
-import echo.music.iad1tya.ui.screens.recognition.RecognitionScreen
-import echo.music.iad1tya.ui.screens.recognition.RecognitionHistoryScreen
-import echo.music.iad1tya.ui.screens.settings.UpdateSettings
-import echo.music.iad1tya.echomusic.updater.UpdateScreen
-import echo.music.iad1tya.utils.rememberEnumPreference
-import echo.music.iad1tya.utils.rememberPreference
-import echo.music.iad1tya.echomusic.changelog.ChangelogScreen
-import echo.music.iad1tya.echomusic.commitscreen.CommitScreen
-import echo.music.iad1tya.ui.screens.equalizer.axion.AxionEqScreen
-import echo.music.iad1tya.ui.screens.ambient.AmbientModeScreen
+import com.nivukx.music.ui.screens.settings.integrations.ListenTogetherSettings
+import com.nivukx.music.ui.screens.recognition.RecognitionScreen
+import com.nivukx.music.ui.screens.recognition.RecognitionHistoryScreen
+import com.nivukx.music.ui.screens.settings.UpdateSettings
+import com.nivukx.music.echomusic.updater.UpdateScreen
+import com.nivukx.music.utils.rememberEnumPreference
+import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.echomusic.changelog.ChangelogScreen
+import com.nivukx.music.echomusic.commitscreen.CommitScreen
+import com.nivukx.music.ui.screens.equalizer.axion.AxionEqScreen
+import com.nivukx.music.ui.screens.ambient.AmbientModeScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 fun NavGraphBuilder.navigationBuilder(
@@ -424,15 +424,15 @@ fun NavGraphBuilder.navigationBuilder(
     }
 
     composable("settings/discord") {
-        echo.music.iad1tya.ui.screens.settings.DiscordSettings(navController, scrollBehavior)
+        com.nivukx.music.ui.screens.settings.DiscordSettings(navController, scrollBehavior)
     }
 
     composable("settings/lastfm") {
-        echo.music.iad1tya.ui.screens.settings.LastFMSettingsScreen(navController)
+        com.nivukx.music.ui.screens.settings.LastFMSettingsScreen(navController)
     }
 
     composable("settings/discord/experimental") {
-        echo.music.iad1tya.ui.screens.settings.DiscordExperimental(navController)
+        com.nivukx.music.ui.screens.settings.DiscordExperimental(navController)
     }
 
     composable("settings/spotify_import") {
