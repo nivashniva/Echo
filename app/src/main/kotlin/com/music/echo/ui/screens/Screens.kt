@@ -1,11 +1,11 @@
 
 
-package echo.music.iad1tya.ui.screens
+package com.nivukx.music.ui.screens
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
-import echo.music.iad1tya.R
+import com.nivukx.music.R
 
 @Immutable
 sealed class Screens(
