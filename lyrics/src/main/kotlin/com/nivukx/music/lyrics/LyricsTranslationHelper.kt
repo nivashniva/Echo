@@ -56,7 +56,12 @@ object LyricsTranslationHelper {
     private var isCompositionActive = true
 
     
-    private val translationCache = mutableMapOf<String, List<String>>()
+    private const val MAX_TRANSLATION_CACHE_ENTRIES = 128
+    private val translationCache =
+        object : LinkedHashMap<String, List<String>>(MAX_TRANSLATION_CACHE_ENTRIES + 1, 0.75f, true) {
+            override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, List<String>>): Boolean =
+                size > MAX_TRANSLATION_CACHE_ENTRIES
+        }
 
     private fun getCacheKey(lyricsText: String, mode: String, language: String): String =
         "${lyricsText.hashCode()}_${mode}_$language"
