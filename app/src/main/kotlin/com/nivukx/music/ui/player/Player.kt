@@ -2152,9 +2152,7 @@ fun BottomSheetPlayer(
                             }
                             AnimatedContent(
                                 targetState = codecBoxState,
-                                transitionSpec = {
-                                    fadeIn(animationSpec = tween(300)) togetherWith fadeOut(animationSpec = tween(300))
-                                },
+                                transitionSpec = { NivukxMotion.contentTransform() },
                                 label = "QualityTimerSwitcher"
                             ) { state ->
                                 when (state) {
@@ -2304,8 +2302,8 @@ fun BottomSheetPlayer(
 
             AnimatedVisibility(
                 visible = !isFullScreen,
-                enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
-                exit = shrinkVertically(shrinkTowards = Alignment.Top) + slideOutVertically(targetOffsetY = { it }) + fadeOut()
+                enter = NivukxMotion.Enter,
+                exit = NivukxMotion.Exit
             ) {
                 Column {
                     if (useNewPlayerDesign) {
@@ -2354,6 +2352,12 @@ fun BottomSheetPlayer(
                                 modifier = Modifier
                                     .size(68.dp)
                                     .graphicsLayer { scaleX = backButtonScale; scaleY = backButtonScale }
+                                    .nivukxPressDepth(
+                                        interactionSource = backInteractionSource,
+                                        pressedScale = 1f,
+                                        pressedTranslationY = 1.2f,
+                                        pressedRotationZ = 0.25f,
+                                    )
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.skip_previous),
@@ -2409,6 +2413,12 @@ fun BottomSheetPlayer(
                                 modifier = Modifier
                                     .size(84.dp)
                                     .graphicsLayer { scaleX = playPauseScale; scaleY = playPauseScale }
+                                    .nivukxPressDepth(
+                                        interactionSource = playPauseInteractionSource,
+                                        pressedScale = 1f,
+                                        pressedTranslationY = 1.5f,
+                                        pressedRotationZ = -0.18f,
+                                    )
                             ) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
@@ -2446,6 +2456,12 @@ fun BottomSheetPlayer(
                                 modifier = Modifier
                                     .size(68.dp)
                                     .graphicsLayer { scaleX = nextButtonScale; scaleY = nextButtonScale }
+                                    .nivukxPressDepth(
+                                        interactionSource = nextInteractionSource,
+                                        pressedScale = 1f,
+                                        pressedTranslationY = 1.2f,
+                                        pressedRotationZ = -0.25f,
+                                    )
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.skip_next),
