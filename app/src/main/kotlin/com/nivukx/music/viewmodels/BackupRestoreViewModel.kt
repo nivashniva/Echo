@@ -436,7 +436,4 @@ class BackupRestoreViewModel @Inject constructor(
         songs
     }
 
-    companion object {
-        const val SETTINGS_FILENAME = "settings.preferences_pb"
-    }
 }
