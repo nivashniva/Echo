@@ -6,6 +6,7 @@ import androidx.media3.common.audio.AudioProcessor
 import androidx.media3.common.audio.SonicAudioProcessor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.yield
 import kotlinx.coroutines.withContext
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -67,31 +68,24 @@ object AudioResampler {
             sonic.queueInput(inputBuf)
             sonic.queueEndOfStream()
 
-            val outputChunks = mutableListOf<ByteArray>()
-            var outputChunksByteSize = 0
+            val outputStream = java.io.ByteArrayOutputStream(decodedAudio.data.size)
+            var outputChunkCount = 0
 
             while (!sonic.isEnded) {
                 ensureActive()
                 val outputBuffer = sonic.output
-                if (!outputBuffer.hasRemaining()) continue
+                if (!outputBuffer.hasRemaining()) {
+                    yield()
+                    continue
+                }
                 val chunk = ByteArray(outputBuffer.remaining())
                 outputBuffer.get(chunk)
-                outputChunks.add(chunk)
-                outputChunksByteSize += chunk.size
+                outputStream.write(chunk)
+                outputChunkCount++
             }
             sonic.reset()
 
-            val resampledData = if (outputChunks.size == 1) {
-                outputChunks[0]
-            } else {
-                ByteArray(outputChunksByteSize).also {
-                    var dest = 0
-                    for (chunk in outputChunks) {
-                        System.arraycopy(chunk, 0, it, dest, chunk.size)
-                        dest += chunk.size
-                    }
-                }
-            }
+            val resampledData = outputStream.toByteArray()
             
             Result.success(DecodedAudio(
                 data = resampledData,
