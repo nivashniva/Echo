@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.screens.library
+package com.nivukx.music.ui.screens.library
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,11 +11,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.ChipSortTypeKey
-import echo.music.iad1tya.constants.LibraryFilter
-import echo.music.iad1tya.ui.component.ChipsRow
-import echo.music.iad1tya.utils.rememberEnumPreference
+import com.nivukx.music.R
+import com.nivukx.music.constants.ChipSortTypeKey
+import com.nivukx.music.constants.LibraryFilter
+import com.nivukx.music.ui.component.ChipsRow
+import com.nivukx.music.utils.rememberEnumPreference
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -46,13 +46,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import echo.music.iad1tya.LocalPlayerAwareWindowInsets
-import echo.music.iad1tya.constants.FloatingToolbarBottomPadding
-import echo.music.iad1tya.constants.MiniPlayerBottomSpacing
-import echo.music.iad1tya.constants.MiniPlayerHeight
-import echo.music.iad1tya.constants.NavigationBarHeight
-import echo.music.iad1tya.ui.component.DefaultDialog
-import echo.music.iad1tya.ui.component.TextFieldDialog
+import com.nivukx.music.LocalPlayerAwareWindowInsets
+import com.nivukx.music.constants.FloatingToolbarBottomPadding
+import com.nivukx.music.constants.MiniPlayerBottomSpacing
+import com.nivukx.music.constants.MiniPlayerHeight
+import com.nivukx.music.constants.NavigationBarHeight
+import com.nivukx.music.ui.component.DefaultDialog
+import com.nivukx.music.ui.component.TextFieldDialog
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.border
 import androidx.compose.foundation.shape.CircleShape
@@ -211,7 +211,7 @@ fun LibraryScreen(navController: NavController) {
     if (showYoutubeImportDialog) {
         var url by remember { mutableStateOf(TextFieldValue("")) }
         val invalidUrlMessage = stringResource(R.string.invalid_playlist_url)
-        echo.music.iad1tya.ui.component.TextFieldDialog(
+        com.nivukx.music.ui.component.TextFieldDialog(
             icon = { Icon(painter = painterResource(R.drawable.link), contentDescription = null) },
             title = {
                 Column {
@@ -240,7 +240,7 @@ fun LibraryScreen(navController: NavController) {
     }
 
     if (showCreatePlaylistDialog) {
-        echo.music.iad1tya.ui.component.CreatePlaylistDialog(
+        com.nivukx.music.ui.component.CreatePlaylistDialog(
             onDismiss = { showCreatePlaylistDialog = false },
             initialTextFieldValue = null,
             allowSyncing = true,
@@ -343,7 +343,7 @@ fun LibraryScreen(navController: NavController) {
     }
 
     if (showAiPlaylistDialog) {
-        echo.music.iad1tya.ui.component.CreateAiPlaylistDialog(
+        com.nivukx.music.ui.component.CreateAiPlaylistDialog(
             onDismiss = { showAiPlaylistDialog = false },
             onPlaylistCreated = { playlistId ->
                 showAiPlaylistDialog = false
