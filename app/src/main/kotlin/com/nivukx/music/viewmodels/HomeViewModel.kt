@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.viewmodels
+package com.nivukx.music.viewmodels
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
@@ -23,24 +23,24 @@ import com.music.innertube.models.filterYoutubeShorts
 import com.music.innertube.pages.ExplorePage
 import com.music.innertube.pages.HomePage
 import com.music.innertube.utils.completed
-import echo.music.iad1tya.constants.HideExplicitKey
-import echo.music.iad1tya.constants.HideVideoSongsKey
-import echo.music.iad1tya.constants.HideYoutubeShortsKey
-import echo.music.iad1tya.constants.InnerTubeCookieKey
-import echo.music.iad1tya.constants.QuickPicks
-import echo.music.iad1tya.constants.QuickPicksKey
-import echo.music.iad1tya.db.MusicDatabase
-import echo.music.iad1tya.db.entities.Album
-import echo.music.iad1tya.db.entities.LocalItem
-import echo.music.iad1tya.db.entities.Song
-import echo.music.iad1tya.db.entities.SpeedDialItem
-import echo.music.iad1tya.extensions.filterVideoSongs
-import echo.music.iad1tya.extensions.toEnum
-import echo.music.iad1tya.models.SimilarRecommendation
-import echo.music.iad1tya.utils.SyncUtils
-import echo.music.iad1tya.utils.dataStore
-import echo.music.iad1tya.utils.get
-import echo.music.iad1tya.utils.reportException
+import com.nivukx.music.constants.HideExplicitKey
+import com.nivukx.music.constants.HideVideoSongsKey
+import com.nivukx.music.constants.HideYoutubeShortsKey
+import com.nivukx.music.constants.InnerTubeCookieKey
+import com.nivukx.music.constants.QuickPicks
+import com.nivukx.music.constants.QuickPicksKey
+import com.nivukx.music.db.MusicDatabase
+import com.nivukx.music.db.entities.Album
+import com.nivukx.music.db.entities.LocalItem
+import com.nivukx.music.db.entities.Song
+import com.nivukx.music.db.entities.SpeedDialItem
+import com.nivukx.music.extensions.filterVideoSongs
+import com.nivukx.music.extensions.toEnum
+import com.nivukx.music.models.SimilarRecommendation
+import com.nivukx.music.utils.SyncUtils
+import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.get
+import com.nivukx.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
