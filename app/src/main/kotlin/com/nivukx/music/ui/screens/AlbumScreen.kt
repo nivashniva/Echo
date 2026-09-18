@@ -1,6 +1,7 @@
 
 
 package com.nivukx.music.ui.screens
+import com.nivukx.music.ui.motion.nivukxHighEndReveal
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
@@ -241,6 +242,7 @@ fun AlbumScreen(
     }
 
     LazyColumn(
+        modifier = Modifier.nivukxHighEndReveal(),
         state = lazyListState,
         contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues(),
     ) {
