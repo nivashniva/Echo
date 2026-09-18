@@ -88,10 +88,6 @@ import com.nivukx.music.constants.DisableLoadMoreWhenRepeatAllKey
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
-import com.nivukx.music.constants.DiscordActivityNameKey
-import com.nivukx.music.constants.DiscordActivityTypeKey
-import com.nivukx.music.constants.DiscordTokenKey
-import com.nivukx.music.constants.EnableDiscordRPCKey
 import com.nivukx.music.constants.EnableLastFMScrobblingKey
 import com.nivukx.music.constants.HideExplicitKey
 import com.nivukx.music.constants.HideVideoSongsKey
@@ -171,7 +167,6 @@ import com.nivukx.music.playback.queues.YouTubeQueue
 import com.nivukx.music.playback.queues.filterExplicit
 import com.nivukx.music.playback.queues.filterVideoSongs
 import com.nivukx.music.utils.CoilBitmapLoader
-import com.nivukx.music.ui.screens.settings.DiscordPresenceManager
 import com.nivukx.music.utils.NetworkConnectivityObserver
 import com.nivukx.music.utils.ScrobbleManager
 
@@ -461,11 +456,9 @@ class MusicService :
     // Holds the outgoing track's enhancer alive through the crossfade so its normalization
     // isn't stripped mid-fade (which would make a heavily-cut track jump louder as it fades).
     private var fadingLoudnessEnhancer: LoudnessEnhancer? = null
-    private var lastPresenceToken: String? = null
 
 
     private var lastPlaybackSpeed = 1.0f
-    private var discordUpdateJob: kotlinx.coroutines.Job? = null
 
     private var scrobbleManager: ScrobbleManager? = null
 
@@ -515,16 +508,13 @@ class MusicService :
             when (intent.action) {
                 Intent.ACTION_SCREEN_OFF -> {
                     if (!player.isPlaying) {
-                        scope.launch(Dispatchers.IO) {
-                            DiscordPresenceManager.stop()
-                        }
+
                     }
                 }
                 Intent.ACTION_SCREEN_ON -> {
                     if (player.isPlaying) {
                         scope.launch {
                             currentSong.value?.let { song ->
-                                ensurePresenceManager()
                             }
                         }
                     }
@@ -2104,8 +2094,6 @@ class MusicService :
         preloadUpcomingItems()
         setupLoudnessEnhancer()
 
-        discordUpdateJob?.cancel()
-
         scrobbleManager?.onSongStop()
         checkAndSubmitListenBrainzFinished()
 
@@ -2266,9 +2254,7 @@ class MusicService :
                 releaseWifiLock()
             }
             if (!player.isPlaying && !events.containsAny(Player.EVENT_POSITION_DISCONTINUITY, Player.EVENT_MEDIA_ITEM_TRANSITION)) {
-                scope.launch {
-                    DiscordPresenceManager.stop()
-                }
+
             }
         }
 
@@ -2926,57 +2912,7 @@ class MusicService :
         }
     }
 
-    private fun currentPresenceSong(): Song? {
-        // Discord presence may invoke this callback from its own thread. Never block that
-        // callback on Room; currentSong is already maintained by the service playback state.
-        return currentSong.value
-    }
 
-    private fun ensurePresenceManager() {
-        if (DiscordPresenceManager.lastRpcStartTime != null && lastPresenceToken != null) {
-            if (dataStore.get(EnableDiscordRPCKey, true) && dataStore.get(DiscordTokenKey, "").isNotBlank()) {
-                DiscordPresenceManager.restart()
-            }
-            return
-        }
-
-        scope.launch {
-            if (!dataStore.get(EnableDiscordRPCKey, true)) {
-                if (DiscordPresenceManager.lastRpcStartTime != null) {
-                    try { DiscordPresenceManager.stop() } catch (_: Exception) {}
-                    lastPresenceToken = null
-                }
-                return@launch
-            }
-
-            val key = dataStore.get(DiscordTokenKey, "")
-            if (key.isBlank()) {
-                if (DiscordPresenceManager.lastRpcStartTime != null) {
-                    try { DiscordPresenceManager.stop() } catch (_: Exception) {}
-                    lastPresenceToken = null
-                }
-                return@launch
-            }
-
-            if (DiscordPresenceManager.lastRpcStartTime != null && lastPresenceToken == key) {
-                return@launch
-            }
-
-            try {
-                DiscordPresenceManager.stop()
-                DiscordPresenceManager.start(
-                    context = this@MusicService,
-                    token = key,
-                    songProvider = { currentPresenceSong() },
-                    positionProvider = { player.currentPosition },
-                    isPausedProvider = { !player.isPlaying }
-                )
-                lastPresenceToken = key
-            } catch (ex: Exception) {
-                Timber.tag(TAG).e(ex, "Failed to start presence manager")
-            }
-        }
-    }
 
     private fun createDataSourceFactory(): DataSource.Factory {
         return ResolvingDataSource.Factory(
@@ -3318,7 +3254,6 @@ class MusicService :
         if (dataStore.get(PersistentQueueKey, true)) {
             saveQueueToDisk()
         }
-        DiscordPresenceManager.stop()
         connectivityObserver.unregister()
         releaseWifiLock()
         abandonAudioFocus()
