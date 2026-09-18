@@ -341,12 +341,9 @@
     <string name="disable_screenshot_desc">Калі гэты параметр уключаны, здымкі экрана і выгляд праграмы ў спісе нядаўніх будуць недаступныя.</string>
     <string name="enable_lrclib">Уключыць пастаўшчыка тэкстаў песень LrcLib</string>
     <string name="hide_explicit">Хаваць змесціва для дарослых</string>
-    <string name="discord_integration">Інтэграцыя з Discord</string>
-    <string name="discord_information">echomusic выкарыстоўвае бібліятэку KizzyRPC, каб задаваць стан вашага ўліковага запісу Discord. Для гэтага выкарыстоўваецца падлучэнне Discord Gateway, што можа лічыцца парушэннем умоў выкарыстання Discord. Аднак выпадкаў блакіроўкі ўліковых запісаў карыстальнікаў з гэтай прычыны не вядома. Выкарыстоўвайце на ўласную рызыку.\nchomusic атрымае толькі ваш токен, а ўсе астатнія даныя будуць захоўвацца лакальна.</string>
     <string name="dismiss">Закрыць</string>
     <string name="options">Параметры</string>
     <string name="preview">Папярэдні прагляд</string>
-    <string name="enable_discord_rpc">Уключыць Rich Presence</string>
     <string name="bluetooth_permission_required">Для выяўлення аўдыяпрылад патрабуецца дазвол на выкарыстанне Bluetooth.</string>
     <string name="streaming_to">Перадача на</string>
     <string name="this_phone">Гэты тэлефон</string>
