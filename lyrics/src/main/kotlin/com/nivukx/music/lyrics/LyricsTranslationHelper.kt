@@ -24,6 +24,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.security.MessageDigest
+import java.util.Collections
 import java.util.Locale
 
 object LyricsTranslationHelper {
@@ -57,14 +59,21 @@ object LyricsTranslationHelper {
 
     
     private const val MAX_TRANSLATION_CACHE_ENTRIES = 128
-    private val translationCache =
-        object : LinkedHashMap<String, List<String>>(MAX_TRANSLATION_CACHE_ENTRIES + 1, 0.75f, true) {
-            override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, List<String>>): Boolean =
-                size > MAX_TRANSLATION_CACHE_ENTRIES
-        }
+    private val translationCache: MutableMap<String, List<String>> =
+        Collections.synchronizedMap(
+            object : LinkedHashMap<String, List<String>>(MAX_TRANSLATION_CACHE_ENTRIES + 1, 0.75f, true) {
+                override fun removeEldestEntry(
+                    eldest: MutableMap.MutableEntry<String, List<String>>,
+                ): Boolean = size > MAX_TRANSLATION_CACHE_ENTRIES
+            },
+        )
 
-    private fun getCacheKey(lyricsText: String, mode: String, language: String): String =
-        "${lyricsText.hashCode()}_${mode}_$language"
+    private fun getCacheKey(lyricsText: String, mode: String, language: String): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+            .digest(lyricsText.toByteArray(Charsets.UTF_8))
+        val textKey = digest.joinToString("") { "%02x".format(it) }
+        return "$textKey_${mode}_$language"
+    }
 
     
     private fun tryParsePartialTranslation(content: String, expectedCount: Int): List<String> {
