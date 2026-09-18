@@ -1,0 +1,52 @@
+name: Nivukx Full Identity Migration
+
+on:
+  push:
+    branches:
+      - nivukx-complete-identity-migration
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run deterministic Nivukx migration
+        run: python3 scripts/nivukx_identity_migration.py
+
+      - name: Verify legacy identity is absent
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git grep -n -I -E 'echo\.music\.iad1tya|com\.music\.echo|EchoMusicApp/Echo-Music|github\.com/iad1tya/Echo-Music|https://echomusic\.fun|share\.echomusic\.fun|Echo Music' -- . ':!*.png' ':!*.jpg' ':!*.jpeg'; then
+            echo "Legacy Echo identity remains."
+            exit 1
+          fi
+
+      - name: Commit migration
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet; then
+            echo "No migration changes required."
+            exit 0
+          fi
+          git config user.name "Nivukx Migration Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "refactor(identity): complete repository-wide Nivukx migration"
+          git push origin HEAD:${GITHUB_REF_NAME}
