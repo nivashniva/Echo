@@ -1,6 +1,7 @@
 
 
 package com.nivukx.music.ui.screens.search
+import com.nivukx.music.ui.motion.nivukxSearchFocusMotion
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -243,6 +244,7 @@ fun SearchScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(56.dp)
+                                .nivukxSearchFocusMotion(searchActive)
                                 .focusRequester(focusRequester)
                                 .onFocusChanged { if (it.isFocused) searchActive = true },
                             singleLine = true,
