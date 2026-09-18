@@ -5,8 +5,8 @@ package com.nivukx.music.viewmodels
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nivukx.innertube.YouTube
-import com.nivukx.innertube.pages.HistoryPage
+import com.music.innertube.YouTube
+import com.music.innertube.pages.HistoryPage
 import com.nivukx.music.constants.HideVideoSongsKey
 import com.nivukx.music.constants.HistorySource
 import com.nivukx.music.db.MusicDatabase

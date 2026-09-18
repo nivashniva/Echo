@@ -9,11 +9,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nivukx.innertube.YouTube
-import com.nivukx.innertube.models.filterExplicit
-import com.nivukx.innertube.models.filterVideoSongs
-import com.nivukx.innertube.models.filterYoutubeShorts
-import com.nivukx.innertube.pages.ArtistPage
+import com.music.innertube.YouTube
+import com.music.innertube.models.filterExplicit
+import com.music.innertube.models.filterVideoSongs
+import com.music.innertube.models.filterYoutubeShorts
+import com.music.innertube.pages.ArtistPage
 import com.nivukx.music.constants.HideExplicitKey
 import com.nivukx.music.constants.HideVideoSongsKey
 import com.nivukx.music.constants.HideYoutubeShortsKey
@@ -51,8 +51,8 @@ class ArtistViewModel @Inject constructor(
     private val _artistVideoUrl = MutableStateFlow<String?>(null)
     val artistVideoUrl: StateFlow<String?> = _artistVideoUrl
 
-    private val _artistVideoSong = MutableStateFlow<com.nivukx.innertube.models.SongItem?>(null)
-    val artistVideoSong: StateFlow<com.nivukx.innertube.models.SongItem?> = _artistVideoSong
+    private val _artistVideoSong = MutableStateFlow<com.music.innertube.models.SongItem?>(null)
+    val artistVideoSong: StateFlow<com.music.innertube.models.SongItem?> = _artistVideoSong
     
     val libraryArtist = database.artist(artistId)
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
@@ -105,9 +105,9 @@ class ArtistViewModel @Inject constructor(
                     artistPage = page.copy(sections = filteredSections)
                     
                     
-                    val topSongsSection = page.sections.find { it.items.firstOrNull() is com.nivukx.innertube.models.SongItem }
+                    val topSongsSection = page.sections.find { it.items.firstOrNull() is com.music.innertube.models.SongItem }
                     topSongsSection?.items?.forEach { item ->
-                        if (item is com.nivukx.innertube.models.SongItem) {
+                        if (item is com.music.innertube.models.SongItem) {
                             val canvas = ArtistVideoCanvasProvider.getBySongArtist(
                                 song = item.title,
                                 artist = page.artist?.title ?: ""

@@ -22,9 +22,9 @@ package com.nivukx.music.ui.screens
  import androidx.compose.ui.unit.dp
  import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
  import androidx.navigation.NavController
- import com.nivukx.innertube.models.AlbumItem
- import com.nivukx.innertube.models.ArtistItem
- import com.nivukx.innertube.models.PlaylistItem
+ import com.music.innertube.models.AlbumItem
+ import com.music.innertube.models.ArtistItem
+ import com.music.innertube.models.PlaylistItem
  import com.nivukx.music.LocalPlayerAwareWindowInsets
  import com.nivukx.music.LocalPlayerConnection
  import com.nivukx.music.R

@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.nivukx.innertube.utils.parseCookieString
+import com.music.innertube.utils.parseCookieString
 import com.nivukx.music.BuildConfig
 import com.nivukx.music.R
 import com.nivukx.music.constants.AccountEmailKey
@@ -144,7 +144,7 @@ fun SettingDialoge(
                                 Switch(
                                     checked = useLoginForBrowse,
                                     onCheckedChange = {
-                                        com.nivukx.innertube.YouTube.useLoginForBrowse = it
+                                        com.music.innertube.YouTube.useLoginForBrowse = it
                                         onUseLoginForBrowseChange(it)
                                     },
                                     modifier = Modifier.scale(0.8f),
@@ -158,7 +158,7 @@ fun SettingDialoge(
                             },
                             onClick = {
                                 val newVal = !useLoginForBrowse
-                                com.nivukx.innertube.YouTube.useLoginForBrowse = newVal
+                                com.music.innertube.YouTube.useLoginForBrowse = newVal
                                 onUseLoginForBrowseChange(newVal)
                             }
                         ),

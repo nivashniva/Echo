@@ -1,8 +1,8 @@
 package com.nivukx.music.ai
 
 import android.content.Context
-import com.nivukx.innertube.YouTube
-import com.nivukx.innertube.models.SongItem
+import com.music.innertube.YouTube
+import com.music.innertube.models.SongItem
 import com.nivukx.music.constants.AiProviderKey
 import com.nivukx.music.constants.OpenRouterApiKey
 import com.nivukx.music.constants.OpenRouterBaseUrlKey

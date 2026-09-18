@@ -5,8 +5,8 @@ package com.nivukx.music.viewmodels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nivukx.innertube.YouTube
-import com.nivukx.innertube.models.AlbumItem
+import com.music.innertube.YouTube
+import com.music.innertube.models.AlbumItem
 import com.nivukx.music.db.MusicDatabase
 import com.nivukx.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,7 +36,7 @@ constructor(
     var otherVersions = MutableStateFlow<List<AlbumItem>>(emptyList())
     var releasesForYou = MutableStateFlow<List<AlbumItem>>(emptyList())
     var description = MutableStateFlow<String?>(null)
-    var descriptionRuns = MutableStateFlow<List<com.nivukx.innertube.models.Run>?>(null)
+    var descriptionRuns = MutableStateFlow<List<com.music.innertube.models.Run>?>(null)
 
     init {
         viewModelScope.launch {

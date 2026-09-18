@@ -3,7 +3,7 @@
 package com.nivukx.music.models
 
 import androidx.compose.runtime.Immutable
-import com.nivukx.innertube.models.WatchEndpoint.WatchEndpointMusicSupportedConfigs.WatchEndpointMusicConfig.Companion.MUSIC_VIDEO_TYPE_ATV
+import com.music.innertube.models.WatchEndpoint.WatchEndpointMusicSupportedConfigs.WatchEndpointMusicConfig.Companion.MUSIC_VIDEO_TYPE_ATV
 import java.io.Serializable
 import java.time.LocalDateTime
 

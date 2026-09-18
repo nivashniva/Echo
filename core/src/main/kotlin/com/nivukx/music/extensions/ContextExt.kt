@@ -5,7 +5,7 @@ package com.nivukx.music.extensions
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.nivukx.innertube.utils.parseCookieString
+import com.music.innertube.utils.parseCookieString
 import com.nivukx.music.constants.InnerTubeCookieKey
 import com.nivukx.music.constants.YtmSyncKey
 import com.nivukx.music.utils.dataStore

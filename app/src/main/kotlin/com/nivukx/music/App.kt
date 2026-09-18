@@ -20,10 +20,10 @@ import coil3.memory.MemoryCache
 import coil3.request.CachePolicy
 import coil3.request.allowHardware
 import coil3.request.crossfade
-import com.nivukx.innertube.YouTube
-import com.nivukx.innertube.models.IpVersion
-import com.nivukx.innertube.models.YouTubeLocale
-import com.nivukx.kugou.KuGou
+import com.music.innertube.YouTube
+import com.music.innertube.models.IpVersion
+import com.music.innertube.models.YouTubeLocale
+import com.music.kugou.KuGou
 import com.nivukx.music.constants.*
 import com.nivukx.music.di.ApplicationScope
 import com.nivukx.music.extensions.toEnum

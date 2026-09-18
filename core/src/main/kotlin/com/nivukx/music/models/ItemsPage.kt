@@ -2,7 +2,7 @@
 
 package com.nivukx.music.models
 
-import com.nivukx.innertube.models.YTItem
+import com.music.innertube.models.YTItem
 
 data class ItemsPage(
     val items: List<YTItem>,
