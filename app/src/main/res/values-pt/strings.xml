@@ -352,7 +352,7 @@
     <string name="listen_together_smart_resync">Ressincronização inteligente de rede</string>
     <string name="listen_together_smart_resync_desc">Acompanhar automaticamente o anfitrião após uma queda de ligação</string>
     <string name="spotify_import_title">Importar do Spotify</string>
-    <string name="spotify_import_desc">Ligue o Spotify, escolha listas de reprodução e espelhe-as em listas de reprodução locais Echo Music.</string>
+    <string name="spotify_import_desc">Ligue o Spotify, escolha listas de reprodução e espelhe-as em listas de reprodução locais Nivukx.</string>
     <string name="spotify_connect">Ligar Spotify</string>
     <string name="spotify_refresh">Atualizar biblioteca do Spotify</string>
     <string name="spotify_select_sources">Selecionar listas de reprodução do Spotify</string>
@@ -412,10 +412,10 @@
     <string name="recognition_notification_processing">A identificar…</string>
     <string name="recognition_notification_no_match">Nenhuma correspondência encontrada</string>
     <string name="recognition_notification_failed">Falha no reconhecimento</string>
-    <string name="listen_on_echo_music">Ouvir no Echo Music</string>
+    <string name="listen_on_echo_music">Ouvir no Nivukx</string>
     <string name="qs_tile_music_recognizer">Reconhecer música</string>
-    <string name="echo_brain_beta">Echo Brain (Beta)</string>
-    <string name="echo_brain_enable">Ativar o Echo Brain</string>
+    <string name="echo_brain_beta">Nivukx Brain (Beta)</string>
+    <string name="echo_brain_enable">Ativar o Nivukx Brain</string>
     <string name="echo_brain_enable_desc">Inserir automaticamente recomendações de IA com base nos seus hábitos de audição</string>
     <string name="echo_brain_profile_statistics">Estatísticas do perfil</string>
     <string name="echo_brain_learning_level">Nível de aprendizagem</string>
@@ -442,9 +442,9 @@
     <string name="listenbrainz_scrobbling">Scrobbling do ListenBrainz</string>
     <string name="listenbrainz_scrobbling_description">Enviar automaticamente as faixas ouvidas para o ListenBrainz</string>
     <string name="set_listenbrainz_token">Definir token do ListenBrainz</string>
-    <string name="youtube_decryption_settings">Echo Extractor</string>
+    <string name="youtube_decryption_settings">Nivukx Extractor</string>
     <string name="youtube_decryption_desc">Configurar as definições do extrator</string>
-    <string name="youtube_decryption_support">Echo Extractor</string>
+    <string name="youtube_decryption_support">Nivukx Extractor</string>
     <string name="youtube_decryption_support_desc">Extrai automaticamente as configurações de reprodução do YouTube. Bloqueado como Ativo.</string>
     <string name="force_update_cipher">Forçar atualização das configurações</string>
     <string name="force_update_cipher_desc">Transferir os mapeamentos de substituição mais recentes do extrator. Limitado a 3 atualizações por dia.</string>
