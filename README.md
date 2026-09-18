@@ -17,7 +17,6 @@ Nivukx delivers a seamless, premium listening experience by leveraging YouTube M
 
 ---
 
-- **Discord**: [Join the Nivukx Discord server](https://discord.gg/Xt5hgsJJuA)
 
 ---
 
@@ -221,7 +220,6 @@ If Nivukx has been useful to you, consider supporting its development.
 
 - **GitHub Repository**: https://github.com/nivash01/Echo
 - **Issues & Feedback**: https://github.com/nivash01/Echo/issues
-- **Discord Community**: https://discord.gg/Xt5hgsJJuA
 
 </div>
 
