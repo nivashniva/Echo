@@ -82,14 +82,8 @@ suspend fun <T> DataStore<Preferences>.getAsync(key: Preferences.Key<T>): T? =
 suspend fun <T> DataStore<Preferences>.getAsync(
     key: Preferences.Key<T>,
     defaultValue: T,
-): T = DataStoreSnapshot.get(key, defaultValue).let { cached ->
-    if (DataStoreSnapshot.get<Any?>(key) != null) {
-        @Suppress("UNCHECKED_CAST")
-        cached as T
-    } else {
-        DataStoreSnapshot.getAsync(this, key, defaultValue)
-    }
-}
+): T =
+    DataStoreSnapshot.get<T>(key) ?: DataStoreSnapshot.getAsync(this, key, defaultValue)
 
 fun <T> preference(
     context: Context,
