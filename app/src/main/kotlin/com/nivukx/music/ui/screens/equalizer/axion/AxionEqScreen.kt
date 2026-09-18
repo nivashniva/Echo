@@ -1,4 +1,5 @@
 package com.nivukx.music.ui.screens.equalizer.axion
+import com.nivukx.music.ui.motion.nivukxHighEndReveal
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
@@ -68,6 +69,7 @@ fun AxionEqScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .nivukxHighEndReveal()
                 .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp),
