@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.ui.menu
+package com.nivukx.music.ui.menu
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -54,31 +54,31 @@ import androidx.media3.exoplayer.offline.DownloadRequest
 import androidx.media3.exoplayer.offline.DownloadService
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
-import com.music.innertube.YouTube
-import echo.music.iad1tya.LocalDatabase
-import echo.music.iad1tya.LocalDownloadUtil
-import echo.music.iad1tya.LocalPlayerConnection
-import echo.music.iad1tya.LocalSyncUtils
-import echo.music.iad1tya.R
-import echo.music.iad1tya.constants.ListItemHeight
-import echo.music.iad1tya.constants.ListThumbnailSize
-import echo.music.iad1tya.extensions.toMediaItem
-import echo.music.iad1tya.models.MediaMetadata
-import echo.music.iad1tya.models.toMediaMetadata
-import echo.music.iad1tya.playback.ExoDownloadService
-import echo.music.iad1tya.playback.queues.YouTubeQueue
-import echo.music.iad1tya.ui.component.BottomSheetState
-import echo.music.iad1tya.ui.component.ListDialog
-import echo.music.iad1tya.ui.component.Material3MenuGroup
-import echo.music.iad1tya.ui.component.Material3MenuItemData
-import echo.music.iad1tya.ui.component.MediaMetadataListItem
-import echo.music.iad1tya.ui.component.NewAction
-import echo.music.iad1tya.ui.component.NewActionGrid
-import echo.music.iad1tya.utils.listItemShape
+import com.nivukx.innertube.YouTube
+import com.nivukx.music.LocalDatabase
+import com.nivukx.music.LocalDownloadUtil
+import com.nivukx.music.LocalPlayerConnection
+import com.nivukx.music.LocalSyncUtils
+import com.nivukx.music.R
+import com.nivukx.music.constants.ListItemHeight
+import com.nivukx.music.constants.ListThumbnailSize
+import com.nivukx.music.extensions.toMediaItem
+import com.nivukx.music.models.MediaMetadata
+import com.nivukx.music.models.toMediaMetadata
+import com.nivukx.music.playback.ExoDownloadService
+import com.nivukx.music.playback.queues.YouTubeQueue
+import com.nivukx.music.ui.component.BottomSheetState
+import com.nivukx.music.ui.component.ListDialog
+import com.nivukx.music.ui.component.Material3MenuGroup
+import com.nivukx.music.ui.component.Material3MenuItemData
+import com.nivukx.music.ui.component.MediaMetadataListItem
+import com.nivukx.music.ui.component.NewAction
+import com.nivukx.music.ui.component.NewActionGrid
+import com.nivukx.music.utils.listItemShape
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
-import echo.music.iad1tya.models.QueueItemSource
+import com.nivukx.music.models.QueueItemSource
 
 @Composable
 fun QueueMenu(
@@ -522,9 +522,9 @@ fun QueueMenu(
                             },
                             onClick = {
                                 refetchIconDegree -= 360
-                                androidx.media3.exoplayer.offline.DownloadService.sendRemoveDownload(context, echo.music.iad1tya.playback.ExoDownloadService::class.java, mediaMetadata.id, false)
-                                val intent = android.content.Intent(context, echo.music.iad1tya.playback.MusicService::class.java).apply {
-                                    action = "echo.music.iad1tya.ACTION_CLEAR_SONG_CACHE"
+                                androidx.media3.exoplayer.offline.DownloadService.sendRemoveDownload(context, com.nivukx.music.playback.ExoDownloadService::class.java, mediaMetadata.id, false)
+                                val intent = android.content.Intent(context, com.nivukx.music.playback.MusicService::class.java).apply {
+                                    action = "com.nivukx.music.ACTION_CLEAR_SONG_CACHE"
                                     putExtra("songId", mediaMetadata.id)
                                 }
                                 context.startService(intent)
