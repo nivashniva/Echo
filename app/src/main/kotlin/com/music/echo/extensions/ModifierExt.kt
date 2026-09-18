@@ -1,6 +1,6 @@
 
 
-package echo.music.iad1tya.extensions
+package com.nivukx.music.extensions
 
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.ui.Modifier
