@@ -1,4 +1,4 @@
-package echo.music.iad1tya.echomusic.updater.downloadmanager
+package com.nivukx.music.echomusic.updater.downloadmanager
 
 import android.app.Notification
 import android.content.Context
