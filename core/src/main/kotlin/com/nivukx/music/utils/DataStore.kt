@@ -1,7 +1,6 @@
 package com.nivukx.music.utils
 
 import android.content.Context
-import android.os.Looper
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -11,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
@@ -57,24 +55,13 @@ object DataStoreSnapshot {
     ): T = getAsync(dataStore, key) ?: defaultValue
 }
 
-operator fun <T> DataStore<Preferences>.get(key: Preferences.Key<T>): T? {
-    DataStoreSnapshot.get(key)?.let { return it }
-    if (Looper.myLooper() == Looper.getMainLooper()) return null
-    return runBlocking(Dispatchers.IO) {
-        runCatching { data.first()[key] }.getOrNull()
-    }
-}
+operator fun <T> DataStore<Preferences>.get(key: Preferences.Key<T>): T? =
+    DataStoreSnapshot.get(key)
 
 fun <T> DataStore<Preferences>.get(
     key: Preferences.Key<T>,
     defaultValue: T,
-): T {
-    DataStoreSnapshot.get(key)?.let { return it }
-    if (Looper.myLooper() == Looper.getMainLooper()) return defaultValue
-    return runBlocking(Dispatchers.IO) {
-        runCatching { data.first()[key] }.getOrNull() ?: defaultValue
-    }
-}
+): T = DataStoreSnapshot.get(key) ?: defaultValue
 
 suspend fun <T> DataStore<Preferences>.getAsync(key: Preferences.Key<T>): T? =
     DataStoreSnapshot.get(key) ?: DataStoreSnapshot.getAsync(this, key)
