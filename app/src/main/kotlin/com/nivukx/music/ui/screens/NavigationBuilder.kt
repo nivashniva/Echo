@@ -51,7 +51,6 @@ import com.nivukx.music.ui.screens.settings.AccountSettingsScreen
 import com.nivukx.music.ui.screens.settings.StorageSettings
 import com.nivukx.music.ui.screens.settings.ThemeScreen
 import com.nivukx.music.ui.screens.settings.AiSettings
-import com.nivukx.music.ui.screens.settings.AppBrandingSettings
 
 import com.nivukx.music.ui.screens.settings.integrations.ListenTogetherSettings
 import com.nivukx.music.ui.screens.recognition.RecognitionScreen
@@ -436,10 +435,6 @@ fun NavGraphBuilder.navigationBuilder(
 
     composable(route = "settings/integrations/listen_together") {
         ListenTogetherSettings(navController, scrollBehavior)
-    }
-
-    composable("settings/app_branding") {
-        AppBrandingSettings(navController)
     }
 
     composable(
