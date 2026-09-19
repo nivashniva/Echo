@@ -875,7 +875,7 @@ object YTPlayerUtils {
         connectivityManager: ConnectivityManager,
     ): PlayerResponse.StreamingData.Format? {
         Timber.tag(logTag).d(
-            "Finding format with audioQuality=$audioQuality, network metered=\${connectivityManager.isActiveNetworkMetered}"
+            "Finding format with audioQuality=$audioQuality, network metered=${connectivityManager.isActiveNetworkMetered}"
         )
 
         val allAudioFormats = playerResponse.streamingData?.adaptiveFormats
@@ -894,12 +894,12 @@ object YTPlayerUtils {
                 throw IllegalStateException("Opus playback contract violated by selected format")
             }
             Timber.tag(logTag).d(
-                "Selected format: \${format.mimeType}, bitrate=\${format.bitrate}, " +
-                    "sampleRate=\${format.audioSampleRate}, channels=\${format.audioChannels}, " +
-                    "lossless=\${isGenuinelyLosslessFormat(format)}, actualQuality=\${resolvedAudioQuality(format)}"
+                "Selected format: ${format.mimeType}, bitrate=${format.bitrate}, " +
+                    "sampleRate=${format.audioSampleRate}, channels=${format.audioChannels}, " +
+                    "lossless=${isGenuinelyLosslessFormat(format)}, actualQuality=${resolvedAudioQuality(format)}"
             )
         } else {
-            Timber.tag(logTag).d("No suitable audio format found for quality=\$audioQuality")
+            Timber.tag(logTag).d("No suitable audio format found for quality=$audioQuality")
         }
 
         return format
