@@ -128,10 +128,13 @@ constructor(
             val format = playbackData.format
 
             when (selectedQuality) {
-                AudioQuality.LOSSLESS_WHEN_AVAILABLE ->
-                    check(com.nivukx.music.utils.YTPlayerUtils.isGenuinelyLosslessFormat(format)) {
-                        "Download contract violated: selected Lossless but resolver returned ${format.mimeType}"
+                AudioQuality.LOSSLESS_WHEN_AVAILABLE -> {
+                    if (!com.nivukx.music.utils.YTPlayerUtils.isGenuinelyLosslessFormat(format)) {
+                        timber.log.Timber.tag("DownloadUtil").w(
+                            "Lossless unavailable for $mediaId; downloading best available format ${format.mimeType} @ ${format.bitrate}bps"
+                        )
                     }
+                }
                 AudioQuality.OPUS ->
                     check(com.nivukx.music.utils.YTPlayerUtils.isGenuinelyOpusFormat(format)) {
                         "Download contract violated: selected Opus but resolver returned ${format.mimeType}"
