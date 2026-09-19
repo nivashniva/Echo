@@ -30,7 +30,7 @@ class PlaybackUrlResolver @Inject constructor(
     )
 
     private data class CachedUrl(
-        val playback: com.nivukx.music.utils.PlaybackData,
+        val playback: YTPlayerUtils.PlaybackData,
         val expiresAtMs: Long,
     )
 
@@ -38,9 +38,9 @@ class PlaybackUrlResolver @Inject constructor(
         SupervisorJob() + kotlinx.coroutines.Dispatchers.IO.limitedParallelism(MAX_CONCURRENT_RESOLVES)
     )
     private val cache = ConcurrentHashMap<Key, CachedUrl>()
-    private val inFlight = ConcurrentHashMap<Key, Deferred<Result<com.nivukx.music.utils.PlaybackData>>>()
+    private val inFlight = ConcurrentHashMap<Key, Deferred<Result<YTPlayerUtils.PlaybackData>>>()
 
-    fun cached(videoId: String, audioQuality: AudioQuality): com.nivukx.music.utils.PlaybackData? {
+    fun cached(videoId: String, audioQuality: AudioQuality): YTPlayerUtils.PlaybackData? {
         val key = Key(videoId, audioQuality)
         val entry = cache[key] ?: return null
         if (entry.expiresAtMs > System.currentTimeMillis() + CACHE_SAFETY_WINDOW_MS) {
@@ -60,9 +60,9 @@ class PlaybackUrlResolver @Inject constructor(
     suspend fun resolve(
         videoId: String,
         audioQuality: AudioQuality,
-    ): Result<com.nivukx.music.utils.PlaybackData> {
+    ): Result<YTPlayerUtils.PlaybackData> {
         cached(videoId, audioQuality)?.let {
-            return Result.success<com.nivukx.music.utils.PlaybackData>(it)
+            return Result.success<YTPlayerUtils.PlaybackData>(it)
         }
 
         val key = Key(videoId, audioQuality)
@@ -110,7 +110,7 @@ class PlaybackUrlResolver @Inject constructor(
     fun resolveBlocking(
         videoId: String,
         audioQuality: AudioQuality,
-    ): Result<com.nivukx.music.utils.PlaybackData> = runBlocking {
+    ): Result<YTPlayerUtils.PlaybackData> = runBlocking {
         resolve(videoId, audioQuality)
     }
 
