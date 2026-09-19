@@ -76,6 +76,7 @@ import com.nivukx.music.models.MediaMetadata
 import com.nivukx.music.models.toSongEntity
 import com.nivukx.music.models.toMediaMetadata
 import com.nivukx.music.playback.ExoDownloadService
+import com.nivukx.music.utils.DownloadQualityContract
 import com.nivukx.music.playback.queues.YouTubeQueue
 import com.nivukx.music.ui.component.ListDialog
 import com.nivukx.music.ui.component.LocalBottomSheetPageState
@@ -550,7 +551,7 @@ fun YouTubeSongMenu(
                                     }
                                     val downloadRequest = DownloadRequest
                                         .Builder(song.id, song.id.toUri())
-                                        .setCustomCacheKey(song.id)
+                                        .setCustomCacheKey(DownloadQualityContract.requestKey(context, song.id))
                                         .setData(song.title.toByteArray())
                                         .build()
                                     DownloadService.sendAddDownload(
