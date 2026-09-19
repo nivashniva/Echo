@@ -461,7 +461,7 @@ fun Modifier.nivukxItemReveal(
         MutableTransitionState(false).apply { targetState = true }
     }
     val transition = updateTransition(
-        targetState = visibilityState,
+        transitionState = visibilityState,
         label = "nivukxItemRevealTransition",
     )
     val progress = transition.animateFloat(
