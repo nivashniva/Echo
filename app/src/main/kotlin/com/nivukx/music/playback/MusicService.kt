@@ -4246,7 +4246,11 @@ class MusicService :
                 // Probing the request key here makes completed downloads look absent and causes
                 // unnecessary network resolution.
                 val matchingDownloadKey = DownloadQualityContract.contentCacheKey(mediaId, audioQuality)
-                val isFullyDownloaded = downloadCache.getCachedSpans(matchingDownloadKey).isNotEmpty()
+                val cachedLength = androidx.media3.datasource.cache.ContentMetadata.getContentLength(
+                    downloadCache.getContentMetadata(matchingDownloadKey)
+                )
+                val isFullyDownloaded = cachedLength > 0L &&
+                    downloadCache.isCached(matchingDownloadKey, 0L, cachedLength)
                 if (!mediaId.isLocalMediaId() && !songUrlCache.containsKey("${mediaId}_${audioQuality.name}") && !isFullyDownloaded) {
                     Timber.tag(TAG).d("Preloading stream for $mediaId")
                     kotlin.runCatching {
