@@ -220,6 +220,7 @@ If Nivukx has been useful to you, consider supporting its development.
 
 - **GitHub Repository**: https://github.com/nivash01/Echo
 - **Issues & Feedback**: https://github.com/nivash01/Echo/issues
+- **UPI Support**: `nivashniva66-1@okaxis`
 
 </div>
 
