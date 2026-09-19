@@ -61,7 +61,9 @@ class PlaybackUrlResolver @Inject constructor(
         videoId: String,
         audioQuality: AudioQuality,
     ): Result<com.nivukx.music.utils.PlaybackData> {
-        cached(videoId, audioQuality)?.let { return Result.success(it) }
+        cached(videoId, audioQuality)?.let {
+            return Result.success<com.nivukx.music.utils.PlaybackData>(it)
+        }
 
         val key = Key(videoId, audioQuality)
         val deferred = inFlight[key] ?: synchronized(inFlight) {
@@ -85,7 +87,8 @@ class PlaybackUrlResolver @Inject constructor(
                         else -> Unit
                     }
 
-                    val ttlSeconds = playback.streamExpiresInSeconds.coerceAtLeast(MIN_STREAM_TTL_SECONDS)
+                    val ttlSeconds =
+                        playback.streamExpiresInSeconds.coerceAtLeast(MIN_STREAM_TTL_SECONDS)
                     cache[key] = CachedUrl(
                         playback = playback,
                         expiresAtMs = System.currentTimeMillis() + ttlSeconds * 1000L,
@@ -131,7 +134,7 @@ class PlaybackUrlResolver @Inject constructor(
 
     private companion object {
         const val MAX_CONCURRENT_RESOLVES = 4
-        const val MIN_STREAM_TTL_SECONDS = 30L
+        const val MIN_STREAM_TTL_SECONDS = 30
         const val CACHE_SAFETY_WINDOW_MS = 5_000L
     }
 }
