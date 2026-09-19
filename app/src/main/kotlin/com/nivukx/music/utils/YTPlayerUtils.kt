@@ -543,17 +543,17 @@ object YTPlayerUtils {
 
                 Timber.tag(logTag).d("Format found: ${format.mimeType}, bitrate: ${format.bitrate}")
 
-                // Lossless is a hard playback contract. Reject any non-lossless candidate before
-                // resolving or validating its URL, so a later fallback client can supply a verified
-                // lossless stream but a compressed stream can never be accepted.
+                // LOSSLESS_WHEN_AVAILABLE is availability-aware: retain a genuine lossless
+                // stream when present, but never make playback fail merely because the source
+                // exposes only a compressed adaptive stream.
                 if (
                     audioQuality == AudioQuality.LOSSLESS_WHEN_AVAILABLE &&
                     !isGenuinelyLosslessFormat(format)
                 ) {
-                    cascade += "${client.clientName}=NON_LOSSLESS_REJECT"
+                    cascade += "${client.clientName}=LOSSLESS_FALLBACK"
                     Fix403.w(
                         fx,
-                        "client.nonLosslessRejected",
+                        "client.losslessFallback",
                         Fix403.kv(
                             "client" to client.clientName,
                             "itag" to format.itag,
@@ -561,7 +561,6 @@ object YTPlayerUtils {
                             "bitrate" to format.bitrate,
                         ),
                     )
-                    continue
                 }
 
                 // Which of the three sources produced the URL is decisive: a format's own `url`
