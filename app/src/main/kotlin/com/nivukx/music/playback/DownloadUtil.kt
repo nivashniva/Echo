@@ -82,39 +82,60 @@ constructor(
 
     val downloads = MutableStateFlow<Map<String, Download>>(emptyMap())
 
+    /*
+     * Download pipeline:
+     *
+     * 1. ResolvingDataSource resolves the synthetic song id to the exact selected
+     *    audio stream immediately before the network request.
+     * 2. The inner player cache remains read-only, so downloads can reuse bytes
+     *    already fetched during playback without mutating the playback cache.
+     * 3. The outer download cache is writable and is therefore the persistent
+     *    Media3 download target. The previous implementation disabled cache writes
+     *    at this layer, which allowed a request to resolve correctly but left no
+     *    offline bytes behind.
+     *
+     * Keeping the two caches layered preserves existing playback-cache behavior
+     * while making DownloadManager own the durable offline copy.
+     */
     private val dataSourceFactory =
         ResolvingDataSource.Factory(
             ChunkingDataSourceFactory(
-                // Read already-streamed bytes from playerCache instead of re-downloading them:
-                // a song played before being downloaded would otherwise be fetched twice.
                 CacheDataSource.Factory()
-                    .setCache(playerCache)
+                    .setCache(downloadCache)
                     .setUpstreamDataSourceFactory(
-                        OkHttpDataSource.Factory(
-                            OkHttpClient.Builder()
-                                .dns(object : Dns {
-                                    override fun lookup(hostname: String): List<InetAddress> {
-                                        val addresses = Dns.SYSTEM.lookup(hostname)
-                                        return when (this@DownloadUtil.ipVersion) {
-                                            IpVersion.IPV4 -> addresses.filter { it is Inet4Address }.ifEmpty { addresses }
-                                            IpVersion.IPV6 -> addresses.filter { it is Inet6Address }.ifEmpty { addresses }
-                                            IpVersion.AUTO -> addresses
+                        CacheDataSource.Factory()
+                            .setCache(playerCache)
+                            .setUpstreamDataSourceFactory(
+                                OkHttpDataSource.Factory(
+                                    OkHttpClient.Builder()
+                                        .dns(object : Dns {
+                                            override fun lookup(hostname: String): List<InetAddress> {
+                                                val addresses = Dns.SYSTEM.lookup(hostname)
+                                                return when (this@DownloadUtil.ipVersion) {
+                                                    IpVersion.IPV4 -> addresses.filter { it is Inet4Address }.ifEmpty { addresses }
+                                                    IpVersion.IPV6 -> addresses.filter { it is Inet6Address }.ifEmpty { addresses }
+                                                    IpVersion.AUTO -> addresses
+                                                }
+                                            }
+                                        })
+                                        .proxy(YouTube.proxy)
+                                        .proxyAuthenticator { _, response ->
+                                            YouTube.proxyAuth?.let { auth ->
+                                                response.request.newBuilder()
+                                                    .header("Proxy-Authorization", auth)
+                                                    .build()
+                                            } ?: response.request
                                         }
-                                    }
-                                })
-                                .proxy(YouTube.proxy)
-                                .proxyAuthenticator { _, response ->
-                                    YouTube.proxyAuth?.let { auth ->
-                                        response.request.newBuilder()
-                                            .header("Proxy-Authorization", auth)
-                                            .build()
-                                    } ?: response.request
-                                }
-                                .build(),
-                        )
+                                        .build(),
+                                )
+                            )
+                            // Playback cache is intentionally read-only from the
+                            // download path. Offline bytes belong to downloadCache.
+                            .setCacheWriteDataSinkFactory(null)
+                            .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
                     )
-                    .setCacheWriteDataSinkFactory(null)
-                    .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+                    // Do not disable writes here. DownloadManager must persist the
+                    // resolved stream into downloadCache for offline playback.
             )
         ) { dataSpec ->
             val requestKey = dataSpec.key ?: error("No media id")
