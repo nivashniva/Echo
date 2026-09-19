@@ -228,6 +228,8 @@ class MusicService :
 
     @Inject
     lateinit var playbackUrlResolver: PlaybackUrlResolver
+    @Inject
+    lateinit var downloadUtil: DownloadUtil
 
     @Inject
     lateinit var lyricsHelper: com.nivukx.music.lyrics.LyricsHelper
@@ -2989,7 +2991,20 @@ class MusicService :
             val cachedLength = androidx.media3.datasource.cache.ContentMetadata.getContentLength(
                 downloadCache.getContentMetadata(cacheKey)
             ).takeIf { it != androidx.media3.common.C.LENGTH_UNSET.toLong() } ?: -1L
-            val isFullyDownloaded = cachedLength > 0 && downloadCache.isCached(cacheKey, 0, cachedLength)
+            val cachedBytes = downloadCache.getCachedSpans(cacheKey).sumOf { it.length }
+            val downloadCompleted = runCatching {
+                downloadUtil.downloadManager.downloadIndex
+                    .getDownload(mediaId)
+                    ?.state == androidx.media3.exoplayer.offline.Download.STATE_COMPLETED
+            }.getOrDefault(false)
+            val isFullyDownloaded = if (cachedLength > 0) {
+                cachedBytes >= cachedLength && downloadCache.isCached(cacheKey, 0, cachedLength)
+            } else {
+                // Some upstream streams omit Content-Length. Media3 still knows the
+                // terminal download state, so accept only a completed DownloadManager
+                // record with non-empty durable bytes, never an arbitrary partial span.
+                downloadCompleted && cachedBytes > 0L
+            }
 
 
             if (!shouldBypassCache) {
@@ -4249,8 +4264,18 @@ class MusicService :
                 val cachedLength = androidx.media3.datasource.cache.ContentMetadata.getContentLength(
                     downloadCache.getContentMetadata(matchingDownloadKey)
                 )
-                val isFullyDownloaded = cachedLength > 0L &&
-                    downloadCache.isCached(matchingDownloadKey, 0L, cachedLength)
+                val cachedBytes = downloadCache.getCachedSpans(matchingDownloadKey).sumOf { it.length }
+                val downloadCompleted = runCatching {
+                    downloadUtil.downloadManager.downloadIndex
+                        .getDownload(mediaId)
+                        ?.state == androidx.media3.exoplayer.offline.Download.STATE_COMPLETED
+                }.getOrDefault(false)
+                val isFullyDownloaded = if (cachedLength > 0L) {
+                    cachedBytes >= cachedLength &&
+                        downloadCache.isCached(matchingDownloadKey, 0L, cachedLength)
+                } else {
+                    downloadCompleted && cachedBytes > 0L
+                }
                 if (!mediaId.isLocalMediaId() && !songUrlCache.containsKey("${mediaId}_${audioQuality.name}") && !isFullyDownloaded) {
                     Timber.tag(TAG).d("Preloading stream for $mediaId")
                     kotlin.runCatching {
