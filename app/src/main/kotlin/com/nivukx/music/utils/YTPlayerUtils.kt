@@ -809,7 +809,13 @@ object YTPlayerUtils {
             audioQuality == AudioQuality.LOSSLESS_WHEN_AVAILABLE &&
             !isGenuinelyLosslessFormat(format)
         ) {
-            throw IllegalStateException("Lossless playback contract violated by selected format")
+            // YouTube/YouTube Music normally exposes compressed adaptive audio formats
+            // (Opus/AAC), not a true FLAC/ALAC/PCM stream. LOSSLESS_WHEN_AVAILABLE therefore
+            // means: use a genuinely lossless stream when one exists, otherwise keep playback
+            // working with the best available audio format instead of making the song silent.
+            Timber.tag(logTag).w(
+                "No genuinely lossless stream available; falling back to the selected best available format: ${format.mimeType}, bitrate=${format.bitrate}"
+            )
         }
 
         if (streamUrl == null) {
@@ -883,7 +889,7 @@ object YTPlayerUtils {
             )
         } else {
             Timber.tag(logTag).d(
-                "No suitable audio format found for quality=$audioQuality; lossless never falls back"
+                "No suitable audio format found for quality=$audioQuality"
             )
         }
 
@@ -895,10 +901,16 @@ object YTPlayerUtils {
         audioQuality: AudioQuality,
     ): PlayerResponse.StreamingData.Format? =
         when (audioQuality) {
-            AudioQuality.LOSSLESS_WHEN_AVAILABLE ->
-                audioFormats
+            AudioQuality.LOSSLESS_WHEN_AVAILABLE -> {
+                val lossless = audioFormats
                     .filter(::isGenuinelyLosslessFormat)
                     .maxByOrNull(::qualityScore)
+
+                // "When available" is intentional. If YouTube does not expose a true
+                // lossless stream for this track, select the same best supported stream used by
+                // HIGH rather than returning null and preventing playback entirely.
+                lossless ?: audioFormats.maxByOrNull(::qualityScore)
+            }
 
             AudioQuality.HIGH,
             AudioQuality.AUTO ->
