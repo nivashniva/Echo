@@ -73,14 +73,19 @@ class PlaybackUrlResolver @Inject constructor(
                     audioQuality = audioQuality,
                     connectivityManager = connectivityManager,
                 ).map { playback ->
+                    check(playback.format.isAudio) {
+                        "Playback resolver returned a non-audio format for $videoId"
+                    }
+                    check(playback.requestedAudioQuality == audioQuality) {
+                        "Playback quality contract mismatch for $videoId: requested=$audioQuality, resolved=${playback.requestedAudioQuality}"
+                    }
+
                     when (audioQuality) {
                         AudioQuality.LOSSLESS_WHEN_AVAILABLE -> {
-                            if (!YTPlayerUtils.isGenuinelyLosslessFormat(playback.format)) {
-                                // Lossless is best-effort: YouTube may not expose a true
-                                // lossless stream for this track. YTPlayerUtils already selected
-                                // the best available fallback, so keep the resolved URL playable.
+                            if (playback.actualAudioQuality != AudioQuality.LOSSLESS_WHEN_AVAILABLE) {
                                 timber.log.Timber.tag("PlaybackUrlResolver").w(
-                                    "Lossless unavailable for $videoId; using ${playback.format.mimeType} @ ${playback.format.bitrate}bps"
+                                    "Lossless unavailable for $videoId; using actual=${playback.actualAudioQuality} " +
+                                        "${playback.format.mimeType} @ ${playback.format.bitrate}bps"
                                 )
                             }
                         }
@@ -90,9 +95,13 @@ class PlaybackUrlResolver @Inject constructor(
                                 "Opus playback contract violated for $videoId"
                             }
 
-                        else -> Unit
+                        AudioQuality.HIGH,
+                        AudioQuality.AUTO -> {
+                            check(playback.format.bitrate > 0) {
+                                "High/Auto playback returned an invalid bitrate for $videoId"
+                            }
+                        }
                     }
-
                     val ttlSeconds =
                         playback.streamExpiresInSeconds.coerceAtLeast(MIN_STREAM_TTL_SECONDS)
                     cache[key] = CachedUrl(
