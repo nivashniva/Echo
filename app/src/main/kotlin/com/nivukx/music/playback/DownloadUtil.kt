@@ -204,14 +204,11 @@ constructor(
                 }
             }
 
-            val resolvedCacheKey =
-                DownloadQualityContract.qualityFromRequestKey(requestKey)
-                    ?.let { requestKey }
-                    ?: qualityCacheKey
-
+            // Request key selects the quality; persisted Media3 cache key must use the same
+            // quality namespace consumed by playback/offline detection.
             dataSpec
                 .buildUpon()
-                .setKey(resolvedCacheKey)
+                .setKey(qualityCacheKey)
                 .setUri(playbackData.streamUrl.toUri())
                 .build()
         }
