@@ -86,6 +86,7 @@ import com.nivukx.music.listentogether.ConnectionState
 import com.nivukx.music.listentogether.ListenTogetherEvent
 import com.nivukx.music.models.MediaMetadata
 import com.nivukx.music.playback.ExoDownloadService
+import com.nivukx.music.utils.DownloadQualityContract
 import com.nivukx.music.ui.component.BottomSheetState
 import com.nivukx.music.ui.component.ListDialog
 import com.nivukx.music.constants.ShowLyricsOnPlayerKey
@@ -565,7 +566,7 @@ fun PlayerMenu(
                                     val downloadRequest =
                                         DownloadRequest
                                             .Builder(mediaMetadata.id, mediaMetadata.id.toUri())
-                                            .setCustomCacheKey(mediaMetadata.id)
+                                            .setCustomCacheKey(DownloadQualityContract.requestKey(context, mediaMetadata.id))
                                             .setData(mediaMetadata.title.toByteArray())
                                             .build()
                                     DownloadService.sendAddDownload(
