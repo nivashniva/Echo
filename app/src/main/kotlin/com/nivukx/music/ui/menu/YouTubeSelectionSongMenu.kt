@@ -43,6 +43,7 @@ import com.nivukx.music.R
 import com.nivukx.music.extensions.toMediaItem
 import com.nivukx.music.models.toMediaMetadata
 import com.nivukx.music.playback.ExoDownloadService
+import com.nivukx.music.utils.DownloadQualityContract
 import com.nivukx.music.playback.queues.ListQueue
 import com.nivukx.music.ui.component.DefaultDialog
 import com.nivukx.music.ui.component.Material3MenuGroup
@@ -362,7 +363,7 @@ fun YouTubeSelectionSongMenu(
                                         val downloadRequest =
                                             DownloadRequest
                                                 .Builder(song.id, song.id.toUri())
-                                                .setCustomCacheKey(song.id)
+                                                .setCustomCacheKey(DownloadQualityContract.requestKey(context, song.id))
                                                 .setData(song.title.toByteArray())
                                                 .build()
                                         DownloadService.sendAddDownload(
