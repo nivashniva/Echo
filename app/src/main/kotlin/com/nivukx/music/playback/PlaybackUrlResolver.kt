@@ -116,10 +116,19 @@ class PlaybackUrlResolver @Inject constructor(
                     }
                     val ttlSeconds =
                         playback.streamExpiresInSeconds.coerceAtLeast(MIN_STREAM_TTL_SECONDS)
-                    cache[key] = CachedUrl(
-                        playback = playback,
-                        expiresAtMs = System.currentTimeMillis() + ttlSeconds * 1000L,
-                    )
+
+                    // Never persist a compressed fallback in the lossless namespace.
+                    // This keeps subsequent resolutions honest and lets a verified lossless
+                    // stream replace an earlier unavailable result.
+                    if (
+                        audioQuality != AudioQuality.LOSSLESS_WHEN_AVAILABLE ||
+                        playback.actualAudioQuality == AudioQuality.LOSSLESS_WHEN_AVAILABLE
+                    ) {
+                        cache[key] = CachedUrl(
+                            playback = playback,
+                            expiresAtMs = System.currentTimeMillis() + ttlSeconds * 1000L,
+                        )
+                    }
                     playback
                 }
             }.also { inFlight[key] = it }
