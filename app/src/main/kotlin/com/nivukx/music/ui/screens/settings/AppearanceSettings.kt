@@ -2008,6 +2008,42 @@ highlightKey: String? = null) {
                         )
                     },
                     onClick = { onShowCachedPlaylistChange(!showCachedPlaylist) }
+                ),
+                Material3SettingsItem(
+                    isHighlighted = (highlightKey == "Classic icon"),
+                    customIcon = {
+                        Icon(
+                            painter = painterResource(R.drawable.legacy),
+                            contentDescription = null,
+                            modifier = Modifier.size(48.dp),
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
+                    },
+                    title = { Text("Classic icon") },
+                    description = { Text("Use the classic launcher artwork") },
+                    trailingContent = {
+                        Switch(
+                            checked = enableLegacyIcon,
+                            onCheckedChange = { enabled ->
+                                onEnableLegacyIconChange(enabled)
+                                IconUtils.setIcon(activity, false, enabled)
+                            },
+                            thumbContent = {
+                                Icon(
+                                    painter = painterResource(
+                                        id = if (enableLegacyIcon) R.drawable.check else R.drawable.close
+                                    ),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(SwitchDefaults.IconSize)
+                                )
+                            }
+                        )
+                    },
+                    onClick = {
+                        val enabled = !enableLegacyIcon
+                        onEnableLegacyIconChange(enabled)
+                        IconUtils.setIcon(activity, false, enabled)
+                    }
                 )
             )
         )
@@ -2053,40 +2089,4 @@ enum class LyricsPosition {
 enum class PlayerTextAlignment {
     SIDED,
     CENTER,
-}                Material3SettingsItem(
-                    isHighlighted = (highlightKey == "Classic icon"),
-                    customIcon = {
-                        Icon(
-                            painter = painterResource(R.drawable.legacy),
-                            contentDescription = null,
-                            modifier = Modifier.size(48.dp),
-                            tint = MaterialTheme.colorScheme.primary,
-                        )
-                    },
-                    title = { Text("Classic icon") },
-                    description = { Text("Use the classic launcher artwork") },
-                    trailingContent = {
-                        Switch(
-                            checked = enableLegacyIcon,
-                            onCheckedChange = { enabled ->
-                                onEnableLegacyIconChange(enabled)
-                                IconUtils.setIcon(activity, false, enabled)
-                            },
-                            thumbContent = {
-                                Icon(
-                                    painter = painterResource(
-                                        id = if (enableLegacyIcon) R.drawable.check else R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize)
-                                )
-                            }
-                        )
-                    },
-                    onClick = {
-                        val enabled = !enableLegacyIcon
-                        onEnableLegacyIconChange(enabled)
-                        IconUtils.setIcon(activity, false, enabled)
-                    }
-                ),
-
+}
