@@ -108,7 +108,7 @@ class BackupRestoreViewModel @Inject constructor(
                             }
                             InternalDatabase.DB_NAME -> {
                                 Timber.tag("RESTORE").i("Restoring DB (entry = ${entry.name})")
-                                foundAny = true
+                                restoredAny = true
                                 
                                 val tempFile = java.io.File(context.cacheDir, "temp_restore.db")
                                 java.io.FileOutputStream(tempFile).use { outputStream ->
