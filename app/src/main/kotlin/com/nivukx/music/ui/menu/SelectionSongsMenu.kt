@@ -441,7 +441,7 @@ fun SelectionSongMenu(
                                             val downloadRequest =
                                                 DownloadRequest
                                                     .Builder(song.id, song.id.toUri())
-                                                    .setCustomCacheKey(song.id)
+                                                    .setCustomCacheKey(DownloadQualityContract.requestKey(context, song.id))
                                                     .setData(song.song.title.toByteArray())
                                                     .build()
                                             DownloadService.sendAddDownload(
@@ -846,7 +846,7 @@ fun SelectionMediaMetadataMenu(
                                             val downloadRequest =
                                                 DownloadRequest
                                                     .Builder(song.id, song.id.toUri())
-                                                    .setCustomCacheKey(song.id)
+                                                    .setCustomCacheKey(DownloadQualityContract.requestKey(context, song.id))
                                                     .setData(song.title.toByteArray())
                                                     .build()
                                             DownloadService.sendAddDownload(
