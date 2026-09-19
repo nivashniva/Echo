@@ -43,11 +43,23 @@ class PlaybackUrlResolver @Inject constructor(
     fun cached(videoId: String, audioQuality: AudioQuality): YTPlayerUtils.PlaybackData? {
         val key = Key(videoId, audioQuality)
         val entry = cache[key] ?: return null
-        if (entry.expiresAtMs > System.currentTimeMillis() + CACHE_SAFETY_WINDOW_MS) {
-            return entry.playback
+        if (entry.expiresAtMs <= System.currentTimeMillis() + CACHE_SAFETY_WINDOW_MS) {
+            cache.remove(key, entry)
+            return null
         }
-        cache.remove(key, entry)
-        return null
+
+        // A lossy fallback must never poison the LOSSLESS_WHEN_AVAILABLE cache namespace.
+        // Otherwise the first unavailable-lossless resolution would be replayed forever,
+        // even after a genuine lossless format becomes available from another resolver/client.
+        if (
+            audioQuality == AudioQuality.LOSSLESS_WHEN_AVAILABLE &&
+            entry.playback.actualAudioQuality != AudioQuality.LOSSLESS_WHEN_AVAILABLE
+        ) {
+            cache.remove(key, entry)
+            return null
+        }
+
+        return entry.playback
     }
 
     fun prefetch(videoId: String, audioQuality: AudioQuality) {
