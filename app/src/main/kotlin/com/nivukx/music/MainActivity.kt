@@ -224,6 +224,7 @@ import com.nivukx.music.ui.theme.extractThemeColor
 import com.nivukx.music.ui.utils.appBarScrollBehavior
 import com.nivukx.music.ui.utils.resetHeightOffset
 import com.nivukx.music.utils.SyncUtils
+import com.nivukx.music.utils.VulkanRuntime
 import com.nivukx.music.utils.dataStore
 import com.nivukx.music.utils.get
 import com.nivukx.music.utils.rememberEnumPreference
@@ -303,6 +304,31 @@ class MainActivity : ComponentActivity() {
             listenTogetherManager.setPlayerConnection(null)
             playerConnection?.dispose()
             playerConnection = null
+        }
+    }
+
+    private fun applyHighRefreshRateHint() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val enabled = dataStore.get(EnableHighRefreshRateKey, true)
+            if (!enabled) return@launch
+
+            val supportedMode = getSystemService(android.view.WindowManager::class.java)
+                ?.defaultDisplay
+                ?.supportedModes
+                ?.maxByOrNull { it.refreshRate }
+
+            if (supportedMode != null) {
+                withContext(Dispatchers.Main.immediate) {
+                    window.attributes = window.attributes.apply {
+                        preferredDisplayModeId = supportedMode.modeId
+                    }
+                    Timber.tag("MainActivity").i(
+                        "Preferred display mode: ${supportedMode.refreshRate}Hz"
+                    )
+                }
+            }
         }
     }
 
@@ -388,7 +414,12 @@ class MainActivity : ComponentActivity() {
         window.decorView.layoutDirection = View.LAYOUT_DIRECTION_LTR
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        
+        // Keep the window explicitly hardware accelerated. On Vulkan-capable devices
+        // this leaves renderer selection to Android HWUI instead of using private APIs.
+        window.addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED)
+        VulkanRuntime.initialize(this)
+        applyHighRefreshRateHint()
+
         listenTogetherManager.initialize()
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {

@@ -6,6 +6,7 @@ import coil3.request.ImageRequest
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.os.SystemClock
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.media3.database.DatabaseProvider
@@ -53,6 +54,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import java.time.LocalDateTime
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -81,6 +83,34 @@ constructor(
     lateinit var playbackUrlResolver: PlaybackUrlResolver
 
     val downloads = MutableStateFlow<Map<String, Download>>(emptyMap())
+
+    // Media3 can emit many progress callbacks per second. Publishing every one forces
+    // Compose to recompose download rows unnecessarily. State transitions remain immediate;
+    // intermediate progress is published at a stable UI cadence.
+    private val lastDownloadUiPublishMs = ConcurrentHashMap<String, Long>()
+    private val lastDownloadUiState = ConcurrentHashMap<String, Int>()
+
+    private fun publishDownloadUiState(download: Download) {
+        val id = download.request.id
+        val now = SystemClock.elapsedRealtime()
+        val previousState = lastDownloadUiState.put(id, download.state)
+        val previousPublish = lastDownloadUiPublishMs[id] ?: 0L
+        val terminal = download.state == Download.STATE_COMPLETED ||
+            download.state == Download.STATE_FAILED ||
+            download.state == Download.STATE_STOPPED ||
+            download.state == Download.STATE_REMOVING
+        val stateChanged = previousState == null || previousState != download.state
+        val cadenceElapsed = now - previousPublish >= 120L
+
+        if (stateChanged || terminal || cadenceElapsed) {
+            lastDownloadUiPublishMs[id] = now
+            downloads.update { map ->
+                map.toMutableMap().apply {
+                    set(id, download)
+                }
+            }
+        }
+    }
 
     /*
      * Download pipeline:
@@ -254,25 +284,55 @@ constructor(
                         download: Download,
                         finalException: Exception?,
                     ) {
-                        downloads.update { map ->
-                            map.toMutableMap().apply {
-                                set(download.request.id, download)
-                            }
-                        }
+                        publishDownloadUiState(download)
 
-                        scope.launch {
-                            when (download.state) {
-                                Download.STATE_COMPLETED -> {
-                                    database.updateDownloadedInfo(download.request.id, true, LocalDateTime.now())
+                        when (download.state) {
+                            Download.STATE_COMPLETED -> {
+                                scope.launch {
+                                    val quality = DownloadQualityContract.qualityFromRequestKey(
+                                        download.request.customCacheKey.orEmpty()
+                                    )?.toAudioQuality() ?: downloadQuality.toAudioQuality()
+                                    val cacheKey = DownloadQualityContract.contentCacheKey(
+                                        download.request.id,
+                                        quality,
+                                    )
+                                    val cachedLength = androidx.media3.datasource.cache.ContentMetadata
+                                        .getContentLength(downloadCache.getContentMetadata(cacheKey))
+                                    val cachedBytes = downloadCache.getCachedSpans(cacheKey)
+                                        .sumOf { it.length }
+                                    val durable = when {
+                                        cachedLength > 0L ->
+                                            downloadCache.isCached(cacheKey, 0L, cachedLength)
+                                        else ->
+                                            cachedBytes > 0L
+                                    }
+
+                                    Timber.tag("DownloadUtil").i(
+                                        "Download completed id=${download.request.id} quality=$quality durable=$durable"
+                                    )
+                                    database.updateDownloadedInfo(
+                                        download.request.id,
+                                        durable,
+                                        if (durable) LocalDateTime.now() else null,
+                                    )
+
+                                    if (!durable) {
+                                        // Media3 reported completion but no durable bytes exist under
+                                        // the canonical playback cache key. Remove the false terminal
+                                        // state so the UI cannot advertise an offline track that is
+                                        // not actually playable.
+                                        downloadManager.removeDownload(download.request.id)
+                                    }
                                 }
-                                Download.STATE_FAILED,
-                                Download.STATE_STOPPED,
-                                Download.STATE_REMOVING -> {
+                            }
+                            Download.STATE_FAILED,
+                            Download.STATE_STOPPED,
+                            Download.STATE_REMOVING -> {
+                                scope.launch {
                                     database.updateDownloadedInfo(download.request.id, false, null)
                                 }
-                                else -> {
-                                }
                             }
+                            else -> Unit
                         }
                     }
                 }

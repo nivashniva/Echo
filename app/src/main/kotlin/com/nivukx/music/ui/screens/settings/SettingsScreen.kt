@@ -100,9 +100,6 @@ highlightKey: String? = null) {
     val systemUpdateDesc = stringResource(R.string.setting_desc_update)
     val aboutDesc = stringResource(R.string.setting_desc_about)
 
-    val appBrandingText = stringResource(R.string.app_branding)
-    val appBrandingDesc = stringResource(R.string.app_branding_desc)
-
     val scrollState = rememberScrollState()
     Column(
         Modifier
@@ -323,43 +320,6 @@ highlightKey: String? = null) {
                     )
                 }
             }
-            if (appBrandingText.lowercase().contains(searchLower) || appBrandingDesc.lowercase().contains(searchLower)) {
-                add(
-                    Material3SettingsItem(
-                        isHighlighted = (highlightKey == appBrandingText),
-                        customIcon = {
-                            Row(
-                                modifier = Modifier.size(48.dp),
-                                horizontalArrangement = Arrangement.spacedBy((-8).dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                androidx.compose.foundation.Image(
-                                    painter = painterResource(R.drawable.original),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .size(30.dp)
-                                        .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
-                                        .padding(3.dp),
-                                    contentScale = ContentScale.Fit
-                                )
-                                androidx.compose.foundation.Image(
-                                    painter = painterResource(R.drawable.legacy),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .size(30.dp)
-                                        .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(8.dp))
-                                        .padding(3.dp),
-                                    contentScale = ContentScale.Fit
-                                )
-                            }
-                        },
-                        title = { Text(appBrandingText) },
-                        description = { Text(appBrandingDesc) },
-                        onClick = { navController.navigate("settings/app_branding") }
-                    )
-                )
-            }
-
             if (aboutText.lowercase().contains(searchLower) || aboutDesc.lowercase().contains(searchLower)) {
                 add(
                     Material3SettingsItem(
@@ -424,7 +384,7 @@ highlightKey: String? = null) {
             val accountGroup = itemsList.take(2) // Account, AI
             val playerGroup = itemsList.drop(2).take(3) // Appearance, Player, Listen Together
             val dataGroup = itemsList.drop(5).take(4) // Content, Privacy, Storage, Backup
-            val systemGroup = itemsList.drop(9) // Update, Links, About, App Branding
+            val systemGroup = itemsList.drop(9) // Update, Links, About
             
             if (accountGroup.isNotEmpty()) {
                 Material3SettingsGroup(scrollState = scrollState, items = accountGroup)

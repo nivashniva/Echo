@@ -4241,9 +4241,11 @@ class MusicService :
         preloadJob = scope.launch(kotlinx.coroutines.Dispatchers.IO) {
             for (mediaId in upcomingMediaIds) {
 
-                // Download caches are quality-isolated. Never treat a different download
-                // quality as a match for the currently selected playback quality.
-                val matchingDownloadKey = DownloadQualityContract.requestKey(mediaId, audioQuality)
+                // Download bytes are persisted under the resolved content cache key, not the
+                // request envelope used to carry the selected quality into DownloadManager.
+                // Probing the request key here makes completed downloads look absent and causes
+                // unnecessary network resolution.
+                val matchingDownloadKey = DownloadQualityContract.contentCacheKey(mediaId, audioQuality)
                 val isFullyDownloaded = downloadCache.getCachedSpans(matchingDownloadKey).isNotEmpty()
                 if (!mediaId.isLocalMediaId() && !songUrlCache.containsKey("${mediaId}_${audioQuality.name}") && !isFullyDownloaded) {
                     Timber.tag(TAG).d("Preloading stream for $mediaId")

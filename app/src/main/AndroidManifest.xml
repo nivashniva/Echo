@@ -27,6 +27,10 @@
     <!-- Microphone feature for music recognition (not required) -->
     <uses-feature android:name="android.hardware.microphone" android:required="false" />
     <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <!-- Vulkan is optional: capable devices can use the platform GPU backend without
+         excluding devices whose HWUI implementation selects another renderer. -->
+    <uses-feature android:name="android.hardware.vulkan.level" android:required="false" />
+    <uses-feature android:name="android.hardware.vulkan.version" android:required="false" />
 
 <!--    install permission-->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
@@ -58,6 +62,7 @@
         android:enableOnBackInvokedCallback="true"
         android:extractNativeLibs="true"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/original"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
