@@ -193,6 +193,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -354,6 +355,15 @@ class MusicService :
             secondaryPlayer = null
         }
     }
+
+
+    /**
+     * Compatibility hook retained for playback lifecycle callbacks.
+     * The current project graph does not contain a separate presence manager,
+     * so keeping this hook as a no-op preserves the existing call sites without
+     * introducing or removing playback behavior.
+     */
+    private fun ensurePresenceManager() = Unit
 
     private var scope = CoroutineScope(Dispatchers.Main) + Job()
 
