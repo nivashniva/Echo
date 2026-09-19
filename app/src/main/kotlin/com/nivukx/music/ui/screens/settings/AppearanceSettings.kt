@@ -4,7 +4,6 @@ package com.nivukx.music.ui.screens.settings
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import androidx.compose.foundation.border
@@ -35,7 +34,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -47,7 +45,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -118,10 +115,8 @@ import com.nivukx.music.ui.component.WavySlider
 import com.nivukx.music.ui.theme.DefaultThemeColor
 import com.nivukx.music.ui.theme.PlayerSliderColors
 import com.nivukx.music.ui.utils.backToMain
-import com.nivukx.music.utils.IconUtils
 import com.nivukx.music.utils.rememberEnumPreference
 import com.nivukx.music.utils.rememberPreference
-import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 import com.nivukx.music.constants.LyricsClickKey
 import com.nivukx.music.constants.AppleMusicLyricsBlurKey
@@ -160,8 +155,6 @@ highlightKey: String? = null) {
     )
     
     val isUsingCustomColor = selectedThemeColorInt != DefaultThemeColor.toArgb()
-    val coroutineScope = rememberCoroutineScope()
-
 
 
 
