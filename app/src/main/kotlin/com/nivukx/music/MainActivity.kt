@@ -421,7 +421,9 @@ class MainActivity : ComponentActivity() {
         // Keep the window explicitly hardware accelerated. On Vulkan-capable devices
         // this leaves renderer selection to Android HWUI instead of using private APIs.
         window.addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED)
-        VulkanRuntime.initialize(this)
+        lifecycleScope.launch(Dispatchers.Default) {
+            VulkanRuntime.initialize(this@MainActivity)
+        }
         applyHighRefreshRateHint()
 
         listenTogetherManager.initialize()
