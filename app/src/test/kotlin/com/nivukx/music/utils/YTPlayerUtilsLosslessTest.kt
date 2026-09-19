@@ -38,7 +38,7 @@ class YTPlayerUtilsLosslessTest {
     )
 
     @Test
-    fun losslessSelectionNeverFallsBackToLossy() {
+    fun losslessSelectionPrefersLosslessWhenAvailable() {
         val opus = format("audio/webm; codecs=\"opus\"", 256000)
         val flac = format("audio/flac; codecs=\"flac\"", 1411200)
 
@@ -113,16 +113,32 @@ class YTPlayerUtilsLosslessTest {
     }
 
     @Test
-    fun losslessSelectionReturnsNullWhenNoVerifiedLosslessStreamExists() {
+    fun losslessSelectionFallsBackToBestAvailableWhenUnavailable() {
         val opus = format("audio/webm; codecs=\"opus\"", 256000)
-        val aac = format("audio/mp4; codecs=\"mp4a.40.2\"", 256000)
+        val aac = format("audio/mp4; codecs=\"mp4a.40.2\"", 320000)
 
         val selected = YTPlayerUtils.selectAudioFormat(
             listOf(opus, aac),
             AudioQuality.LOSSLESS_WHEN_AVAILABLE,
         )
 
-        assertEquals(null, selected)
+        assertEquals(aac, selected)
+        assertFalse(YTPlayerUtils.isGenuinelyLosslessFormat(selected!!))
+    }
+
+    @Test
+    fun resolvedQualityReflectsActualStreamClass() {
+        val flac = format("audio/flac; codecs=\"flac\"", 1411200)
+        val opus = format("audio/webm; codecs=\"opus\"", 256000)
+
+        assertEquals(
+            AudioQuality.LOSSLESS_WHEN_AVAILABLE,
+            YTPlayerUtils.resolvedAudioQuality(flac),
+        )
+        assertEquals(
+            AudioQuality.OPUS,
+            YTPlayerUtils.resolvedAudioQuality(opus),
+        )
     }
 
     @Test
