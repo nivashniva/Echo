@@ -69,6 +69,7 @@ import com.nivukx.music.listentogether.RoomRole
 import com.nivukx.music.models.MediaMetadata
 import com.nivukx.music.models.toMediaMetadata
 import com.nivukx.music.playback.ExoDownloadService
+import com.nivukx.music.utils.DownloadQualityContract
 import com.nivukx.music.ui.component.BottomSheetState
 import com.nivukx.music.ui.component.ListDialog
 import com.nivukx.music.ui.component.Material3MenuGroup
@@ -416,7 +417,7 @@ fun OldPlayerMenu(
                                     onClick = {
                                         database.transaction { insert(mediaMetadata) }
                                         val downloadRequest = DownloadRequest.Builder(mediaMetadata.id, mediaMetadata.id.toUri())
-                                            .setCustomCacheKey(mediaMetadata.id)
+                                            .setCustomCacheKey(DownloadQualityContract.requestKey(context, mediaMetadata.id))
                                             .setData(mediaMetadata.title.toByteArray())
                                             .build()
                                         DownloadService.sendAddDownload(context, ExoDownloadService::class.java, downloadRequest, false)
