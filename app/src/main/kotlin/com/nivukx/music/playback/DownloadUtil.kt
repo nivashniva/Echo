@@ -189,11 +189,9 @@ constructor(
 
             when (selectedQuality) {
                 AudioQuality.LOSSLESS_WHEN_AVAILABLE -> {
-                    if (playbackData.actualAudioQuality != AudioQuality.LOSSLESS_WHEN_AVAILABLE) {
-                        timber.log.Timber.tag("DownloadUtil").w(
-                            "Lossless unavailable for $mediaId; downloading actual=${playbackData.actualAudioQuality} " +
-                                "${format.mimeType} @ ${format.bitrate}bps"
-                        )
+                    check(playbackData.actualAudioQuality == AudioQuality.LOSSLESS_WHEN_AVAILABLE) {
+                        "Verified lossless download unavailable for $mediaId; " +
+                            "resolver returned ${playbackData.actualAudioQuality} ${format.mimeType} @ ${format.bitrate}bps"
                     }
                 }
                 AudioQuality.OPUS ->
