@@ -77,6 +77,7 @@ import com.nivukx.music.R
 import com.nivukx.music.constants.AudioNormalizationKey
 import com.nivukx.music.constants.AudioOffload
 import com.nivukx.music.constants.AudioQualityKey
+import com.nivukx.music.utils.DownloadQualityContract
 import com.nivukx.music.constants.AutoDownloadOnLikeKey
 import com.nivukx.music.constants.AutoLoadMoreKey
 import com.nivukx.music.constants.AutoSkipNextOnErrorKey
@@ -811,10 +812,11 @@ class MusicService :
                     val currentMediaId = player.currentMediaItem?.mediaId
                         ?.takeIf { !it.isLocalMediaId() }
                     if (currentMediaId != null) {
-                        playbackUrlResolver.invalidate(currentMediaId)
-                        songUrlCache.keys
-                            .filter { it.startsWith("${currentMediaId}_") }
-                            .forEach(songUrlCache::remove)
+                        // Preserve already-resolved alternatives. Only the outgoing quality
+                        // needs invalidation; this keeps quality switching fast without relaxing
+                        // the selected playback contract.
+                        playbackUrlResolver.invalidate(currentMediaId, oldQuality)
+                        songUrlCache.remove("${currentMediaId}_${oldQuality.name}")
                         playerCache.removeResource(currentMediaId)
                         playerCache.removeResource("${currentMediaId}_${oldQuality.name}")
 
@@ -1990,7 +1992,7 @@ class MusicService :
                         val downloadRequest =
                             androidx.media3.exoplayer.offline.DownloadRequest
                                 .Builder(song.id, song.id.toUri())
-                                .setCustomCacheKey(song.id)
+                                .setCustomCacheKey(DownloadQualityContract.requestKey(this@MusicService, song.id))
                                 .setData(song.title.toByteArray())
                                 .build()
                         androidx.media3.exoplayer.offline.DownloadService.sendAddDownload(
@@ -4239,7 +4241,10 @@ class MusicService :
         preloadJob = scope.launch(kotlinx.coroutines.Dispatchers.IO) {
             for (mediaId in upcomingMediaIds) {
 
-                val isFullyDownloaded = downloadCache.getCachedSpans(mediaId).isNotEmpty()
+                // Download caches are quality-isolated. Never treat a different download
+                // quality as a match for the currently selected playback quality.
+                val matchingDownloadKey = DownloadQualityContract.requestKey(mediaId, audioQuality)
+                val isFullyDownloaded = downloadCache.getCachedSpans(matchingDownloadKey).isNotEmpty()
                 if (!mediaId.isLocalMediaId() && !songUrlCache.containsKey("${mediaId}_${audioQuality.name}") && !isFullyDownloaded) {
                     Timber.tag(TAG).d("Preloading stream for $mediaId")
                     kotlin.runCatching {
