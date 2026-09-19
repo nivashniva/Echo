@@ -299,12 +299,13 @@ constructor(
                                         .getContentLength(downloadCache.getContentMetadata(cacheKey))
                                     val cachedBytes = downloadCache.getCachedSpans(cacheKey)
                                         .sumOf { it.length }
-                                    val durable = when {
-                                        cachedLength > 0L ->
-                                            downloadCache.isCached(cacheKey, 0L, cachedLength)
-                                        else ->
-                                            cachedBytes > 0L
-                                    }
+                                    // A terminal Download.STATE_COMPLETED event is only
+                                    // considered durable when Media3 knows the full content length and
+                                    // the canonical quality cache contains that complete byte range.
+                                    // A non-empty partial span is not an offline download.
+                                    val durable = cachedLength > 0L &&
+                                        cachedBytes >= cachedLength &&
+                                        downloadCache.isCached(cacheKey, 0L, cachedLength)
 
                                     Timber.tag("DownloadUtil").i(
                                         "Download completed id=${download.request.id} quality=$quality durable=$durable"
