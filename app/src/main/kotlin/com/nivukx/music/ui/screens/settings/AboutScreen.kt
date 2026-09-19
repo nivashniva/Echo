@@ -62,6 +62,8 @@ import android.provider.Settings
 import android.os.Build
 import android.widget.Toast
 
+private const val NIVUKX_UPI_ID = "nivashniva66-1@okaxis"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutScreen(
@@ -215,6 +217,38 @@ highlightKey: String? = null) {
                             title = { Text("Discussions") },
                             description = { Text("github.com/nivash01/Echo/discussions") },
                             onClick = { uriHandler.openUri("https://github.com/nivash01/Echo/discussions") }
+                        ),
+                        Material3SettingsItem(
+                            icon = painterResource(R.drawable.currency_rupee_upi),
+                            title = { Text("Support via UPI") },
+                            description = { Text(NIVUKX_UPI_ID) },
+                            onClick = {
+                                val upiUri = Uri.parse("upi://pay").buildUpon()
+                                    .appendQueryParameter("pa", NIVUKX_UPI_ID)
+                                    .appendQueryParameter("pn", "Nivukx")
+                                    .appendQueryParameter("cu", "INR")
+                                    .build()
+                                try {
+                                    context.startActivity(
+                                        Intent.createChooser(
+                                            Intent(Intent.ACTION_VIEW, upiUri),
+                                            "Pay with UPI",
+                                        )
+                                    )
+                                } catch (_: ActivityNotFoundException) {
+                                    Toast.makeText(
+                                        context,
+                                        "No UPI app is available",
+                                        Toast.LENGTH_SHORT,
+                                    ).show()
+                                } catch (_: Exception) {
+                                    Toast.makeText(
+                                        context,
+                                        "Unable to open UPI payment",
+                                        Toast.LENGTH_SHORT,
+                                    ).show()
+                                }
+                            }
                         ),
                         Material3SettingsItem(
                             icon = painterResource(R.drawable.upi_new),
