@@ -274,9 +274,14 @@ constructor(
                                     )
                                     val cachedLength = androidx.media3.datasource.cache.ContentMetadata
                                         .getContentLength(downloadCache.getContentMetadata(cacheKey))
-                                        .takeIf { it != androidx.media3.common.C.LENGTH_UNSET.toLong() } ?: -1L
-                                    val durable = cachedLength > 0L &&
-                                        downloadCache.isCached(cacheKey, 0L, cachedLength)
+                                    val cachedBytes = downloadCache.getCachedSpans(cacheKey)
+                                        .sumOf { it.length }
+                                    val durable = when {
+                                        cachedLength > 0L ->
+                                            downloadCache.isCached(cacheKey, 0L, cachedLength)
+                                        else ->
+                                            cachedBytes > 0L
+                                    }
 
                                     Timber.tag("DownloadUtil").i(
                                         "Download completed id=${download.request.id} quality=$quality durable=$durable"
