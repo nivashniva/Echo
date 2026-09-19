@@ -307,6 +307,31 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun applyHighRefreshRateHint() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val enabled = dataStore.get(EnableHighRefreshRateKey, true)
+            if (!enabled) return@launch
+
+            val supportedMode = getSystemService(android.view.WindowManager::class.java)
+                ?.defaultDisplay
+                ?.supportedModes
+                ?.maxByOrNull { it.refreshRate }
+
+            if (supportedMode != null) {
+                withContext(Dispatchers.Main.immediate) {
+                    window.attributes = window.attributes.apply {
+                        preferredDisplayModeId = supportedMode.modeId
+                    }
+                    Timber.tag("MainActivity").i(
+                        "Preferred display mode: ${supportedMode.refreshRate}Hz"
+                    )
+                }
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         
@@ -393,6 +418,7 @@ class MainActivity : ComponentActivity() {
         // this leaves renderer selection to Android HWUI instead of using private APIs.
         window.addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED)
         VulkanRuntime.initialize(this)
+        applyHighRefreshRateHint()
 
         listenTogetherManager.initialize()
 
