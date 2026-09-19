@@ -16,6 +16,8 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
@@ -451,22 +453,28 @@ fun Modifier.nivukxItemReveal(
     offsetY: Float = 8f,
     initialScale: Float = 0.992f,
 ): Modifier {
-    val progress = remember { Animatable(0f) }
-    LaunchedEffect(Unit) {
-        progress.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(
-                durationMillis = NivukxMotion.Standard,
-                easing = NivukxMotion.PremiumEasing,
-            ),
-        )
+    // A transition state avoids launching one coroutine per list item. The visual
+    // result stays identical, but dense libraries no longer create an animation job
+    // for every composed row/card.
+    val visibilityState = remember {
+        MutableTransitionState(false).apply { targetState = true }
     }
+    val transition = updateTransition(
+        targetState = visibilityState,
+        label = "nivukxItemRevealTransition",
+    )
+    val progress by transition.animateFloat(
+        transitionSpec = { tween(NivukxMotion.Standard, easing = NivukxMotion.PremiumEasing) },
+        label = "nivukxItemRevealProgress",
+    ) { state ->
+        if (state) 1f else 0f
+    }
+
     return graphicsLayer {
-        val p = progress.value
-        alpha = 0.9f + (0.1f * p)
-        translationY = offsetY * (1f - p)
-        scaleX = initialScale + ((1f - initialScale) * p)
-        scaleY = initialScale + ((1f - initialScale) * p)
+        alpha = 0.9f + (0.1f * progress)
+        translationY = offsetY * (1f - progress)
+        scaleX = initialScale + ((1f - initialScale) * progress)
+        scaleY = initialScale + ((1f - initialScale) * progress)
     }
 }
 
