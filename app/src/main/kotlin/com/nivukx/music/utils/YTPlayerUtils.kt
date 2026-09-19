@@ -878,7 +878,7 @@ object YTPlayerUtils {
         )
 
         val allAudioFormats = playerResponse.streamingData?.adaptiveFormats
-            ?.filter { it.isAudio && it.bitrate > 0 }
+            ?.filter(::isSelectableAudioFormat)
             .orEmpty()
         val originalAudioFormats = allAudioFormats.filter { it.isOriginal }
 
@@ -987,6 +987,19 @@ object YTPlayerUtils {
         val channelBonus = (format.audioChannels ?: 0).coerceIn(1, 8).toLong() * 2_048L
         return bitrate + mimeBonus + sampleRateBonus + channelBonus
     }
+
+    /**
+     * Audio candidates may legitimately omit bitrate metadata, especially for
+     * genuinely lossless/container-preserving streams. Such streams must not be
+     * discarded before quality selection.
+     */
+    internal fun isSelectableAudioFormat(
+        format: PlayerResponse.StreamingData.Format,
+    ): Boolean =
+        format.isAudio && (
+            format.bitrate > 0 ||
+                isGenuinelyLosslessFormat(format)
+        )
 
     internal fun isGenuinelyOpusFormat(format: PlayerResponse.StreamingData.Format): Boolean {
         val mimeLower = format.mimeType.lowercase()
