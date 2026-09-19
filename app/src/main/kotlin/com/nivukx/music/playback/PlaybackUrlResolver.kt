@@ -74,10 +74,16 @@ class PlaybackUrlResolver @Inject constructor(
                     connectivityManager = connectivityManager,
                 ).map { playback ->
                     when (audioQuality) {
-                        AudioQuality.LOSSLESS_WHEN_AVAILABLE ->
-                            check(YTPlayerUtils.isGenuinelyLosslessFormat(playback.format)) {
-                                "Lossless playback contract violated for $videoId"
+                        AudioQuality.LOSSLESS_WHEN_AVAILABLE -> {
+                            if (!YTPlayerUtils.isGenuinelyLosslessFormat(playback.format)) {
+                                // Lossless is best-effort: YouTube may not expose a true
+                                // lossless stream for this track. YTPlayerUtils already selected
+                                // the best available fallback, so keep the resolved URL playable.
+                                timber.log.Timber.tag("PlaybackUrlResolver").w(
+                                    "Lossless unavailable for $videoId; using ${playback.format.mimeType} @ ${playback.format.bitrate}bps"
+                                )
                             }
+                        }
 
                         AudioQuality.OPUS ->
                             check(YTPlayerUtils.isGenuinelyOpusFormat(playback.format)) {
