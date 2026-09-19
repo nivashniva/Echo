@@ -23,6 +23,7 @@ import com.nivukx.music.constants.DownloadQuality
 import com.nivukx.music.constants.DownloadOnWifiOnlyKey
 import com.nivukx.music.constants.IpVersionKey
 import com.nivukx.music.utils.dataStore
+import com.nivukx.music.utils.DownloadQualityContract
 import com.nivukx.music.utils.toAudioQuality
 import com.music.innertube.models.IpVersion
 import okhttp3.Dns
@@ -116,9 +117,13 @@ constructor(
                     .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
             )
         ) { dataSpec ->
-            val mediaId = dataSpec.key ?: error("No media id")
-            val selectedQuality = downloadQuality.toAudioQuality()
-            val qualityCacheKey = mediaId + "_" + selectedQuality.name
+            val requestKey = dataSpec.key ?: error("No media id")
+            val mediaId = DownloadQualityContract.mediaIdFromRequestKey(requestKey)
+            val selectedDownloadQuality =
+                DownloadQualityContract.qualityFromRequestKey(requestKey)
+                    ?: downloadQuality
+            val selectedQuality = selectedDownloadQuality.toAudioQuality()
+            val qualityCacheKey = DownloadQualityContract.contentCacheKey(mediaId, selectedQuality)
 
             val playbackData = playbackUrlResolver.cached(mediaId, selectedQuality)
                 ?: playbackUrlResolver.resolveBlocking(
@@ -127,11 +132,16 @@ constructor(
                 ).getOrThrow()
             val format = playbackData.format
 
+            check(format.isAudio) {
+                "Download contract violated: resolver returned a non-audio format for $mediaId"
+            }
+
             when (selectedQuality) {
                 AudioQuality.LOSSLESS_WHEN_AVAILABLE -> {
-                    if (!com.nivukx.music.utils.YTPlayerUtils.isGenuinelyLosslessFormat(format)) {
+                    if (playbackData.actualAudioQuality != AudioQuality.LOSSLESS_WHEN_AVAILABLE) {
                         timber.log.Timber.tag("DownloadUtil").w(
-                            "Lossless unavailable for $mediaId; downloading best available format ${format.mimeType} @ ${format.bitrate}bps"
+                            "Lossless unavailable for $mediaId; downloading actual=${playbackData.actualAudioQuality} " +
+                                "${format.mimeType} @ ${format.bitrate}bps"
                         )
                     }
                 }
@@ -140,9 +150,12 @@ constructor(
                         "Download contract violated: selected Opus but resolver returned ${format.mimeType}"
                     }
                 AudioQuality.AUTO,
-                AudioQuality.HIGH -> Unit
+                AudioQuality.HIGH -> {
+                    check(format.bitrate > 0) {
+                        "Download contract violated: invalid bitrate for $mediaId"
+                    }
+                }
             }
-
             database.query {
                 upsert(
                     FormatEntity(
@@ -191,11 +204,17 @@ constructor(
                 }
             }
 
+            val resolvedCacheKey =
+                DownloadQualityContract.qualityFromRequestKey(requestKey)
+                    ?.let { requestKey }
+                    ?: qualityCacheKey
+
             dataSpec
                 .buildUpon()
-                .setKey(qualityCacheKey)
+                .setKey(resolvedCacheKey)
                 .setUri(playbackData.streamUrl.toUri())
-                .build()        }
+                .build()
+        }
 
     val downloadNotificationHelper =
         DownloadNotificationHelper(context, ExoDownloadService.CHANNEL_ID)
