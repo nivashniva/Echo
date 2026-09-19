@@ -254,25 +254,56 @@ constructor(
                         download: Download,
                         finalException: Exception?,
                     ) {
+                        // DownloadManager emits progress callbacks frequently. Keep the UI state
+                        // current, but never launch a coroutine for intermediate progress events.
                         downloads.update { map ->
                             map.toMutableMap().apply {
                                 set(download.request.id, download)
                             }
                         }
 
-                        scope.launch {
-                            when (download.state) {
-                                Download.STATE_COMPLETED -> {
-                                    database.updateDownloadedInfo(download.request.id, true, LocalDateTime.now())
-                                }
-                                Download.STATE_FAILED,
-                                Download.STATE_STOPPED,
-                                Download.STATE_REMOVING -> {
-                                    database.updateDownloadedInfo(download.request.id, false, null)
-                                }
-                                else -> {
+                        when (download.state) {
+                            Download.STATE_COMPLETED -> {
+                                scope.launch {
+                                    val quality = DownloadQualityContract.qualityFromRequestKey(
+                                        download.request.customCacheKey.orEmpty()
+                                    )?.toAudioQuality() ?: downloadQuality.toAudioQuality()
+                                    val cacheKey = DownloadQualityContract.contentCacheKey(
+                                        download.request.id,
+                                        quality,
+                                    )
+                                    val cachedLength = androidx.media3.datasource.cache.ContentMetadata
+                                        .getContentLength(downloadCache.getContentMetadata(cacheKey))
+                                        .takeIf { it != androidx.media3.common.C.LENGTH_UNSET.toLong() } ?: -1L
+                                    val durable = cachedLength > 0L &&
+                                        downloadCache.isCached(cacheKey, 0L, cachedLength)
+
+                                    Timber.tag("DownloadUtil").i(
+                                        "Download completed id=${download.request.id} quality=$quality durable=$durable"
+                                    )
+                                    database.updateDownloadedInfo(
+                                        download.request.id,
+                                        durable,
+                                        if (durable) LocalDateTime.now() else null,
+                                    )
+
+                                    if (!durable) {
+                                        // Media3 reported completion but no durable bytes exist under
+                                        // the canonical playback cache key. Remove the false terminal
+                                        // state so the UI cannot advertise an offline track that is
+                                        // not actually playable.
+                                        downloadManager.removeDownload(download.request.id)
+                                    }
                                 }
                             }
+                            Download.STATE_FAILED,
+                            Download.STATE_STOPPED,
+                            Download.STATE_REMOVING -> {
+                                scope.launch {
+                                    database.updateDownloadedInfo(download.request.id, false, null)
+                                }
+                            }
+                            else -> Unit
                         }
                     }
                 }
