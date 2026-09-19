@@ -463,12 +463,12 @@ fun Modifier.nivukxItemReveal(
         targetState = visibilityState,
         label = "nivukxItemRevealTransition",
     )
-    val progress by transition.animateFloat(
+    val progress = transition.animateFloat(
         transitionSpec = { tween(NivukxMotion.Standard, easing = NivukxMotion.PremiumEasing) },
         label = "nivukxItemRevealProgress",
     ) { state ->
         if (state) 1f else 0f
-    }
+    }.value
 
     return graphicsLayer {
         alpha = 0.9f + (0.1f * progress)
