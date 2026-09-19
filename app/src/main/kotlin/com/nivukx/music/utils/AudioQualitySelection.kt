@@ -10,7 +10,7 @@ fun AudioQuality.userVisibleLabel(context: Context): String =
         AudioQuality.AUTO -> context.getString(R.string.audio_quality_auto)
         AudioQuality.HIGH -> context.getString(R.string.audio_quality_high)
         AudioQuality.LOSSLESS_WHEN_AVAILABLE -> context.getString(R.string.audio_quality_lossless)
-        AudioQuality.OPUS -> "Opus (legacy)"
+        AudioQuality.OPUS -> "Opus"
     }
 
 fun DownloadQuality.userVisibleLabel(context: Context): String =
@@ -18,7 +18,7 @@ fun DownloadQuality.userVisibleLabel(context: Context): String =
         DownloadQuality.AUTO -> context.getString(R.string.audio_quality_auto)
         DownloadQuality.HIGH -> context.getString(R.string.audio_quality_high)
         DownloadQuality.LOSSLESS_WHEN_AVAILABLE -> context.getString(R.string.audio_quality_lossless)
-        DownloadQuality.YOUTUBE -> "YouTube Music (legacy)"
+        DownloadQuality.YOUTUBE -> "YouTube Music"
     }
 
 fun DownloadQuality.toAudioQuality(): AudioQuality =
