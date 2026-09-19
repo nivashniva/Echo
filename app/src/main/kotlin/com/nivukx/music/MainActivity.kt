@@ -322,10 +322,14 @@ class MainActivity : ComponentActivity() {
             if (supportedMode != null) {
                 withContext(Dispatchers.Main.immediate) {
                     window.attributes = window.attributes.apply {
-                        preferredDisplayModeId = supportedMode.modeId
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                            preferredRefreshRate = supportedMode.refreshRate
+                        } else {
+                            preferredDisplayModeId = supportedMode.modeId
+                        }
                     }
                     Timber.tag("MainActivity").i(
-                        "Preferred display mode: ${supportedMode.refreshRate}Hz"
+                        "Preferred display refresh: ${supportedMode.refreshRate}Hz"
                     )
                 }
             }
