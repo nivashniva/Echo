@@ -1174,7 +1174,7 @@ class MusicService :
         silenceProcessor.instantModeEnabled = false
         stereoWidener.width = 1f
 
-        val player = ExoPlayer.Builder(this)
+        val createdPlayer = ExoPlayer.Builder(this)
             .setMediaSourceFactory(createMediaSourceFactory())
             .setRenderersFactory(createRenderersFactory(eqProcessor, silenceProcessor, duckProcessor, stereoWidener))
             .setLoadControl(
@@ -1196,18 +1196,18 @@ class MusicService :
             .setDeviceVolumeControlEnabled(true)
             .build()
 
-        playerSilenceProcessors[player] = silenceProcessor
-        playerDuckProcessors[player] = duckProcessor
-        playerStereoWideners[player] = stereoWidener
-        playerEqualizerProcessors[player] = eqProcessor
+        playerSilenceProcessors[createdPlayer] = silenceProcessor
+        playerDuckProcessors[createdPlayer] = duckProcessor
+        playerStereoWideners[createdPlayer] = stereoWidener
+        playerEqualizerProcessors[createdPlayer] = eqProcessor
 
-        player.apply {
+        createdPlayer.apply {
             // Audio offload/crossfade/skip-silence are updated by the DataStore collectors.
             // Never block ExoPlayer construction on preference I/O.
             addAnalyticsListener(PlaybackStatsListener(false, this@MusicService))
         }
-        _playerFlow.value = player
-        return player
+        _playerFlow.value = createdPlayer
+        return createdPlayer
     }
 
     private fun setupAudioFocusRequest() {

@@ -10,13 +10,14 @@ import java.io.IOException
 
 class ChunkingDataSource(
     private val upstream: DataSource,
-    private val chunkSize: Long
+    private val chunkSize: Long,
 ) : DataSource {
 
     private var dataSpec: DataSpec? = null
     private var bytesToRead: Long = C.LENGTH_UNSET.toLong()
     private var bytesReadTotal: Long = 0
     private var isOpened = false
+    private var chunkOpened = false
 
     override fun addTransferListener(transferListener: TransferListener) {
         upstream.addTransferListener(transferListener)
@@ -27,23 +28,24 @@ class ChunkingDataSource(
         this.bytesReadTotal = 0
         this.bytesToRead = dataSpec.length
         this.isOpened = true
-
-        openNextChunk()
-
+        this.chunkOpened = openNextChunk()
         return bytesToRead
     }
 
-    private fun openNextChunk() {
-        val currentDataSpec = this.dataSpec ?: throw IOException("DataSpec is null")
-        val position = currentDataSpec.position + bytesReadTotal
+    private fun openNextChunk(): Boolean {
+        val currentDataSpec = dataSpec ?: throw IOException("DataSpec is null")
+        if (bytesToRead != C.LENGTH_UNSET.toLong() && bytesReadTotal >= bytesToRead) {
+            return false
+        }
 
+        val position = currentDataSpec.position + bytesReadTotal
         val length = if (bytesToRead == C.LENGTH_UNSET.toLong()) {
             chunkSize
         } else {
-            val remaining = bytesToRead - bytesReadTotal
-            if (remaining == 0L) return
-            minOf(chunkSize, remaining)
+            minOf(chunkSize, bytesToRead - bytesReadTotal)
         }
+
+        if (length <= 0L) return false
 
         val chunkDataSpec = currentDataSpec.buildUpon()
             .setPosition(position)
@@ -51,48 +53,37 @@ class ChunkingDataSource(
             .build()
 
         upstream.open(chunkDataSpec)
+        return true
     }
 
     override fun read(buffer: ByteArray, offset: Int, readLength: Int): Int {
-        if (!isOpened) return C.RESULT_END_OF_INPUT
-        if (bytesToRead != C.LENGTH_UNSET.toLong() && bytesReadTotal >= bytesToRead) {
-            return C.RESULT_END_OF_INPUT
-        }
+        if (!isOpened || !chunkOpened) return C.RESULT_END_OF_INPUT
 
         val bytes = try {
             upstream.read(buffer, offset, readLength)
-        } catch (e: Exception) {
-            -1
-        }
-        
-        if (bytes == C.RESULT_END_OF_INPUT || bytes == -1) {
-            upstream.close()
-            try {
-                openNextChunk()
-            } catch (e: InvalidResponseCodeException) {
-                if (e.responseCode == 416) {
-                    return C.RESULT_END_OF_INPUT
-                }
-                throw e
-            } catch (e: androidx.media3.datasource.DataSourceException) {
-                if (e.reason == androidx.media3.datasource.DataSourceException.POSITION_OUT_OF_RANGE) {
-                    return C.RESULT_END_OF_INPUT
-                }
-                throw e
+        } catch (e: InvalidResponseCodeException) {
+            if (e.responseCode == 416) {
+                upstream.close()
+                chunkOpened = false
+                return C.RESULT_END_OF_INPUT
             }
-            return try {
-                val newBytes = upstream.read(buffer, offset, readLength)
-                if (newBytes == C.RESULT_END_OF_INPUT || newBytes == -1) {
-                    C.RESULT_END_OF_INPUT
-                } else {
-                    bytesReadTotal += newBytes
-                    newBytes
-                }
-            } catch (e: Exception) {
+            throw e
+        }
+
+        if (bytes == C.RESULT_END_OF_INPUT) {
+            upstream.close()
+            chunkOpened = false
+            chunkOpened = openNextChunk()
+            return if (chunkOpened) {
+                read(buffer, offset, readLength)
+            } else {
                 C.RESULT_END_OF_INPUT
             }
         }
-        bytesReadTotal += bytes
+
+        if (bytes > 0) {
+            bytesReadTotal += bytes
+        }
         return bytes
     }
 
@@ -100,15 +91,17 @@ class ChunkingDataSource(
 
     override fun close() {
         isOpened = false
-        upstream.close()
+        if (chunkOpened) {
+            upstream.close()
+            chunkOpened = false
+        }
     }
 }
 
 class ChunkingDataSourceFactory(
     private val upstreamFactory: DataSource.Factory,
-    private val chunkSize: Long = 5L * 1024 * 1024 // 5MB chunks
+    private val chunkSize: Long = 5L * 1024 * 1024,
 ) : DataSource.Factory {
-    override fun createDataSource(): DataSource {
-        return ChunkingDataSource(upstreamFactory.createDataSource(), chunkSize)
-    }
+    override fun createDataSource(): DataSource =
+        ChunkingDataSource(upstreamFactory.createDataSource(), chunkSize)
 }

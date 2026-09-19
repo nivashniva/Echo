@@ -68,6 +68,7 @@ import com.nivukx.music.constants.DensityScaleKey
 import com.nivukx.music.constants.DynamicThemeKey
 import com.nivukx.music.constants.EnableDynamicIconKey
 import com.nivukx.music.constants.EnableHighRefreshRateKey
+import com.nivukx.music.constants.EnableLegacyIconKey
 import com.nivukx.music.constants.EnableHapticsKey
 import com.nivukx.music.constants.EnableLyricsThumbnailPlayPauseKey
 import com.nivukx.music.constants.GridItemSize
@@ -118,6 +119,7 @@ import com.nivukx.music.ui.theme.PlayerSliderColors
 import com.nivukx.music.ui.utils.backToMain
 import com.nivukx.music.utils.rememberEnumPreference
 import com.nivukx.music.utils.rememberPreference
+import com.nivukx.music.utils.IconUtils
 import kotlin.math.roundToInt
 import com.nivukx.music.constants.LyricsClickKey
 import com.nivukx.music.constants.AppleMusicLyricsBlurKey
@@ -141,6 +143,10 @@ highlightKey: String? = null) {
     val (dynamicTheme, onDynamicThemeChange) = rememberPreference(
         DynamicThemeKey,
         defaultValue = true
+    )
+    val (enableLegacyIcon, onEnableLegacyIconChange) = rememberPreference(
+        EnableLegacyIconKey,
+        defaultValue = false
     )
     val (enableHighRefreshRate, onEnableHighRefreshRateChange) = rememberPreference(
         com.nivukx.music.constants.EnableHighRefreshRateKey,
@@ -2047,4 +2053,40 @@ enum class LyricsPosition {
 enum class PlayerTextAlignment {
     SIDED,
     CENTER,
-}
+}                Material3SettingsItem(
+                    isHighlighted = (highlightKey == "Classic icon"),
+                    customIcon = {
+                        Icon(
+                            painter = painterResource(R.drawable.legacy),
+                            contentDescription = null,
+                            modifier = Modifier.size(48.dp),
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
+                    },
+                    title = { Text("Classic icon") },
+                    description = { Text("Use the classic launcher artwork") },
+                    trailingContent = {
+                        Switch(
+                            checked = enableLegacyIcon,
+                            onCheckedChange = { enabled ->
+                                onEnableLegacyIconChange(enabled)
+                                IconUtils.setIcon(activity, false, enabled)
+                            },
+                            thumbContent = {
+                                Icon(
+                                    painter = painterResource(
+                                        id = if (enableLegacyIcon) R.drawable.check else R.drawable.close
+                                    ),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(SwitchDefaults.IconSize)
+                                )
+                            }
+                        )
+                    },
+                    onClick = {
+                        val enabled = !enableLegacyIcon
+                        onEnableLegacyIconChange(enabled)
+                        IconUtils.setIcon(activity, false, enabled)
+                    }
+                ),
+
