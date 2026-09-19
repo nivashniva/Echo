@@ -150,6 +150,15 @@ class YTPlayerUtilsLosslessTest {
     }
 
     @Test
+    fun losslessCandidateWithUnknownBitrateIsStillSelectable() {
+        val unknownBitrateFlac = format("audio/flac; codecs="flac"", 0)
+
+        assertTrue(
+            YTPlayerUtils.isSelectableAudioFormat(unknownBitrateFlac)
+        )
+    }
+
+    @Test
     fun losslessDetectorAcceptsLosslessCodecs() {
         assertTrue(YTPlayerUtils.isGenuinelyLosslessFormat(format("audio/mp4; codecs=\"alac\"", 1200000)))
         assertTrue(YTPlayerUtils.isGenuinelyLosslessFormat(format("audio/l16", 1536000)))
