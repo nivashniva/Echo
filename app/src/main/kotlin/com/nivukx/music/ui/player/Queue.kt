@@ -1111,7 +1111,10 @@ fun Queue(
 
             Box(modifier = Modifier.weight(1f)) {
                 LazyColumn(
-                    modifier = Modifier.nivukxHighEndReveal(offsetY = 8f),
+                    modifier = Modifier
+                        .nivukxHighEndReveal(offsetY = 8f)
+                        .fillMaxSize()
+                        .nestedScroll(state.preUpPostDownNestedScrollConnection),
                     state = lazyListState,
                     contentPadding =
                         WindowInsets.systemBars
@@ -1122,9 +1125,6 @@ fun Queue(
                                     bottom = ListItemHeight + 8.dp,
                                 ),
                             ).asPaddingValues(),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .nestedScroll(state.preUpPostDownNestedScrollConnection)
                 ) {
                     item(key = "queue_top_spacer") {
                         Spacer(
