@@ -2,6 +2,7 @@
 
 package com.nivukx.music.ui.screens.settings
 
+import android.content.Intent
 import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
