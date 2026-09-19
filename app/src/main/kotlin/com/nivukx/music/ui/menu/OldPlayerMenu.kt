@@ -416,7 +416,7 @@ fun OldPlayerMenu(
                                     onClick = {
                                         database.transaction { insert(mediaMetadata) }
                                         val downloadRequest = DownloadRequest.Builder(mediaMetadata.id, mediaMetadata.id.toUri())
-                                            .setCustomCacheKey(mediaMetadata.id)
+                                            .setCustomCacheKey(DownloadQualityContract.requestKey(context, mediaMetadata.id))
                                             .setData(mediaMetadata.title.toByteArray())
                                             .build()
                                         DownloadService.sendAddDownload(context, ExoDownloadService::class.java, downloadRequest, false)
