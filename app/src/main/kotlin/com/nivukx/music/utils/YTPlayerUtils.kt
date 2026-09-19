@@ -237,6 +237,8 @@ object YTPlayerUtils {
         val format: PlayerResponse.StreamingData.Format,
         val streamUrl: String,
         val streamExpiresInSeconds: Int,
+        val requestedAudioQuality: AudioQuality,
+        val actualAudioQuality: AudioQuality,
     )
     /**
      * Custom player response intended to use for playback.
@@ -503,19 +505,17 @@ object YTPlayerUtils {
                     val newPipeResponse = YouTube.newPipePlayer(videoId, streamPlayerResponse)
                     if (audioQuality == AudioQuality.LOSSLESS_WHEN_AVAILABLE) {
                         when {
-                            selectAudioFormat(
+                            hasGenuineLosslessAudio(
                                 streamPlayerResponse.streamingData?.adaptiveFormats
-                                    ?.filter { it.isAudio && it.isOriginal }
+                                    ?.filter { it.isAudio }
                                     .orEmpty(),
-                                audioQuality,
-                            ) != null -> streamPlayerResponse
+                            ) -> streamPlayerResponse
                             newPipeResponse != null &&
-                                selectAudioFormat(
+                                hasGenuineLosslessAudio(
                                     newPipeResponse.streamingData?.adaptiveFormats
-                                        ?.filter { it.isAudio && it.isOriginal }
-                                        .orEmpty(),
-                                    audioQuality,
-                                ) != null -> newPipeResponse
+                                        ?.filter { it.isAudio }
+                                    .orEmpty(),
+                                ) -> newPipeResponse
                             else -> streamPlayerResponse
                         }
                     } else {
@@ -836,12 +836,14 @@ object YTPlayerUtils {
             println("[PLAYBACK_DEBUG] SUCCESS: Got playback data for uploaded track - format=${format.mimeType}, streamUrl=${streamUrl.take(100)}...")
         }
         PlaybackData(
-            audioConfig,
-            videoDetails,
-            playbackTracking,
-            format,
-            streamUrl,
-            streamExpiresInSeconds,
+            audioConfig = audioConfig,
+            videoDetails = videoDetails,
+            playbackTracking = playbackTracking,
+            format = format,
+            streamUrl = streamUrl,
+            streamExpiresInSeconds = streamExpiresInSeconds,
+            requestedAudioQuality = audioQuality,
+            actualAudioQuality = resolvedAudioQuality(format),
         )
     }.onFailure { e ->
         println("[PLAYBACK_DEBUG] EXCEPTION during playback for videoId=$videoId: ${e::class.simpleName}: ${e.message}")
@@ -872,29 +874,80 @@ object YTPlayerUtils {
         audioQuality: AudioQuality,
         connectivityManager: ConnectivityManager,
     ): PlayerResponse.StreamingData.Format? {
-        Timber.tag(logTag).d("Finding format with audioQuality: $audioQuality, network metered: ${connectivityManager.isActiveNetworkMetered}")
-        val audioFormats = playerResponse.streamingData?.adaptiveFormats
-            ?.filter { it.isAudio && it.isOriginal }
-            .orEmpty()
+        Timber.tag(logTag).d(
+            "Finding format with audioQuality=$audioQuality, network metered=\${connectivityManager.isActiveNetworkMetered}"
+        )
 
-        val format = selectAudioFormat(audioFormats, audioQuality)
+        val allAudioFormats = playerResponse.streamingData?.adaptiveFormats
+            ?.filter { it.isAudio && it.bitrate > 0 }
+            .orEmpty()
+        val originalAudioFormats = allAudioFormats.filter { it.isOriginal }
+
+        val format = selectPreferredAudioFormat(
+            preferredFormats = originalAudioFormats,
+            fallbackFormats = allAudioFormats,
+            audioQuality = audioQuality,
+        )
 
         if (format != null) {
             if (audioQuality == AudioQuality.OPUS && !isGenuinelyOpusFormat(format)) {
                 throw IllegalStateException("Opus playback contract violated by selected format")
             }
             Timber.tag(logTag).d(
-                "Selected format: ${format.mimeType}, bitrate: ${format.bitrate}, " +
-                    "lossless=${isGenuinelyLosslessFormat(format)}"
+                "Selected format: \${format.mimeType}, bitrate=\${format.bitrate}, " +
+                    "sampleRate=\${format.audioSampleRate}, channels=\${format.audioChannels}, " +
+                    "lossless=\${isGenuinelyLosslessFormat(format)}, actualQuality=\${resolvedAudioQuality(format)}"
             )
         } else {
-            Timber.tag(logTag).d(
-                "No suitable audio format found for quality=$audioQuality"
-            )
+            Timber.tag(logTag).d("No suitable audio format found for quality=\$audioQuality")
         }
 
         return format
     }
+
+    private fun selectPreferredAudioFormat(
+        preferredFormats: List<PlayerResponse.StreamingData.Format>,
+        fallbackFormats: List<PlayerResponse.StreamingData.Format>,
+        audioQuality: AudioQuality,
+    ): PlayerResponse.StreamingData.Format? =
+        when (audioQuality) {
+            AudioQuality.LOSSLESS_WHEN_AVAILABLE -> {
+                preferredFormats.asSequence()
+                    .filter(::isGenuinelyLosslessFormat)
+                    .maxByOrNull(::qualityScore)
+                    ?: fallbackFormats.asSequence()
+                        .filter(::isGenuinelyLosslessFormat)
+                        .maxByOrNull(::qualityScore)
+                    ?: preferredFormats.maxByOrNull(::qualityScore)
+                    ?: fallbackFormats.maxByOrNull(::qualityScore)
+            }
+
+            AudioQuality.OPUS ->
+                preferredFormats.asSequence()
+                    .filter(::isGenuinelyOpusFormat)
+                    .maxByOrNull(::qualityScore)
+                    ?: fallbackFormats.asSequence()
+                        .filter(::isGenuinelyOpusFormat)
+                        .maxByOrNull(::qualityScore)
+
+            AudioQuality.HIGH,
+            AudioQuality.AUTO ->
+                preferredFormats.maxByOrNull(::qualityScore)
+                    ?: fallbackFormats.maxByOrNull(::qualityScore)
+        }
+
+    internal fun hasGenuineLosslessAudio(
+        audioFormats: List<PlayerResponse.StreamingData.Format>,
+    ): Boolean = audioFormats.any(::isGenuinelyLosslessFormat)
+
+    internal fun resolvedAudioQuality(
+        format: PlayerResponse.StreamingData.Format,
+    ): AudioQuality =
+        when {
+            isGenuinelyLosslessFormat(format) -> AudioQuality.LOSSLESS_WHEN_AVAILABLE
+            isGenuinelyOpusFormat(format) -> AudioQuality.OPUS
+            else -> AudioQuality.HIGH
+        }
 
     internal fun selectAudioFormat(
         audioFormats: List<PlayerResponse.StreamingData.Format>,
@@ -926,9 +979,14 @@ object YTPlayerUtils {
         val mimeBonus = when {
             format.mimeType.startsWith("audio/webm") -> 10_240L
             format.mimeType.startsWith("audio/mp4") -> 8_192L
+            format.mimeType.startsWith("audio/flac") ||
+                format.mimeType.startsWith("audio/x-flac") -> 32_768L
             else -> 0L
         }
-        return format.bitrate.toLong() + mimeBonus
+        val bitrate = maxOf(format.bitrate, format.averageBitrate ?: 0).toLong()
+        val sampleRateBonus = (format.audioSampleRate ?: 0).coerceAtMost(192_000).toLong() / 4L
+        val channelBonus = (format.audioChannels ?: 0).coerceIn(1, 8).toLong() * 2_048L
+        return bitrate + mimeBonus + sampleRateBonus + channelBonus
     }
 
     internal fun isGenuinelyOpusFormat(format: PlayerResponse.StreamingData.Format): Boolean {
