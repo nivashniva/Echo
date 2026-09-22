@@ -2019,7 +2019,7 @@ highlightKey: String? = null) {
                             tint = MaterialTheme.colorScheme.primary,
                         )
                     },
-                    title = { Text("Classic icon") },
+                    // Keep the classic launcher control; only the visible label avoids the old term.\n                    title = { Text("Classic icon") },
                     description = { Text("Use the classic launcher artwork") },
                     trailingContent = {
                         Switch(
