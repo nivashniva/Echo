@@ -543,17 +543,17 @@ object YTPlayerUtils {
 
                 Timber.tag(logTag).d("Format found: ${format.mimeType}, bitrate: ${format.bitrate}")
 
-                // LOSSLESS_WHEN_AVAILABLE is availability-aware: retain a genuine lossless
-                // stream when present, but never make playback fail merely because the source
-                // exposes only a compressed adaptive stream.
+                // Strict lossless contract: a requested lossless stream is never allowed
+                // to continue with AAC/Opus/other compressed media. The selector above should
+                // already guarantee this; keep an explicit runtime guard at the source boundary.
                 if (
                     audioQuality == AudioQuality.LOSSLESS_WHEN_AVAILABLE &&
                     !isGenuinelyLosslessFormat(format)
                 ) {
-                    cascade += "${client.clientName}=LOSSLESS_FALLBACK"
+                    cascade += "${client.clientName}=LOSSLESS_CONTRACT_VIOLATION"
                     Fix403.w(
                         fx,
-                        "client.losslessFallback",
+                        "client.losslessContractViolation",
                         Fix403.kv(
                             "client" to client.clientName,
                             "itag" to format.itag,
@@ -561,6 +561,7 @@ object YTPlayerUtils {
                             "bitrate" to format.bitrate,
                         ),
                     )
+                    continue
                 }
 
                 // Which of the three sources produced the URL is decisive: a format's own `url`
@@ -910,16 +911,13 @@ object YTPlayerUtils {
         audioQuality: AudioQuality,
     ): PlayerResponse.StreamingData.Format? =
         when (audioQuality) {
-            AudioQuality.LOSSLESS_WHEN_AVAILABLE -> {
+            AudioQuality.LOSSLESS_WHEN_AVAILABLE ->
                 preferredFormats.asSequence()
                     .filter(::isGenuinelyLosslessFormat)
                     .maxByOrNull(::qualityScore)
                     ?: fallbackFormats.asSequence()
                         .filter(::isGenuinelyLosslessFormat)
                         .maxByOrNull(::qualityScore)
-                    ?: preferredFormats.maxByOrNull(::qualityScore)
-                    ?: fallbackFormats.maxByOrNull(::qualityScore)
-            }
 
             AudioQuality.OPUS ->
                 preferredFormats.asSequence()
@@ -953,16 +951,12 @@ object YTPlayerUtils {
         audioQuality: AudioQuality,
     ): PlayerResponse.StreamingData.Format? =
         when (audioQuality) {
-            AudioQuality.LOSSLESS_WHEN_AVAILABLE -> {
-                val lossless = audioFormats
+            // The persisted enum name is kept for compatibility with existing
+            // preferences, but this mode is now strict: it must never return a lossy stream.
+            AudioQuality.LOSSLESS_WHEN_AVAILABLE ->
+                audioFormats
                     .filter(::isGenuinelyLosslessFormat)
                     .maxByOrNull(::qualityScore)
-
-                // "When available" is intentional. If YouTube does not expose a true
-                // lossless stream for this track, select the same best supported stream used by
-                // HIGH rather than returning null and preventing playback entirely.
-                lossless ?: audioFormats.maxByOrNull(::qualityScore)
-            }
 
             AudioQuality.HIGH,
             AudioQuality.AUTO ->
@@ -1022,8 +1016,9 @@ object YTPlayerUtils {
             .split(',', ';', ' ')
             .map(String::trim)
             .filter(String::isNotEmpty)
-        val audioQualityLower = format.audioQuality?.lowercase().orEmpty()
-
+        // Only the actual container/codec is authoritative. Metadata labels such as
+        // "lossless" are intentionally ignored because a label alone cannot prove the bytes
+        // are losslessly encoded.
         val losslessMime = mimeLower.startsWith("audio/flac") ||
             mimeLower.startsWith("audio/x-flac") ||
             mimeLower.startsWith("audio/wav") ||
@@ -1043,9 +1038,7 @@ object YTPlayerUtils {
                 token.contains("pcm")
         }
 
-        return losslessMime ||
-            losslessCodec ||
-            "lossless" in audioQualityLower
+        return losslessMime || losslessCodec
     }
     /**
      * Checks if the stream url returns a successful status.

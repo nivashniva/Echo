@@ -94,11 +94,10 @@ class PlaybackUrlResolver @Inject constructor(
 
                     when (audioQuality) {
                         AudioQuality.LOSSLESS_WHEN_AVAILABLE -> {
-                            if (playback.actualAudioQuality != AudioQuality.LOSSLESS_WHEN_AVAILABLE) {
-                                timber.log.Timber.tag("PlaybackUrlResolver").w(
-                                    "Lossless unavailable for $videoId; using actual=${playback.actualAudioQuality} " +
-                                        "${playback.format.mimeType} @ ${playback.format.bitrate}bps"
-                                )
+                            check(playback.actualAudioQuality == AudioQuality.LOSSLESS_WHEN_AVAILABLE) {
+                                "Lossless playback contract violated for $videoId: " +
+                                    "resolved=${playback.actualAudioQuality} ${playback.format.mimeType} @ " +
+                                    "${playback.format.bitrate}bps"
                             }
                         }
 

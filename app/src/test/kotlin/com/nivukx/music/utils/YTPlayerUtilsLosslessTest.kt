@@ -113,7 +113,7 @@ class YTPlayerUtilsLosslessTest {
     }
 
     @Test
-    fun losslessSelectionFallsBackToBestAvailableWhenUnavailable() {
+    fun losslessSelectionReturnsNullWhenUnavailable() {
         val opus = format("audio/webm; codecs=\"opus\"", 256000)
         val aac = format("audio/mp4; codecs=\"mp4a.40.2\"", 320000)
 
@@ -122,8 +122,18 @@ class YTPlayerUtilsLosslessTest {
             AudioQuality.LOSSLESS_WHEN_AVAILABLE,
         )
 
-        assertEquals(aac, selected)
-        assertFalse(YTPlayerUtils.isGenuinelyLosslessFormat(selected!!))
+        assertEquals(null, selected)
+    }
+
+    @Test
+    fun losslessDetectorDoesNotTrustACompressedFormatLabel() {
+        val mislabeled = format(
+            "audio/mp4; codecs=\"mp4a.40.2\"",
+            320000,
+            audioQuality = "lossless",
+        )
+
+        assertFalse(YTPlayerUtils.isGenuinelyLosslessFormat(mislabeled))
     }
 
     @Test
