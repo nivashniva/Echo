@@ -104,6 +104,8 @@ val SelectedYtmPlaylistsKey = stringPreferencesKey("selectedYtmPlaylists")
 
 val ShowAudioFallbackToastKey = booleanPreferencesKey("show_audio_fallback_toast")
 val AudioQualityKey = stringPreferencesKey("audioQuality")
+/** HTTP(S) endpoint for a BitChord-compatible FLAC/ALAC/PCM source. */
+val LosslessSourceUrlKey = stringPreferencesKey("losslessSourceUrl")
 val IpVersionKey = stringPreferencesKey("ipVersion")
 
 enum class AudioQuality {
