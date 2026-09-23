@@ -90,8 +90,12 @@ class PlaybackUrlResolver @Inject constructor(
             val configured = context.dataStore.data.first()[LosslessSourceUrlKey]
                 ?.trim()
                 ?.isNotBlank() == true
-            check(configured) {
-                "Lossless source is not configured. Configure a BitChord-compatible source before selecting Lossless."
+            if (!configured) {
+                return Result.failure(
+                    IllegalStateException(
+                        "Lossless source is not configured. Configure a BitChord-compatible source before selecting Lossless.",
+                    ),
+                )
             }
             return losslessPlaybackResolver.resolve(videoId).also { result ->
                 result.getOrNull()?.let { playback ->
