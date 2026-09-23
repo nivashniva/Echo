@@ -42,12 +42,7 @@ class LosslessSourceClient(rawBaseUrl: String) {
 
     suspend fun stream(trackId: String): Result<LosslessStream> =
         requestJson<LosslessStream> {
-            url(
-                endpoint(
-                    "stream",
-                    mapOf("id" to trackId, "quality" to TIER_LOSSLESS),
-                ),
-            )
+            url(streamEndpoint(trackId))
         }
 
     private suspend inline fun <reified T> requestJson(
@@ -69,6 +64,16 @@ class LosslessSourceClient(rawBaseUrl: String) {
                 json.decodeFromString<T>(body)
             }
         }
+    }
+
+    private fun streamEndpoint(trackId: String): String {
+        val base = baseUrl.toHttpUrlOrNull() ?: error("Invalid lossless source URL")
+        return base.newBuilder()
+            .addPathSegment("stream")
+            .addPathSegment(trackId)
+            .addQueryParameter("quality", TIER_LOSSLESS)
+            .build()
+            .toString()
     }
 
     private fun endpoint(path: String, query: Map<String, String>): String {
