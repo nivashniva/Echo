@@ -126,6 +126,9 @@ class LosslessSourceClient(rawBaseUrl: String) {
         } ?: QUALITY_LOSSLESS
     }
 
+    private fun decodeSearch(body: String): LosslessSearchResponse =
+        json.decodeFromString(body)
+
     private suspend fun loadManifest(): Result<LosslessAddonManifest> =
         requestJson(baseUrl + "/manifest.json")
 
