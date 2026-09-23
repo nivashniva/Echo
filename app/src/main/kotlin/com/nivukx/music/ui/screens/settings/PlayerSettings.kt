@@ -19,6 +19,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -38,6 +39,7 @@ import com.nivukx.music.R
 import com.nivukx.music.constants.AudioNormalizationKey
 import com.nivukx.music.constants.AudioOffload
 import com.nivukx.music.constants.AudioQuality
+import com.nivukx.music.constants.LosslessSourceUrlKey
 import com.nivukx.music.constants.AudioQualityKey
 import com.nivukx.music.constants.AutoDownloadOnLikeKey
 import com.nivukx.music.constants.AutomixCrossfadeKey
@@ -97,6 +99,10 @@ highlightKey: String? = null) {
     val (audioQuality, onAudioQualityChange) = rememberEnumPreference(
         AudioQualityKey,
         defaultValue = AudioQuality.AUTO
+    )
+    val (losslessSourceUrl, onLosslessSourceUrlChange) = rememberPreference(
+        LosslessSourceUrlKey,
+        defaultValue = ""
     )
 
     val (crossfadeEnabled, onCrossfadeEnabledChange) = rememberPreference(
@@ -251,6 +257,8 @@ highlightKey: String? = null) {
     )
 
     var showAudioQualityDialog by remember { mutableStateOf(false) }
+    var showLosslessSourceDialog by remember { mutableStateOf(false) }
+    var losslessSourceDraft by remember { mutableStateOf("") }
     var showDownloadQualityDialog by remember { mutableStateOf(false) }
     var showPlaybackEngineDialog by remember { mutableStateOf(false) }
 
@@ -263,6 +271,34 @@ highlightKey: String? = null) {
         com.nivukx.music.constants.DownloadQualityKey,
         defaultValue = com.nivukx.music.constants.DownloadQuality.AUTO
     )
+
+    if (showLosslessSourceDialog) {
+        DefaultDialog(
+            onDismiss = { showLosslessSourceDialog = false },
+            title = { Text(stringResource(R.string.lossless_source_title)) },
+            buttons = {
+                TextButton(onClick = { showLosslessSourceDialog = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+                TextButton(
+                    onClick = {
+                        onLosslessSourceUrlChange(losslessSourceDraft.trim())
+                        showLosslessSourceDialog = false
+                    },
+                ) {
+                    Text(stringResource(R.string.save))
+                }
+            },
+        ) {
+            TextField(
+                value = losslessSourceDraft,
+                onValueChange = { losslessSourceDraft = it },
+                singleLine = true,
+                label = { Text(stringResource(R.string.lossless_source_url)) },
+                placeholder = { Text("https://your-lossless-source.example") },
+            )
+        }
+    }
 
     if (showAudioQualityDialog) {
         EnumDialog(
@@ -441,6 +477,24 @@ highlightKey: String? = null) {
         Material3SettingsGroup(scrollState = scrollState, 
             title = stringResource(R.string.player),
             items = buildList {
+                add(Material3SettingsItem(
+                    isHighlighted = false,
+                    icon = painterResource(R.drawable.ic_apple_lossless),
+                    title = { Text(stringResource(R.string.lossless_source_title)) },
+                    description = {
+                        Text(
+                            losslessSourceUrl.ifBlank {
+                                stringResource(R.string.lossless_source_not_configured)
+                            },
+                            maxLines = 2,
+                        )
+                    },
+                    onClick = {
+                        losslessSourceDraft = losslessSourceUrl
+                        showLosslessSourceDialog = true
+                    },
+                ))
+
                 add(Material3SettingsItem(
     isHighlighted = (highlightKey == stringResource(R.string.audio_quality)),
                     icon = painterResource(R.drawable.graphic_eq),
