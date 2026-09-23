@@ -6,6 +6,7 @@ import com.music.innertube.models.response.PlayerResponse
 import com.nivukx.music.constants.AudioQuality
 import com.nivukx.music.constants.LosslessSourceUrlKey
 import com.nivukx.music.utils.YTPlayerUtils
+import dagger.hilt.android.qualifiers.ApplicationContext
 import com.nivukx.music.utils.dataStore
 import com.nivukx.music.utils.lossless.LosslessSourceClient
 import com.nivukx.music.utils.lossless.LosslessStream
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 
 @Singleton
 class LosslessPlaybackResolver @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
 ) {
     suspend fun resolve(videoId: String): Result<YTPlayerUtils.PlaybackData> =
         withContext(Dispatchers.IO) {
