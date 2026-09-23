@@ -29,13 +29,14 @@ class LosslessPlaybackResolver @Inject constructor(
                     ?.takeIf { it.isNotBlank() }
                     ?: error(
                         "Lossless source is not configured. " +
-                            "Open Settings > Player > Lossless source and add a BitChord-compatible source URL.",
+                            "Open Settings > Player > Lossless source and paste the root URL " +
+                            "or manifest.json URL of a BitChord-compatible addon.",
                     )
 
                 val metadata = YTPlayerUtils.playerResponseForMetadata(videoId).getOrThrow()
                 val videoDetails =
                     metadata.videoDetails
-                        ?: error("YouTube metadata is unavailable for $videoId")
+                        ?: error("YouTube metadata is unavailable for " + videoId)
 
                 val client = LosslessSourceClient(configuredSource)
                 val query = buildString {
@@ -68,21 +69,31 @@ class LosslessPlaybackResolver @Inject constructor(
                                 "'",
                         )
 
-                val stream = client.stream(match.id).getOrThrow()
+                val stream = client.stream(match).getOrThrow()
 
                 check(stream.url.isNotBlank()) {
-                    "Lossless source returned no stream URL"
+                    stream.error?.takeIf { it.isNotBlank() }?.let { "Lossless addon error: " + it }
+                        ?: "Lossless source returned no stream URL"
                 }
+
                 check(!stream.isEncrypted) {
                     "Lossless source returned encrypted media"
                 }
+
+                check(stream.transport == null) {
+                    "Lossless addon returned a " + stream.transport!!.uppercase() +
+                        " manifest. Nivukx currently requires a direct FLAC/ALAC/PCM audio URL from the addon."
+                }
+
                 check(stream.isLossless) {
-                    "Lossless source returned \${stream.mimeTypeOrDerived}, which is not lossless"
+                    "Lossless source returned " +
+                        stream.mimeTypeOrDerived +
+                        ", which is not lossless"
                 }
 
                 val format = toMedia3Format(match, stream)
                 check(YTPlayerUtils.isGenuinelyLosslessFormat(format)) {
-                    "Lossless source verification rejected \${format.mimeType}"
+                    "Lossless source verification rejected " + format.mimeType
                 }
 
                 YTPlayerUtils.PlaybackData(
@@ -112,8 +123,7 @@ class LosslessPlaybackResolver @Inject constructor(
 
         val mime =
             when {
-                codec.equals("alac", ignoreCase = true) ||
-                    stream.mimeTypeOrDerived.startsWith("audio/mp4") ->
+                codec.equals("alac", ignoreCase = true) || stream.mimeTypeOrDerived.startsWith("audio/mp4") ->
                     "audio/mp4"
                 stream.mimeTypeOrDerived.startsWith("audio/x-alac") -> "audio/x-alac"
                 stream.mimeTypeOrDerived.startsWith("audio/wav") -> "audio/wav"
