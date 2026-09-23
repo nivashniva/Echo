@@ -8,6 +8,7 @@ import com.nivukx.music.constants.LosslessSourceUrlKey
 import com.nivukx.music.utils.YTPlayerUtils
 import com.nivukx.music.utils.dataStore
 import com.nivukx.music.utils.lossless.LosslessSourceClient
+import com.nivukx.music.utils.lossless.LosslessStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -58,7 +59,7 @@ class LosslessPlaybackResolver @Inject constructor(
                 )
 
                 val stream = if (!match.streamUrl.isNullOrBlank()) {
-                    LosslessSourceClient.LosslessStream(
+                    LosslessStream(
                         url = match.streamUrl!!,
                         format = match.format,
                         audioQuality = match.audioQuality,
