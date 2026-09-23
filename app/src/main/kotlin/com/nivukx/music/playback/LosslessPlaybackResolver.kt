@@ -104,6 +104,8 @@ class LosslessPlaybackResolver @Inject constructor(
         }
 
         val mime = when {
+            codec.equals("alac", ignoreCase = true) ||
+                stream.mimeTypeOrDerived.startsWith("audio/mp4") -> "audio/mp4"
             stream.mimeTypeOrDerived.startsWith("audio/x-alac") -> "audio/x-alac"
             stream.mimeTypeOrDerived.startsWith("audio/wav") -> "audio/wav"
             stream.mimeTypeOrDerived.startsWith("audio/l16") -> "audio/l16"
