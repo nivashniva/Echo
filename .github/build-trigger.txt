@@ -3,3 +3,5 @@ Compiler fixes: motion transition API + complete legacy purge
 Triggered: 2026-09-23T04:47:00Z
 
 Strict lossless source resolver + codec verification + source settings + ALAC preservation
+Resolver model compile fix
+Triggered fix commit: 2026-09-23T05:12:00Z
