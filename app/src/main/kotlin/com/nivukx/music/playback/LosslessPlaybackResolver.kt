@@ -10,6 +10,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import com.nivukx.music.utils.dataStore
 import com.nivukx.music.utils.lossless.LosslessSourceClient
 import com.nivukx.music.utils.lossless.LosslessStream
+import com.nivukx.music.utils.lossless.LosslessTrack
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -68,6 +69,126 @@ class LosslessPlaybackResolver @Inject constructor(
                 } else {
                     client.stream(match.id).getOrThrow()
                 }
+
+                check(stream.url.isNotBlank()) { "Lossless source returned no stream URL" }
+                check(!stream.isEncrypted) { "Lossless source returned encrypted media" }
+                check(stream.isLossless) {
+                    "Lossless source returned " + stream.mimeTypeOrDerived + ", which is not lossless"
+                }
+
+                val format = toMedia3Format(match, stream)
+                check(YTPlayerUtils.isGenuinelyLosslessFormat(format)) {
+                    "Lossless source verification rejected " + format.mimeType
+                }
+
+                YTPlayerUtils.PlaybackData(
+                    audioConfig = metadata.playerConfig?.audioConfig,
+                    videoDetails = metadata.videoDetails,
+                    playbackTracking = metadata.playbackTracking,
+                    format = format,
+                    streamUrl = stream.url.toUri().toString(),
+                    streamExpiresInSeconds = LOSSLESS_STREAM_TTL_SECONDS,
+                    requestedAudioQuality = AudioQuality.LOSSLESS_WHEN_AVAILABLE,
+                    actualAudioQuality = AudioQuality.LOSSLESS_WHEN_AVAILABLE,
+                )
+            }
+        }
+
+    private fun toMedia3Format(
+        track: LosslessSourceClient.LosslessTrack,
+        stream: LosslessSourceClient.LosslessStream,
+    ): PlayerResponse.StreamingData.Format {
+        val codec = stream.statedCodec ?: when {
+            stream.mimeTypeOrDerived.startsWith("audio/x-alac") -> "alac"
+            stream.mimeTypeOrDerived.startsWith("audio/wav") -> "pcm"
+            else -> "flac"
+        }
+
+        val mime = when {
+            codec.equals("alac", ignoreCase = true) ||
+                stream.mimeTypeOrDerived.startsWith("audio/mp4") -> "audio/mp4"
+            stream.mimeTypeOrDerived.startsWith("audio/x-alac") -> "audio/x-alac"
+            stream.mimeTypeOrDerived.startsWith("audio/wav") -> "audio/wav"
+            stream.mimeTypeOrDerived.startsWith("audio/l16") -> "audio/l16"
+            stream.mimeTypeOrDerived.startsWith("audio/pcm") -> "audio/pcm"
+            else -> "audio/flac"
+        }
+
+        val bitrate = stream.bitrateKbps?.coerceAtLeast(1)?.times(1000) ?: 0
+
+        return PlayerResponse.StreamingData.Format(
+            itag = 1_000_000 + (track.id.hashCode() and 0x7FFF),
+            url = stream.url,
+            mimeType = "$mime; codecs=\"$codec\"",
+            bitrate = bitrate,
+            width = null,
+            height = null,
+            contentLength = null,
+            quality = "LOSSLESS",
+            fps = null,
+            qualityLabel = null,
+            averageBitrate = bitrate.takeIf { it > 0 },
+            audioQuality = "LOSSLESS",
+            approxDurationMs = track.durationSeconds?.times(1000L)?.toString(),
+            audioSampleRate = stream.sampleRateHz,
+            audioChannels = 2,
+            loudnessDb = null,
+            lastModified = null,
+            signatureCipher = null,
+            cipher = null,
+            audioTrack = null,
+        )
+    }
+
+    private fun matchRecording(
+        title: String,
+        artist: String,
+        durationSeconds: Int?,
+        candidates: List<LosslessSourceClient.LosslessTrack>,
+    ): LosslessSourceClient.LosslessTrack? =
+        candidates.asSequence()
+            .map { candidate ->
+                val titleScore = similarity(normalize(title), normalize(candidate.title))
+                val artistScore = similarity(normalize(artist), normalize(candidate.artist))
+                val durationScore = durationSeconds?.let { target ->
+                    candidate.durationSeconds?.let { actual ->
+                        when (kotlin.math.abs(target - actual)) {
+                            in 0..2 -> 1.0
+                            in 3..5 -> 0.7
+                            in 6..10 -> 0.35
+                            else -> 0.0
+                        }
+                    }
+                } ?: 0.5
+                candidate to (titleScore * 0.55 + artistScore * 0.30 + durationScore * 0.15)
+            }
+            .maxByOrNull { it.second }
+            ?.takeIf { it.second >= MIN_MATCH_SCORE }
+            ?.first
+
+    private fun similarity(a: String, b: String): Double {
+        if (a == b && a.isNotBlank()) return 1.0
+        if (a.isBlank() || b.isBlank()) return 0.0
+        val left = a.split(' ').filter { it.isNotBlank() }.toSet()
+        val right = b.split(' ').filter { it.isNotBlank() }.toSet()
+        if (left.isEmpty() || right.isEmpty()) return 0.0
+        return (left.intersect(right).size.toDouble() * 2.0) / (left.size + right.size)
+    }
+
+    private fun normalize(value: String): String =
+        value
+            .lowercase()
+            .replace(Regex("""\([^)]*\)|\[[^]]*]"""), " ")
+            .replace(Regex("""\b(feat|ft|featuring|official|audio|video|lyrics)\b"""), " ")
+            .replace(Regex("""[^\p{L}\p{N}]+"""), " ")
+            .trim()
+            .replace(Regex("""\s+"""), " ")
+
+    private companion object {
+        const val LOSSLESS_STREAM_TTL_SECONDS = 3600
+        const val MIN_MATCH_SCORE = 0.72
+    }
+}                val stream = client.stream(match.id).getOrThrow()
 
                 check(stream.url.isNotBlank()) { "Lossless source returned no stream URL" }
                 check(!stream.isEncrypted) { "Lossless source returned encrypted media" }
