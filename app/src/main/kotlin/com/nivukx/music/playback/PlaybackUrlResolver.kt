@@ -6,6 +6,7 @@ import androidx.core.content.getSystemService
 import com.nivukx.music.constants.AudioQuality
 import com.nivukx.music.constants.LosslessSourceUrlKey
 import com.nivukx.music.utils.YTPlayerUtils
+import com.nivukx.music.utils.dataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -20,7 +21,7 @@ import javax.inject.Singleton
 
 @Singleton
 class PlaybackUrlResolver @Inject constructor(
-    @ApplicationContext context: Context,
+    @ApplicationContext private val context: Context,
     private val losslessPlaybackResolver: LosslessPlaybackResolver,
 ) {
     private val connectivityManager =
