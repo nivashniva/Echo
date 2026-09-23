@@ -809,12 +809,12 @@ object YTPlayerUtils {
             audioQuality == AudioQuality.LOSSLESS_WHEN_AVAILABLE &&
             !isGenuinelyLosslessFormat(format)
         ) {
-            // YouTube/YouTube Music normally exposes compressed adaptive audio formats
-            // (Opus/AAC), not a true FLAC/ALAC/PCM stream. LOSSLESS_WHEN_AVAILABLE therefore
-            // means: use a genuinely lossless stream when one exists, otherwise keep playback
-            // working with the best available audio format instead of making the song silent.
-            Timber.tag(logTag).w(
-                "No genuinely lossless stream available; falling back to the selected best available format: ${format.mimeType}, bitrate=${format.bitrate}"
+            // Strict contract: YouTube is not allowed to downgrade a lossless request.
+            // Real lossless playback is resolved by LosslessPlaybackResolver from a
+            // configured external FLAC/ALAC/PCM source. This guard protects direct callers
+            // that bypass PlaybackUrlResolver.
+            throw IllegalStateException(
+                "Lossless contract violated: " + format.mimeType
             )
         }
 
