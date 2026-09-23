@@ -361,6 +361,10 @@
     <string name="audio_quality_high">High</string>
     <string name="audio_quality_low">Low</string>
     <string name="audio_quality_lossless">Lossless Music</string>
+    <string name="lossless_source_title">Lossless source</string>
+    <string name="lossless_source_url">Source URL</string>
+    <string name="lossless_source_not_configured">Not configured. Strict Lossless playback requires a compatible lossless source.</string>
+    <string name="lossless_source_desc">FLAC, ALAC or PCM source used for strict lossless playback. YouTube is never used as a lossy fallback in this mode.</string>
     <string name="queue">Queue</string>
     <string name="persistent_queue">Persistent queue</string>
     <string name="persistent_queue_desc">Restore your last queue when the app starts</string>
