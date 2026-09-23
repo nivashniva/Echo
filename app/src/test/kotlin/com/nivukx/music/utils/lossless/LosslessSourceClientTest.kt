@@ -1,5 +1,7 @@
 package com.nivukx.music.utils.lossless
 
+import kotlinx.serialization.json.Json
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -58,9 +60,51 @@ class LosslessSourceClientTest {
 
     @Test
     fun addonStyleJsonFileUrlNormalizesToSourceRoot() {
-        assertTrue(
-            LosslessSourceClient.normalizeBase("https://example.test/manifest.json") ==
-                "https://example.test",
+        assertEquals(
+            "https://example.test",
+            LosslessSourceClient.normalizeBase("https://example.test/manifest.json"),
         )
+    }
+
+    @Test
+    fun addonSearchRowCanCarryItsOwnDirectLosslessStream() {
+        val track = LosslessTrack(
+            id = "1",
+            title = "Song",
+            format = "flac",
+            audioQuality = "LOSSLESS",
+            streamUrl = "https://example.test/song.flac",
+        )
+        val stream = kotlinx.coroutines.runBlocking {
+            LosslessSourceClient("https://example.test").stream(track).getOrNull()
+        }
+
+        assertEquals("https://example.test/song.flac", stream?.url)
+        assertTrue(stream?.isLossless == true)
+    }
+
+    @Test
+    fun addonManifestQualityOptionCanBeParsed() {
+        val manifest = Json.decodeFromString<LosslessAddonManifest>(
+            """
+            {
+              "id": "demo",
+              "name": "Demo",
+              "resources": ["search", "stream"],
+              "settings": [
+                {
+                  "key": "quality",
+                  "default": "HIGH",
+                  "options": [
+                    {"value": "HIGH"},
+                    {"value": "LOSSLESS"}
+                  ]
+                }
+              ]
+            }
+            """.trimIndent(),
+        )
+
+        assertEquals("LOSSLESS", manifest.settings.first().options.last().stringValue)
     }
 }
