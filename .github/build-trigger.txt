@@ -8,3 +8,5 @@ Triggered fix commit: 2026-09-23T05:12:00Z
 
 Clean resolver rewrite after CI syntax failure
 Triggered: 2026-09-23T06:50:00Z
+
+BitChord native addon protocol upgrade 2026-09-23T07:10:36.680Z
