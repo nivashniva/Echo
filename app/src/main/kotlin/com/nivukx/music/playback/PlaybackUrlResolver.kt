@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import androidx.core.content.getSystemService
 import com.nivukx.music.constants.AudioQuality
+import com.nivukx.music.constants.LosslessSourceUrlKey
 import com.nivukx.music.utils.YTPlayerUtils
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -12,6 +13,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.first
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,6 +21,7 @@ import javax.inject.Singleton
 @Singleton
 class PlaybackUrlResolver @Inject constructor(
     @ApplicationContext context: Context,
+    private val losslessPlaybackResolver: LosslessPlaybackResolver,
 ) {
     private val connectivityManager =
         context.getSystemService<ConnectivityManager>()
@@ -78,6 +81,29 @@ class PlaybackUrlResolver @Inject constructor(
         }
 
         val key = Key(videoId, audioQuality)
+
+        // Strict lossless bypasses the YouTube audio resolver entirely. YouTube is
+        // only consulted for recording identity/metadata by LosslessPlaybackResolver.
+        // A configured lossless source is mandatory; there is no lossy fallback.
+        if (audioQuality == AudioQuality.LOSSLESS_WHEN_AVAILABLE) {
+            val configured = context.dataStore.data.first()[LosslessSourceUrlKey]
+                ?.trim()
+                ?.isNotBlank() == true
+            check(configured) {
+                "Lossless source is not configured. Configure a BitChord-compatible source before selecting Lossless."
+            }
+            return losslessPlaybackResolver.resolve(videoId).also { result ->
+                result.getOrNull()?.let { playback ->
+                    check(playback.actualAudioQuality == AudioQuality.LOSSLESS_WHEN_AVAILABLE)
+                    check(YTPlayerUtils.isGenuinelyLosslessFormat(playback.format))
+                    cache[key] = CachedUrl(
+                        playback = playback,
+                        expiresAtMs = System.currentTimeMillis() + playback.streamExpiresInSeconds * 1000L,
+                    )
+                }
+            }
+        }
+
         val deferred = inFlight[key] ?: synchronized(inFlight) {
             inFlight[key] ?: scope.async {
                 YTPlayerUtils.playerResponseForPlayback(
